@@ -1244,58 +1244,109 @@
 
     <!-- Tracks Section -->
     <section id="tracks" class="py-5">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Technical Tracks</h2>
-                <p class="section-subtitle">Explore specialized domains in computer science and technology</p>
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Event Tracks</h2>
+            <p class="section-subtitle">Explore event categories — Technical, Gaming, Creative & Fun</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- TECHNICAL TRACK -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">💻 Technical Events</h3>
+                        <p class="flex-grow-1">Coding, debugging, cybersecurity, hardware assembly, and ideation challenges. Test your logic, speed, and problem-solving skills.</p>
+                        <ul class="small">
+                            <li>Decodex — Coding Challenge</li>
+                            <li>Shadow Script — Blind Coding</li>
+                            <li>Error 404 — Bug Hunting</li>
+                            <li>Cipher Strike — Capture The Flag</li>
+                            <li>PC Pit Stop — Computer Assembly</li>
+                            <li>Mind Spark — Ideathon</li>
+                        </ul>
+                        <a href="#events" class="btn btn-primary mt-auto">Explore Technical Events</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <h3 class="card-title">🧠 AI & Machine Learning</h3>
-                        <p>Deep learning, neural networks, computer vision, and natural language processing workshops and competitions.</p>
-                        <button class="btn btn-primary mt-3" onclick="showTrackModal('ai')">Learn More</button>
+            <!-- GAMING TRACK -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">🎮 Gaming & Esports</h3>
+                        <p class="flex-grow-1">Compete in high-energy gaming tournaments. Bring your squad or fly solo in adrenaline-pumping matches.</p>
+                        <ul class="small">
+                            <li>Valorant — Encore Reloaded (₹10,000 prize!)</li>
+                            <li>Gaming Console — Valorant Tournament</li>
+                        </ul>
+                        <a href="#events" class="btn btn-primary mt-auto">Join the Arena</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <h3 class="card-title">🛡️ Cybersecurity</h3>
-                        <p>Ethical hacking, penetration testing, cryptography, and digital forensics hands-on sessions.</p>
-                        <button class="btn btn-primary mt-3" onclick="showTrackModal('cyber')">Learn More</button>
+            </div>
+
+            <!-- CREATIVE & DESIGN TRACK -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">🎨 Creative & Design</h3>
+                        <p class="flex-grow-1">Unleash your creativity with design challenges and tech exhibitions. Perfect for artists, designers, and innovators.</p>
+                        <ul class="small">
+                            <li>Creatitech — Canva Designing</li>
+                            <li>Pavilion — Project Expo (Showcase your work!)</li>
+                        </ul>
+                        <a href="#events" class="btn btn-primary mt-auto">Show Your Creativity</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <h3 class="card-title">⛓️ Web3 & Blockchain</h3>
-                        <p>Decentralized applications, smart contracts, cryptocurrency, and blockchain development.</p>
-                        <button class="btn btn-primary mt-3" onclick="showTrackModal('web3')">Learn More</button>
+            </div>
+
+            <!-- FUN & PHYSICAL TRACK -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">🎉 Fun & Physical Activities</h3>
+                        <p class="flex-grow-1">Take a break from screens with hilarious, team-based, and physically engaging games. Great for all skill levels!</p>
+                        <ul class="small">
+                            <li>Blind Beats — Fun Zone (meme contests, treasure hunts)</li>
+                            <li>Soapy Football — Slip ‘n Slide Soccer!</li>
+                        </ul>
+                        <a href="#events" class="btn btn-primary mt-auto">Join the Fun</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <h3 class="card-title">⚛️ Quantum Computing</h3>
-                        <p>Quantum algorithms, qubit manipulation, quantum cryptography, and future computing paradigms.</p>
-                        <button class="btn btn-primary mt-3" onclick="showTrackModal('quantum')">Learn More</button>
+            </div>
+
+            <!-- WORKSHOPS TRACK -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">🔧 Hands-On Workshops</h3>
+                        <p class="flex-grow-1">Learn practical skills in web development, networking, and design tools. Beginner-friendly sessions with real takeaways.</p>
+                        <ul class="small">
+                            <li>Canva Design Workshop</li>
+                            <li>Web Development & Networking Basics</li>
+                        </ul>
+                        <a href="#events" class="btn btn-primary mt-auto">Reserve Your Spot</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <h3 class="card-title">🔧 DevOps & Cloud</h3>
-                        <p>Containerization, CI/CD pipelines, cloud architecture, and infrastructure as code.</p>
-                        <button class="btn btn-primary mt-3" onclick="showTrackModal('devops')">Learn More</button>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <h3 class="card-title">📱 Mobile Development</h3>
-                        <p>iOS and Android development, cross-platform frameworks, and mobile app architecture.</p>
-                        <button class="btn btn-primary mt-3" onclick="showTrackModal('mobile')">Learn More</button>
+            </div>
+
+            <!-- EXHIBITION & SHOWCASE TRACK -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title">🏛️ Project Expo & Showcase</h3>
+                        <p class="flex-grow-1">Explore student innovations, department highlights, and tech demos. Get inspired by what your peers have built!</p>
+                        <ul class="small">
+                            <li>Pavilion — Project Expo (Both Days)</li>
+                            <li>Open to all — no registration needed</li>
+                        </ul>
+                        <a href="#events" class="btn btn-primary mt-auto">Visit the Expo</a>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Map Section --
     <section id="map" class="py-5">
@@ -1374,102 +1425,161 @@
 
     <!-- Help Section -->
     <section id="help" class="py-5">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Help & Support</h2>
-                <p class="section-subtitle">Get assistance and find answers to your questions</p>
-            </div>
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Help & Support</h2>
+            <p class="section-subtitle">Stuck? Confused? We’ve got your back. Reach out to coordinators or check FAQs below.</p>
+        </div>
 
-            <div class="row g-4 mb-5">
-                <div class="col-lg-3 col-md-6">
-                    <div class="contact-card">
-                        <div class="contact-icon">📞</div>
-                        <div class="contact-title">General Support</div>
-                        <div class="contact-info">+91 98765 43210</div>
-                        <a href="tel:+919876543210" class="btn btn-primary mt-3">Call Now</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="contact-card">
-                        <div class="contact-icon">🛡️</div>
-                        <div class="contact-title">Cyber Arena</div>
-                        <div class="contact-info">+91 98765 43211</div>
-                        <a href="tel:+919876543211" class="btn btn-primary mt-3">Call Now</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="contact-card">
-                        <div class="contact-icon">🧠</div>
-                        <div class="contact-title">AI Lab</div>
-                        <div class="contact-info">+91 98765 43214</div>
-                        <a href="tel:+919876543214" class="btn btn-primary mt-3">Call Now</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="contact-card">
-                        <div class="contact-icon">⛓️</div>
-                        <div class="contact-title">Blockchain Hub</div>
-                        <div class="contact-info">+91 98765 43213</div>
-                        <a href="tel:+919876543213" class="btn btn-primary mt-3">Call Now</a>
-                    </div>
+        <div class="row g-4 mb-5">
+            <!-- GENERAL SUPPORT -->
+            <div class="col-lg-3 col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-title">General Support</div>
+                    <div class="contact-info">+91 95267 96507</div>
+                    <a href="tel:+919526796507" class="btn btn-primary mt-3">Call Now</a>
+                    <p class="small mt-2">Anaswara Dinesh<br><em>Faculty Coordinator</em></p>
                 </div>
             </div>
 
-            <div class="card">
-                <h3 class="card-title mb-4">Frequently Asked Questions</h3>
-                <div class="accordion" id="faqAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                Where can I find free WiFi?
-                            </button>
-                        </h2>
-                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Free WiFi is available throughout the campus. Network: CSFEST_GUEST, Password: compile123
-                            </div>
+            <!-- TECHNICAL EVENTS -->
+            <div class="col-lg-3 col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">💻</div>
+                    <div class="contact-title">Technical Events</div>
+                    <div class="contact-info">+91 86066 54610</div>
+                    <a href="tel:+918606654610" class="btn btn-primary mt-3">Call Now</a>
+                    <p class="small mt-2">Ms. Akhila<br><em>Shadow Script / Error 404</em></p>
+                </div>
+            </div>
+
+            <!-- GAMING & FUN -->
+            <div class="col-lg-3 col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">🎮</div>
+                    <div class="contact-title">Gaming & Fun Zone</div>
+                    <div class="contact-info">+91 88486 58625</div>
+                    <a href="tel:+918848658625" class="btn btn-primary mt-3">Call Now</a>
+                    <p class="small mt-2">Akshay<br><em>Student Coordinator</em></p>
+                </div>
+            </div>
+
+            <!-- CREATIVE & EXPO -->
+            <div class="col-lg-3 col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">🎨</div>
+                    <div class="contact-title">Creative & Expo</div>
+                    <div class="contact-info">+91 85928 23493</div>
+                    <a href="tel:+918592823493" class="btn btn-primary mt-3">Call Now</a>
+                    <p class="small mt-2">Ms. Farshida<br><em>Creatitech / Pavilion</em></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title mb-4">Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Where can I find free WiFi?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Free WiFi is available across campus. Network: <strong>IESCE_GUEST</strong><br>
+                            Password: <strong>welcome2025</strong> (subject to change — check notice boards)
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                Are there charging stations available?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes, charging stations are available in all labs and the main lounge. Please bring your own charging cables.
-                            </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Are there charging stations available?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! Charging points available in:
+                            <ul>
+                                <li>Lab 1, Lab 2, Lab 3, Lab 4</li>
+                                <li>Room 201–205</li>
+                                <li>Library Foyer (near Pavilion)</li>
+                            </ul>
+                            <strong>Bring your own cable!</strong>
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                What food options are available?
-                            </button>
-                        </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                The main cafeteria is open 24/7 during the festival. Additional snack stations are available in each building.
-                            </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            What food options are available?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <strong>Main Cafeteria</strong> (Near Admin Block): Open 8 AM – 8 PM<br>
+                            <strong>Snack Counters</strong>: Near Basketball Court & Library (11 AM – 4 PM)<br>
+                            <strong>Sponsored by Capital BBQ Point & TO Trip Diaries</strong> — look for their stalls!
                         </div>
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                                How do I register for events?
-                            </button>
-                        </h2>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Click the "Join" or "Reserve" buttons on event cards to register. Some events require prior registration through forms.
-                            </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            How do I register for events?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <ol>
+                                <li>Click “Register Now” on any event card</li>
+                                <li>Fill the Google Form (Name, College, Phone, Team if applicable)</li>
+                                <li>Pay entry fee at venue counter (cash/UPI)</li>
+                                <li>Spot registrations available for most events (except Ideathon & Soapy Football)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            What if I’m late or miss my event slot?
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li><strong>Workshops & Pavilion</strong>: Drop in anytime — no strict timing</li>
+                                <li><strong>Competitions (Decodex, CTF, etc.)</strong>: Latecomers may not be allowed — start sharp!</li>
+                                <li><strong>Valorant / Soapy Football</strong>: Matches run on schedule — arrive 15 mins early</li>
+                            </ul>
+                            Still stuck? Call the event coordinator — they’ll try to accommodate you.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                            Is there parking available?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! Free parking available:
+                            <ul>
+                                <li><strong>Two-Wheelers</strong>: Near Main Gate</li>
+                                <li><strong>Four-Wheelers</strong>: Behind Admin Block</li>
+                            </ul>
+                            Follow signage or ask volunteers in red T-shirts.
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer>
