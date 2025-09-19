@@ -764,197 +764,273 @@
 
     <!-- Stats Section -->
     <section class="py-5">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">13</div>
-                    <div class="stat-label">Events</div>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Events</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">24+</div>
-                    <div class="stat-label">Hours of Action</div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Hours</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Expected Participants</div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Participants</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Faculty & Coordinators</div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Experts</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Events Section -->
-    <section class="py-5">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">13</div>
-                    <div class="stat-label">Events</div>
-                </div>
+    <section id="events" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Events & Activities</h2>
+                <p class="section-subtitle">Discover exciting competitions, workshops, and technical sessions</p>
             </div>
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">24+</div>
-                    <div class="stat-label">Hours of Action</div>
+
+            <ul class="nav nav-tabs justify-content-center mb-4" id="eventTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">All Events</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="competition-tab" data-bs-toggle="tab" data-bs-target="#competition" type="button">Competitions</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="workshop-tab" data-bs-toggle="tab" data-bs-target="#workshop" type="button">Workshops</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="demo-tab" data-bs-toggle="tab" data-bs-target="#demo" type="button">Live Demos</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="eventTabsContent">
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Hack the Planet: CTF</h3>
+                                    <span class="badge-custom">Competition</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 14:00-17:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Capture the Flag — exploit vulnerabilities, climb the leaderboard in this intense cybersecurity competition.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-ctf" class="btn btn-primary btn-sm">Join Team Chat</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Quantum Computing 101</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 16:00-17:30</span>
+                                    <span><i class="bi bi-geo-alt"></i> Lab Q</span>
+                                </div>
+                                <p>Introduction to quantum computing principles, qubits, superposition, and quantum algorithms.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://forms.gle/quantum-lab" class="btn btn-primary btn-sm">Reserve Seat</a>
+                                    <a href="tel:+919876543212" class="btn btn-danger btn-sm">Call Lab</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Web3 & Smart Contracts</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 11:00-13:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Blockchain Hub</span>
+                                </div>
+                                <p>Build your first decentralized application on Ethereum testnet with Solidity and Web3.js.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/web3-devs" class="btn btn-primary btn-sm">Join Workshop</a>
+                                    <a href="tel:+919876543213" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Zero-Day Exploits Live Demo</h3>
+                                    <span class="badge-custom">Live Demo</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 15:00-16:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Watch ethical hackers demonstrate real-world vulnerability discovery and exploitation techniques.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-live" class="btn btn-primary btn-sm">Join Live</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Expected Participants</div>
+                <div class="tab-pane fade" id="competition" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Hack the Planet: CTF</h3>
+                                    <span class="badge-custom">Competition</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 14:00-17:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Capture the Flag — exploit vulnerabilities, climb the leaderboard in this intense cybersecurity competition.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-ctf" class="btn btn-primary btn-sm">Join Team Chat</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="stat-card">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Faculty & Coordinators</div>
+                <div class="tab-pane fade" id="workshop" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Quantum Computing 101</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 16:00-17:30</span>
+                                    <span><i class="bi bi-geo-alt"></i> Lab Q</span>
+                                </div>
+                                <p>Introduction to quantum computing principles, qubits, superposition, and quantum algorithms.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://forms.gle/quantum-lab" class="btn btn-primary btn-sm">Reserve Seat</a>
+                                    <a href="tel:+919876543212" class="btn btn-danger btn-sm">Call Lab</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Web3 & Smart Contracts</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 11:00-13:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Blockchain Hub</span>
+                                </div>
+                                <p>Build your first decentralized application on Ethereum testnet with Solidity and Web3.js.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/web3-devs" class="btn btn-primary btn-sm">Join Workshop</a>
+                                    <a href="tel:+919876543213" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="demo" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Zero-Day Exploits Live Demo</h3>
+                                    <span class="badge-custom">Live Demo</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 15:00-16:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Watch ethical hackers demonstrate real-world vulnerability discovery and exploitation techniques.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-live" class="btn btn-primary btn-sm">Join Live</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Schedule Section -->
-<section id="schedule" class="py-5">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Event Schedule</h2>
-            <p class="section-subtitle">Day-wise timeline of all activities and sessions at IES College of Engineering</p>
-        </div>
-
-        <div class="row">
-            <!-- DAY 1: SEPTEMBER 26 -->
-            <div class="col-lg-6">
-                <h3 class="mb-4">📅 Day 1 — September 26, 2025</h3>
-                <div class="timeline">
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Decodex — Coding Challenge</h4>
-                        <p><strong>Room 201</strong> — Logic puzzles & rapid-fire quizzes testing problem-solving skills. ₹50 entry. ₹2000 prize.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Shadow Script — Blind Coding</h4>
-                        <p><strong>Lab 3</strong> — Code without seeing the screen! Tests memory & logic. ₹50 entry. Prizes: ₹1000, ₹500.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>PC Pit Stop — Computer Assembly</h4>
-                        <p><strong>Lab 4</strong> — Assemble & troubleshoot hardware systems. ₹50 entry. Prizes: ₹1000, ₹500.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Creatitech — Canva Designing</h4>
-                        <p><strong>Lab 2</strong> — Design posters, banners using Canva. ₹50 entry. Prizes: ₹1000, ₹500.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Blind Beats — Fun Zone</h4>
-                        <p><strong>Room 205</strong> — Treasure hunts, meme contests, team games. ₹20 entry. All day fun!</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Pavilion — Project Expo</h4>
-                        <p><strong>Frontage of Library</strong> — Showcase of student tech projects & department highlights. Free entry.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">02:00 PM</div>
-                        <h4>Error 404 — Bug Not Found</h4>
-                        <p><strong>Lab 3</strong> — Debug given code under time pressure. ₹75 entry. Prizes: ₹1500, ₹500.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">02:04 PM</div>
-                        <h4>Gaming Console — Valorant Tournament</h4>
-                        <p><strong>Room 202</strong> — Competitive Valorant matches. ₹50 entry. 30 mins per match.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">02:00 PM</div>
-                        <h4>Cipher Strike — Capture The Flag</h4>
-                        <p><strong>Lab 4</strong> — Solve crypto, web, reverse engineering challenges. ₹75 entry. Prizes: ₹1500, ₹500.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">02:00 PM</div>
-                        <h4>Mind Spark — Ideathon</h4>
-                        <p><strong>Room 204</strong> — Pitch innovative tech solutions. ₹250/team. Prizes: ₹6000, ₹4000.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Soapy Football</h4>
-                        <p><strong>Basketball Court</strong> — Slippery, soapy football fun! ₹699.99/team. Prizes: ₹5000, ₹2000.</p>
-                    </div>
-
-                </div>
+    <section id="schedule" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Event Schedule</h2>
+                <p class="section-subtitle">Day-wise timeline of all activities and sessions</p>
             </div>
 
-            <!-- DAY 2: SEPTEMBER 27 -->
-            <div class="col-lg-6">
-                <h3 class="mb-4">📅 Day 2 — September 27, 2025</h3>
-                <div class="timeline">
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Workshops — Canva, Networking, Web Dev</h4>
-                        <p><strong>Lab 1</strong> — Hands-on sessions. Free or TBA. Runs till 4:00 PM.</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Day 1</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">09:00 AM</div>
+                            <h4>Inauguration Ceremony</h4>
+                            <p>Opening ceremony with keynote addresses from industry leaders and academic experts.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:00 AM</div>
+                            <h4>Web3 & Smart Contracts Workshop</h4>
+                            <p>Hands-on workshop covering blockchain development, smart contracts, and dApp creation.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">02:00 PM</div>
+                            <h4>Hack the Planet: CTF</h4>
+                            <p>Cybersecurity competition featuring penetration testing challenges and flag capture.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">04:00 PM</div>
+                            <h4>AI/ML Project Showcase</h4>
+                            <p>Student presentations of machine learning projects and AI applications.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Valorant — Encore Reloaded</h4>
-                        <p><strong>CSE Lab 1</strong> — High-stakes tournament. ₹10,000 prize pool. Coordinators: Ankit, Adhish.</p>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Day 2</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:00 AM</div>
+                            <h4>Quantum Computing Workshop</h4>
+                            <p>Introduction to quantum computing concepts and practical applications.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">02:00 PM</div>
+                            <h4>Zero-Day Exploits Live Demo</h4>
+                            <p>Live demonstration of vulnerability discovery and ethical hacking techniques.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">05:00 PM</div>
+                            <h4>Closing Ceremony & Awards</h4>
+                            <p>Prize distribution, recognition of winners, and closing remarks.</p>
+                        </div>
                     </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Blind Beats — Fun Zone (Contd.)</h4>
-                        <p><strong>Room 205</strong> — More games, memes, and chaos. ₹20 entry.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">11:00 AM</div>
-                        <h4>Pavilion — Project Expo (Contd.)</h4>
-                        <p><strong>Frontage of Library</strong> — Day 2 of student project showcase. Free entry.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">02:04 PM</div>
-                        <h4>Gaming Console — Valorant Finals</h4>
-                        <p><strong>Room 202</strong> — Grand finals & winner announcement.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-time">04:00 PM</div>
-                        <h4>Closing Ceremony & Prize Distribution</h4>
-                        <p><strong>Main Auditorium / Pavilion</strong> — Winners announced. Speeches by HOD & Principal.</p>
-                    </div>
-
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Tracks Section -->
     <section id="tracks" class="py-5">
@@ -1011,7 +1087,7 @@
         </div>
     </section>
 
-    <!-- Map Section --
+    <!-- Map Section -->
     <section id="map" class="py-5">
         <div class="container">
             <div class="section-header">
@@ -1038,7 +1114,7 @@
         </div>
     </section>
 
-    <!-- Leaderboard Section --
+    <!-- Leaderboard Section -->
     <section id="leaderboard" class="py-5">
         <div class="container">
             <div class="section-header">
