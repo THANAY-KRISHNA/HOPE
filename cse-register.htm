@@ -796,183 +796,318 @@
 
     <!-- Events Section -->
     <section id="events" class="py-5">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Events & Activities</h2>
-                <p class="section-subtitle">Discover exciting competitions, workshops, and technical sessions</p>
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Events & Activities</h2>
+            <p class="section-subtitle">Explore 13 thrilling events — from blind coding to soapy football, ideathons to Valorant!</p>
+        </div>
+
+        <ul class="nav nav-tabs justify-content-center mb-4" id="eventTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">All Events</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="competition-tab" data-bs-toggle="tab" data-bs-target="#competition" type="button">Competitions</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="workshop-tab" data-bs-toggle="tab" data-bs-target="#workshop" type="button">Workshops</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="demo-tab" data-bs-toggle="tab" data-bs-target="#demo" type="button">Expo & Fun</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="eventTabsContent">
+            <div class="tab-pane fade show active" id="all" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Cipher Strike — Capture The Flag</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 12:30 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 4</span>
+                            </div>
+                            <p>Solve challenges in cryptography, web exploitation, and reverse engineering to capture digital flags. Test your cybersecurity skills in this thrilling CTF event.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+917907189202" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/cipherstrike-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">PC Pit Stop — Computer Assembly</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 4:00 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 4</span>
+                            </div>
+                            <p>Assemble and troubleshoot computer systems using provided hardware components. Speed, accuracy, and problem-solving under pressure will decide the winner.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919207173005" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/pcpitstop-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Decodex — Coding Challenge</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 1:30 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Room 201</span>
+                            </div>
+                            <p>A fast-paced challenge featuring logic puzzles and rapid-fire quizzes testing your technical knowledge and problem-solving agility. Perfect for coders and tech enthusiasts.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919526796507" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/decodex-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Valorant — Encore Reloaded</h3>
+                                <span class="badge-custom">Gaming Tournament</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 2:04 PM (30 mins/match)</span>
+                                <span><i class="bi bi-geo-alt"></i> CSE Lab 1</span>
+                            </div>
+                            <p>High-stakes Valorant tournament with a ₹10,000 prize pool. Bring your squad and dominate the arena in this adrenaline-pumping e-sports showdown.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+918075684099" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/valorant-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <ul class="nav nav-tabs justify-content-center mb-4" id="eventTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">All Events</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="competition-tab" data-bs-toggle="tab" data-bs-target="#competition" type="button">Competitions</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="workshop-tab" data-bs-toggle="tab" data-bs-target="#workshop" type="button">Workshops</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="demo-tab" data-bs-toggle="tab" data-bs-target="#demo" type="button">Live Demos</button>
-                </li>
-            </ul>
-
-            <div class="tab-content" id="eventTabsContent">
-                <div class="tab-pane fade show active" id="all" role="tabpanel">
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Hack the Planet: CTF</h3>
-                                    <span class="badge-custom">Competition</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 14:00-17:00</span>
-                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
-                                </div>
-                                <p>Capture the Flag — exploit vulnerabilities, climb the leaderboard in this intense cybersecurity competition.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://discord.gg/cyber-ctf" class="btn btn-primary btn-sm">Join Team Chat</a>
-                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
-                                </div>
+            <div class="tab-pane fade" id="competition" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Cipher Strike — Capture The Flag</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 12:30 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 4</span>
+                            </div>
+                            <p>Solve challenges in cryptography, web exploitation, and reverse engineering to capture digital flags. Test your cybersecurity skills in this thrilling CTF event.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+917907189202" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/cipherstrike-reg" class="btn btn-primary btn-sm">Register Now</a>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Quantum Computing 101</h3>
-                                    <span class="badge-custom">Workshop</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 16:00-17:30</span>
-                                    <span><i class="bi bi-geo-alt"></i> Lab Q</span>
-                                </div>
-                                <p>Introduction to quantum computing principles, qubits, superposition, and quantum algorithms.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://forms.gle/quantum-lab" class="btn btn-primary btn-sm">Reserve Seat</a>
-                                    <a href="tel:+919876543212" class="btn btn-danger btn-sm">Call Lab</a>
-                                </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">PC Pit Stop — Computer Assembly</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 4:00 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 4</span>
+                            </div>
+                            <p>Assemble and troubleshoot computer systems using provided hardware components. Speed, accuracy, and problem-solving under pressure will decide the winner.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919207173005" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/pcpitstop-reg" class="btn btn-primary btn-sm">Register Now</a>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Web3 & Smart Contracts</h3>
-                                    <span class="badge-custom">Workshop</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 11:00-13:00</span>
-                                    <span><i class="bi bi-geo-alt"></i> Blockchain Hub</span>
-                                </div>
-                                <p>Build your first decentralized application on Ethereum testnet with Solidity and Web3.js.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://discord.gg/web3-devs" class="btn btn-primary btn-sm">Join Workshop</a>
-                                    <a href="tel:+919876543213" class="btn btn-danger btn-sm">Call Coordinator</a>
-                                </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Decodex — Coding Challenge</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 1:30 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Room 201</span>
+                            </div>
+                            <p>A fast-paced challenge featuring logic puzzles and rapid-fire quizzes testing your technical knowledge and problem-solving agility. Perfect for coders and tech enthusiasts.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919526796507" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/decodex-reg" class="btn btn-primary btn-sm">Register Now</a>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Zero-Day Exploits Live Demo</h3>
-                                    <span class="badge-custom">Live Demo</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 15:00-16:00</span>
-                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
-                                </div>
-                                <p>Watch ethical hackers demonstrate real-world vulnerability discovery and exploitation techniques.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://discord.gg/cyber-live" class="btn btn-primary btn-sm">Join Live</a>
-                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
-                                </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Mind Spark — Ideathon</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 12:30 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Room 204</span>
+                            </div>
+                            <p>Pitch innovative tech solutions to real-world problems. Teams of 1–5 will present ideas judged on creativity, feasibility, and impact. ₹250 per team. Prizes: ₹6000, ₹4000.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919946386265" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/mindspark-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Error 404 — Bug Not Found</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 2:00 PM – 4:00 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 3</span>
+                            </div>
+                            <p>Participants receive buggy code and must identify and fix errors within the time limit. Tests debugging skills, logical thinking, and coding proficiency.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919744897842" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/error404-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Shadow Script — Blind Coding</h3>
+                                <span class="badge-custom">Competition</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 12:30 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 3</span>
+                            </div>
+                            <p>Code without seeing the screen! Participants write programs with monitors turned off — testing memory, logic flow, and muscle memory. ₹50 entry. Prizes: ₹1000, ₹500.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+918606654610" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/shadowscript-reg" class="btn btn-primary btn-sm">Register Now</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="competition" role="tabpanel">
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Hack the Planet: CTF</h3>
-                                    <span class="badge-custom">Competition</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 14:00-17:00</span>
-                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
-                                </div>
-                                <p>Capture the Flag — exploit vulnerabilities, climb the leaderboard in this intense cybersecurity competition.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://discord.gg/cyber-ctf" class="btn btn-primary btn-sm">Join Team Chat</a>
-                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
-                                </div>
+            </div>
+            <div class="tab-pane fade" id="workshop" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Creatitech — Canva Designing</h3>
+                                <span class="badge-custom">Workshop</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 4:00 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 2</span>
+                            </div>
+                            <p>Learn to design eye-catching posters, infographics, and social media content using Canva. Perfect for designers, marketers, and creative minds. ₹50 entry. Prizes: ₹1000, ₹500.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+918592823493" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/creatitech-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Tech Workshops — Web Dev & Networking</h3>
+                                <span class="badge-custom">Workshop</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 4:00 PM (Both Days)</span>
+                                <span><i class="bi bi-geo-alt"></i> Lab 1</span>
+                            </div>
+                            <p>Hands-on sessions covering fundamentals of web development, networking concepts, and practical tools. Great for beginners and intermediates. Free or nominal fee.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+918907109002" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/workshops-reg" class="btn btn-primary btn-sm">Register Now</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="workshop" role="tabpanel">
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Quantum Computing 101</h3>
-                                    <span class="badge-custom">Workshop</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 16:00-17:30</span>
-                                    <span><i class="bi bi-geo-alt"></i> Lab Q</span>
-                                </div>
-                                <p>Introduction to quantum computing principles, qubits, superposition, and quantum algorithms.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://forms.gle/quantum-lab" class="btn btn-primary btn-sm">Reserve Seat</a>
-                                    <a href="tel:+919876543212" class="btn btn-danger btn-sm">Call Lab</a>
-                                </div>
+            </div>
+            <div class="tab-pane fade" id="demo" role="tabpanel">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Pavilion — Project Expo</h3>
+                                <span class="badge-custom">Exhibition</span>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Web3 & Smart Contracts</h3>
-                                    <span class="badge-custom">Workshop</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 11:00-13:00</span>
-                                    <span><i class="bi bi-geo-alt"></i> Blockchain Hub</span>
-                                </div>
-                                <p>Build your first decentralized application on Ethereum testnet with Solidity and Web3.js.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://discord.gg/web3-devs" class="btn btn-primary btn-sm">Join Workshop</a>
-                                    <a href="tel:+919876543213" class="btn btn-danger btn-sm">Call Coordinator</a>
-                                </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> Full Day (Sep 26–27)</span>
+                                <span><i class="bi bi-geo-alt"></i> Frontage of Library</span>
+                            </div>
+                            <p>A themed exhibition space showcasing student projects, tech demos, and department highlights. Explore innovations, interact with creators, and get inspired — no registration fee!</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+918907109002" class="btn btn-danger btn-sm">Call Coordinator</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="demo" role="tabpanel">
-                    <div class="row g-4">
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h3 class="card-title">Zero-Day Exploits Live Demo</h3>
-                                    <span class="badge-custom">Live Demo</span>
-                                </div>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-clock"></i> 15:00-16:00</span>
-                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
-                                </div>
-                                <p>Watch ethical hackers demonstrate real-world vulnerability discovery and exploitation techniques.</p>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <a href="https://discord.gg/cyber-live" class="btn btn-primary btn-sm">Join Live</a>
-                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
-                                </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Blind Beats — Fun Zone</h3>
+                                <span class="badge-custom">Fun Activity</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 4:00 PM (Both Days)</span>
+                                <span><i class="bi bi-geo-alt"></i> Room 205</span>
+                            </div>
+                            <p>Immersive fun zone with treasure hunts, meme contests, team games, and brain-teasing activities. Perfect for solo players or squads. Just ₹20 to join!</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919446065814" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/blindbeats-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Soapy Football</h3>
+                                <span class="badge-custom">Fun Activity</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 11:00 AM – 4:00 PM</span>
+                                <span><i class="bi bi-geo-alt"></i> Basketball Court</span>
+                            </div>
+                            <p>A playful, slippery twist on football — played on a soap-covered court! Team-based, hilarious, and wildly entertaining. ₹699.99 per team. Prizes: ₹5000, ₹2000.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+919048336108" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/soapyfootball-reg" class="btn btn-primary btn-sm">Register Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h3 class="card-title">Gaming Console — Valorant Tournament</h3>
+                                <span class="badge-custom">Gaming</span>
+                            </div>
+                            <div class="card-meta">
+                                <span><i class="bi bi-clock"></i> 2:04 PM (Sep 26–27)</span>
+                                <span><i class="bi bi-geo-alt"></i> Room 202</span>
+                            </div>
+                            <p>Casual to competitive Valorant matches. Open to all skill levels. ₹50 entry. Great warm-up or side event alongside the main Valorant Encore tournament.</p>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="tel:+918848658625" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                <a href="https://forms.gle/gamingconsole-reg" class="btn btn-primary btn-sm">Register Now</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Schedule Section -->
     <section id="schedule" class="py-5">
