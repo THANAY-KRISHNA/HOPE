@@ -47,6 +47,10 @@
             /* Hide scrollbar */
             scrollbar-width: none;
             -ms-overflow-style: none;
+            /* Prevent bottom space */
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
         }
 
         body::-webkit-scrollbar {
@@ -77,6 +81,7 @@
             height: 100%;
             z-index: -1;
             opacity: 0.6;
+            pointer-events: none;
         }
 
         /* Typography */
@@ -311,7 +316,7 @@
         /* Sections */
         .section {
             min-height: 100vh;
-            padding: 5rem 0 2rem 0;
+            padding: 5rem 0 0.5rem 0; /* Reduced bottom padding */
             display: none;
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -798,16 +803,20 @@
             }
             
             .section {
-                padding: 3rem 0 1rem 0;
+                padding: 3rem 0 0.25rem 0; /* Reduced bottom padding */
             }
         }
 
-        /* Particle Effect */
+        /* Particle Effect - Fixed to prevent extra space */
         .particle {
-            position: absolute;
+            position: fixed;
             pointer-events: none;
             opacity: 0.5;
             animation: particleFloat 10s infinite linear;
+            z-index: 1;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
         @keyframes particleFloat {
@@ -2006,7 +2015,9 @@
                 document.body.appendChild(element);
                 
                 setTimeout(() => {
-                    element.remove();
+                    if (element.parentNode) {
+                        element.remove();
+                    }
                 }, 20000);
             }, 2000);
         }
