@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS TechFest Nexus 2025 - Digital Command Center</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #7c3aed;
+            --accent-color: #ff6b6b;
+            --dark-bg: #0a0e1a;
+            --card-bg: #151923;
+            --text-primary: #e4e6eb;
+            --text-secondary: #b0b3b8;
+            --border-color: #2a3441;
+            --gradient-1: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #5a21b6 100%);
+            --gradient-3: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Matrix Background */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(10, 14, 26, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            background: linear-gradient(135deg, rgba(10, 14, 26, 0.8) 0%, rgba(21, 25, 35, 0.8) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEwIiBmaWxsPSJyZ2JhKDAsIDIxMiwgMjU1LCAwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--dark-bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+        }
+
+        .btn-danger {
+            background: var(--gradient-3);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .badge-custom {
+            background: var(--gradient-1);
+            color: var(--dark-bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        /* Stats */
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .nav-tabs .nav-link {
+            color: var(--text-secondary);
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background: none;
+            border-bottom-color: var(--primary-color);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--dark-bg);
+        }
+
+        .timeline-time {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Map */
+        .map-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .map-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .map-zone {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .map-zone:hover {
+            transform: scale(1.1);
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        /* Leaderboard */
+        .leaderboard-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .leaderboard-rank {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-right: 1.5rem;
+            min-width: 50px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .leaderboard-score {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Contact Cards */
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* FAQ */
+        .accordion-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+            border: none;
+            padding: 1.5rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: var(--card-bg);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-button::after {
+            filter: brightness(0) invert(1);
+        }
+
+        .accordion-body {
+            background: var(--dark-bg);
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-weight: 700;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 3D CPU Container */
+        .cpu-3d-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .cpu-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 10s infinite linear;
+        }
+
+        .cpu-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .cpu-face.front { transform: rotateY(0deg) translateZ(100px); }
+        .cpu-face.back { transform: rotateY(180deg) translateZ(100px); }
+        .cpu-face.right { transform: rotateY(90deg) translateZ(100px); }
+        .cpu-face.left { transform: rotateY(-90deg) translateZ(100px); }
+        .cpu-face.top { transform: rotateX(90deg) translateZ(100px); }
+        .cpu-face.bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        /* Matrix Toggle */
+        .matrix-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .matrix-toggle button {
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--dark-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .matrix-toggle button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .timeline {
+                padding-left: 1rem;
+            }
+
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+
+            .map-zone {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .cpu-3d-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .cpu-face {
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
+            }
+
+            .cpu-face.front { transform: rotateY(0deg) translateZ(75px); }
+            .cpu-face.back { transform: rotateY(180deg) translateZ(75px); }
+            .cpu-face.right { transform: rotateY(90deg) translateZ(75px); }
+            .cpu-face.left { transform: rotateY(-90deg) translateZ(75px); }
+            .cpu-face.top { transform: rotateX(90deg) translateZ(75px); }
+            .cpu-face.bottom { transform: rotateX(-90deg) translateZ(75px); }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Utility Classes */
+        .text-primary-custom {
+            color: var(--primary-color);
+        }
+
+        .text-secondary-custom {
+            color: var(--text-secondary);
+        }
+
+        .bg-card {
+            background: var(--card-bg);
+        }
+
+        .border-custom {
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <canvas id="matrix-bg"></canvas>
+
+    <!-- Matrix Toggle -->
+    <div class="matrix-toggle">
+        <button onclick="toggleMatrix()" title="Toggle Matrix Effect">
+            <i class="bi bi-code-slash"></i>
+        </button>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">CS TechFest Nexus</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#events">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#schedule">Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tracks">Tracks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#map">Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#leaderboard">Leaderboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#help">Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title animate-fadeInUp">CS TechFest Nexus 2025</h1>
+                    <p class="hero-subtitle animate-fadeInUp">A Premier Computer Science Festival Featuring AI, Cybersecurity, Web3 & Quantum Computing</p>
+                    <div class="d-flex flex-wrap gap-3 animate-fadeInUp">
+                        <a href="#events" class="btn btn-primary">Explore Events</a>
+                        <a href="#schedule" class="btn btn-secondary">View Schedule</a>
+                        <a href="tel:+919876543210" class="btn btn-danger">Call Coordinator</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div class="cpu-3d-container">
+                            <div class="cpu-3d" id="cpu3d">
+                                <div class="cpu-face front"><i class="bi bi-cpu"></i></div>
+                                <div class="cpu-face back"><i class="bi bi-cpu"></i></div>
+                                <div class="cpu-face right"><i class="bi bi-cpu"></i></div>
+                                <div class="cpu-face left"><i class="bi bi-cpu"></i></div>
+                                <div class="cpu-face top"><i class="bi bi-cpu"></i></div>
+                                <div class="cpu-face bottom"><i class="bi bi-cpu"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Events</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Hours</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Participants</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Experts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Events & Activities</h2>
+                <p class="section-subtitle">Discover exciting competitions, workshops, and technical sessions</p>
+            </div>
+
+            <ul class="nav nav-tabs justify-content-center mb-4" id="eventTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button">All Events</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="competition-tab" data-bs-toggle="tab" data-bs-target="#competition" type="button">Competitions</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="workshop-tab" data-bs-toggle="tab" data-bs-target="#workshop" type="button">Workshops</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="demo-tab" data-bs-toggle="tab" data-bs-target="#demo" type="button">Live Demos</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="eventTabsContent">
+                <div class="tab-pane fade show active" id="all" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Hack the Planet: CTF</h3>
+                                    <span class="badge-custom">Competition</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 14:00-17:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Capture the Flag — exploit vulnerabilities, climb the leaderboard in this intense cybersecurity competition.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-ctf" class="btn btn-primary btn-sm">Join Team Chat</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Quantum Computing 101</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 16:00-17:30</span>
+                                    <span><i class="bi bi-geo-alt"></i> Lab Q</span>
+                                </div>
+                                <p>Introduction to quantum computing principles, qubits, superposition, and quantum algorithms.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://forms.gle/quantum-lab" class="btn btn-primary btn-sm">Reserve Seat</a>
+                                    <a href="tel:+919876543212" class="btn btn-danger btn-sm">Call Lab</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Web3 & Smart Contracts</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 11:00-13:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Blockchain Hub</span>
+                                </div>
+                                <p>Build your first decentralized application on Ethereum testnet with Solidity and Web3.js.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/web3-devs" class="btn btn-primary btn-sm">Join Workshop</a>
+                                    <a href="tel:+919876543213" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Zero-Day Exploits Live Demo</h3>
+                                    <span class="badge-custom">Live Demo</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 15:00-16:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Watch ethical hackers demonstrate real-world vulnerability discovery and exploitation techniques.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-live" class="btn btn-primary btn-sm">Join Live</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="competition" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Hack the Planet: CTF</h3>
+                                    <span class="badge-custom">Competition</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 14:00-17:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Capture the Flag — exploit vulnerabilities, climb the leaderboard in this intense cybersecurity competition.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-ctf" class="btn btn-primary btn-sm">Join Team Chat</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="workshop" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Quantum Computing 101</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 16:00-17:30</span>
+                                    <span><i class="bi bi-geo-alt"></i> Lab Q</span>
+                                </div>
+                                <p>Introduction to quantum computing principles, qubits, superposition, and quantum algorithms.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://forms.gle/quantum-lab" class="btn btn-primary btn-sm">Reserve Seat</a>
+                                    <a href="tel:+919876543212" class="btn btn-danger btn-sm">Call Lab</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Web3 & Smart Contracts</h3>
+                                    <span class="badge-custom">Workshop</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 11:00-13:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Blockchain Hub</span>
+                                </div>
+                                <p>Build your first decentralized application on Ethereum testnet with Solidity and Web3.js.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/web3-devs" class="btn btn-primary btn-sm">Join Workshop</a>
+                                    <a href="tel:+919876543213" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="demo" role="tabpanel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="card-title">Zero-Day Exploits Live Demo</h3>
+                                    <span class="badge-custom">Live Demo</span>
+                                </div>
+                                <div class="card-meta">
+                                    <span><i class="bi bi-clock"></i> 15:00-16:00</span>
+                                    <span><i class="bi bi-geo-alt"></i> Cyber Arena</span>
+                                </div>
+                                <p>Watch ethical hackers demonstrate real-world vulnerability discovery and exploitation techniques.</p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="https://discord.gg/cyber-live" class="btn btn-primary btn-sm">Join Live</a>
+                                    <a href="tel:+919876543211" class="btn btn-danger btn-sm">Call Coordinator</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Event Schedule</h2>
+                <p class="section-subtitle">Day-wise timeline of all activities and sessions</p>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Day 1</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">09:00 AM</div>
+                            <h4>Inauguration Ceremony</h4>
+                            <p>Opening ceremony with keynote addresses from industry leaders and academic experts.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">11:00 AM</div>
+                            <h4>Web3 & Smart Contracts Workshop</h4>
+                            <p>Hands-on workshop covering blockchain development, smart contracts, and dApp creation.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">02:00 PM</div>
+                            <h4>Hack the Planet: CTF</h4>
+                            <p>Cybersecurity competition featuring penetration testing challenges and flag capture.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">04:00 PM</div>
+                            <h4>AI/ML Project Showcase</h4>
+                            <p>Student presentations of machine learning projects and AI applications.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Day 2</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:00 AM</div>
+                            <h4>Quantum Computing Workshop</h4>
+                            <p>Introduction to quantum computing concepts and practical applications.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">02:00 PM</div>
+                            <h4>Zero-Day Exploits Live Demo</h4>
+                            <p>Live demonstration of vulnerability discovery and ethical hacking techniques.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">05:00 PM</div>
+                            <h4>Closing Ceremony & Awards</h4>
+                            <p>Prize distribution, recognition of winners, and closing remarks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracks Section -->
+    <section id="tracks" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Technical Tracks</h2>
+                <p class="section-subtitle">Explore specialized domains in computer science and technology</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <h3 class="card-title">🧠 AI & Machine Learning</h3>
+                        <p>Deep learning, neural networks, computer vision, and natural language processing workshops and competitions.</p>
+                        <button class="btn btn-primary mt-3" onclick="showTrackModal('ai')">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <h3 class="card-title">🛡️ Cybersecurity</h3>
+                        <p>Ethical hacking, penetration testing, cryptography, and digital forensics hands-on sessions.</p>
+                        <button class="btn btn-primary mt-3" onclick="showTrackModal('cyber')">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <h3 class="card-title">⛓️ Web3 & Blockchain</h3>
+                        <p>Decentralized applications, smart contracts, cryptocurrency, and blockchain development.</p>
+                        <button class="btn btn-primary mt-3" onclick="showTrackModal('web3')">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <h3 class="card-title">⚛️ Quantum Computing</h3>
+                        <p>Quantum algorithms, qubit manipulation, quantum cryptography, and future computing paradigms.</p>
+                        <button class="btn btn-primary mt-3" onclick="showTrackModal('quantum')">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <h3 class="card-title">🔧 DevOps & Cloud</h3>
+                        <p>Containerization, CI/CD pipelines, cloud architecture, and infrastructure as code.</p>
+                        <button class="btn btn-primary mt-3" onclick="showTrackModal('devops')">Learn More</button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <h3 class="card-title">📱 Mobile Development</h3>
+                        <p>iOS and Android development, cross-platform frameworks, and mobile app architecture.</p>
+                        <button class="btn btn-primary mt-3" onclick="showTrackModal('mobile')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section id="map" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Venue Map</h2>
+                <p class="section-subtitle">Navigate through the festival grounds and event locations</p>
+            </div>
+
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <h3>Interactive Campus Map</h3>
+                    <p>Click on highlighted zones for location details</p>
+                </div>
+                <div class="map-zones">
+                    <div class="map-zone" style="top: 20%; left: 15%;" onclick="showZoneModal('cyber')" title="Cyber Arena">🛡️</div>
+                    <div class="map-zone" style="top: 60%; left: 70%;" onclick="showZoneModal('ai')" title="AI Lab">🧠</div>
+                    <div class="map-zone" style="top: 40%; left: 45%;" onclick="showZoneModal('blockchain')" title="Blockchain Hub">⛓️</div>
+                    <div class="map-zone" style="top: 30%; left: 80%;" onclick="showZoneModal('quantum')" title="Quantum Lab">⚛️</div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-primary" onclick="locateUser()">📍 Locate Me</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section id="leaderboard" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Leaderboard</h2>
+                <p class="section-subtitle">Real-time rankings and competition results</p>
+            </div>
+
+            <div class="leaderboard-list">
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">#1</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">StackOverlords</div>
+                        <div class="leaderboard-score">2,150 points</div>
+                    </div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">#2</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">NullPointers</div>
+                        <div class="leaderboard-score">1,980 points</div>
+                    </div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">#3</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">SegFault</div>
+                        <div class="leaderboard-score">1,870 points</div>
+                    </div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">#4</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">CodeWarriors</div>
+                        <div class="leaderboard-score">1,750 points</div>
+                    </div>
+                </div>
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">#5</div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">ByteMe</div>
+                        <div class="leaderboard-score">1,620 points</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Section -->
+    <section id="help" class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Help & Support</h2>
+                <p class="section-subtitle">Get assistance and find answers to your questions</p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-title">General Support</div>
+                        <div class="contact-info">+91 98765 43210</div>
+                        <a href="tel:+919876543210" class="btn btn-primary mt-3">Call Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-icon">🛡️</div>
+                        <div class="contact-title">Cyber Arena</div>
+                        <div class="contact-info">+91 98765 43211</div>
+                        <a href="tel:+919876543211" class="btn btn-primary mt-3">Call Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-icon">🧠</div>
+                        <div class="contact-title">AI Lab</div>
+                        <div class="contact-info">+91 98765 43214</div>
+                        <a href="tel:+919876543214" class="btn btn-primary mt-3">Call Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-icon">⛓️</div>
+                        <div class="contact-title">Blockchain Hub</div>
+                        <div class="contact-info">+91 98765 43213</div>
+                        <a href="tel:+919876543213" class="btn btn-primary mt-3">Call Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title mb-4">Frequently Asked Questions</h3>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                Where can I find free WiFi?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Free WiFi is available throughout the campus. Network: CSFEST_GUEST, Password: compile123
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Are there charging stations available?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, charging stations are available in all labs and the main lounge. Please bring your own charging cables.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What food options are available?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                The main cafeteria is open 24/7 during the festival. Additional snack stations are available in each building.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                How do I register for events?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Click the "Join" or "Reserve" buttons on event cards to register. Some events require prior registration through forms.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-logo">CS TechFest Nexus</div>
+                    <p class="text-secondary-custom">A premier computer science festival featuring the latest in technology, innovation, and creativity.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#events">Events</a></li>
+                        <li><a href="#schedule">Schedule</a></li>
+                        <li><a href="#tracks">Tracks</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#map">Venue Map</a></li>
+                        <li><a href="#leaderboard">Leaderboard</a></li>
+                        <li><a href="#help">Help</a></li>
+                        <li><a href="#">Sponsors</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <p class="text-secondary-custom">
+                        <i class="bi bi-geo-alt"></i> Computer Science Department<br>
+                        University Campus, City - 123456
+                    </p>
+                    <p class="text-secondary-custom">
+                        <i class="bi bi-telephone"></i> +91 98765 43210<br>
+                        <i class="bi bi-envelope"></i> info@techfestnexus.com
+                    </p>
+                </div>
+            </div>
+            <hr class="my-4 border-custom">
+            <div class="text-center">
+                <p class="text-secondary-custom mb-0">&copy; 2025 CS TechFest Nexus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Track Modal -->
+    <div class="modal fade" id="trackModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="trackModalTitle">Track Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="trackModalBody">
+                    <!-- Dynamic content -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zone Modal -->
+    <div class="modal fade" id="zoneModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="zoneModalTitle">Zone Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="zoneModalBody">
+                    <!-- Dynamic content -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Matrix Rain Effect
+        let matrixEnabled = true;
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Matrix characters - using tech-related symbols
+        const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        // Initialize drops
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        // Draw matrix
+        function drawMatrix() {
+            if (!matrixEnabled) return;
+
+            // Semi-transparent black overlay for trail effect
+            ctx.fillStyle = 'rgba(10, 14, 26, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00d4ff'; // Primary color
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            drawMatrix();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Toggle matrix effect
+        function toggleMatrix() {
+            matrixEnabled = !matrixEnabled;
+            if (!matrixEnabled) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // 3D CPU Animation Control
+        document.addEventListener('DOMContentLoaded', function() {
+            const cpu3d = document.getElementById('cpu3d');
+            let isMouseDown = false;
+            let mouseX = 0;
+            let mouseY = 0;
+            let rotationX = 0;
+            let rotationY = 0;
+
+            // Mouse interaction for 3D CPU
+            cpu3d.addEventListener('mousedown', function(e) {
+                isMouseDown = true;
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                cpu3d.style.animationPlayState = 'paused';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isMouseDown) return;
+                
+                const deltaX = e.clientX - mouseX;
+                const deltaY = e.clientY - mouseY;
+                
+                rotationY += deltaX * 0.5;
+                rotationX -= deltaY * 0.5;
+                
+                cpu3d.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+                
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isMouseDown) {
+                    isMouseDown = false;
+                    cpu3d.style.animationPlayState = 'running';
+                }
+            });
+
+            // Touch interaction for mobile
+            cpu3d.addEventListener('touchstart', function(e) {
+                isMouseDown = true;
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+                cpu3d.style.animationPlayState = 'paused';
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchmove', function(e) {
+                if (!isMouseDown) return;
+                
+                const deltaX = e.touches[0].clientX - mouseX;
+                const deltaY = e.touches[0].clientY - mouseY;
+                
+                rotationY += deltaX * 0.5;
+                rotationX -= deltaY * 0.5;
+                
+                cpu3d.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+                
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchend', function() {
+                if (isMouseDown) {
+                    isMouseDown = false;
+                    cpu3d.style.animationPlayState = 'running';
+                }
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Track modal data
+        const trackData = {
+            ai: {
+                title: 'AI & Machine Learning Track',
+                content: `
+                    <p><strong>Workshops:</strong></p>
+                    <ul>
+                        <li>Neural Networks Deep Dive</li>
+                        <li>Computer Vision with OpenCV</li>
+                        <li>Natural Language Processing</li>
+                    </ul>
+                    <p><strong>Competitions:</strong></p>
+                    <ul>
+                        <li>AI Challenge: Build an intelligent agent</li>
+                        <li>ML Hackathon: Predictive modeling contest</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="tel:+919876543214" class="btn btn-primary">Contact AI Coordinator</a>
+                    </div>
+                `
+            },
+            cyber: {
+                title: 'Cybersecurity Track',
+                content: `
+                    <p><strong>Workshops:</strong></p>
+                    <ul>
+                        <li>Ethical Hacking Fundamentals</li>
+                        <li>Cryptography & Network Security</li>
+                        <li>Digital Forensics</li>
+                    </ul>
+                    <p><strong>Competitions:</strong></p>
+                    <ul>
+                        <li>Capture the Flag (CTF)</li>
+                        <li>Penetration Testing Challenge</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="tel:+919876543211" class="btn btn-primary">Contact Cyber Coordinator</a>
+                    </div>
+                `
+            },
+            web3: {
+                title: 'Web3 & Blockchain Track',
+                content: `
+                    <p><strong>Workshops:</strong></p>
+                    <ul>
+                        <li>Smart Contract Development</li>
+                        <li>DeFi Protocols</li>
+                        <li>NFT Development</li>
+                    </ul>
+                    <p><strong>Competitions:</strong></p>
+                    <ul>
+                        <li>Blockchain Hackathon</li>
+                        <li>dApp Development Challenge</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="tel:+919876543213" class="btn btn-primary">Contact Web3 Coordinator</a>
+                    </div>
+                `
+            },
+            quantum: {
+                title: 'Quantum Computing Track',
+                content: `
+                    <p><strong>Workshops:</strong></p>
+                    <ul>
+                        <li>Quantum Computing Basics</li>
+                        <li>Quantum Algorithms</li>
+                        <li>Quantum Cryptography</li>
+                    </ul>
+                    <p><strong>Competitions:</strong></p>
+                    <ul>
+                        <li>Quantum Algorithm Design</li>
+                        <li>Quantum Circuit Optimization</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="tel:+919876543212" class="btn btn-primary">Contact Quantum Coordinator</a>
+                    </div>
+                `
+            },
+            devops: {
+                title: 'DevOps & Cloud Track',
+                content: `
+                    <p><strong>Workshops:</strong></p>
+                    <ul>
+                        <li>Docker & Kubernetes</li>
+                        <li>CI/CD Pipelines</li>
+                        <li>Cloud Architecture</li>
+                    </ul>
+                    <p><strong>Competitions:</strong></p>
+                    <ul>
+                        <li>Infrastructure as Code Challenge</li>
+                        <li>Cloud Optimization Contest</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="tel:+919876543215" class="btn btn-primary">Contact DevOps Coordinator</a>
+                    </div>
+                `
+            },
+            mobile: {
+                title: 'Mobile Development Track',
+                content: `
+                    <p><strong>Workshops:</strong></p>
+                    <ul>
+                        <li>iOS Development with Swift</li>
+                        <li>Android Development</li>
+                        <li>Cross-Platform Frameworks</li>
+                    </ul>
+                    <p><strong>Competitions:</strong></p>
+                    <ul>
+                        <li>Mobile App Hackathon</li>
+                        <li>UI/UX Design Challenge</li>
+                    </ul>
+                    <div class="mt-3">
+                        <a href="tel:+919876543216" class="btn btn-primary">Contact Mobile Coordinator</a>
+                    </div>
+                `
+            }
+        };
+
+        // Zone modal data
+        const zoneData = {
+            cyber: {
+                title: 'Cyber Arena',
+                content: `
+                    <p><strong>Location:</strong> Main Building, Ground Floor</p>
+                    <p><strong>Activities:</strong> CTF competitions, hacking workshops, security demos</p>
+                    <p><strong>Facilities:</strong> High-performance workstations, isolated network environment</p>
+                    <div class="mt-3">
+                        <a href="tel:+919876543211" class="btn btn-primary">Call Coordinator</a>
+                        <a href="https://wa.me/919876543211" class="btn btn-secondary">WhatsApp Group</a>
+                    </div>
+                `
+            },
+            ai: {
+                title: 'AI/ML Lab',
+                content: `
+                    <p><strong>Location:</strong> Research Building, 2nd Floor</p>
+                    <p><strong>Activities:</strong> AI workshops, ML competitions, project showcases</p>
+                    <p><strong>Facilities:</strong> GPU clusters, dataset library, collaboration spaces</p>
+                    <div class="mt-3">
+                        <a href="tel:+919876543214" class="btn btn-primary">Call Coordinator</a>
+                    </div>
+                `
+            },
+            blockchain: {
+                title: 'Blockchain Hub',
+                content: `
+                    <p><strong>Location:</strong> Innovation Center, 1st Floor</p>
+                    <p><strong>Activities:</strong> Web3 workshops, smart contract labs, NFT gallery</p>
+                    <p><strong>Facilities:</strong> Development stations, testnet nodes, meeting rooms</p>
+                    <div class="mt-3">
+                        <a href="tel:+919876543213" class="btn btn-primary">Call Coordinator</a>
+                    </div>
+                `
+            },
+            quantum: {
+                title: 'Quantum Lab',
+                content: `
+                    <p><strong>Location:</strong> Advanced Research Building</p>
+                    <p><strong>Activities:</strong> Quantum computing workshops, algorithm design</p>
+                    <p><strong>Facilities:</strong> Quantum simulators, specialized workstations</p>
+                    <div class="mt-3">
+                        <a href="tel:+919876543212" class="btn btn-primary">Call Coordinator</a>
+                    </div>
+                `
+            }
+        };
+
+        // Show track modal
+        function showTrackModal(track) {
+            const modal = new bootstrap.Modal(document.getElementById('trackModal'));
+            const title = document.getElementById('trackModalTitle');
+            const body = document.getElementById('trackModalBody');
+            
+            const data = trackData[track];
+            if (data) {
+                title.textContent = data.title;
+                body.innerHTML = data.content;
+                modal.show();
+            }
+        }
+
+        // Show zone modal
+        function showZoneModal(zone) {
+            const modal = new bootstrap.Modal(document.getElementById('zoneModal'));
+            const title = document.getElementById('zoneModalTitle');
+            const body = document.getElementById('zoneModalBody');
+            
+            const data = zoneData[zone];
+            if (data) {
+                title.textContent = data.title;
+                body.innerHTML = data.content;
+                modal.show();
+            }
+        }
+
+        // Locate user function
+        function locateUser() {
+            alert('Location services would be used to show your position on the campus map in a real implementation.');
+        }
+
+        // Update active navigation on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fadeInUp');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .stat-card, .contact-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
