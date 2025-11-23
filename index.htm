@@ -246,53 +246,59 @@
         </div>
     </div>-->
 
-    <main class="relative min-h-screen pb-10">
+    <main class="relative w-full overflow-hidden">
 
         <!-- 1. HOME: THE MISSION -->
-        <div id="home" class="page-section min-h-screen flex flex-col pt-32 px-6 md:px-12 relative overflow-hidden">
+        <div id="home"
+            class="page-section min-h-[100dvh] flex flex-col pt-20 pb-10 px-6 md:pt-32 md:px-12 relative overflow-hidden">
 
             <!-- 1. Background Code Decoration -->
-            <!-- Opacity reduced for light background 
-    <div class="absolute top-0 left-0 w-full h-full opacity-10 text-[10px] font-mono p-4 break-all overflow-hidden pointer-events-none z-0 text-ash terminal-scanline">
-        01001000 01001111 01010000 01000101 00100000 01010011 01011001 01010011 01010100 01000101 01001101
-        EXECUTE_PROTOCOL: UPLIFT.V2 // 4-PILLAR CHECK
-        TARGET: POVERTY_ERADICATION
-        STATUS: ACTIVE
-        INIT: EDUCATION.V1 | INIT: OPPORTUNITY.V1 | INIT: ECOMMERCE.V1 | INIT: IMPACT.V1
-        ... (repeat code/status text to fill space)
-    </div>-->
+            <!-- Added select-none to prevent accidental text selection on scroll -->
+            <div
+                class="absolute top-0 left-0 w-full h-full opacity-10 text-[10px] font-mono p-4 break-all overflow-hidden pointer-events-none z-0 text-ash terminal-scanline select-none">
+                01001000 01001111 01010000 01000101 00100000 01010011 01011001 01010011 01010100 01000101 01001101
+                EXECUTE_PROTOCOL: UPLIFT.V2 // 4-PILLAR CHECK
+                TARGET: POVERTY_ERADICATION
+                STATUS: ACTIVE
+                INIT: EDUCATION.V1 | INIT: OPPORTUNITY.V1 | INIT: ECOMMERCE.V1 | INIT: IMPACT.V1
+                ... (repeat code/status text to fill space)
+            </div>
 
-            <!-- 2. System HUD (Heads Up Display) - Top Right -->
-            <!-- Reinforces the 4-Pillar ecosystem concept 
-    <div class="absolute top-24 right-6 md:top-32 md:right-12 flex flex-col items-end gap-1 text-[10px] md:text-xs font-mono text-gray-700 z-20">
-        <div class="flex items-center gap-2">
-            <span>[SYS_CORE]</span>
-            <span class="w-2 h-2 bg-neon rounded-full animate-pulse"></span>
-            <span class="text-black font-bold">ACTIVE</span>
-        </div>
-        <div class="flex flex-col text-right opacity-80 mt-2">
-            <span class="text-impact font-bold">MODULE 01: EDUCATION [RUN]</span>
-            <span>MODULE 02: OPPORTUNITY [HUNT]</span>
-            <span>MODULE 03: IOT/ROBOTICS [LABS]</span>
-            <span class="text-impact font-bold">MODULE 04: SOCIAL IMPACT [VOW]</span>
-        </div>
-    </div>-->
+            <!-- 2. System HUD (Heads Up Display) -->
+            <!-- Adjusted top/right positioning and font size for mobile -->
+            <div
+                class="absolute top-4 right-4 md:top-32 md:right-12 flex flex-col items-end gap-1 text-[9px] md:text-xs font-mono text-gray-700 z-20">
+                <div class="flex items-center gap-2">
+                    <span>[SYS_CORE]</span>
+                    <span class="w-2 h-2 bg-neon rounded-full animate-pulse"></span>
+                    <span class="text-black font-bold">ACTIVE</span>
+                </div>
+                <!-- Hidden on very small screens to save space, visible on small tablets and up -->
+                <div class="hidden sm:flex flex-col text-right opacity-80 mt-2">
+                    <span class="text-impact font-bold">MODULE 01: EDUCATION [RUN]</span>
+                    <span>MODULE 02: OPPORTUNITY [HUNT]</span>
+                    <span>MODULE 03: IOT/ROBOTICS [LABS]</span>
+                    <span class="text-impact font-bold">MODULE 04: SOCIAL IMPACT [VOW]</span>
+                </div>
+            </div>
 
             <!-- 3. Main Content Content -->
-            <div class="relative z-10 mt-auto mb-32 md:mb-0 md:mt-20 max-w-7xl mx-auto w-full">
+            <!-- Changed mt-auto to specific spacing for mobile stability -->
+            <div class="relative z-10 mt-12 md:mt-20 lg:mt-auto mb-12 md:mb-0 max-w-7xl mx-auto w-full">
 
                 <!-- Badge -->
                 <div class="text-reveal-mask">
                     <p
-                        class="text-reveal-child text-xs font-mono uppercase tracking-widest mb-4 pl-2 border-l-2 border-neon text-gray-700">
+                        class="text-reveal-child text-[10px] md:text-xs font-mono uppercase tracking-widest mb-4 pl-2 border-l-2 border-neon text-gray-700">
                         HOPE CORE. A 20-Year Legacy System
                     </p>
                 </div>
 
                 <!-- Headline: The Core Philosophy -->
+                <!-- Added text-4xl for mobile, scaling up to text-[10vw] for desktop -->
                 <div class="text-reveal-mask">
                     <h1
-                        class="text-reveal-child font-display text-6xl md:text-[10vw] font-bold tracking-tighter leading-[0.85] mb-6">
+                        class="text-reveal-child font-display text-5xl sm:text-6xl md:text-[10vw] font-bold tracking-tighter leading-[0.9] md:leading-[0.85] mb-6">
                         FROM <span
                             class="text-gray-400 line-through decoration-black/50 decoration-2">CONSUMER</span><br>
                         TO <span
@@ -301,31 +307,38 @@
                 </div>
 
                 <!-- Deep Definition Subtext -->
+                <!-- Adjusted text size for readability on phones -->
                 <div class="text-reveal-mask max-w-2xl">
-                    <p class="text-reveal-child text-xl md:text-2xl text-void font-medium leading-relaxed">
+                    <p class="text-reveal-child text-lg md:text-2xl text-void font-medium leading-relaxed">
                         <span class="font-bold">Not a platform. A System.</span> We transform students into industry
                         leaders by unifying education, opportunity, technology, and social impact.
                     </p>
                 </div>
 
                 <!-- Action Modules (Buttons) -->
-                <div class="text-reveal-mask mt-10">
-                    <div class="text-reveal-child flex flex-wrap gap-4">
-                        <!-- Primary Action: Enter the System -->
+                <div class="text-reveal-mask mt-8 md:mt-10">
+                    <!-- Added flex-col for mobile stacking, sm:flex-row for desktop alignment -->
+                    <div class="text-reveal-child flex flex-col sm:flex-row flex-wrap gap-4">
+
+                        <!-- Primary Action -->
+                        <!-- Added w-full sm:w-auto to make button full width on phone -->
                         <button onclick="router('education')"
-                            class="magnetic-btn bg-black text-white px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-neon hover:text-black transition-colors glitch-hover">
+                            class="magnetic-btn w-full sm:w-auto bg-black text-white px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-neon hover:text-black transition-colors glitch-hover text-center">
                             Launch Education Protocol
                         </button>
-                        <!-- Secondary Action: The Emotional Vow -->
+
+                        <!-- Secondary Action -->
+                        <!-- Added w-full sm:w-auto -->
                         <button onclick="router('impact')"
-                            class="magnetic-btn border border-black px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-impact hover:text-white transition-colors">
-                            The Social Vow <i data-lucide="heart" class="w-4 h-4 inline-block ml-1"></i>
+                            class="magnetic-btn w-full sm:w-auto border border-black px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-impact hover:text-white transition-colors text-center flex items-center justify-center">
+                            The Social Vow <i data-lucide="heart" class="w-4 h-4 ml-2"></i>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- 3D Abstract -->
+            <!-- Kept hidden on mobile (md:block) to prevent layout shifting/performance issues -->
             <div
                 class="absolute top-1/4 right-[-10%] w-[50%] h-[70%] z-0 pointer-events-none hidden md:block opacity-0 fade-in-delayed">
                 <div id="canvas-hero" class="w-full h-full"></div>
@@ -333,20 +346,26 @@
         </div>
 
         <!-- 2. EDUCATION: THE ECOSYSTEM (ACHIEVER PROTOCOL) -->
-        <div id="education" class="page-section hidden min-h-screen pt-32 pb-20 px-6 md:px-12 bg-concrete">
+        <div id="education"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-concrete">
+
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: ACHIEVER PROTOCOL - MISSION STATEMENT -->
+                <!-- Adjusted flex alignment and text sizes for mobile -->
                 <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-gray-300 pb-8">
-                    <div>
-                        <p class="font-mono text-xs uppercase tracking-[0.2em] text-impact mb-3">Module 01: Pipeline
-                            Transformation</p>
-                        <h2 class="font-display text-5xl md:text-7xl font-bold leading-tight">ACHIEVER<br><span
-                                class="text-gray-600">PROTOCOL</span></h2>
+                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 border-b border-gray-300 pb-8">
+                    <div class="mb-6 md:mb-0">
+                        <p class="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-impact mb-2 md:mb-3">
+                            Module 01: Pipeline Transformation
+                        </p>
+                        <h2 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight">
+                            ACHIEVER<br><span class="text-gray-600">PROTOCOL</span>
+                        </h2>
                     </div>
-                    <div class="mt-4 md:mt-0 text-left md:text-right max-w-sm border-l-4 border-neon pl-4">
-                        <p class="font-sans text-lg font-medium text-void">
+
+                    <div class="mt-2 md:mt-0 text-left md:text-right max-w-sm border-l-4 border-neon pl-4">
+                        <p class="font-sans text-base md:text-lg font-medium text-void">
                             Engineered to eliminate academic debt and transform the student lifecycle from passive
                             consumption to active skill ownership.
                         </p>
@@ -354,70 +373,81 @@
                 </div>
 
                 <!-- DYNAMIC GRID LAYOUT (5 COLUMNS FOR DENSITY) -->
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 h-auto">
+                <!-- grid-cols-1 on mobile ensures tiles stack vertically -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 h-auto">
 
-                    <!-- TILE 1: CORE KNOWLEDGE BASE (Primary Educational Resource) -->
+                    <!-- TILE 1: CORE KNOWLEDGE BASE -->
+                    <!-- Changed p-8 to p-6 for mobile to save space -->
                     <div
-                        class="md:col-span-3 bg-white rounded-3xl p-8 border border-gray-200 hover:border-black transition-all cursor-pointer group relative overflow-hidden shadow-xl md:row-span-2">
+                        class="md:col-span-3 bg-white rounded-3xl p-6 md:p-8 border border-gray-200 hover:border-black transition-all cursor-pointer group relative overflow-hidden shadow-xl md:row-span-2">
                         <div class="flex justify-between items-start">
-                            <i data-lucide="microscope" class="w-12 h-12 mb-2 text-impact"></i>
+                            <i data-lucide="microscope" class="w-10 h-10 md:w-12 md:h-12 mb-2 text-impact"></i>
                             <div
-                                class="bg-neon text-black px-4 py-2 rounded-full font-mono text-xs font-bold uppercase tracking-widest flex items-center gap-1">
-                                <i data-lucide="download-cloud" class="w-4 h-4"></i> Download Archive
+                                class="bg-neon text-black px-3 py-2 md:px-4 md:py-2 rounded-full font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+                                <i data-lucide="download-cloud" class="w-3 h-3 md:w-4 md:h-4"></i> <span
+                                    class="hidden sm:inline">Download</span> Archive
                             </div>
                         </div>
 
-                        <h3 class="font-display text-4xl font-extrabold mt-8 mb-2">The Distilled Repository</h3>
-                        <p class="text-gray-600 text-base max-w-lg">
+                        <!-- Scaled text sizes -->
+                        <h3 class="font-display text-2xl md:text-4xl font-extrabold mt-6 md:mt-8 mb-2">The Distilled
+                            Repository</h3>
+                        <p class="text-gray-600 text-sm md:text-base max-w-lg">
                             Not just notes, but industry-curated knowledge streams. High-yield content focused only on
                             concepts required for interviews and project execution.
                         </p>
 
                         <!-- Detailed Content Metrics -->
-                        <div class="mt-10 grid grid-cols-3 gap-4 text-center">
-                            <div>
+                        <!-- Changed to grid-cols-1 on mobile so metrics stack cleanly, grid-cols-3 on tablet+ -->
+                        <div
+                            class="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-left sm:text-center">
+                            <div class="flex flex-row sm:flex-col items-center sm:items-center gap-4 sm:gap-0">
                                 <p class="font-display text-3xl font-bold text-black">9.5/10</p>
-                                <p class="text-xs font-mono text-gray-500 uppercase mt-1">Quality Index</p>
+                                <p class="text-xs font-mono text-gray-500 uppercase mt-0 sm:mt-1">Quality Index</p>
                             </div>
-                            <div>
+                            <div class="flex flex-row sm:flex-col items-center sm:items-center gap-4 sm:gap-0">
                                 <p class="font-display text-3xl font-bold text-impact">3200+</p>
-                                <p class="text-xs font-mono text-gray-500 uppercase mt-1">Vetted Documents</p>
+                                <p class="text-xs font-mono text-gray-500 uppercase mt-0 sm:mt-1">Vetted Documents</p>
                             </div>
-                            <div>
+                            <div class="flex flex-row sm:flex-col items-center sm:items-center gap-4 sm:gap-0">
                                 <p class="font-display text-3xl font-bold text-black">Q4 2024</p>
-                                <p class="text-xs font-mono text-gray-500 uppercase mt-1">Last Updated</p>
+                                <p class="text-xs font-mono text-gray-500 uppercase mt-0 sm:mt-1">Last Updated</p>
                             </div>
                         </div>
 
                         <!-- Action Link -->
                         <button
-                            class="w-full mt-8 bg-black text-white py-4 rounded-xl text-sm font-bold uppercase hover:bg-neon hover:text-black transition-colors">
+                            class="w-full mt-8 bg-black text-white py-4 rounded-xl text-xs md:text-sm font-bold uppercase hover:bg-neon hover:text-black transition-colors">
                             Search Notes by Module (S1-S8)
                         </button>
                     </div>
 
-                    <!-- TILE 2: THE PIPELINE TRACKER (Goal Alignment) -->
+                    <!-- TILE 2: THE PIPELINE TRACKER -->
                     <div
-                        class="md:col-span-2 bg-void text-white rounded-3xl p-8 cursor-pointer hover:bg-ash transition-colors group relative overflow-hidden shadow-xl">
-                        <i data-lucide="gauge" class="w-10 h-10 mb-4 text-neon"></i>
+                        class="md:col-span-2 bg-void text-white rounded-3xl p-6 md:p-8 cursor-pointer hover:bg-ash transition-colors group relative overflow-hidden shadow-xl">
+                        <i data-lucide="gauge" class="w-8 h-8 md:w-10 md:h-10 mb-4 text-neon"></i>
 
-                        <h3 class="font-display text-3xl font-bold mb-2">Pipeline Tracker</h3>
-                        <p class="text-gray-400 text-sm">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold mb-2">Pipeline Tracker</h3>
+                        <p class="text-gray-400 text-xs md:text-sm">
                             Visual map of your journey from enrollment to industrial placement. See your required skills
-                            and achievements for each semester.
+                            and achievements.
                         </p>
 
                         <!-- Pipeline Stage Visualization Mock -->
-                        <div class="mt-6 flex justify-between items-center text-center font-mono text-xs uppercase">
-                            <div class="w-1/4">S1-S4 <div
-                                    class="w-3 h-3 bg-white rounded-full mx-auto mt-2 border-2 border-neon"></div>
+                        <div
+                            class="mt-6 flex justify-between items-start text-center font-mono text-[10px] md:text-xs uppercase">
+                            <div class="w-1/4 px-1">S1-S4 <div
+                                    class="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full mx-auto mt-2 border-2 border-neon">
+                                </div>
                             </div>
-                            <div class="w-1/4 text-neon">S5-S6 <div
-                                    class="w-3 h-3 bg-neon rounded-full mx-auto mt-2 animate-pulse"></div>
+                            <div class="w-1/4 px-1 text-neon">S5-S6 <div
+                                    class="w-2 h-2 md:w-3 md:h-3 bg-neon rounded-full mx-auto mt-2 animate-pulse"></div>
                             </div>
-                            <div class="w-1/4">S7-S8 <div class="w-3 h-3 bg-gray-700 rounded-full mx-auto mt-2"></div>
+                            <div class="w-1/4 px-1">S7-S8 <div
+                                    class="w-2 h-2 md:w-3 md:h-3 bg-gray-700 rounded-full mx-auto mt-2"></div>
                             </div>
-                            <div class="w-1/4">PLACED <div class="w-3 h-3 bg-gray-700 rounded-full mx-auto mt-2"></div>
+                            <div class="w-1/4 px-1">PLACED <div
+                                    class="w-2 h-2 md:w-3 md:h-3 bg-gray-700 rounded-full mx-auto mt-2"></div>
                             </div>
                         </div>
 
@@ -427,25 +457,27 @@
 
                         <!-- Action -->
                         <div
-                            class="mt-4 text-neon font-bold text-sm transform group-hover:translate-x-1 transition-transform">
-                            View My Current Stage <i data-lucide="arrow-right" class="w-4 h-4 inline-block ml-1"></i>
+                            class="mt-4 text-neon font-bold text-xs md:text-sm transform group-hover:translate-x-1 transition-transform">
+                            View My Current Stage <i data-lucide="arrow-right"
+                                class="w-3 h-3 md:w-4 md:h-4 inline-block ml-1"></i>
                         </div>
                     </div>
 
-                    <!-- TILE 3: SKILL INJECTION & PORTFOLIO BUILDER (The Achiever Builder) -->
+                    <!-- TILE 3: SKILL INJECTION & PORTFOLIO BUILDER -->
                     <div onclick="router('iot')"
-                        class="md:col-span-2 bg-white border border-gray-200 rounded-3xl p-8 cursor-pointer hover:bg-gray-100 transition-colors group shadow-md">
+                        class="md:col-span-2 bg-white border border-gray-200 rounded-3xl p-6 md:p-8 cursor-pointer hover:bg-gray-100 transition-colors group shadow-md">
                         <i data-lucide="git-branch" class="w-8 h-8 mb-4 text-black"></i>
-                        <h3 class="font-bold text-xl">Portfolio Generator</h3>
+                        <h3 class="font-bold text-xl md:text-xl">Portfolio Generator</h3>
                         <p class="text-xs text-gray-500 mt-2">
                             Automatically map completed lab projects (IoT, Robotics, Web) into a professionally
-                            formatted, industry-scannable portfolio.
+                            formatted portfolio.
                         </p>
 
                         <!-- Metric -->
                         <div class="mt-4 flex items-center gap-4">
-                            <div class="text-3xl font-display font-bold text-black">3/5</div>
-                            <p class="text-xs font-mono text-gray-500 uppercase">Projects Completed This Sem</p>
+                            <div class="text-2xl md:text-3xl font-display font-bold text-black">3/5</div>
+                            <p class="text-[10px] md:text-xs font-mono text-gray-500 uppercase">Projects Completed This
+                                Sem</p>
                         </div>
 
                         <button
@@ -454,14 +486,13 @@
                         </button>
                     </div>
 
-                    <!-- TILE 4: MENTORSHIP NEXUS (Student Empowerment) -->
+                    <!-- TILE 4: MENTORSHIP NEXUS -->
                     <div
-                        class="md:col-span-1 bg-impact text-white rounded-3xl p-8 cursor-pointer hover:bg-impact/90 transition-colors group shadow-md">
+                        class="md:col-span-1 bg-impact text-white rounded-3xl p-6 md:p-8 cursor-pointer hover:bg-impact/90 transition-colors group shadow-md">
                         <i data-lucide="users-2" class="w-8 h-8 mb-4 text-neon"></i>
-                        <h3 class="font-bold text-xl">Mentor Pairing</h3>
+                        <h3 class="font-bold text-lg md:text-xl">Mentor Pairing</h3>
                         <p class="text-xs opacity-70 mt-2">
-                            Connect directly with successful alumni and current senior achievers for project guidance
-                            and career talks.
+                            Connect directly with successful alumni.
                         </p>
 
                         <!-- User Mockup -->
@@ -478,34 +509,34 @@
                         </div>
 
                         <button
-                            class="mt-4 text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
+                            class="mt-4 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
                             Find My Guide
                         </button>
                     </div>
 
-                    <!-- TILE 5: HOPE AI (The Co-pilot - smaller tile) -->
+                    <!-- TILE 5: HOPE AI -->
                     <div
-                        class="md:col-span-1 bg-gray-100 border border-gray-200 rounded-3xl p-8 cursor-pointer hover:bg-white transition-colors group shadow-md">
+                        class="md:col-span-1 bg-gray-100 border border-gray-200 rounded-3xl p-6 md:p-8 cursor-pointer hover:bg-white transition-colors group shadow-md">
                         <i data-lucide="bot" class="w-8 h-8 mb-4 text-black"></i>
-                        <h3 class="font-bold text-xl">HOPE AI Guide</h3>
+                        <h3 class="font-bold text-lg md:text-xl">HOPE AI Guide</h3>
                         <p class="text-xs text-gray-500 mt-2">
                             24/7 contextual, syllabus-aware Q&A engine.
                         </p>
                         <div class="mt-4 font-mono text-xs text-gray-600">
-                            Quota: <span class="text-neon font-bold">48/50</span> Queries
+                            Quota: <span class="text-neon font-bold">48/50</span>
                         </div>
                     </div>
 
-                    <!-- TILE 6: ACHIEVER EXCHANGE (Social Impact/Community) -->
+                    <!-- TILE 6: ACHIEVER EXCHANGE -->
                     <div
-                        class="md:col-span-1 bg-black text-white rounded-3xl p-8 cursor-pointer hover:bg-ash transition-colors group relative overflow-hidden shadow-md">
+                        class="md:col-span-1 bg-black text-white rounded-3xl p-6 md:p-8 cursor-pointer hover:bg-ash transition-colors group relative overflow-hidden shadow-md">
                         <i data-lucide="messages-square" class="w-8 h-8 mb-4 text-impact"></i>
-                        <h3 class="font-bold text-xl">Achiever Exchange</h3>
+                        <h3 class="font-bold text-lg md:text-xl">Achiever Exchange</h3>
                         <p class="text-xs text-gray-400 mt-2">
-                            Collaborate, form study teams, and solve complex problems faster with your peers.
+                            Collaborate, form study teams, and solve complex problems.
                         </p>
-                        <div class="mt-4 font-mono text-xs text-neon">
-                            <span class="animate-pulse">●</span> 15 Teams Active Now
+                        <div class="mt-4 font-mono text-[10px] md:text-xs text-neon">
+                            <span class="animate-pulse">●</span> 15 Teams Active
                         </div>
                     </div>
 
@@ -516,224 +547,233 @@
         <!-- 3. OPPORTUNITIES: THE ENGINE (NEW) -->
         <!-- 3. OPPORTUNITIES: THE ENGINE -->
         <!-- 3. OPPORTUNITIES: THE ENGINE -->
-        <div id="opportunities" class="page-section hidden min-h-screen pt-32 pb-20 px-6 md:px-12 bg-ash text-white">
+        <div id="opportunities"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-ash text-white">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: OPPORTUNITY DYNAMICS - MISSION STATEMENT -->
-                <div class="mb-12 border-b border-gray-800 pb-8">
+                <div class="mb-8 md:mb-12 border-b border-gray-800 pb-6 md:pb-8">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="w-3 h-3 bg-neon rounded-full animate-pulse"></div>
-                        <p class="font-mono text-neon text-xs tracking-widest uppercase">MODULE 02: DYNAMIC DATA FEED
-                            (MISSION-CRITICAL)</p>
+                        <div class="w-2 h-2 md:w-3 md:h-3 bg-neon rounded-full animate-pulse"></div>
+                        <p class="font-mono text-neon text-[10px] md:text-xs tracking-widest uppercase">
+                            MODULE 02: DYNAMIC DATA FEED (MISSION-CRITICAL)
+                        </p>
                     </div>
-                    <h2 class="font-display text-5xl md:text-7xl font-bold leading-tight">OPPORTUNITY<br><span
-                            class="text-gray-400">DYNAMICS</span></h2>
-                    <p class="text-lg text-gray-400 mt-4 max-w-xl border-l-4 border-impact pl-4">
-                        The active engine that hunts, filters, and delivers every possible career pathway (Internships,
-                        Scholarships, Startups) directly to the Achiever Force. **Nothing is left to chance.**
+                    <h2 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight">
+                        OPPORTUNITY<br><span class="text-gray-400">DYNAMICS</span>
+                    </h2>
+                    <p class="text-sm md:text-lg text-gray-400 mt-4 max-w-xl border-l-4 border-impact pl-4">
+                        The active engine that hunts, filters, and delivers every possible career pathway directly to
+                        the Achiever Force. **Nothing is left to chance.**
                     </p>
                 </div>
 
                 <!-- MAIN OPPORTUNITY BOARD: The Engine Output -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                    <!-- COLUMN 1: LIVE FEED TERMINAL (Flight Board) - Dense and detailed -->
+                    <!-- COLUMN 1: LIVE FEED TERMINAL (Flight Board) -->
                     <div
-                        class="md:col-span-2 bg-black border border-gray-800 rounded-3xl overflow-hidden font-mono text-sm shadow-2xl">
-                        <div class="bg-gray-900 px-6 py-3 flex justify-between items-center border-b border-gray-800">
-                            <span class="text-gray-400">root@hope-engine:~/data-streams/incoming-ops</span>
-                            <div class="flex gap-2">
-                                <i data-lucide="scan" class="w-4 h-4 text-neon animate-pulse"></i>
-                                <span class="text-neon text-xs">Scanning 12 Feeds...</span>
+                        class="md:col-span-2 bg-black border border-gray-800 rounded-3xl overflow-hidden font-mono text-xs md:text-sm shadow-2xl flex flex-col max-h-[600px] md:max-h-none">
+
+                        <!-- Terminal Header -->
+                        <div
+                            class="bg-gray-900 px-4 md:px-6 py-3 flex justify-between items-center border-b border-gray-800 shrink-0">
+                            <span class="text-gray-400 truncate mr-2">root@hope-engine:~/ops</span>
+                            <div class="flex gap-2 shrink-0">
+                                <i data-lucide="scan" class="w-3 h-3 md:w-4 md:h-4 text-neon animate-pulse"></i>
+                                <span class="text-neon text-[10px] md:text-xs">Scanning...</span>
                             </div>
                         </div>
 
-                        <div class="p-4 md:p-6 space-y-2 max-h-[700px] overflow-y-auto terminal-scanline">
-                            <!-- Header -->
-                            <div
-                                class="grid grid-cols-12 text-gray-500 text-xs uppercase tracking-wider mb-2 pb-2 border-b border-gray-800 sticky top-0 bg-black z-10">
-                                <div class="col-span-2">Type</div>
-                                <div class="col-span-4">Role / Event Focus</div>
-                                <div class="col-span-3">Organization / Source</div>
-                                <div class="col-span-3 text-right">Deadline / Status</div>
-                            </div>
+                        <!-- Scrollable Content Area -->
+                        <!-- Added overflow-x-auto to allow horizontal scrolling on small screens -->
+                        <div
+                            class="p-4 md:p-6 space-y-2 overflow-y-auto overflow-x-auto terminal-scanline custom-scrollbar">
 
-                            <!-- Row 1: High Priority Internship (R&D) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-[10px] font-bold">INTERNSHIP</span>
-                                </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">Embedded Systems
-                                    (R&D)</div>
-                                <div class="col-span-3 text-gray-400">TCS Research Labs</div>
-                                <div class="col-span-3 text-right text-alert font-bold">24H LEFT <i
-                                        data-lucide="external-link" class="w-3 h-3 inline-block ml-1"></i></div>
-                            </div>
+                            <!-- Fixed Width Container to prevent squashing -->
+                            <div class="min-w-[600px]">
 
-                            <!-- Row 2: Scholarship Alert (High Value) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-purple-900 text-purple-300 px-2 py-1 rounded text-[10px] font-bold">SCHOLARSHIP</span>
+                                <!-- Table Header -->
+                                <div
+                                    class="grid grid-cols-12 text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-2 pb-2 border-b border-gray-800 sticky top-0 bg-black z-10">
+                                    <div class="col-span-2">Type</div>
+                                    <div class="col-span-4">Role / Event Focus</div>
+                                    <div class="col-span-3">Organization</div>
+                                    <div class="col-span-3 text-right">Status</div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">HOPE Merit Grant Q1
-                                </div>
-                                <div class="col-span-3 text-gray-400">HOPE FOUNDATION</div>
-                                <div class="col-span-3 text-right text-neon font-bold">ELIGIBLE (Applied)</div>
-                            </div>
 
-                            <!-- Row 3: Competition (CTF) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-red-900 text-red-300 px-2 py-1 rounded text-[10px] font-bold">COMPETE</span>
+                                <!-- Row 1: High Priority Internship -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-[10px] font-bold">INTERN</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        Embedded Systems (R&D)</div>
+                                    <div class="col-span-3 text-gray-400 truncate">TCS Research Labs</div>
+                                    <div
+                                        class="col-span-3 text-right text-alert font-bold flex items-center justify-end gap-1">
+                                        24H LEFT <i data-lucide="external-link" class="w-3 h-3"></i>
+                                    </div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">Global CTF Cyber
-                                    Challenge</div>
-                                <div class="col-span-3 text-gray-400">Infosys / TechCrunch</div>
-                                <div class="col-span-3 text-right text-alert font-bold">CLOSING SOON</div>
-                            </div>
 
-                            <!-- Row 4: Workshop/Skill Injection (New Content) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-green-900 text-green-300 px-2 py-1 rounded text-[10px] font-bold">WORKSHOP</span>
+                                <!-- Row 2: Scholarship Alert -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-purple-900 text-purple-300 px-2 py-1 rounded text-[10px] font-bold">GRANT</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        HOPE Merit Grant Q1</div>
+                                    <div class="col-span-3 text-gray-400 truncate">HOPE FOUNDATION</div>
+                                    <div class="col-span-3 text-right text-neon font-bold">ELIGIBLE</div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">Advanced Prompt
-                                    Engineering (LLMs)</div>
-                                <div class="col-span-3 text-gray-400">HOPE AI Team</div>
-                                <div class="col-span-3 text-right text-gray-500">View Details</div>
-                            </div>
 
-                            <!-- Row 5: Startup Exposure (Networking) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-orange-900 text-orange-300 px-2 py-1 rounded text-[10px] font-bold">EXPOSURE</span>
+                                <!-- Row 3: Competition -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-red-900 text-red-300 px-2 py-1 rounded text-[10px] font-bold">COMPETE</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        Global CTF Cyber Challenge</div>
+                                    <div class="col-span-3 text-gray-400 truncate">Infosys / TechCrunch</div>
+                                    <div class="col-span-3 text-right text-alert font-bold">CLOSING</div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">FinTech Disruptor
-                                    Meetup (Virtual)</div>
-                                <div class="col-span-3 text-gray-400">Incubator Hub</div>
-                                <div class="col-span-3 text-right text-gray-500">RSVP Required</div>
-                            </div>
 
-                            <!-- Row 6: Placement Drive (Pre-Reg) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-gray-700 text-white px-2 py-1 rounded text-[10px] font-bold">PLACEMENT</span>
+                                <!-- Row 4: Workshop -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-green-900 text-green-300 px-2 py-1 rounded text-[10px] font-bold">SKILL</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        Adv. Prompt Engineering</div>
+                                    <div class="col-span-3 text-gray-400 truncate">HOPE AI Team</div>
+                                    <div class="col-span-3 text-right text-gray-500">OPEN</div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">Campus Drive 2026
-                                    Batch</div>
-                                <div class="col-span-3 text-gray-400">Wipro / Cognizant</div>
-                                <div class="col-span-3 text-right text-neon font-bold">PRE-REGISTER</div>
-                            </div>
 
-                            <!-- Row 7: Student Entrepreneurship Showcase (Impact Link) -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-impact text-white px-2 py-1 rounded text-[10px] font-bold">SHOWCASE</span>
+                                <!-- Row 5: Startup -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-orange-900 text-orange-300 px-2 py-1 rounded text-[10px] font-bold">EVENT</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        FinTech Disruptor Meetup</div>
+                                    <div class="col-span-3 text-gray-400 truncate">Incubator Hub</div>
+                                    <div class="col-span-3 text-right text-gray-500">RSVP</div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">Social Impact Project
-                                    Demo Day</div>
-                                <div class="col-span-3 text-gray-400">HOPE Stage & Mentors</div>
-                                <div class="col-span-3 text-right text-gray-500">SUBMIT PROJECT</div>
-                            </div>
 
-                            <!-- Row 8: Resume Review -->
-                            <div
-                                class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
-                                <div class="col-span-2"><span
-                                        class="bg-yellow-900 text-yellow-300 px-2 py-1 rounded text-[10px] font-bold">MENTOR</span>
+                                <!-- Row 6: Placement -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-gray-700 text-white px-2 py-1 rounded text-[10px] font-bold">JOB</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        Campus Drive 2026 Batch</div>
+                                    <div class="col-span-3 text-gray-400 truncate">Wipro / Cognizant</div>
+                                    <div class="col-span-3 text-right text-neon font-bold">PRE-REG</div>
                                 </div>
-                                <div class="col-span-4 font-bold text-white group-hover:text-neon">Resume/CV
-                                    Optimization Session</div>
-                                <div class="col-span-3 text-gray-400">Alumni Network</div>
-                                <div class="col-span-3 text-right text-gray-500">BOOK SLOT</div>
-                            </div>
 
+                                <!-- Row 7: Showcase -->
+                                <div
+                                    class="grid grid-cols-12 items-center hover:bg-gray-900 p-2 -mx-2 rounded cursor-pointer group transition-colors">
+                                    <div class="col-span-2">
+                                        <span
+                                            class="bg-impact text-white px-2 py-1 rounded text-[10px] font-bold">DEMO</span>
+                                    </div>
+                                    <div class="col-span-4 font-bold text-white group-hover:text-neon truncate pr-2">
+                                        Social Impact Demo Day</div>
+                                    <div class="col-span-3 text-gray-400 truncate">HOPE Stage</div>
+                                    <div class="col-span-3 text-right text-gray-500">SUBMIT</div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
                     <!-- COLUMN 2: ACTION MODULES (KPIs and Auxiliary Tools) -->
-                    <div class="md:col-span-1 space-y-6">
+                    <div class="md:col-span-1 space-y-4 md:space-y-6">
 
-                        <!-- KPI BLOCK: Engine Performance - Detailed -->
-                        <div class="bg-black border border-gray-800 p-6 rounded-3xl shadow-xl">
+                        <!-- KPI BLOCK: Engine Performance -->
+                        <div class="bg-black border border-gray-800 p-4 md:p-6 rounded-3xl shadow-xl">
                             <div class="flex items-center gap-3 mb-4 border-b border-gray-800 pb-2">
-                                <i data-lucide="activity-square" class="w-6 h-6 text-neon"></i>
-                                <h3 class="font-display text-2xl font-bold">Engine Metrics</h3>
+                                <i data-lucide="activity-square" class="w-5 h-5 md:w-6 md:h-6 text-neon"></i>
+                                <h3 class="font-display text-xl md:text-2xl font-bold">Engine Metrics</h3>
                             </div>
-                            <div class="space-y-4">
+                            <div class="space-y-3 md:space-y-4">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-mono text-sm">Opportunities Mapped:</span>
-                                    <span class="text-neon font-bold text-xl">102</span>
+                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Opportunities:</span>
+                                    <span class="text-neon font-bold text-lg md:text-xl">102</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-mono text-sm">Internships Available (Q1):</span>
-                                    <span class="text-white font-bold text-xl">42</span>
+                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Internships (Q1):</span>
+                                    <span class="text-white font-bold text-lg md:text-xl">42</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-mono text-sm">Placement Success Rate:</span>
-                                    <span class="text-impact font-bold text-3xl">88%</span>
+                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Success Rate:</span>
+                                    <span class="text-impact font-bold text-2xl md:text-3xl">88%</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Startup Incubator - Enhanced -->
-                        <div class="bg-ash border border-gray-800 p-6 rounded-3xl shadow-xl">
+                        <!-- Startup Incubator -->
+                        <div class="bg-ash border border-gray-800 p-4 md:p-6 rounded-3xl shadow-xl">
                             <div class="flex items-center gap-3 mb-3">
-                                <i data-lucide="layers" class="w-6 h-6 text-neon"></i>
-                                <h3 class="font-display text-2xl font-bold">Startup Incubator</h3>
+                                <i data-lucide="layers" class="w-5 h-5 md:w-6 md:h-6 text-neon"></i>
+                                <h3 class="font-display text-xl md:text-2xl font-bold">Incubator</h3>
                             </div>
-                            <p class="text-gray-400 text-sm mb-4">
-                                From idea to incorporation. We handle the paperwork, team formation, and mentor
-                                matching.
+                            <p class="text-gray-400 text-xs md:text-sm mb-4">
+                                From idea to incorporation. We handle paperwork & mentors.
                             </p>
                             <button
-                                class="text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-neon">
+                                class="text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-neon">
                                 Apply for Seed Capital
                             </button>
-                            <div class="mt-3 font-mono text-xs text-gray-500">Next Pitch Day: T-4 Weeks</div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Next Pitch: T-4 Weeks</div>
                         </div>
 
-                        <!-- Scholarship Radar - Enhanced -->
-                        <div class="bg-ash border border-gray-800 p-6 rounded-3xl shadow-xl">
+                        <!-- Scholarship Radar -->
+                        <div class="bg-ash border border-gray-800 p-4 md:p-6 rounded-3xl shadow-xl">
                             <div class="flex items-center gap-3 mb-3">
-                                <i data-lucide="graduation-cap" class="w-6 h-6 text-impact"></i>
-                                <h3 class="font-display text-2xl font-bold">Scholarship Radar</h3>
+                                <i data-lucide="graduation-cap" class="w-5 h-5 md:w-6 md:h-6 text-impact"></i>
+                                <h3 class="font-display text-xl md:text-2xl font-bold">Grant Radar</h3>
                             </div>
-                            <p class="text-gray-400 text-sm mb-4">
-                                Automated eligibility and personalized grant recommendations based on your academic
-                                profile.
+                            <p class="text-gray-400 text-xs md:text-sm mb-4">
+                                Automated eligibility and personalized grant recommendations.
                             </p>
                             <button
-                                class="text-xs font-bold uppercase tracking-widest border-b border-impact text-impact pb-1 hover:text-neon">
-                                Run Auto-Fill Application
+                                class="text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-impact text-impact pb-1 hover:text-neon">
+                                Auto-Fill Application
                             </button>
-                            <div class="mt-3 font-mono text-xs text-gray-500">Total Grants Secured by Achievers: <span
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Secured: <span
                                     class="text-white font-bold">₹1.4M+</span></div>
                         </div>
 
-                        <!-- NEW BLOCK: Competition Hub -->
-                        <div class="bg-ash border border-gray-800 p-6 rounded-3xl shadow-xl">
+                        <!-- Competition Hub -->
+                        <div class="bg-ash border border-gray-800 p-4 md:p-6 rounded-3xl shadow-xl">
                             <div class="flex items-center gap-3 mb-3">
-                                <i data-lucide="swords" class="w-6 h-6 text-alert"></i>
-                                <h3 class="font-display text-2xl font-bold">Competition Hub</h3>
+                                <i data-lucide="swords" class="w-5 h-5 md:w-6 md:h-6 text-alert"></i>
+                                <h3 class="font-display text-xl md:text-2xl font-bold">Compete</h3>
                             </div>
-                            <p class="text-gray-400 text-sm mb-4">
-                                Centralized entry point for global Hackathons, Coding Challenges, and Design
-                                Competitions.
+                            <p class="text-gray-400 text-xs md:text-sm mb-4">
+                                Hackathons, Coding Challenges, and Design Competitions.
                             </p>
                             <button
-                                class="text-xs font-bold uppercase tracking-widest border-b border-alert text-alert pb-1 hover:text-neon">
-                                View Upcoming Events
+                                class="text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-alert text-alert pb-1 hover:text-neon">
+                                View Events
                             </button>
-                            <div class="mt-3 font-mono text-xs text-gray-500">Pending Registrations: 3</div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Pending Regs: 3</div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -741,22 +781,25 @@
 
         <!-- 4. IOT: THE TECH WING (FABRICATION PROTOCOL) -->
         <!-- 4. IOT: THE TECH WING (FABRICATION PROTOCOL) -->
-        <div id="iot" class="page-section hidden min-h-screen pt-32 pb-20 px-6 md:px-12 bg-void text-white">
+        <div id="iot"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-void text-white">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: FABRICATION PROTOCOL - SYSTEM CORE ALIGNMENT -->
                 <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-gray-800 pb-8">
-                    <div>
-                        <p class="font-mono text-xs uppercase tracking-[0.2em] text-neon mb-3">Module 03: Engineering
-                            the Solution</p>
-                        <h2 class="font-display text-6xl md:text-7xl font-bold leading-tight">FABRICATION<br><span
-                                class="text-gray-700">PROTOCOL</span></h2>
+                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 border-b border-gray-800 pb-6 md:pb-8">
+                    <div class="mb-6 md:mb-0">
+                        <p class="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-neon mb-2 md:mb-3">
+                            Module 03: Engineering the Solution
+                        </p>
+                        <h2 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight">
+                            FABRICATION<br><span class="text-gray-700">PROTOCOL</span>
+                        </h2>
                     </div>
-                    <div class="mt-4 md:mt-0 text-left md:text-right max-w-sm border-l-4 border-neon pl-4">
-                        <p class="font-sans text-lg font-medium text-gray-400">
+                    <div class="mt-2 md:mt-0 text-left md:text-right max-w-sm border-l-4 border-neon pl-4">
+                        <p class="font-sans text-base md:text-lg font-medium text-gray-400">
                             We transcend theoretical education. This is where competence is proven through AI, robotics,
-                            and embedded systems—building **real products** for **real impact**.
+                            and embedded systems.
                         </p>
                     </div>
                 </div>
@@ -765,23 +808,26 @@
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
                     <!-- COLUMN 1 (1/4): CORE FABRICATION TRACKS (The Skill Injection) -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-3xl font-bold text-neon mb-4">Skill Injection <i
-                                data-lucide="layers-3" class="w-6 h-6 inline-block"></i></h3>
-                        <p class="text-sm text-gray-500 font-mono border-b border-gray-800 pb-2">Select a path that
-                            directly aligns with industrial R&D requirements.</p>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-neon mb-2 md:mb-4">
+                            Skill Injection <i data-lucide="layers-3" class="w-5 h-5 md:w-6 md:h-6 inline-block"></i>
+                        </h3>
+                        <p class="text-xs md:text-sm text-gray-500 font-mono border-b border-gray-800 pb-2">
+                            Select a path aligned with R&D requirements.
+                        </p>
 
                         <!-- Track 1: AI/Embedded (Expert) -->
                         <div
                             class="p-4 rounded-xl bg-ash border border-gray-800 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <div class="flex justify-between items-start">
-                                <i data-lucide="brain" class="w-6 h-6 text-white"></i>
+                                <i data-lucide="brain" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
                                 <span class="bg-impact/20 text-impact px-2 py-0.5 rounded-full text-[10px] font-bold">L4
                                     - AI</span>
                             </div>
-                            <h4 class="font-bold text-lg mt-2 group-hover:text-impact">AI Edge Computing</h4>
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">AI Edge Computing
+                            </h4>
                             <p class="text-xs text-gray-400 mt-1">
-                                Deploying TensorFlow Lite on Raspberry Pi for real-time object detection.
+                                Deploying TensorFlow Lite on Raspberry Pi.
                             </p>
                         </div>
 
@@ -789,13 +835,14 @@
                         <div
                             class="p-4 rounded-xl bg-ash border border-gray-800 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <div class="flex justify-between items-start">
-                                <i data-lucide="armchair" class="w-6 h-6 text-white"></i>
+                                <i data-lucide="armchair" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
                                 <span class="bg-neon/20 text-neon px-2 py-0.5 rounded-full text-[10px] font-bold">L2 -
                                     ROS</span>
                             </div>
-                            <h4 class="font-bold text-lg mt-2 group-hover:text-impact">Industrial Arm Simulation</h4>
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">Industrial Arm Sim
+                            </h4>
                             <p class="text-xs text-gray-400 mt-1">
-                                Mastering inverse kinematics and control loop stability (6-DOF).
+                                Inverse kinematics and control loop stability.
                             </p>
                         </div>
 
@@ -803,14 +850,15 @@
                         <div
                             class="p-4 rounded-xl bg-ash border border-gray-800 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <div class="flex justify-between items-start">
-                                <i data-lucide="plane" class="w-6 h-6 text-white"></i>
+                                <i data-lucide="plane" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
                                 <span
                                     class="bg-gray-600/20 text-gray-400 px-2 py-0.5 rounded-full text-[10px] font-bold">L1
                                     - UAV</span>
                             </div>
-                            <h4 class="font-bold text-lg mt-2 group-hover:text-impact">UAV Telemetry Basics</h4>
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">UAV Telemetry Basics
+                            </h4>
                             <p class="text-xs text-gray-400 mt-1">
-                                Introduction to flight controllers and GPS mapping using Python.
+                                Flight controllers and GPS mapping.
                             </p>
                         </div>
 
@@ -818,13 +866,13 @@
                         <div
                             class="p-4 rounded-xl bg-ash border border-gray-800 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <div class="flex justify-between items-start">
-                                <i data-lucide="network" class="w-6 h-6 text-white"></i>
+                                <i data-lucide="network" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
                                 <span class="bg-alert/20 text-alert px-2 py-0.5 rounded-full text-[10px] font-bold">L3 -
                                     Security</span>
                             </div>
-                            <h4 class="font-bold text-lg mt-2 group-hover:text-impact">Secure IoT Mesh</h4>
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">Secure IoT Mesh</h4>
                             <p class="text-xs text-gray-400 mt-1">
-                                Securing ESP32 clusters and preventing common attack vectors.
+                                Securing ESP32 clusters and attack vectors.
                             </p>
                         </div>
                     </div>
@@ -832,130 +880,138 @@
                     <!-- COLUMN 2 & 3 (2/4): LIVE VISUALIZATION & CONTROL HUB -->
                     <div class="lg:col-span-2 space-y-6">
                         <!-- Live Simulation Canvas -->
-                        <div class="h-[400px] relative bg-black rounded-3xl p-6 border border-neon shadow-2xl">
+                        <!-- Reduced height on mobile (h-[300px]) vs desktop (h-[400px]) -->
+                        <div
+                            class="h-[300px] md:h-[400px] relative bg-black rounded-3xl p-4 md:p-6 border border-neon shadow-2xl overflow-hidden">
                             <div id="canvas-iot" class="w-full h-full"></div>
-                            <div class="absolute top-6 left-6 font-mono text-xs text-neon flex items-center gap-2">
+
+                            <div
+                                class="absolute top-4 left-4 md:top-6 md:left-6 font-mono text-[10px] md:text-xs text-neon flex items-center gap-2 pointer-events-none">
                                 <div class="w-2 h-2 bg-neon rounded-full animate-pulse"></div>
-                                RUNTIME KINEMATICS SIMULATION (v2.1)
+                                KINEMATICS SIM (v2.1)
                             </div>
 
                             <!-- Control Panel Mock -->
                             <div
-                                class="absolute bottom-6 right-6 p-3 bg-gray-900/80 backdrop-blur-sm rounded-xl font-mono text-xs">
-                                <p class="text-gray-500 mb-1">CONTROL PANE</p>
-                                <div class="flex gap-3">
+                                class="absolute bottom-4 right-4 md:bottom-6 md:right-6 p-2 md:p-3 bg-gray-900/80 backdrop-blur-sm rounded-xl font-mono text-[10px] md:text-xs border border-gray-800">
+                                <p class="text-gray-500 mb-1 uppercase">Control Pane</p>
+                                <div class="flex gap-2">
                                     <button
-                                        class="px-2 py-1 bg-impact text-white rounded hover:bg-impact/80">RUN</button>
+                                        class="px-2 py-1 bg-impact text-white rounded hover:bg-impact/80 transition-colors">RUN</button>
                                     <button
-                                        class="px-2 py-1 bg-alert text-white rounded hover:bg-alert/80">STOP</button>
-                                    <span class="text-gray-400">Cycles: 12/20</span>
+                                        class="px-2 py-1 bg-alert text-white rounded hover:bg-alert/80 transition-colors">STOP</button>
+                                    <span class="text-gray-400 self-center ml-1 hidden sm:inline">Cycles: 12/20</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- PROJECT SUBMISSION AND REMOTE ACCESS -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                             <div
                                 class="bg-ash p-6 rounded-3xl border border-gray-800 hover:border-neon transition-colors cursor-pointer group">
                                 <i data-lucide="archive" class="w-6 h-6 text-impact mb-2"></i>
-                                <h4 class="font-bold text-xl group-hover:text-neon">Portfolio Sync</h4>
-                                <p class="text-xs text-gray-400 mt-1">Submit your project for industrial grading and
-                                    certification.</p>
+                                <h4 class="font-bold text-lg md:text-xl group-hover:text-neon">Portfolio Sync</h4>
+                                <p class="text-xs text-gray-400 mt-1">Submit your project for certification.</p>
                                 <button
-                                    class="mt-3 text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
-                                    Submit Artifact (3 Pending)
+                                    class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
+                                    Submit Artifact (3)
                                 </button>
                             </div>
                             <div
                                 class="bg-ash p-6 rounded-3xl border border-gray-800 hover:border-neon transition-colors cursor-pointer group">
                                 <i data-lucide="monitor-dot" class="w-6 h-6 text-impact mb-2"></i>
-                                <h4 class="font-bold text-xl group-hover:text-neon">Remote Lab Access</h4>
-                                <p class="text-xs text-gray-400 mt-1">Book terminal access to the physical lab equipment
-                                    after hours.</p>
+                                <h4 class="font-bold text-lg md:text-xl group-hover:text-neon">Remote Lab</h4>
+                                <p class="text-xs text-gray-400 mt-1">Book terminal access to equipment.</p>
                                 <button
-                                    class="mt-3 text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
-                                    Request Time Slot (0/4 Slots Used)
+                                    class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
+                                    Request Slot (0/4)
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     <!-- COLUMN 4 (1/4): RESOURCE MATRIX (Supply Chain & Certification) -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-3xl font-bold text-impact mb-4">Resource Matrix <i
-                                data-lucide="package-search" class="w-6 h-6 inline-block"></i></h3>
-                        <p class="text-sm text-gray-500 font-mono border-b border-gray-800 pb-2">Integrated supply chain
-                            and accreditation pathway.</p>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-impact mb-2 md:mb-4">
+                            Resource Matrix <i data-lucide="package-search"
+                                class="w-5 h-5 md:w-6 md:h-6 inline-block"></i>
+                        </h3>
+                        <p class="text-xs md:text-sm text-gray-500 font-mono border-b border-gray-800 pb-2">
+                            Integrated supply chain.
+                        </p>
 
-                        <!-- Tool Library Access (High Value Asset) -->
+                        <!-- Tool Library Access -->
                         <div class="p-4 rounded-xl bg-black border border-gray-700 shadow-xl">
-                            <i data-lucide="wrench" class="w-6 h-6 text-neon mb-2"></i>
-                            <h4 class="font-bold text-lg">Tool Library Checkout</h4>
-                            <p class="text-xs text-gray-400 mt-1">Access high-value tools (Scopes, Reflow Stations, 3D
-                                Printers).</p>
-                            <div class="mt-3 font-mono text-xs text-gray-500">
+                            <i data-lucide="wrench" class="w-5 h-5 md:w-6 md:h-6 text-neon mb-2"></i>
+                            <h4 class="font-bold text-base md:text-lg">Tool Checkout</h4>
+                            <p class="text-xs text-gray-400 mt-1">Access high-value tools (Scopes, 3D Printers).</p>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">
                                 Available: <span class="text-neon font-bold">14/20</span>
                             </div>
                         </div>
 
-                        <!-- Direct E-Commerce Link (The Survival System Link) -->
+                        <!-- Direct E-Commerce Link -->
                         <div onclick="router('shop')"
                             class="p-4 rounded-xl bg-black border border-gray-700 hover:border-impact transition-colors cursor-pointer group shadow-xl">
-                            <i data-lucide="truck" class="w-6 h-6 text-impact mb-2"></i>
-                            <h4 class="font-bold text-lg group-hover:text-impact">Component Supply</h4>
+                            <i data-lucide="truck" class="w-5 h-5 md:w-6 md:h-6 text-impact mb-2"></i>
+                            <h4 class="font-bold text-base md:text-lg group-hover:text-impact">Component Supply</h4>
                             <p class="text-xs text-gray-400 mt-1">
-                                Instant, curated delivery of RPi, ESP, and sensor kits from the E-Commerce wing.
+                                Instant delivery of RPi, ESP, and sensor kits.
                             </p>
-                            <div class="mt-3 font-mono text-xs text-gray-500">
-                                Status: <span class="text-impact font-bold">Priority Delivery Active</span>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">
+                                Status: <span class="text-impact font-bold">Active</span>
                             </div>
                         </div>
 
-                        <!-- Accreditation and Certification (Career Alignment) -->
+                        <!-- Accreditation -->
                         <div class="p-4 rounded-xl bg-black border border-gray-700 shadow-xl">
-                            <i data-lucide="award" class="w-6 h-6 text-white mb-2"></i>
-                            <h4 class="font-bold text-lg">Fabrication Certification</h4>
+                            <i data-lucide="award" class="w-5 h-5 md:w-6 md:h-6 text-white mb-2"></i>
+                            <h4 class="font-bold text-base md:text-lg">Fabrication Cert</h4>
                             <p class="text-xs text-gray-400 mt-1">
-                                Achieve industry-recognized certification for internship preference.
+                                Industry-recognized certification.
                             </p>
-                            <div class="mt-3 font-mono text-xs text-gray-500">
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">
                                 Next Exam: <span class="text-neon font-bold">Q1 2025</span>
                             </div>
                         </div>
 
-                        <!-- NEW BLOCK: Impact Project Link -->
+                        <!-- Impact Link -->
                         <div onclick="router('impact')"
                             class="p-4 rounded-xl bg-impact border border-impact/50 hover:bg-impact/90 transition-colors cursor-pointer group shadow-xl">
-                            <i data-lucide="heart" class="w-6 h-6 text-neon mb-2"></i>
-                            <h4 class="font-bold text-lg group-hover:text-white">Social Impact Projects</h4>
+                            <i data-lucide="heart" class="w-5 h-5 md:w-6 md:h-6 text-neon mb-2"></i>
+                            <h4 class="font-bold text-base md:text-lg group-hover:text-white">Social Impact</h4>
                             <p class="text-xs text-white/80 mt-1">
-                                Apply your fabrication skills to solve real-world problems for the vulnerable.
+                                Solve real-world problems.
                             </p>
-                            <div class="mt-3 font-mono text-xs text-white">
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">
                                 <span class="font-bold">2</span> Active Deployments
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
         <!-- 5. SHOP: STUDENT SURVIVAL SYSTEM -->
         <!-- 5. SHOP: STUDENT SURVIVAL SYSTEM -->
-        <div id="shop" class="page-section hidden min-h-screen pt-32 pb-20 px-6 md:px-12 bg-concrete">
+        <div id="shop"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-concrete">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: SURVIVAL SYSTEM - HYPER-LOCAL LOGISTICS -->
                 <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-gray-300 pb-8">
-                    <div>
-                        <p class="font-mono text-xs uppercase tracking-[0.2em] text-neon mb-3">Module 04: Logistical
-                            Support Matrix</p>
-                        <h2 class="font-display text-6xl md:text-7xl font-bold leading-tight">SURVIVAL<br><span
-                                class="text-gray-600">SYSTEM</span></h2>
+                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 border-b border-gray-300 pb-6 md:pb-8">
+                    <div class="mb-4 md:mb-0">
+                        <p class="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-neon mb-2 md:mb-3">
+                            Module 04: Logistical Support Matrix
+                        </p>
+                        <h2 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight">
+                            SURVIVAL<br><span class="text-gray-600">SYSTEM</span>
+                        </h2>
                     </div>
-                    <div class="mt-4 md:mt-0 text-left md:text-right max-w-lg border-l-4 border-impact pl-4">
-                        <p class="font-sans text-lg font-medium text-void">
+                    <div class="mt-2 md:mt-0 text-left md:text-right max-w-lg border-l-4 border-impact pl-4">
+                        <p class="font-sans text-base md:text-lg font-medium text-void">
                             Curated essentials and tech components—delivered quicker than a promise. Directly supporting
                             academic, project, and emergency student needs.
                         </p>
@@ -963,19 +1019,21 @@
                 </div>
 
                 <!-- MAIN GRID: HIGH-DENSITY SERVICE & PRODUCT MATRIX (3 Columns) -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
 
                     <!-- COLUMN 1: ACADEMIC ESSENTIALS & FINANCIAL RELIEF -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-2xl font-bold border-b border-gray-300 pb-2 text-impact">Academic
-                            Readiness <i data-lucide="award" class="w-5 h-5 inline-block"></i></h3>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3
+                            class="font-display text-xl md:text-2xl font-bold border-b border-gray-300 pb-2 text-impact">
+                            Academic Readiness <i data-lucide="award" class="w-4 h-4 md:w-5 md:h-5 inline-block"></i>
+                        </h3>
 
                         <!-- Product 1: Exam Survival Kit -->
                         <div
                             class="group bg-white rounded-xl p-4 cursor-pointer hover:shadow-xl transition-all duration-300 border border-gray-200">
-                            <div class="h-32 bg-gray-100 rounded-lg flex items-center justify-center relative">
+                            <div class="h-28 md:h-32 bg-gray-100 rounded-lg flex items-center justify-center relative">
                                 <i data-lucide="shield-check"
-                                    class="w-12 h-12 text-gray-300 group-hover:text-impact transition-colors"></i>
+                                    class="w-10 h-10 md:w-12 md:h-12 text-gray-300 group-hover:text-impact transition-colors"></i>
                                 <span
                                     class="absolute top-2 right-2 bg-black text-neon text-[10px] px-2 py-0.5 rounded-full font-bold">HIGH
                                     DEMAND</span>
@@ -986,9 +1044,9 @@
                                     All-Nighters)</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl">₹299</span>
-                                    <button
-                                        class="bg-black text-white px-3 py-1 rounded-lg text-sm hover:bg-impact">Quick
-                                        Order</button>
+                                    <button class="bg-black text-white px-3 py-1 rounded-lg text-sm hover:bg-impact">
+                                        Quick Order
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -996,33 +1054,35 @@
                         <!-- Product 2: Used Book Exchange (Social Impact Link) -->
                         <div
                             class="group bg-impact/10 rounded-xl p-4 cursor-pointer hover:shadow-xl transition-all duration-300 border border-impact/20">
-                            <div class="h-32 bg-impact/5 rounded-lg flex items-center justify-center relative">
-                                <i data-lucide="piggy-bank" class="w-12 h-12 text-impact transition-colors"></i>
+                            <div class="h-28 md:h-32 bg-impact/5 rounded-lg flex items-center justify-center relative">
+                                <i data-lucide="piggy-bank"
+                                    class="w-10 h-10 md:w-12 md:h-12 text-impact transition-colors"></i>
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg text-impact">Used Textbook Exchange</h4>
                                 <p class="text-xs text-gray-700">Buy and sell previous semester books instantly. Drives
-                                    down financial barriers for students.</p>
+                                    down financial barriers.</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl text-impact">~50% OFF</span>
-                                    <button
-                                        class="bg-impact text-white px-3 py-1 rounded-lg text-sm hover:bg-black">Browse
-                                        Inventory</button>
+                                    <button class="bg-impact text-white px-3 py-1 rounded-lg text-sm hover:bg-black">
+                                        Browse Inventory
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- COLUMN 2: FABRICATION & TECH SUPPLY CHAIN -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-2xl font-bold border-b border-gray-300 pb-2 text-neon">Fabrication
-                            Drop <i data-lucide="cpu" class="w-5 h-5 inline-block"></i></h3>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-xl md:text-2xl font-bold border-b border-gray-300 pb-2 text-neon">
+                            Fabrication Drop <i data-lucide="cpu" class="w-4 h-4 md:w-5 md:h-5 inline-block"></i>
+                        </h3>
 
                         <!-- Product 3: IoT Starter Kit (Direct Lab Link) -->
                         <div onclick="router('iot')"
                             class="group bg-white rounded-xl p-4 cursor-pointer hover:shadow-xl transition-all duration-300 border border-gray-200">
                             <div
-                                class="h-32 bg-gray-100 rounded-lg flex items-center justify-center relative overflow-hidden">
+                                class="h-28 md:h-32 bg-gray-100 rounded-lg flex items-center justify-center relative overflow-hidden">
                                 <div id="canvas-shop-1" class="w-full h-full absolute inset-0 opacity-80"></div>
                                 <span
                                     class="absolute top-2 left-2 bg-black text-neon text-[10px] px-2 py-0.5 rounded-full font-bold">PROJECT
@@ -1030,12 +1090,14 @@
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg">ESP32 Project Kit</h4>
-                                <p class="text-xs text-gray-500">Wi-Fi/Bluetooth Enabled Microcontroller + Sensors</p>
+                                <p class="text-xs text-gray-500">Wi-Fi/Bluetooth Microcontroller + Sensors</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl">₹950</span>
+                                    <!-- Shortened button text for better mobile fit -->
                                     <button
-                                        class="bg-neon text-black px-3 py-1 rounded-lg text-sm font-bold hover:bg-black hover:text-neon">Add
-                                        to Fabrication Queue</button>
+                                        class="bg-neon text-black px-3 py-1 rounded-lg text-sm font-bold hover:bg-black hover:text-neon">
+                                        Add to Queue
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1043,9 +1105,9 @@
                         <!-- Service 4: 3D Printing / Custom Fabrication -->
                         <div
                             class="group bg-white rounded-xl p-4 cursor-pointer hover:shadow-xl transition-all duration-300 border border-gray-200">
-                            <div class="h-32 bg-gray-100 rounded-lg flex items-center justify-center relative">
+                            <div class="h-28 md:h-32 bg-gray-100 rounded-lg flex items-center justify-center relative">
                                 <i data-lucide="hard-hat"
-                                    class="w-12 h-12 text-gray-300 group-hover:text-neon transition-colors"></i>
+                                    class="w-10 h-10 md:w-12 md:h-12 text-gray-300 group-hover:text-neon transition-colors"></i>
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg">Custom 3D Print Service</h4>
@@ -1054,58 +1116,63 @@
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl">₹10/gram</span>
                                     <button
-                                        class="bg-black text-white px-3 py-1 rounded-lg text-sm hover:bg-neon hover:text-black">Upload
-                                        STL</button>
+                                        class="bg-black text-white px-3 py-1 rounded-lg text-sm hover:bg-neon hover:text-black">
+                                        Upload STL
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- COLUMN 3: HYPER-LOGISTICS & EMERGENCY PROTOCOLS -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-2xl font-bold border-b border-gray-300 pb-2 text-alert">Emergency &
-                            Service Protocol <i data-lucide="truck" class="w-5 h-5 inline-block"></i></h3>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-xl md:text-2xl font-bold border-b border-gray-300 pb-2 text-alert">
+                            Emergency Protocol <i data-lucide="truck" class="w-4 h-4 md:w-5 md:h-5 inline-block"></i>
+                        </h3>
 
                         <!-- Service 5: The Panic Button (Core Mission Feature) -->
                         <div
-                            class="p-6 bg-alert/20 border-2 border-alert rounded-xl shadow-xl animate-pulse cursor-pointer hover:bg-alert/30 transition-colors">
+                            class="p-4 md:p-6 bg-alert/20 border-2 border-alert rounded-xl shadow-xl animate-pulse cursor-pointer hover:bg-alert/30 transition-colors">
                             <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-4">
-                                    <i data-lucide="zap" class="w-8 h-8 text-alert"></i>
+                                <div class="flex items-start gap-4">
+                                    <i data-lucide="zap" class="w-6 h-6 md:w-8 md:h-8 text-alert shrink-0"></i>
                                     <div>
-                                        <h4 class="font-bold text-xl text-alert">PANIC BUTTON (10 Min Drop)</h4>
-                                        <p class="text-xs text-gray-700">Immediate delivery to Dorm, Library, or Lab.
-                                            Max 3 critical items.</p>
+                                        <h4 class="font-bold text-lg md:text-xl text-alert">PANIC BUTTON (10 Min Drop)
+                                        </h4>
+                                        <p class="text-xs text-gray-700 mt-0.5">Immediate delivery to Dorm, Library, or
+                                            Lab. Max 3 critical items.</p>
                                     </div>
                                 </div>
                             </div>
                             <button
-                                class="mt-4 w-full bg-alert text-white py-3 rounded-lg text-sm font-bold uppercase hover:bg-black transition-colors">Activate
-                                Priority Delivery</button>
+                                class="mt-4 w-full bg-alert text-white py-2 md:py-3 rounded-lg text-sm font-bold uppercase hover:bg-black transition-colors">
+                                Activate Priority Delivery
+                            </button>
                         </div>
 
                         <!-- Service 6: Midnight Print Run (Time-Critical Service) -->
                         <div
-                            class="p-6 bg-white rounded-xl border border-gray-200 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-4">
-                                    <i data-lucide="printer" class="w-8 h-8 text-black"></i>
+                            class="p-4 md:p-6 bg-white rounded-xl border border-gray-200 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex items-start gap-4">
+                                    <i data-lucide="printer" class="w-6 h-6 md:w-8 md:h-8 text-black shrink-0"></i>
                                     <div>
-                                        <h4 class="font-bold text-xl">Midnight Print Run</h4>
-                                        <p class="text-xs text-gray-500">2 AM Deadline. Perfect for last-minute report
-                                            submissions.</p>
+                                        <h4 class="font-bold text-lg md:text-xl">Midnight Print Run</h4>
+                                        <p class="text-xs text-gray-500 mt-0.5">2 AM Deadline. Perfect for last-minute
+                                            report submissions.</p>
                                     </div>
                                 </div>
-                                <span class="font-bold text-lg text-neon">₹3/pg</span>
+                                <span class="font-bold text-lg text-neon shrink-0">₹3/pg</span>
                             </div>
                             <button
-                                class="mt-4 w-full bg-black text-white py-3 rounded-lg text-sm font-bold uppercase hover:bg-neon hover:text-black transition-colors">Schedule
-                                File Upload</button>
+                                class="mt-4 w-full bg-black text-white py-2 md:py-3 rounded-lg text-sm font-bold uppercase hover:bg-neon hover:text-black transition-colors">
+                                Schedule File Upload
+                            </button>
                         </div>
 
                         <!-- Live Delivery Tracking Mock -->
-                        <div class="p-6 bg-white rounded-xl border border-gray-200 shadow-lg">
-                            <h4 class="font-bold text-xl mb-3">Live Drop Status</h4>
+                        <div class="p-4 md:p-6 bg-white rounded-xl border border-gray-200 shadow-lg">
+                            <h4 class="font-bold text-lg md:text-xl mb-3">Live Drop Status</h4>
                             <div class="space-y-2">
                                 <div class="flex items-center text-xs font-mono text-black">
                                     <i data-lucide="map-pin" class="w-4 h-4 text-impact mr-2"></i> Location: Gate 2
@@ -1128,20 +1195,23 @@
 
         <!-- 6. IMPACT: THE HEART (NEW) -->
         <!-- 6. IMPACT: THE HEART (THE VOW PROTOCOL) -->
-        <div id="impact" class="page-section hidden min-h-screen pt-32 pb-20 px-6 md:px-12 bg-impact text-white">
+        <div id="impact"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-impact text-white">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: THE VOW PROTOCOL - MISSION-DRIVEN CORE -->
                 <div
-                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-white/30 pb-8">
-                    <div>
-                        <p class="font-mono text-xs uppercase tracking-[0.2em] text-neon mb-3">Module 05: The
-                            Non-Negotiable Core</p>
-                        <h2 class="font-display text-6xl md:text-7xl font-bold leading-tight">THE<br><span
-                                class="opacity-70">VOW PROTOCOL</span></h2>
+                    class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 border-b border-white/30 pb-6 md:pb-8">
+                    <div class="mb-4 md:mb-0">
+                        <p class="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-neon mb-2 md:mb-3">
+                            Module 05: The Non-Negotiable Core
+                        </p>
+                        <h2 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight">
+                            THE<br><span class="opacity-70">VOW PROTOCOL</span>
+                        </h2>
                     </div>
-                    <div class="mt-4 md:mt-0 text-left md:text-right max-w-lg border-l-4 border-neon pl-4">
-                        <p class="font-sans text-lg font-medium opacity-90">
+                    <div class="mt-2 md:mt-0 text-left md:text-right max-w-lg border-l-4 border-neon pl-4">
+                        <p class="font-sans text-base md:text-lg font-medium opacity-90">
                             The emotional backbone. We enforce the vow that drives HOPE: creating a future where
                             financial poverty no longer dictates the destiny of a student or their family.
                         </p>
@@ -1152,62 +1222,73 @@
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
                     <!-- COLUMN 1: VOW COMMITMENT & CORE METRICS -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-3xl font-bold text-white mb-4">Core Commitment <i
-                                data-lucide="shield-check" class="w-6 h-6 inline-block text-neon"></i></h3>
-                        <p class="text-sm font-mono opacity-70 border-b border-white/30 pb-2">The movement is driven by
-                            the founding vow, executed via three core programs:</p>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-2 md:mb-4">
+                            Core Commitment <i data-lucide="shield-check"
+                                class="w-5 h-5 md:w-6 md:h-6 inline-block text-neon"></i>
+                        </h3>
+                        <p class="text-xs md:text-sm font-mono opacity-70 border-b border-white/30 pb-2">
+                            The movement is driven by the founding vow, executed via three core programs:
+                        </p>
 
                         <!-- Metric 1: Meals Served (The Hunger Fix) -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <p class="font-mono text-xs uppercase opacity-70">Program 01: Food Security</p>
-                            <div class="text-4xl font-display font-bold text-white mt-1">1,240<span
-                                    class="text-2xl opacity-50">+</span></div>
-                            <p class="font-mono text-xs text-neon mt-1">Meals Dispersed (Elderly/Poor)</p>
+                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program 01: Food Security
+                            </p>
+                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">
+                                1,240<span class="text-xl md:text-2xl opacity-50">+</span>
+                            </div>
+                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Meals Dispersed (Elderly/Poor)
+                            </p>
                         </div>
 
                         <!-- Metric 2: Scholarships Given (Financial Uplift) -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <p class="font-mono text-xs uppercase opacity-70">Program 02: Educational Grants</p>
-                            <div class="text-4xl font-display font-bold text-white mt-1">₹2.4L</div>
-                            <p class="font-mono text-xs text-neon mt-1">Direct Grants Secured by Students</p>
+                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program 02: Educational
+                                Grants</p>
+                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">₹2.4L</div>
+                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Direct Grants Secured by Students
+                            </p>
                         </div>
 
                         <!-- Metric 3: Students Activated (Achiever Force) -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <p class="font-mono text-xs uppercase opacity-70">Program 03: Uplift Projects</p>
-                            <div class="text-4xl font-display font-bold text-white mt-1">21</div>
-                            <p class="font-mono text-xs text-neon mt-1">Active Tech Deployments (IoT)</p>
+                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program 03: Uplift Projects
+                            </p>
+                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">21</div>
+                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Active Tech Deployments (IoT)</p>
                         </div>
                     </div>
 
                     <!-- COLUMN 2: FINANCIAL TRANSPARENCY & FUNDING -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-3xl font-bold text-neon mb-4">Funding & Audit <i
-                                data-lucide="scan-line" class="w-6 h-6 inline-block"></i></h3>
-                        <p class="text-sm font-mono opacity-70 border-b border-white/30 pb-2">Total financial
-                            transparency ensures every rupee feeds the mission, not administration.</p>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-neon mb-2 md:mb-4">
+                            Funding & Audit <i data-lucide="scan-line" class="w-5 h-5 md:w-6 md:h-6 inline-block"></i>
+                        </h3>
+                        <p class="text-xs md:text-sm font-mono opacity-70 border-b border-white/30 pb-2">
+                            Total financial transparency ensures every rupee feeds the mission.
+                        </p>
 
                         <!-- Transparency Bar -->
                         <div class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl">
-                            <p class="font-mono text-xs uppercase text-neon">Revenue-to-Impact Ratio</p>
-                            <div class="text-5xl font-display font-bold text-white mt-2">78%</div>
+                            <p class="font-mono text-[10px] md:text-xs uppercase text-neon">Revenue-to-Impact Ratio</p>
+                            <div class="text-4xl md:text-5xl font-display font-bold text-white mt-2">78%</div>
                             <div class="bg-impact/50 rounded-full h-2 mt-2">
                                 <div class="bg-neon h-2 rounded-full" style="width: 78%;"></div>
                             </div>
-                            <p class="font-mono text-xs opacity-70 mt-2">78% of all platform revenue directly funds
-                                social programs.</p>
+                            <p class="font-mono text-[10px] md:text-xs opacity-70 mt-2">78% of all platform revenue
+                                directly funds social programs.</p>
                         </div>
 
                         <!-- Audit Log -->
                         <div
                             class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl cursor-pointer hover:border-neon transition-colors">
-                            <i data-lucide="file-text" class="w-6 h-6 mb-2 text-white"></i>
+                            <i data-lucide="file-text" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">Financial Audit Log</h4>
-                            <p class="text-xs opacity-70 mt-1">View quarterly expenditure, donor logs, and program
-                                funding disbursement details (Blockchain secured).</p>
+                            <p class="text-xs opacity-70 mt-1">View quarterly expenditure details (Blockchain secured).
+                            </p>
                             <button
-                                class="mt-3 text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-white transition-colors">
+                                class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-white transition-colors">
                                 Download Q3 Report
                             </button>
                         </div>
@@ -1215,93 +1296,97 @@
                         <!-- Action 1: Donate/Fund the Mission -->
                         <div
                             class="p-4 rounded-xl bg-white text-impact shadow-xl cursor-pointer group hover:bg-white/90 transition-colors">
-                            <i data-lucide="hand-heart" class="w-6 h-6 mb-2 text-impact"></i>
+                            <i data-lucide="hand-heart" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-impact"></i>
                             <h4 class="font-bold text-lg">Direct Mission Funding</h4>
-                            <p class="text-xs text-gray-700 mt-1">Invest directly into the Food Security and Scholarship
+                            <p class="text-xs text-gray-700 mt-1">Invest directly into Food Security and Scholarship
                                 programs.</p>
                             <button
-                                class="mt-3 text-xs font-bold uppercase tracking-widest border-b border-impact pb-1 group-hover:text-black transition-colors">
+                                class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-impact pb-1 group-hover:text-black transition-colors">
                                 Donate Now
                             </button>
                         </div>
                     </div>
 
                     <!-- COLUMN 3: EXECUTION & DEPLOYMENT PROTOCOLS -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-3xl font-bold text-impact mb-4">Execution Channels <i
-                                data-lucide="send" class="w-6 h-6 inline-block"></i></h3>
-                        <p class="text-sm font-mono opacity-70 border-b border-white/30 pb-2">How the Achiever Force
-                            connects the ecosystem to the community.</p>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-impact mb-2 md:mb-4">
+                            Execution Channels <i data-lucide="send" class="w-5 h-5 md:w-6 md:h-6 inline-block"></i>
+                        </h3>
+                        <p class="text-xs md:text-sm font-mono opacity-70 border-b border-white/30 pb-2">
+                            How the Achiever Force connects the ecosystem to the community.
+                        </p>
 
                         <!-- Channel 1: IoT Tech Deployment (Link to IoT) -->
                         <div onclick="router('iot')"
                             class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl cursor-pointer group hover:bg-black/30 transition-colors">
-                            <i data-lucide="route" class="w-6 h-6 mb-2 text-neon"></i>
+                            <i data-lucide="route" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-neon"></i>
                             <h4 class="font-bold text-lg">Field Deployment Teams</h4>
-                            <p class="text-xs opacity-80 mt-1">Achievers deploy tech solutions (surveillance,
-                                environmental monitoring) built in the Fabrication Lab to aid local communities.</p>
-                            <div class="mt-3 font-mono text-xs text-white">Next Project: <span
+                            <p class="text-xs opacity-80 mt-1">Achievers deploy tech solutions (monitoring) built in the
+                                Fabrication Lab to aid local communities.</p>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">Next Project: <span
                                     class="text-neon font-bold">Project Hercules</span></div>
                         </div>
 
                         <!-- Channel 2: E-Commerce/Logistics (Link to Shop) -->
                         <div onclick="router('shop')"
                             class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl cursor-pointer group hover:bg-black/30 transition-colors">
-                            <i data-lucide="truck" class="w-6 h-6 mb-2 text-neon"></i>
+                            <i data-lucide="truck" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-neon"></i>
                             <h4 class="font-bold text-lg">Survival System Aid</h4>
-                            <p class="text-xs opacity-80 mt-1">The E-Commerce logistics chain is repurposed to deliver
-                                meal kits and essential supplies to vetted beneficiaries.</p>
-                            <div class="mt-3 font-mono text-xs text-white">Capacity: <span
+                            <p class="text-xs opacity-80 mt-1">E-Commerce logistics chain delivers meal kits and
+                                essential supplies to vetted beneficiaries.</p>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">Capacity: <span
                                     class="text-neon font-bold">200 Drops/Day</span></div>
                         </div>
 
                         <!-- Channel 3: Volunteer Time -->
                         <div
                             class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl cursor-pointer group hover:bg-black/30 transition-colors">
-                            <i data-lucide="users-round" class="w-6 h-6 mb-2 text-white"></i>
+                            <i data-lucide="users-round" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">Vow Force Enrollment</h4>
                             <p class="text-xs opacity-80 mt-1">Commit your time for fieldwork, mentorship drives, and
-                                logistics support (Minimum 2 hours/week).</p>
+                                logistics support.</p>
                             <button
-                                class="mt-3 text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-white transition-colors">
+                                class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-white transition-colors">
                                 Apply for Volunteer Slot
                             </button>
                         </div>
                     </div>
 
                     <!-- COLUMN 4: LEGACY VISION & LONG-TERM DOMINANCE -->
-                    <div class="lg:col-span-1 space-y-6">
-                        <h3 class="font-display text-3xl font-bold text-white mb-4">Legacy Protocol <i
-                                data-lucide="infinity" class="w-6 h-6 inline-block"></i></h3>
-                        <p class="text-sm font-mono opacity-70 border-b border-white/30 pb-2">The movement designed to
-                            outlive any single person.</p>
+                    <div class="lg:col-span-1 space-y-4 md:space-y-6">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-white mb-2 md:mb-4">
+                            Legacy Protocol <i data-lucide="infinity" class="w-5 h-5 md:w-6 md:h-6 inline-block"></i>
+                        </h3>
+                        <p class="text-xs md:text-sm font-mono opacity-70 border-b border-white/30 pb-2">
+                            The movement designed to outlive any single person.
+                        </p>
 
                         <!-- Long-Term Goal -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <i data-lucide="map" class="w-6 h-6 mb-2 text-white"></i>
+                            <i data-lucide="map" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">20-Year Roadmap</h4>
-                            <p class="text-xs opacity-80 mt-1">Strategic plan for scalable, multi-college, state-wide
-                                poverty eradication system deployment.</p>
-                            <div class="mt-3 font-mono text-xs text-neon">Status: <span
+                            <p class="text-xs opacity-80 mt-1">Strategic plan for scalable, state-wide poverty
+                                eradication system deployment.</p>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-neon">Status: <span
                                     class="text-white font-bold">Phase II: Multi-College Rollout</span></div>
                         </div>
 
                         <!-- Social Support Structures -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <i data-lucide="building-2" class="w-6 h-6 mb-2 text-white"></i>
+                            <i data-lucide="building-2" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">Social Support Structures</h4>
                             <p class="text-xs opacity-80 mt-1">Developing independent, self-sustaining financial aid
-                                systems and community resilience hubs.</p>
-                            <div class="mt-3 font-mono text-xs text-neon">Goal: <span class="text-white font-bold">Zero
-                                    Hunger Zone Pilot (Q2 2025)</span></div>
+                                systems and community hubs.</p>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-neon">Goal: <span
+                                    class="text-white font-bold">Zero Hunger Zone Pilot (Q2 2025)</span></div>
                         </div>
 
                         <!-- Call to action: Join the Vision -->
                         <div
                             class="p-6 rounded-xl bg-neon text-black shadow-xl cursor-pointer group hover:bg-white transition-colors">
                             <div class="flex justify-between items-center">
-                                <h4 class="font-bold text-xl">Enroll in the Vision</h4>
-                                <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                                <h4 class="font-bold text-lg md:text-xl">Enroll in the Vision</h4>
+                                <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6"></i>
                             </div>
                             <p class="text-xs font-mono mt-1">Read the strategic whitepaper on long-term dominance and
                                 social change.</p>
@@ -1528,80 +1613,6 @@
             // A simplified resize for all renderers would go here in production
         });
 
-    </script>
-    <!-- IOT CAMP MODAL -->
-    <div id="iot-modal"
-        class="fixed inset-0 z-[10001] flex items-center justify-center px-4 opacity-0 pointer-events-none transition-opacity duration-500">
-        <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeIotModal()"></div>
-
-        <!-- Content -->
-        <div class="relative bg-void border border-gray-800 p-8 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden transform scale-95 transition-transform duration-500"
-            id="iot-modal-content">
-            <!-- Decorative Elements -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon via-impact to-neon"></div>
-            <div class="absolute -right-10 -top-10 w-32 h-32 bg-neon/10 rounded-full blur-3xl"></div>
-
-            <!-- Header -->
-            <div class="flex justify-between items-start mb-6">
-                <div>
-                    <p class="font-mono text-xs text-neon uppercase tracking-widest mb-2">Incoming Transmission</p>
-                    <h3 class="font-display text-3xl font-bold text-white leading-tight">IoT Summer<br>Camp '25</h3>
-                </div>
-                <button onclick="closeIotModal()" class="text-gray-500 hover:text-white transition-colors">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
-                Exclusive 14-day engineering sprint for <span class="text-white font-bold">Grades 6-12</span>.
-                Build real robots, master C++, and engineer the future.
-            </p>
-
-            <!-- Action -->
-            <div class="flex gap-4">
-                <button onclick="window.location.href='iot.htm'"
-                    class="flex-1 bg-neon text-black font-bold uppercase tracking-widest py-4 rounded-xl hover:bg-white transition-colors text-xs md:text-sm">
-                    Join Now
-                </button>
-                <button onclick="closeIotModal()"
-                    class="px-6 py-4 border border-gray-800 rounded-xl text-gray-400 font-bold uppercase tracking-widest hover:text-white hover:border-white transition-colors text-xs md:text-sm">
-                    Dismiss
-                </button>
-            </div>
-
-            <!-- Footer -->
-            <div
-                class="mt-6 pt-4 border-t border-gray-900 flex justify-between items-center text-[10px] font-mono text-gray-600">
-                <span>LIMITED SEATS AVAILABLE</span>
-                <span class="animate-pulse text-alert">● LIVE</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Modal Logic
-        const modal = document.getElementById('iot-modal');
-        const modalContent = document.getElementById('iot-modal-content');
-
-        function openIotModal() {
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-95');
-            modalContent.classList.add('scale-100');
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
-
-        function closeIotModal() {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-        }
-
-        // Auto-open after delay
-        setTimeout(openIotModal, 3000);
     </script>
 </body>
 
