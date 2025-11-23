@@ -1529,6 +1529,80 @@
         });
 
     </script>
+    <!-- IOT CAMP MODAL -->
+    <div id="iot-modal"
+        class="fixed inset-0 z-[10001] flex items-center justify-center px-4 opacity-0 pointer-events-none transition-opacity duration-500">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeIotModal()"></div>
+
+        <!-- Content -->
+        <div class="relative bg-void border border-gray-800 p-8 rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden transform scale-95 transition-transform duration-500"
+            id="iot-modal-content">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon via-impact to-neon"></div>
+            <div class="absolute -right-10 -top-10 w-32 h-32 bg-neon/10 rounded-full blur-3xl"></div>
+
+            <!-- Header -->
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <p class="font-mono text-xs text-neon uppercase tracking-widest mb-2">Incoming Transmission</p>
+                    <h3 class="font-display text-3xl font-bold text-white leading-tight">IoT Summer<br>Camp '25</h3>
+                </div>
+                <button onclick="closeIotModal()" class="text-gray-500 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                Exclusive 14-day engineering sprint for <span class="text-white font-bold">Grades 6-12</span>.
+                Build real robots, master C++, and engineer the future.
+            </p>
+
+            <!-- Action -->
+            <div class="flex gap-4">
+                <button onclick="window.location.href='iot.htm'"
+                    class="flex-1 bg-neon text-black font-bold uppercase tracking-widest py-4 rounded-xl hover:bg-white transition-colors text-xs md:text-sm">
+                    Join Now
+                </button>
+                <button onclick="closeIotModal()"
+                    class="px-6 py-4 border border-gray-800 rounded-xl text-gray-400 font-bold uppercase tracking-widest hover:text-white hover:border-white transition-colors text-xs md:text-sm">
+                    Dismiss
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <div
+                class="mt-6 pt-4 border-t border-gray-900 flex justify-between items-center text-[10px] font-mono text-gray-600">
+                <span>LIMITED SEATS AVAILABLE</span>
+                <span class="animate-pulse text-alert">● LIVE</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Logic
+        const modal = document.getElementById('iot-modal');
+        const modalContent = document.getElementById('iot-modal-content');
+
+        function openIotModal() {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function closeIotModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+
+        // Auto-open after delay
+        setTimeout(openIotModal, 3000);
+    </script>
 </body>
 
 </html>
