@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NXTGN // IoT Robotics Camp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;600;800&display=swap');
+
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --off-white: #f4f4f4;
+            --accent-gray: #1f1f1f;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--off-white);
+            color: var(--black);
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* UI Utilities */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* FIXED: Canvas Container Alignment */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 45vw;
+            /* Reduced from 50vw to prevent text overlap */
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            /* IMPORTANT: Lets clicks pass through to buttons below */
+            transition: opacity 0.5s ease;
+            /* Smooth fade out on scroll */
+        }
+
+        /* Mobile Canvas Adjustment */
+        @media (max-width: 1024px) {
+            #canvas-container {
+                position: relative;
+                /* Not fixed on mobile */
+                width: 100%;
+                height: 400px;
+                top: auto;
+                right: auto;
+            }
+        }
+
+        /* Animations */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Loader */
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fff;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+            border-radius: 10px;
+        }
+
+        /* Animations */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: all;
+            /* Allow rotation */
+        }
+
+        @media (max-width: 1024px) {
+            #canvas-container {
+                position: relative;
+                width: 100%;
+                height: 50vh;
+            }
+        }
+
+        /* Loader */
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Loader -->
+    <div class="loader-screen" id="loader">
+        <div class="text-center">
+            <div class="font-display text-4xl font-bold tracking-tighter mb-2">NXTGN // SYSTEMS</div>
+            <div class="text-xs font-mono text-gray-500">INITIALIZING ROBOTICS CORE...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-0 right-0 z-50 px-6 flex justify-center">
+        <div
+            class="glass-card px-8 py-3 rounded-full flex items-center gap-12 shadow-xl shadow-black/5 transition-all hover:scale-[1.02]">
+            <a href="#" class="font-display font-bold text-xl tracking-tighter">NXTGN.</a>
+            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-wide">
+                <a href="#modules" class="hover:text-gray-500 transition-colors">MODULES</a>
+                <a href="#tech" class="hover:text-gray-500 transition-colors">TECH STACK</a>
+                <a href="#schedule" class="hover:text-gray-500 transition-colors">SCHEDULE</a>
+            </div>
+            <a href="#enroll"
+                class="bg-black text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-gray-800 transition-colors">
+                APPLY NOW
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main class="relative z-10">
+
+        <!-- Hero Section -->
+        <!-- 1. REPLACE THE HERO SECTION HTML -->
+        <section class="relative min-h-screen flex items-center overflow-hidden bg-[#050505]" id="hero">
+
+            <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+                <div class="absolute inset-0"
+                    style="background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 40px 40px;">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent"></div>
+            </div>
+
+            <div
+                class="absolute top-24 left-6 lg:left-12 text-[10px] font-mono text-green-500 opacity-60 hidden md:block">
+                <div>SYS.T78::CONNECTING</div>
+                <div>LATENCY: 12ms</div>
+                <div class="mt-2">/// ENCRYPTION: ON</div>
+            </div>
+
+            <div class="container mx-auto px-6 lg:px-12 relative z-20 pt-20">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                    <div class="lg:col-span-6">
+                        <div
+                            class="inline-flex items-center gap-2 px-4 py-2 border border-white/10 rounded-full bg-white/5 backdrop-blur-md mb-8 reveal-text">
+                            <span class="relative flex h-2 w-2">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span class="text-xs font-bold text-white tracking-widest uppercase">Admissions Open: Summer
+                                '25</span>
+                        </div>
+
+                        <h1
+                            class="font-display text-6xl lg:text-8xl font-bold leading-[0.9] tracking-tighter text-white mb-8 reveal-text">
+                            BUILD THE<br>
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-600">INTELLIGENCE</span><br>
+                            OF TOMORROW.
+                        </h1>
+
+                        <p
+                            class="text-lg text-gray-400 max-w-lg leading-relaxed mb-10 font-medium reveal-text border-l-2 border-white/20 pl-6">
+                            Architect autonomous IoT systems using C++, Python, and Industrial Sensor Arrays. A rigorous
+                            14-day engineering sprint.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-4 reveal-text">
+                            <button onclick="document.getElementById('modules').scrollIntoView()"
+                                class="group relative px-8 py-4 bg-white text-black rounded-xl font-bold text-lg overflow-hidden transition-all hover:scale-105 cursor-pointer pointer-events-auto">
+                                <span class="relative z-10 flex items-center gap-2">
+                                    Init Sequence
+                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="mt-20 grid grid-cols-3 gap-8 border-t border-white/10 pt-8 reveal-text">
+                            <div>
+                                <div class="text-3xl font-display font-bold text-white mb-1">C++</div>
+                                <div class="text-[10px] font-mono text-gray-500 uppercase">Firmware</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-display font-bold text-white mb-1">MQTT</div>
+                                <div class="text-[10px] font-mono text-gray-500 uppercase">Protocol</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-display font-bold text-white mb-1">CAD</div>
+                                <div class="text-[10px] font-mono text-gray-500 uppercase">Fabrication</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 h-[50vh] lg:h-auto relative pointer-events-none">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="canvas-container"></div>
+
+        <!-- INSERT AFTER HERO SECTION -->
+        <section class="py-24 bg-[#0a0a0a] relative overflow-hidden border-y border-white/5" id="testimonials">
+
+            <!-- Background Noise -->
+            <div class="absolute inset-0 opacity-[0.1]"
+                style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMwMDAiLz4KPC9zdmc+');">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+
+                <!-- Header -->
+                <div class="flex items-center gap-4 mb-16">
+                    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <h2 class="font-mono text-green-500 text-sm tracking-widest uppercase">
+                        /// DECRYPTING_TRANSMISSIONS...
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- Review 1 -->
+                    <div
+                        class="bg-[#111] border border-white/10 p-8 rounded-2xl relative group hover:border-green-500/30 transition-colors">
+                        <div class="absolute top-4 right-4 font-mono text-[10px] text-gray-600">LOG_ID: #8821</div>
+
+                        <!-- Audio Wave Visual -->
+                        <div class="flex items-end gap-1 h-8 mb-6">
+                            <div class="w-1 bg-green-500/50 h-[40%] animate-[pulse_1s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[80%] animate-[pulse_1.2s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[60%] animate-[pulse_0.8s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[100%] animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[30%] animate-[pulse_1.1s_ease-in-out_infinite]"></div>
+                        </div>
+
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            "I came from a pure CS background. By Day 3, I was soldering my own PCB drivers. The fusion
+                            of C++ logic with physical hardware is terrifyingly powerful."
+                        </p>
+
+                        <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                            <div
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                                JD</div>
+                            <div>
+                                <div class="text-white font-bold text-sm">J. Doe</div>
+                                <div class="text-xs text-gray-500 font-mono">Systems Architect @ Tesla</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div
+                        class="bg-[#111] border border-white/10 p-8 rounded-2xl relative group hover:border-green-500/30 transition-colors">
+                        <div class="absolute top-4 right-4 font-mono text-[10px] text-gray-600">LOG_ID: #8824</div>
+
+                        <div class="flex items-end gap-1 h-8 mb-6">
+                            <div class="w-1 bg-green-500/50 h-[100%] animate-[pulse_1.3s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[50%] animate-[pulse_0.9s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[70%] animate-[pulse_1.4s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[40%] animate-[pulse_1s_ease-in-out_infinite]"></div>
+                        </div>
+
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            "The robotic arm project isn't a toy. It's industrial-grade math. Calculating Inverse
+                            Kinematics manually before coding it changed how I see geometry."
+                        </p>
+
+                        <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                            <div
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                                SR</div>
+                            <div>
+                                <div class="text-white font-bold text-sm">S. Rao</div>
+                                <div class="text-xs text-gray-500 font-mono">CS Major @ Stanford</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div
+                        class="bg-[#111] border border-white/10 p-8 rounded-2xl relative group hover:border-green-500/30 transition-colors">
+                        <div class="absolute top-4 right-4 font-mono text-[10px] text-gray-600">LOG_ID: #8829</div>
+
+                        <div class="flex items-end gap-1 h-8 mb-6">
+                            <div class="w-1 bg-green-500/50 h-[20%] animate-[pulse_1.1s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[90%] animate-[pulse_1.6s_ease-in-out_infinite]"></div>
+                            <div class="w-1 bg-green-500/50 h-[50%] animate-[pulse_1s_ease-in-out_infinite]"></div>
+                        </div>
+
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                            "The instructors treat you like a junior engineer, not a student. The final showcase where
+                            my robot tracked faces in real-time was the highlight of my year."
+                        </p>
+
+                        <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                            <div
+                                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-xs font-bold text-white">
+                                AK</div>
+                            <div>
+                                <div class="text-white font-bold text-sm">A. Kim</div>
+                                <div class="text-xs text-gray-500 font-mono">Robotics Club Lead</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INSERT BEFORE MODULES SECTION -->
+        <section class="py-24 bg-white relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+                <div class="flex flex-col lg:flex-row items-center gap-16">
+
+                    <!-- Text Info -->
+                    <div class="lg:w-1/2">
+                        <div
+                            class="inline-block border border-black px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                            Capstone Project
+                        </div>
+                        <h2 class="font-display text-5xl font-bold mb-6">The MK-1 Manipulator.</h2>
+                        <p class="text-gray-600 text-lg mb-8">
+                            This is not a kit you buy. This is a machine you engineer. By Day 14, you will have built,
+                            wired, and programmed this 6-axis arm to perform autonomous tasks.
+                        </p>
+
+                        <!-- Spec List -->
+                        <div class="space-y-4 font-mono text-sm">
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">Payload Capacity</span>
+                                <span class="font-bold">500g</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">Degrees of Freedom</span>
+                                <span class="font-bold">6 Axis</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">Refresh Rate</span>
+                                <span class="font-bold">60Hz Loop</span>
+                            </div>
+                            <div class="flex justify-between border-b border-gray-200 pb-2">
+                                <span class="text-gray-500">Connectivity</span>
+                                <span class="font-bold">WiFi / BT / Serial</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blueprint Visual -->
+                    <div class="lg:w-1/2 relative">
+                        <!-- Central Graphic Placeholder (CSS Shapes) -->
+                        <div
+                            class="aspect-square bg-gray-50 rounded-full border border-black/10 relative flex items-center justify-center p-12">
+
+                            <!-- Stylized Robot Representation -->
+                            <div
+                                class="relative w-full h-full border-2 border-dashed border-gray-300 rounded-full animate-[spin_20s_linear_infinite]">
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-32 h-32 bg-black rounded-xl relative">
+                                    <div class="absolute -top-10 left-10 w-4 h-20 bg-gray-400"></div>
+                                    <div class="absolute -top-20 left-0 w-24 h-8 bg-gray-300 rounded-lg"></div>
+                                </div>
+                            </div>
+
+                            <!-- Pointer 1 -->
+                            <div
+                                class="absolute top-10 left-0 bg-white border border-black px-3 py-2 rounded shadow-lg">
+                                <div class="text-[10px] font-bold">SERVO_MG996R</div>
+                                <div class="w-2 h-2 bg-black absolute -bottom-1 right-4 rotate-45"></div>
+                            </div>
+
+                            <!-- Pointer 2 -->
+                            <div class="absolute bottom-20 right-0 bg-black text-white px-3 py-2 rounded shadow-lg">
+                                <div class="text-[10px] font-bold">ESP32_CORE</div>
+                                <div class="w-2 h-2 bg-black absolute -left-1 top-2 rotate-45"></div>
+                            </div>
+
+                            <!-- Pointer 3 -->
+                            <div
+                                class="absolute top-1/2 -right-10 bg-white border border-black px-3 py-2 rounded shadow-lg">
+                                <div class="text-[10px] font-bold">LIDAR_SENSOR</div>
+                                <div
+                                    class="w-2 h-2 bg-white border-l border-b border-black absolute -left-1 top-2 rotate-45">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Bento Grid Features -->
+        <!-- REPLACES THE OLD #modules SECTION -->
+        <section
+            class="px-4 lg:px-12 py-24 bg-white rounded-t-[3rem] relative z-20 shadow-[0_-50px_100px_rgba(0,0,0,0.1)]"
+            id="modules">
+            <div class="max-w-7xl mx-auto">
+
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-black/10 pb-8">
+                    <div>
+                        <div class="inline-block px-3 py-1 bg-black text-white text-xs font-mono mb-4 rounded-full">
+                            SYSTEM ARCHITECTURE</div>
+                        <h2 class="font-display text-5xl lg:text-7xl font-bold tracking-tighter">
+                            Full Stack<br><span class="text-gray-400">Robotics.</span>
+                        </h2>
+                    </div>
+                    <div class="text-right hidden md:block">
+                        <p class="text-xl font-medium text-gray-600">100+ Hours of hands-on engineering.</p>
+                        <p class="text-sm text-gray-400 font-mono mt-2">v2.5 // UPDATED SYLLABUS</p>
+                    </div>
+                </div>
+
+                <!-- Advanced Bento Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-[350px_350px] gap-6">
+
+                    <!-- CARD 1: The Brain (Large, Interactive) -->
+                    <div
+                        class="md:col-span-2 bg-gray-50 rounded-[2rem] p-8 border border-black/5 hover:border-black transition-colors duration-300 group relative overflow-hidden">
+                        <div class="absolute top-4 right-4 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                        <div class="h-full flex flex-col justify-between relative z-10">
+                            <div>
+                                <h3 class="font-display text-3xl font-bold mb-2">Hardware Interface</h3>
+                                <p class="text-gray-500 text-sm max-w-xs">Mastering the ESP32 Microcontroller. GPIO
+                                    manipulation, PWM signals, and interrupt handling.</p>
+                            </div>
+
+                            <!-- Visual Schematic Representation -->
+                            <div class="flex gap-4 mt-8">
+                                <div
+                                    class="flex-1 bg-white p-4 rounded-xl border border-black/5 shadow-sm group-hover:translate-y-[-5px] transition-transform duration-300">
+                                    <div class="text-xs font-mono text-gray-400 mb-2">INPUT</div>
+                                    <div class="font-bold text-lg">Sensors</div>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                        <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-center text-gray-300">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="flex-1 bg-black text-white p-4 rounded-xl shadow-xl group-hover:translate-y-[-5px] transition-transform duration-300 delay-75">
+                                    <div class="text-xs font-mono text-gray-500 mb-2">PROCESS</div>
+                                    <div class="font-bold text-lg">Logic</div>
+                                    <div class="text-xs text-gray-500 mt-1">C++ Loop</div>
+                                </div>
+                                <div class="flex items-center justify-center text-gray-300">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M5 12h14M12 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="flex-1 bg-white p-4 rounded-xl border border-black/5 shadow-sm group-hover:translate-y-[-5px] transition-transform duration-300 delay-100">
+                                    <div class="text-xs font-mono text-gray-400 mb-2">OUTPUT</div>
+                                    <div class="font-bold text-lg">Actuators</div>
+                                    <div class="text-xs text-gray-500 mt-1">Servo/Motor</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Background Grid Pattern -->
+                        <div class="absolute inset-0 opacity-[0.03]"
+                            style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;">
+                        </div>
+                    </div>
+
+                    <!-- CARD 2: The Timeline (Scrollable Syllabus) -->
+                    <div
+                        class="md:col-span-1 md:row-span-2 bg-black text-white rounded-[2rem] p-6 flex flex-col overflow-hidden relative">
+                        <h3 class="font-display text-2xl font-bold mb-6 flex items-center gap-2">
+                            <span class="w-2 h-6 bg-white block"></span> Roadmap
+                        </h3>
+
+                        <div class="overflow-y-auto custom-scrollbar pr-2 space-y-6 flex-1">
+                            <!-- Week 1 -->
+                            <div>
+                                <div class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Week 01 //
+                                    Physical</div>
+                                <div class="space-y-3">
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">01</span> <span>Circuit Theory &
+                                            Soldering</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">02</span> <span>C++ Syntax for
+                                            Embedded</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">03</span> <span>Motor Drivers & PWM</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">04</span> <span>CAD Design (Fusion
+                                            360)</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">05</span> <span>Rapid Prototyping (3D
+                                            Print)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Week 2 -->
+                            <div>
+                                <div
+                                    class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 pt-4 border-t border-white/10">
+                                    Week 02 // Digital</div>
+                                <div class="space-y-3">
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">06</span> <span>WiFi Station Mode</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">07</span> <span>MQTT Protocols</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">08</span> <span>WebSockets & JSON</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-gray-300 hover:text-white transition-colors">
+                                        <span class="font-mono text-gray-600">09</span> <span>Building React
+                                            Dashboards</span>
+                                    </div>
+                                    <div class="flex gap-3 text-sm text-white font-bold">
+                                        <span class="font-mono text-green-400">10</span> <span>FINAL SHOWCASE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fade at bottom -->
+                        <div
+                            class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black to-transparent pointer-events-none">
+                        </div>
+                    </div>
+
+                    <!-- CARD 3: The Code (Code Block Style) -->
+                    <div
+                        class="md:col-span-1 bg-[#1e1e1e] rounded-[2rem] p-6 border border-gray-800 flex flex-col justify-center font-mono text-xs overflow-hidden group">
+                        <div class="flex gap-1.5 mb-4">
+                            <div
+                                class="w-3 h-3 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                            </div>
+                            <div
+                                class="w-3 h-3 rounded-full bg-yellow-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                            </div>
+                            <div
+                                class="w-3 h-3 rounded-full bg-green-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                            </div>
+                        </div>
+                        <div class="text-gray-400 leading-relaxed">
+                            <span class="text-purple-400">void</span> <span class="text-blue-400">loop</span>() {<br>
+                            &nbsp;&nbsp;<span class="text-gray-500">// Read Sensors</span><br>
+                            &nbsp;&nbsp;<span class="text-yellow-400">float</span> dist = sonar.<span
+                                class="text-blue-300">ping</span>();<br>
+                            <br>
+                            &nbsp;&nbsp;<span class="text-purple-400">if</span> (dist < 10) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;robot.<span class="text-red-400">stop</span>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;mqtt.<span class="text-green-400">publish</span>(<span
+                                    class="text-orange-300">"alert"</span>);<br>
+                                &nbsp;&nbsp;}<br>
+                                }
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-white/10 text-white font-display text-xl font-bold">
+                            Real Code.<br>No Blocks.
+                        </div>
+                    </div>
+
+                    <!-- CARD 4: Cloud Integration (Glassy/Chart) -->
+                    <div
+                        class="md:col-span-2 bg-white rounded-[2rem] p-8 border border-black/5 relative overflow-hidden group">
+                        <div
+                            class="absolute right-0 bottom-0 w-1/2 h-full bg-gradient-to-l from-gray-50 to-transparent">
+                        </div>
+
+                        <div class="relative z-10 flex justify-between h-full">
+                            <div class="flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-display text-3xl font-bold mb-2">Cloud Telemetry</h3>
+                                    <p class="text-gray-500 text-sm max-w-xs">Visualize robot data in real-time. Build
+                                        your own control center accessible from any smartphone.</p>
+                                </div>
+                                <div class="flex gap-2 mt-4">
+                                    <span
+                                        class="px-3 py-1 rounded-md bg-gray-100 text-xs font-bold border border-black/5">Firebase</span>
+                                    <span
+                                        class="px-3 py-1 rounded-md bg-gray-100 text-xs font-bold border border-black/5">React.js</span>
+                                    <span
+                                        class="px-3 py-1 rounded-md bg-gray-100 text-xs font-bold border border-black/5">AWS
+                                        IoT</span>
+                                </div>
+                            </div>
+
+                            <!-- Animated Bars Visual -->
+                            <div class="flex items-end gap-2 h-32 self-end pb-2">
+                                <div class="w-4 bg-black/20 rounded-t-md animate-[pulse_1s_ease-in-out_infinite]"
+                                    style="height: 40%"></div>
+                                <div class="w-4 bg-black/40 rounded-t-md animate-[pulse_1.5s_ease-in-out_infinite]"
+                                    style="height: 70%"></div>
+                                <div class="w-4 bg-black rounded-t-md animate-[pulse_1.2s_ease-in-out_infinite]"
+                                    style="height: 100%"></div>
+                                <div class="w-4 bg-black/60 rounded-t-md animate-[pulse_2s_ease-in-out_infinite]"
+                                    style="height: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 5: Certification -->
+                    <div
+                        class="md:col-span-1 bg-blue-600 rounded-[2rem] p-8 text-white flex flex-col justify-between relative overflow-hidden group hover:bg-blue-700 transition-colors">
+                        <div class="absolute -right-6 -top-6 w-32 h-32 border-[20px] border-white/10 rounded-full">
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold opacity-80 mb-1">ACCREDITATION</div>
+                            <h3 class="font-display text-2xl font-bold">Industry<br>Ready.</h3>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <span class="text-sm opacity-80">View Cert</span>
+                            <div
+                                class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center group-hover:translate-x-2 transition-transform">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Horizontal Scroll -->
+        <section class="py-32 bg-[#050505] relative overflow-hidden" id="tech">
+
+            <!-- Background Circuit Pattern -->
+            <div class="absolute inset-0 opacity-[0.03]"
+                style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 50px 50px;">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]"></div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row justify-between items-end mb-20">
+                    <div>
+                        <h2 class="font-display text-5xl lg:text-7xl font-bold text-white mb-4">
+                            The<br><span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-white">Arsenal.</span>
+                        </h2>
+                        <div class="flex items-center gap-2 text-emerald-500 font-mono text-xs">
+                            <span class="relative flex h-2 w-2">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            SYSTEMS ONLINE
+                        </div>
+                    </div>
+                    <div class="text-right hidden md:block">
+                        <p class="text-gray-500 font-mono text-sm">deploy_target: production<br>v.2025.4.1</p>
+                    </div>
+                </div>
+
+                <!-- Tech Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- TECH 1: ESP32 -->
+                    <div
+                        class="group relative bg-[#0a0a0a] border border-white/10 rounded-xl p-8 overflow-hidden transition-all hover:border-emerald-500/50">
+                        <!-- Hover Glow -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="font-mono text-[10px] text-gray-500 mb-4 flex justify-between">
+                                    <span>HARDWARE.SOC</span>
+                                    <span class="text-emerald-500">240MHz</span>
+                                </div>
+                                <h3
+                                    class="text-3xl font-display font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-300">
+                                    ESP32-S3</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">Dual-core Tensilica LX7 processor. The
+                                    industry standard for IoT. Built-in WiFi & BLE 5.0 Mesh capabilities.</p>
+                            </div>
+
+                            <!-- Tech Specs Footer -->
+                            <div class="mt-8 pt-4 border-t border-white/5 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">GPIO
+                                    Control</span>
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">I2C /
+                                    SPI</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">PWM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECH 2: C++ -->
+                    <div
+                        class="group relative bg-[#0a0a0a] border border-white/10 rounded-xl p-8 overflow-hidden transition-all hover:border-blue-500/50">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="font-mono text-[10px] text-gray-500 mb-4 flex justify-between">
+                                    <span>FIRMWARE.CORE</span>
+                                    <span class="text-blue-500">LOW-LATENCY</span>
+                                </div>
+                                <h3
+                                    class="text-3xl font-display font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-300">
+                                    C++ / Wiring</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">Direct hardware register access. Write
+                                    efficient, non-blocking code using FreeRTOS tasks and interrupts.</p>
+                            </div>
+
+                            <div class="mt-8 pt-4 border-t border-white/5 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Memory
+                                    Mgmt</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Pointers</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Classes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECH 3: MQTT -->
+                    <div
+                        class="group relative bg-[#0a0a0a] border border-white/10 rounded-xl p-8 overflow-hidden transition-all hover:border-purple-500/50">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="font-mono text-[10px] text-gray-500 mb-4 flex justify-between">
+                                    <span>NETWORK.PROTO</span>
+                                    <span class="text-purple-500">M2M</span>
+                                </div>
+                                <h3
+                                    class="text-3xl font-display font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-300">
+                                    MQTT</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">Lightweight Pub/Sub messaging protocol.
+                                    Send telemetry from robot to cloud in milliseconds with minimal overhead.</p>
+                            </div>
+
+                            <div class="mt-8 pt-4 border-t border-white/5 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">JSON
+                                    Payload</span>
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">QoS
+                                    Levels</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Topics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECH 4: Fusion 360 -->
+                    <div
+                        class="group relative bg-[#0a0a0a] border border-white/10 rounded-xl p-8 overflow-hidden transition-all hover:border-orange-500/50">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="font-mono text-[10px] text-gray-500 mb-4 flex justify-between">
+                                    <span>MECHANICAL.CAD</span>
+                                    <span class="text-orange-500">PARAMETRIC</span>
+                                </div>
+                                <h3
+                                    class="text-3xl font-display font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-300">
+                                    Fusion 360</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">Industrial CAD workflow. Design custom
+                                    chassis parts, simulate assembly joints, and export for 3D printing.</p>
+                            </div>
+
+                            <div class="mt-8 pt-4 border-t border-white/5 flex gap-2 flex-wrap">
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Sketching</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Extrusion</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Tolerance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECH 5: React + Three.js -->
+                    <div
+                        class="group relative bg-[#0a0a0a] border border-white/10 rounded-xl p-8 overflow-hidden transition-all hover:border-indigo-500/50">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="font-mono text-[10px] text-gray-500 mb-4 flex justify-between">
+                                    <span>FRONTEND.VIZ</span>
+                                    <span class="text-indigo-500">WEBGL</span>
+                                </div>
+                                <h3
+                                    class="text-3xl font-display font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-300">
+                                    React + Three.js</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">Build a Digital Twin. Visualize sensor
+                                    data in a 3D web dashboard synced in real-time with your physical robot.</p>
+                            </div>
+
+                            <div class="mt-8 pt-4 border-t border-white/5 flex gap-2 flex-wrap">
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">React
+                                    Three Fiber</span>
+                                <span class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">State
+                                    Mgmt</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TECH 6: Firebase -->
+                    <div
+                        class="group relative bg-[#0a0a0a] border border-white/10 rounded-xl p-8 overflow-hidden transition-all hover:border-yellow-500/50">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col h-full justify-between">
+                            <div>
+                                <div class="font-mono text-[10px] text-gray-500 mb-4 flex justify-between">
+                                    <span>BACKEND.DB</span>
+                                    <span class="text-yellow-500">NOSQL</span>
+                                </div>
+                                <h3
+                                    class="text-3xl font-display font-bold text-white mb-2 group-hover:translate-x-2 transition-transform duration-300">
+                                    Firebase</h3>
+                                <p class="text-gray-400 text-sm leading-relaxed">Serverless infrastructure. Authenticate
+                                    users, store historic sensor logs, and trigger cloud functions.</p>
+                            </div>
+
+                            <div class="mt-8 pt-4 border-t border-white/5 flex gap-2 flex-wrap">
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Firestore</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Auth</span>
+                                <span
+                                    class="px-2 py-1 bg-white/5 rounded text-[10px] text-gray-300 font-mono">Hosting</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- INSERT AFTER TECH STACK -->
+        <section class="py-24 bg-[#F4F4F5] border-t border-black/5">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+                <div class="flex justify-between items-end mb-12">
+                    <h2 class="font-display text-4xl font-bold">Visual Logs.</h2>
+                    <div class="font-mono text-xs text-gray-400">/// ARCHIVE_2024</div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 h-[500px]">
+
+                    <!-- Photo 1 (Large) -->
+                    <div
+                        class="col-span-2 row-span-2 bg-white p-3 shadow-sm rotate-1 hover:rotate-0 transition-transform duration-300 z-10 relative group">
+                        <div class="w-full h-full bg-gray-800 relative overflow-hidden">
+                            <!-- CSS Graphic: Workstation -->
+                            <div
+                                class="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,.1)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]">
+                            </div>
+                            <div class="absolute bottom-4 left-4 text-white font-mono text-xs">WORKSTATION_01</div>
+                        </div>
+                        <div class="mt-2 font-mono text-[10px] text-gray-400 uppercase">Student Assembly Station</div>
+                    </div>
+
+                    <!-- Photo 2 -->
+                    <div
+                        class="bg-white p-3 shadow-sm -rotate-2 hover:rotate-0 transition-transform duration-300 z-0 hover:z-20 relative">
+                        <div class="w-full h-32 bg-black flex items-center justify-center">
+                            <span class="text-green-500 font-mono text-xs blink">code_compile...</span>
+                        </div>
+                        <div class="mt-2 font-mono text-[10px] text-gray-400 uppercase">Firmware Logic</div>
+                    </div>
+
+                    <!-- Photo 3 -->
+                    <div
+                        class="bg-white p-3 shadow-sm rotate-3 hover:rotate-0 transition-transform duration-300 z-0 hover:z-20 relative">
+                        <div class="w-full h-32 bg-gray-200 flex items-center justify-center overflow-hidden">
+                            <div class="w-16 h-16 border-4 border-black rounded-full"></div>
+                        </div>
+                        <div class="mt-2 font-mono text-[10px] text-gray-400 uppercase">3D Printed Parts</div>
+                    </div>
+
+                    <!-- Photo 4 -->
+                    <div
+                        class="bg-white p-3 shadow-sm -rotate-1 hover:rotate-0 transition-transform duration-300 z-0 hover:z-20 relative">
+                        <div class="w-full h-32 bg-gray-900 flex items-center justify-center">
+                            <div class="w-2 h-2 bg-red-500 rounded-full animate-ping"></div>
+                        </div>
+                        <div class="mt-2 font-mono text-[10px] text-gray-400 uppercase">Live Testing</div>
+                    </div>
+
+                    <!-- Photo 5 -->
+                    <div
+                        class="bg-white p-3 shadow-sm rotate-2 hover:rotate-0 transition-transform duration-300 z-0 hover:z-20 relative">
+                        <div class="w-full h-32 bg-blue-900/20 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-blue-900 opacity-50" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-width="2"
+                                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="mt-2 font-mono text-[10px] text-gray-400 uppercase">ESP32 Core</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- REPLACES THE #schedule SECTION -->
+        <section class="py-24 bg-white relative z-20" id="schedule">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+                <!-- Header -->
+                <div class="mb-20 border-b border-black/10 pb-10">
+                    <div class="flex flex-col md:flex-row justify-between items-end">
+                        <div>
+                            <div class="font-mono text-xs font-bold text-emerald-600 tracking-widest uppercase mb-4">///
+                                Project Roadmap</div>
+                            <h2 class="font-display text-5xl lg:text-7xl font-bold text-black mb-4">
+                                Operational<br><span class="text-gray-400">Timeline.</span>
+                            </h2>
+                        </div>
+                        <div class="flex gap-8 mt-6 md:mt-0">
+                            <div class="text-right">
+                                <div class="text-4xl font-display font-bold">14</div>
+                                <div class="text-xs font-mono text-gray-500 uppercase">Days</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-4xl font-display font-bold">112</div>
+                                <div class="text-xs font-mono text-gray-500 uppercase">Hours</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-4xl font-display font-bold">04</div>
+                                <div class="text-xs font-mono text-gray-500 uppercase">Sprints</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+                    <!-- Left Column: Sticky Navigation / Summary -->
+                    <div class="lg:col-span-4">
+                        <div class="sticky top-32 p-8 bg-gray-50 rounded-3xl border border-black/5">
+                            <h3 class="font-display text-2xl font-bold mb-6">Sprint Overview</h3>
+
+                            <div class="space-y-8 relative">
+                                <!-- Vertical Connecting Line -->
+                                <div class="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gray-200"></div>
+
+                                <!-- Phase 1 Marker -->
+                                <div class="relative z-10 flex gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold border-4 border-gray-50 shrink-0">
+                                        01</div>
+                                    <div>
+                                        <h4 class="font-bold text-lg">Hardware Initiation</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Electrical engineering fundamentals and
+                                            C++ firmware logic.</p>
+                                        <span
+                                            class="inline-block mt-3 px-2 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-mono font-bold rounded">STATUS:
+                                            COMPLETED</span>
+                                    </div>
+                                </div>
+
+                                <!-- Phase 2 Marker -->
+                                <div class="relative z-10 flex gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-white text-gray-400 flex items-center justify-center text-xs font-bold border-2 border-gray-200 shrink-0">
+                                        02</div>
+                                    <div>
+                                        <h4 class="font-bold text-lg text-gray-400">Network Logic</h4>
+                                        <p class="text-sm text-gray-400 mt-1">IoT protocols, wireless communication, and
+                                            security handshakes.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Phase 3 Marker -->
+                                <div class="relative z-10 flex gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-white text-gray-400 flex items-center justify-center text-xs font-bold border-2 border-gray-200 shrink-0">
+                                        03</div>
+                                    <div>
+                                        <h4 class="font-bold text-lg text-gray-400">Deployment</h4>
+                                        <p class="text-sm text-gray-400 mt-1">Full stack integration and final
+                                            competitive showcase.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                class="w-full mt-8 bg-black text-white py-4 rounded-xl font-bold text-sm hover:bg-emerald-600 transition-colors">
+                                Download Syllabus PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Detailed Timeline -->
+                    <div class="lg:col-span-8 space-y-4">
+
+                        <!-- Day 1 Card -->
+                        <div
+                            class="group relative bg-white border border-black/10 rounded-2xl p-8 hover:border-black hover:shadow-xl transition-all duration-300 cursor-default">
+                            <div
+                                class="absolute top-0 left-0 w-1 h-full bg-emerald-500 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity">
+                            </div>
+
+                            <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="font-mono text-3xl font-bold text-gray-200 group-hover:text-black transition-colors">
+                                        01</div>
+                                    <div>
+                                        <div
+                                            class="font-mono text-xs text-emerald-600 font-bold uppercase tracking-wide mb-1">
+                                            Sprint 01 // Monday</div>
+                                        <h3 class="text-2xl font-display font-bold">System Boot & Electronics</h3>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span
+                                        class="px-3 py-1 rounded-full border border-black/10 text-xs font-bold">Lecture</span>
+                                    <span
+                                        class="px-3 py-1 rounded-full bg-black text-white text-xs font-bold">Lab</span>
+                                </div>
+                            </div>
+
+                            <!-- AM/PM Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-black/5">
+                                <div class="p-4 bg-gray-50 rounded-xl">
+                                    <div class="font-mono text-xs text-gray-400 mb-2">09:00 - 12:00</div>
+                                    <div class="font-bold mb-1">Circuit Theory</div>
+                                    <p class="text-sm text-gray-500">Voltage, Current, Resistance. Understanding
+                                        breadboards and reading schematics.</p>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-xl relative overflow-hidden">
+                                    <!-- Decor -->
+                                    <div class="absolute top-2 right-2 w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                    <div class="font-mono text-xs text-gray-400 mb-2">13:00 - 16:00</div>
+                                    <div class="font-bold mb-1">Component Assembly</div>
+                                    <p class="text-sm text-gray-500">Soldering workshop. Assembling the ESP32 breakout
+                                        board and motor drivers.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 2 Card -->
+                        <div
+                            class="group relative bg-white border border-black/10 rounded-2xl p-8 hover:border-black hover:shadow-xl transition-all duration-300 cursor-default">
+                            <div
+                                class="absolute top-0 left-0 w-1 h-full bg-emerald-500 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity">
+                            </div>
+
+                            <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="font-mono text-3xl font-bold text-gray-200 group-hover:text-black transition-colors">
+                                        02</div>
+                                    <div>
+                                        <div
+                                            class="font-mono text-xs text-emerald-600 font-bold uppercase tracking-wide mb-1">
+                                            Sprint 01 // Tuesday</div>
+                                        <h3 class="text-2xl font-display font-bold">Firmware Architecture</h3>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="px-3 py-1 rounded-full bg-black text-white text-xs font-bold">Deep
+                                        Dive</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-black/5">
+                                <div class="p-4 bg-gray-50 rounded-xl">
+                                    <div class="font-mono text-xs text-gray-400 mb-2">09:00 - 12:00</div>
+                                    <div class="font-bold mb-1">C++ Pointer Logic</div>
+                                    <p class="text-sm text-gray-500">Memory management and direct register access for
+                                        high-speed IO control.</p>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-xl relative overflow-hidden">
+                                    <div class="font-mono text-xs text-gray-400 mb-2">13:00 - 16:00</div>
+                                    <div class="font-bold mb-1">Sensor Data Loops</div>
+                                    <p class="text-sm text-gray-500">Writing non-blocking code to read Gyroscopes and
+                                        LiDAR sensors simultaneously.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 3 Card -->
+                        <div
+                            class="group relative bg-white border border-black/10 rounded-2xl p-8 hover:border-black hover:shadow-xl transition-all duration-300 cursor-default">
+                            <div
+                                class="absolute top-0 left-0 w-1 h-full bg-emerald-500 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity">
+                            </div>
+                            <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="font-mono text-3xl font-bold text-gray-200 group-hover:text-black transition-colors">
+                                        03</div>
+                                    <div>
+                                        <div
+                                            class="font-mono text-xs text-emerald-600 font-bold uppercase tracking-wide mb-1">
+                                            Sprint 01 // Wednesday</div>
+                                        <h3 class="text-2xl font-display font-bold">Kinematics & Physics</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-gray-50 rounded-xl border-l-4 border-black">
+                                <div class="font-mono text-xs text-gray-400 mb-2">ALL DAY SPRINT</div>
+                                <div class="font-bold mb-1">Inverse Kinematics (IK) Math</div>
+                                <p class="text-sm text-gray-500">Calculus for robotics. Converting XYZ coordinates into
+                                    servo angles for the 6-axis arm.</p>
+                            </div>
+                        </div>
+
+                        <!-- Mid-Week Break -->
+                        <div class="flex items-center gap-4 py-8 opacity-50">
+                            <div class="h-px bg-black flex-1"></div>
+                            <div class="font-mono text-xs uppercase tracking-widest">System Diagnostics / Break</div>
+                            <div class="h-px bg-black flex-1"></div>
+                        </div>
+
+                        <!-- Day 6 Card -->
+                        <div
+                            class="group relative bg-white border border-black/10 rounded-2xl p-8 hover:border-black hover:shadow-xl transition-all duration-300 cursor-default">
+                            <div
+                                class="absolute top-0 left-0 w-1 h-full bg-purple-500 rounded-l-2xl opacity-0 group-hover:opacity-100 transition-opacity">
+                            </div>
+
+                            <div class="flex flex-col md:flex-row gap-6 md:items-center justify-between mb-6">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="font-mono text-3xl font-bold text-gray-200 group-hover:text-black transition-colors">
+                                        06</div>
+                                    <div>
+                                        <div
+                                            class="font-mono text-xs text-purple-600 font-bold uppercase tracking-wide mb-1">
+                                            Sprint 02 // Monday</div>
+                                        <h3 class="text-2xl font-display font-bold">IoT & Cloud Uplink</h3>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span
+                                        class="px-3 py-1 rounded-full border border-purple-200 text-purple-600 text-xs font-bold">Network</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-black/5">
+                                <div class="p-4 bg-gray-50 rounded-xl">
+                                    <div class="font-mono text-xs text-gray-400 mb-2">09:00 - 12:00</div>
+                                    <div class="font-bold mb-1">MQTT Protocol</div>
+                                    <p class="text-sm text-gray-500">Setting up a Broker. Publishing and Subscribing to
+                                        topics for real-time control.</p>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-xl relative overflow-hidden">
+                                    <div class="font-mono text-xs text-gray-400 mb-2">13:00 - 16:00</div>
+                                    <div class="font-bold mb-1">React Dashboard</div>
+                                    <p class="text-sm text-gray-500">Building the web interface. Using WebSockets to
+                                        visualize robot data in 3D.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INSERT AFTER SCHEDULE -->
+        <section class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+                <div class="mb-16">
+                    <h2 class="font-display text-4xl font-bold mb-2">Command Staff.</h2>
+                    <p class="text-gray-500">Taught by industry engineers, not academics.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- Instructor 1 -->
+                    <div
+                        class="flex gap-6 p-6 border border-black/10 rounded-2xl hover:shadow-xl transition-shadow duration-300 bg-white group">
+                        <!-- ID Photo Placeholder -->
+                        <div class="w-24 h-32 bg-gray-200 rounded-lg relative overflow-hidden shrink-0">
+                            <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <!-- Security Stripe -->
+                            <div class="absolute bottom-0 w-full h-2 bg-black"></div>
+                        </div>
+
+                        <div class="flex flex-col justify-between w-full">
+                            <div>
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-display text-2xl font-bold">Dr. Sarah Chen</h3>
+                                    <span
+                                        class="font-mono text-[10px] bg-black text-white px-2 py-1 rounded">LEAD_ENG</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-1">Formerly Robotics Engineer @ Boston Dynamics.</p>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-xs font-mono text-gray-600">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                    <span>SPEC: Inverse Kinematics</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs font-mono text-gray-600">
+                                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                    <span>SPEC: Computer Vision</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructor 2 -->
+                    <div
+                        class="flex gap-6 p-6 border border-black/10 rounded-2xl hover:shadow-xl transition-shadow duration-300 bg-white group">
+                        <!-- ID Photo Placeholder -->
+                        <div class="w-24 h-32 bg-gray-200 rounded-lg relative overflow-hidden shrink-0">
+                            <div class="absolute inset-0 flex items-center justify-center text-gray-400">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="absolute bottom-0 w-full h-2 bg-emerald-500"></div>
+                        </div>
+
+                        <div class="flex flex-col justify-between w-full">
+                            <div>
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-display text-2xl font-bold">Marcus Thorne</h3>
+                                    <span
+                                        class="font-mono text-[10px] bg-emerald-500 text-white px-2 py-1 rounded">SENIOR_DEV</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-1">Embedded Systems Lead @ IoT Solutions.</p>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 text-xs font-mono text-gray-600">
+                                    <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                                    <span>SPEC: PCB Design</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs font-mono text-gray-600">
+                                    <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                    <span>SPEC: RTOS Firmware</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- INSERT BEFORE ENROLL SECTION -->
+        <section class="py-24 bg-[#050505] text-white">
+            <div class="max-w-4xl mx-auto px-6">
+
+                <h2 class="font-display text-4xl font-bold mb-12 text-center">System Diagnostics (FAQ).</h2>
+
+                <div class="space-y-4 font-mono text-sm">
+
+                    <!-- FAQ Item 1 -->
+                    <details
+                        class="group border border-white/10 rounded-lg bg-[#111] open:border-emerald-500/50 transition-all">
+                        <summary class="flex cursor-pointer items-center justify-between p-6 select-none">
+                            <div class="flex gap-3 items-center">
+                                <span class="text-emerald-500">></span>
+                                <span>./query_equipment_requirements.exe</span>
+                            </div>
+                            <svg class="h-4 w-4 transition-transform group-open:rotate-180 text-gray-500" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="p-6 pt-0 text-gray-400 border-t border-white/5 mt-2">
+                            <span class="text-emerald-500 block mb-2">SYSTEM_RESPONSE:</span>
+                            You need a laptop (Windows, Mac, or Linux) with a USB-A port (or dongle). All other hardware
+                            (Soldering irons, ESP32, Robot Chassis) is provided in your tuition kit.
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 2 -->
+                    <details
+                        class="group border border-white/10 rounded-lg bg-[#111] open:border-emerald-500/50 transition-all">
+                        <summary class="flex cursor-pointer items-center justify-between p-6 select-none">
+                            <div class="flex gap-3 items-center">
+                                <span class="text-emerald-500">></span>
+                                <span>./check_prerequisites.sh</span>
+                            </div>
+                            <svg class="h-4 w-4 transition-transform group-open:rotate-180 text-gray-500" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="p-6 pt-0 text-gray-400 border-t border-white/5 mt-2">
+                            <span class="text-emerald-500 block mb-2">SYSTEM_RESPONSE:</span>
+                            No prior hardware experience required. Basic familiarity with coding (variables, loops) in
+                            any language (Python/JS) is recommended but not mandatory.
+                        </div>
+                    </details>
+
+                    <!-- FAQ Item 3 -->
+                    <details
+                        class="group border border-white/10 rounded-lg bg-[#111] open:border-emerald-500/50 transition-all">
+                        <summary class="flex cursor-pointer items-center justify-between p-6 select-none">
+                            <div class="flex gap-3 items-center">
+                                <span class="text-emerald-500">></span>
+                                <span>./verify_certification_status.bat</span>
+                            </div>
+                            <svg class="h-4 w-4 transition-transform group-open:rotate-180 text-gray-500" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </summary>
+                        <div class="p-6 pt-0 text-gray-400 border-t border-white/5 mt-2">
+                            <span class="text-emerald-500 block mb-2">SYSTEM_RESPONSE:</span>
+                            Yes. Upon successful completion of the Capstone Project, you receive a digital and physical
+                            certificate verified on the Ethereum blockchain.
+                        </div>
+                    </details>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- REPLACES THE OLD #enroll SECTION -->
+        <section class="py-32 bg-[#F4F4F5] relative overflow-hidden" id="enroll">
+
+            <!-- Background Decor: Grid lines -->
+            <div class="absolute inset-0 pointer-events-none opacity-[0.05]"
+                style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 60px 60px;">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-16 items-start">
+
+                    <!-- LEFT COLUMN: Value & Kit -->
+                    <div class="lg:col-span-5">
+                        <div class="inline-block px-3 py-1 bg-black text-white text-xs font-mono mb-6 rounded-md">
+                            /// CAPACITY: 14/20 SEATS FILLED
+                        </div>
+                        <h2 class="font-display text-5xl lg:text-6xl font-bold mb-6 leading-[0.95]">
+                            Secure Your<br>Clearance.
+                        </h2>
+                        <p class="text-xl text-gray-500 mb-12 leading-relaxed">
+                            Join the elite cohort. Tuition includes your personal engineering kit, lunch, and lifetime
+                            access to the codebase.
+                        </p>
+
+                        <!-- The "Supply Drop" Card -->
+                        <div
+                            class="bg-white rounded-[2rem] p-8 shadow-[0_20px_40px_rgba(0,0,0,0.05)] border border-black/5 relative overflow-hidden group">
+                            <div
+                                class="absolute top-0 right-0 bg-black text-white text-[10px] font-bold px-4 py-2 rounded-bl-2xl font-mono z-10">
+                                KIT_MANIFEST_V3
+                            </div>
+
+                            <!-- Animated Scan Line overlay -->
+                            <div
+                                class="absolute top-0 left-0 w-full h-1 bg-emerald-500/30 blur-sm group-hover:animate-[scan_2s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity">
+                            </div>
+
+                            <h3 class="font-display text-2xl font-bold mb-8">Issued Hardware</h3>
+
+                            <div class="space-y-6">
+                                <!-- Item 1 -->
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl shrink-0 border border-black/5">
+                                        📟
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-lg">ESP32-S3 Controller</div>
+                                        <div class="text-xs text-gray-400 font-mono uppercase tracking-wider">Dual Core
+                                            • WiFi • BLE</div>
+                                    </div>
+                                </div>
+
+                                <!-- Item 2 -->
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl shrink-0 border border-black/5">
+                                        🦾
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-lg">6-DOF Servo Arm</div>
+                                        <div class="text-xs text-gray-400 font-mono uppercase tracking-wider">Metal Gear
+                                            • High Torque</div>
+                                    </div>
+                                </div>
+
+                                <!-- Item 3 -->
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-xl shrink-0 border border-black/5">
+                                        🔋
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-lg">Power Infrastructure</div>
+                                        <div class="text-xs text-gray-400 font-mono uppercase tracking-wider">LiPo Cells
+                                            • Buck Converter</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="mt-10 pt-6 border-t-2 border-dashed border-gray-100 flex justify-between items-end">
+                                <div>
+                                    <div class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Total
+                                        Tuition</div>
+                                    <div class="text-5xl font-display font-bold text-black">$299</div>
+                                </div>
+                                <div class="text-right">
+                                    <div
+                                        class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">
+                                        IN STOCK
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN: The Terminal Form -->
+                    <div class="lg:col-span-7">
+                        <form
+                            class="bg-white rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-black/5 border border-black/5 relative z-20">
+
+                            <!-- Form Header -->
+                            <div class="flex items-center justify-between mb-10 pb-6 border-b border-black/5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                </div>
+                                <div class="font-mono text-xs text-gray-400">CANDIDATE_REGISTRATION</div>
+                            </div>
+
+                            <div class="space-y-8">
+                                <!-- Name Field -->
+                                <div class="group">
+                                    <label
+                                        class="block font-mono text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Full
+                                        Designation (Name)</label>
+                                    <div class="relative">
+                                        <input type="text"
+                                            class="w-full bg-gray-50 rounded-xl px-6 py-4 font-bold text-lg border-2 border-transparent focus:border-black focus:bg-white focus:outline-none transition-all placeholder-gray-300"
+                                            placeholder="Ex: Alex Chen">
+                                        <div
+                                            class="absolute right-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-black rounded-full opacity-0 group-focus-within:opacity-100 transition-opacity">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Email Field -->
+                                <div class="group">
+                                    <label
+                                        class="block font-mono text-xs font-bold text-gray-500 uppercase mb-2 ml-1">Comms
+                                        Link (Email)</label>
+                                    <div class="relative">
+                                        <input type="email"
+                                            class="w-full bg-gray-50 rounded-xl px-6 py-4 font-bold text-lg border-2 border-transparent focus:border-black focus:bg-white focus:outline-none transition-all placeholder-gray-300"
+                                            placeholder="alex@example.com">
+                                    </div>
+                                </div>
+
+                                <!-- Experience Level Selector -->
+                                <div>
+                                    <label
+                                        class="block font-mono text-xs font-bold text-gray-500 uppercase mb-4 ml-1">Clearance
+                                        Level</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <!-- Option 1 -->
+                                        <label class="relative cursor-pointer group">
+                                            <input type="radio" name="level" class="peer sr-only" checked>
+                                            <div
+                                                class="p-6 bg-gray-50 rounded-2xl border-2 border-transparent peer-checked:border-black peer-checked:bg-white transition-all hover:bg-gray-100">
+                                                <div class="font-bold text-lg mb-1">Rookie</div>
+                                                <div class="text-xs text-gray-500 leading-tight">No hardware experience.
+                                                    Ready to learn from scratch.</div>
+                                            </div>
+                                            <div
+                                                class="absolute top-4 right-4 w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-black peer-checked:bg-black transition-all">
+                                            </div>
+                                        </label>
+
+                                        <!-- Option 2 -->
+                                        <label class="relative cursor-pointer group">
+                                            <input type="radio" name="level" class="peer sr-only">
+                                            <div
+                                                class="p-6 bg-gray-50 rounded-2xl border-2 border-transparent peer-checked:border-black peer-checked:bg-white transition-all hover:bg-gray-100">
+                                                <div class="font-bold text-lg mb-1">Architect</div>
+                                                <div class="text-xs text-gray-500 leading-tight">Some coding/robotics
+                                                    knowledge. Ready for advanced tasks.</div>
+                                            </div>
+                                            <div
+                                                class="absolute top-4 right-4 w-4 h-4 rounded-full border-2 border-gray-300 peer-checked:border-black peer-checked:bg-black transition-all">
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <button type="button"
+                                    class="w-full group relative overflow-hidden bg-black text-white rounded-xl py-5 font-bold text-xl shadow-xl hover:bg-emerald-600 transition-colors duration-300">
+                                    <span class="relative z-10 flex items-center justify-center gap-3">
+                                        Initialize Application
+                                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                        </svg>
+                                    </span>
+                                    <!-- Hover Effect -->
+                                    <div
+                                        class="absolute inset-0 bg-white/10 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700">
+                                    </div>
+                                </button>
+
+                                <p class="text-center text-xs text-gray-400 font-medium">
+                                    By clicking above, you agree to the <button type="button"
+                                        onclick="toggleSafetyModal()"
+                                        class="underline hover:text-black font-bold text-black/70 cursor-pointer relative z-30">Safety
+                                        Protocols</button>.
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAFETY PROTOCOLS MODAL -->
+            <!-- Hidden by default, fixed position covers entire screen -->
+            <div id="safety-modal" class="fixed inset-0 z-[100] hidden transition-opacity duration-300 opacity-0"
+                aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+                <!-- Backdrop: Blurs background and closes modal on click -->
+                <div class="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"
+                    onclick="toggleSafetyModal()"></div>
+
+                <!-- Modal Panel: Centered, Mobile Optimized Max-Height -->
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] md:w-full max-w-2xl p-4">
+                    <div
+                        class="bg-[#0a0a0a] border border-emerald-500/30 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.15)] relative flex flex-col max-h-[85vh]">
+
+                        <!-- Header -->
+                        <div
+                            class="bg-emerald-900/20 border-b border-emerald-500/20 p-4 flex items-center justify-between shrink-0">
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                <span class="font-mono text-emerald-500 text-xs tracking-widest uppercase"
+                                    id="modal-title">Safety_Protocol_v9.pdf</span>
+                            </div>
+                            <button onclick="toggleSafetyModal()"
+                                class="text-emerald-500 hover:text-white font-mono text-xs p-2">
+                                [CLOSE]
+                            </button>
+                        </div>
+
+                        <!-- Scrollable Content -->
+                        <div
+                            class="p-6 md:p-8 overflow-y-auto custom-scrollbar text-gray-300 font-mono text-sm space-y-6">
+
+                            <!-- Alert Box -->
+                            <div class="border-l-4 border-red-500 pl-4 bg-red-500/5 p-4 rounded-r-lg">
+                                <h4 class="text-red-400 font-bold mb-2 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                        </path>
+                                    </svg>
+                                    WARNING: HIGH CURRENT
+                                </h4>
+                                <p class="text-xs opacity-80">The robotic servos operate on high-amperage external
+                                    power. Improper wiring may result in component failure or thermal events.</p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-emerald-400 font-bold mb-2">01 // Eye Protection</h4>
+                                <p class="text-xs opacity-80 leading-relaxed">Safety glasses must be worn at all times
+                                    during soldering sessions and when the robotic arm is in "Active Torque" mode.
+                                    Mechanical failure can result in high-velocity debris.</p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-emerald-400 font-bold mb-2">02 // LiPo Battery Handling</h4>
+                                <p class="text-xs opacity-80 leading-relaxed">Lithium Polymer batteries are volatile. Do
+                                    not puncture, short circuit, or leave charging unattended. All batteries must be
+                                    stored in the provided fire-safe bags when not in use.</p>
+                            </div>
+
+                            <div>
+                                <h4 class="text-emerald-400 font-bold mb-2">03 // Emergency Stop</h4>
+                                <p class="text-xs opacity-80 leading-relaxed">Familiarize yourself with the hardware
+                                    kill-switch location on your workbench. In the event of a code loop causing erratic
+                                    movement, cut power immediately.</p>
+                            </div>
+
+                            <!-- Footer Signature -->
+                            <div class="font-mono text-[10px] text-gray-600 pt-4 border-t border-white/10">
+                                DIGITAL SIGNATURE REQUIRED FOR ADMITTANCE.<br>
+                                HASH: 8f9a2b3c4d5e6f7a8b9c0d1e2f3a4b5c
+                            </div>
+                        </div>
+
+                        <!-- Footer Action (Fixed at bottom of modal) -->
+                        <div class="p-4 bg-black/80 border-t border-white/5 flex justify-end shrink-0">
+                            <button onclick="toggleSafetyModal()"
+                                class="w-full md:w-auto bg-emerald-500 hover:bg-emerald-400 text-black px-6 py-3 rounded font-bold text-sm transition-colors flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                I ACKNOWLEDGE RISKS
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function toggleSafetyModal() {
+                    const modal = document.getElementById('safety-modal');
+                    const body = document.body;
+
+                    if (modal.classList.contains('hidden')) {
+                        // OPEN
+                        modal.classList.remove('hidden');
+                        // Small delay allows display:block to apply before opacity transition starts
+                        setTimeout(() => {
+                            modal.classList.remove('opacity-0');
+                            modal.classList.add('opacity-100');
+                        }, 10);
+                        body.style.overflow = 'hidden'; // Lock body scroll
+                    } else {
+                        // CLOSE
+                        modal.classList.remove('opacity-100');
+                        modal.classList.add('opacity-0');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                        }, 300); // Wait for fade out duration
+                        body.style.overflow = ''; // Unlock body scroll
+                    }
+                }
+            </script>
+
+        </section>
+
+        <!-- REPLACES THE FOOTER -->
+        <footer class="bg-[#050505] text-white pt-24 pb-12 border-t border-white/10 relative overflow-hidden">
+
+            <!-- Background Decor -->
+            <div class="absolute inset-0 opacity-[0.05] pointer-events-none"
+                style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;">
+            </div>
+
+            <!-- Large Watermark -->
+            <div
+                class="absolute bottom-0 left-1/2 -translate-x-1/2 font-display font-bold text-[20vw] leading-none text-white/[0.02] pointer-events-none select-none whitespace-nowrap">
+                NXTGN // SYSTEMS
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+
+                <!-- Top Section: Newsletter & Branding -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+                    <div>
+                        <h2 class="font-display text-4xl font-bold mb-6">Stay in the Loop.</h2>
+                        <p class="text-gray-400 mb-8 max-w-md">
+                            Receive critical updates on cohort openings, hardware drops, and firmware patches. No spam,
+                            only signal.
+                        </p>
+
+                        <!-- CLI Style Input -->
+                        <form
+                            class="flex items-center bg-[#111] border border-white/10 rounded-xl p-2 max-w-md focus-within:border-emerald-500/50 transition-colors group">
+                            <div class="px-4 font-mono text-emerald-500 text-sm hidden sm:block">root@nxtgn:~#</div>
+                            <input type="email" placeholder="enter_email_address.exe"
+                                class="bg-transparent border-none text-white placeholder-gray-600 focus:ring-0 w-full font-mono text-sm h-10">
+                            <button type="button"
+                                class="bg-white text-black px-6 py-2 rounded-lg font-bold text-sm hover:bg-emerald-400 transition-colors">
+                                EXECUTE
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:text-right flex flex-col items-start lg:items-end justify-center">
+                        <div class="text-6xl font-display font-bold tracking-tighter mb-2">NXTGN.</div>
+                        <div class="text-gray-500 font-mono text-xs tracking-widest uppercase mb-6">
+                            Autonomous Systems Education Initiative
+                        </div>
+                        <div class="flex gap-4">
+                            <!-- Social Icon: GitHub -->
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white hover:text-black transition-all">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <!-- Social Icon: Discord -->
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#5865F2] hover:text-white transition-all">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.579.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.077.077 0 00.084-.027c.461-.63.874-1.295 1.226-1.994.02-.041-.002-.09-.045-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.118.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.046.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-12"></div>
+
+                <!-- Links Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 mb-20">
+                    <div>
+                        <h4 class="font-bold text-white mb-4">Sitemap</h4>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li><a href="#hero" class="hover:text-emerald-400 transition-colors">Mission Control</a>
+                            </li>
+                            <li><a href="#modules" class="hover:text-emerald-400 transition-colors">Curriculum</a></li>
+                            <li><a href="#tech" class="hover:text-emerald-400 transition-colors">Tech Stack</a></li>
+                            <li><a href="#schedule" class="hover:text-emerald-400 transition-colors">Timeline</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-4">Resources</h4>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">Documentation</a></li>
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">GitHub Repo</a></li>
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">Student Portal</a></li>
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">API Status</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-4">Legal</h4>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">Privacy Protocol</a></li>
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">Terms of Service</a></li>
+                            <li><a href="#" class="hover:text-emerald-400 transition-colors">Safety Waiver</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white mb-4">Location</h4>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li>Innovation District, Block 7</li>
+                            <li>Sector 4, Tech City</li>
+                            <li>San Francisco, CA 94105</li>
+                            <li class="pt-2 font-mono text-xs text-emerald-500">37.7749° N, 122.4194° W</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bottom Bar -->
+                <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5">
+                    <div class="text-xs text-gray-600 font-mono mb-4 md:mb-0">
+                        © 2025 NXTGN ROBOTICS. ALL SYSTEMS OPERATIONAL.
+                    </div>
+
+                    <!-- Server Status Badge -->
+                    <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-[10px] font-mono text-gray-400 uppercase tracking-wider">Server Status:
+                            Nominal</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- 1. Three.js Robotic Arm Setup ---
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+
+            // Setup Camera
+            const camera = new THREE.PerspectiveCamera(35, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+            camera.position.set(20, 15, 20);
+            camera.lookAt(0, 2, 0);
+
+            // Setup Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+
+            // Materials
+            const matBlack = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.7, metalness: 0.1 });
+            const matWhite = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.1 });
+            const matChrome = new THREE.MeshStandardMaterial({ color: 0xaaaaaa, roughness: 0.1, metalness: 0.9 });
+            const matGlow = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Status light
+
+            // --- Build the Robot ---
+            const robotGroup = new THREE.Group();
+            scene.add(robotGroup);
+
+            // 1. Base
+            const baseGeo = new THREE.CylinderGeometry(4, 4.5, 1, 32);
+            const base = new THREE.Mesh(baseGeo, matBlack);
+            base.position.y = 0.5;
+            base.castShadow = true;
+            base.receiveShadow = true;
+            robotGroup.add(base);
+
+            // 2. Rotator (Turret)
+            const turretGroup = new THREE.Group();
+            turretGroup.position.y = 1;
+            robotGroup.add(turretGroup);
+
+            const turretGeo = new THREE.CylinderGeometry(2.5, 2.5, 1.5, 32);
+            const turret = new THREE.Mesh(turretGeo, matWhite);
+            turret.position.y = 0.75;
+            turret.castShadow = true;
+            turretGroup.add(turret);
+
+            // 3. Shoulder Joint
+            const shoulderGeo = new THREE.CylinderGeometry(1.2, 1.2, 3, 32);
+            const shoulder = new THREE.Mesh(shoulderGeo, matBlack);
+            shoulder.rotation.z = Math.PI / 2;
+            shoulder.position.y = 1.5;
+            turretGroup.add(shoulder);
+
+            // 4. Lower Arm
+            const arm1Group = new THREE.Group();
+            arm1Group.position.y = 1.5;
+            turretGroup.add(arm1Group);
+
+            const arm1Geo = new THREE.BoxGeometry(1, 5, 1.5);
+            const arm1 = new THREE.Mesh(arm1Geo, matWhite);
+            arm1.position.y = 2.5; // Half height
+            arm1.castShadow = true;
+            arm1Group.add(arm1);
+
+            // Piston detail
+            const pistonGeo = new THREE.CylinderGeometry(0.2, 0.2, 4);
+            const piston = new THREE.Mesh(pistonGeo, matChrome);
+            piston.position.set(0.8, 2.5, 0);
+            arm1Group.add(piston);
+
+            // 5. Elbow Joint
+            const elbowGeo = new THREE.CylinderGeometry(1, 1, 2.2, 32);
+            const elbow = new THREE.Mesh(elbowGeo, matBlack);
+            elbow.rotation.z = Math.PI / 2;
+            elbow.position.y = 5;
+            arm1Group.add(elbow);
+
+            // 6. Upper Arm (Forearm)
+            const arm2Group = new THREE.Group();
+            arm2Group.position.y = 5;
+            arm1Group.add(arm2Group);
+
+            const arm2Geo = new THREE.BoxGeometry(0.8, 4, 1.2);
+            const arm2 = new THREE.Mesh(arm2Geo, matWhite);
+            arm2.position.y = 2;
+            arm2.castShadow = true;
+            arm2Group.add(arm2);
+
+            // 7. Wrist/End Effector
+            const wristGeo = new THREE.SphereGeometry(0.8);
+            const wrist = new THREE.Mesh(wristGeo, matBlack);
+            wrist.position.y = 4;
+            arm2Group.add(wrist);
+
+            // Claw
+            const clawGroup = new THREE.Group();
+            clawGroup.position.y = 4;
+            arm2Group.add(clawGroup);
+
+            const clawPartGeo = new THREE.BoxGeometry(0.2, 1.5, 0.5);
+            const clawL = new THREE.Mesh(clawPartGeo, matChrome);
+            clawL.position.set(-0.4, 0.8, 0);
+            clawL.rotation.z = 0.2;
+            clawGroup.add(clawL);
+
+            const clawR = new THREE.Mesh(clawPartGeo, matChrome);
+            clawR.position.set(0.4, 0.8, 0);
+            clawR.rotation.z = -0.2;
+            clawGroup.add(clawR);
+
+            // Status Light
+            const lightGeo = new THREE.SphereGeometry(0.2);
+            const lightMesh = new THREE.Mesh(lightGeo, matGlow);
+            lightMesh.position.set(0, 1.5, 0.8);
+            arm1.add(lightMesh);
+
+            // --- Lighting ---
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight.position.set(10, 20, 10);
+            dirLight.castShadow = true;
+            dirLight.shadow.mapSize.width = 1024;
+            dirLight.shadow.mapSize.height = 1024;
+            scene.add(dirLight);
+
+            // Floor (Invisible but catches shadow)
+            const floorGeo = new THREE.PlaneGeometry(50, 50);
+            const floorMat = new THREE.ShadowMaterial({ opacity: 0.1 });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
+            floor.rotation.x = -Math.PI / 2;
+            floor.receiveShadow = true;
+            scene.add(floor);
+
+            // --- Animation Variables ---
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                const windowHalfX = window.innerWidth / 2;
+                const windowHalfY = window.innerHeight / 2;
+                mouseX = (e.clientX - windowHalfX) * 0.001;
+                mouseY = (e.clientY - windowHalfY) * 0.001;
+            });
+
+            // --- Render Loop ---
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // 1. Turret Rotation (Y-axis follow mouse)
+                turretGroup.rotation.y += ((-mouseX * 2) - turretGroup.rotation.y) * 0.05;
+
+                // 2. Arm 1 Movement (Bobbing + Mouse Y)
+                const targetArm1Rot = Math.sin(t * 0.5) * 0.2 + (mouseY * 1.5) + 0.5; // Base tilt
+                arm1Group.rotation.x += (targetArm1Rot - arm1Group.rotation.x) * 0.05;
+
+                // 3. Arm 2 Movement (Opposite compensation)
+                const targetArm2Rot = -Math.sin(t * 0.5) * 0.4 - 1.0;
+                arm2Group.rotation.x += (targetArm2Rot - arm2Group.rotation.x) * 0.05;
+
+                // 4. Claw Spinning
+                clawGroup.rotation.y += 0.02;
+
+                // 5. Pulse Light
+                const pulse = (Math.sin(t * 5) + 1) / 2; // 0 to 1
+                matGlow.color.setHSL(0.33, 1, 0.3 + pulse * 0.4);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.offsetWidth / container.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.offsetWidth, container.offsetHeight);
+            });
+        };
+
+        // --- 2. GSAP Animations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Remove Loader
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+
+                // Init 3D after loader
+                initThreeJS();
+
+                // Trigger Text Reveals
+                gsap.to('.reveal-text', {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: "power3.out"
+                });
+            }, 1500);
+
+            // Scroll Animations for Sections
+            gsap.utils.toArray('section').forEach(section => {
+                gsap.from(section.children, {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power3.out"
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
