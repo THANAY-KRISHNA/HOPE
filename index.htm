@@ -89,7 +89,7 @@
             border: 1px solid #000;
             border-radius: 50%;
             pointer-events: none;
-            z-index: 10000;
+            z-index: 20000;
             transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, background-color 0.3s;
             mix-blend-mode: difference;
@@ -1396,16 +1396,26 @@
         // --- 3. INTERACTION ---
         function initCustomCursor() {
             const cursor = document.getElementById('cursor');
-            const magneticBtns = document.querySelectorAll('.magnetic-btn, .nav-btn, button, .cursor-pointer');
 
+            // Mouse movement
             document.addEventListener('mousemove', (e) => {
                 cursor.style.left = e.clientX + 'px';
                 cursor.style.top = e.clientY + 'px';
             });
 
-            magneticBtns.forEach(btn => {
-                btn.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                btn.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+            // Hover effects using event delegation
+            document.addEventListener('mouseover', (e) => {
+                const target = e.target.closest('.magnetic-btn, .nav-btn, button, .cursor-pointer, a');
+                if (target) {
+                    cursor.classList.add('hovered');
+                }
+            });
+
+            document.addEventListener('mouseout', (e) => {
+                const target = e.target.closest('.magnetic-btn, .nav-btn, button, .cursor-pointer, a');
+                if (target) {
+                    cursor.classList.remove('hovered');
+                }
             });
         }
 
