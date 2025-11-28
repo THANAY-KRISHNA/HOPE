@@ -48,25 +48,24 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 45vw;
-            /* Reduced from 50vw to prevent text overlap */
+            width: 50vw;
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            /* IMPORTANT: Lets clicks pass through to buttons below */
+            /* Allow clicks to pass through */
             transition: opacity 0.5s ease;
-            /* Smooth fade out on scroll */
         }
 
         /* Mobile Canvas Adjustment */
         @media (max-width: 1024px) {
             #canvas-container {
-                position: relative;
-                /* Not fixed on mobile */
+                position: absolute;
+                /* Scroll with page on mobile */
+                top: 0;
+                left: 0;
                 width: 100%;
-                height: 400px;
-                top: auto;
-                right: auto;
+                height: 60vh;
+                /* Cover top area */
             }
         }
 
@@ -101,44 +100,6 @@
         ::-webkit-scrollbar-thumb {
             background: #000;
             border-radius: 10px;
-        }
-
-        /* Animations */
-        .reveal-text {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 50vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: all;
-            /* Allow rotation */
-        }
-
-        @media (max-width: 1024px) {
-            #canvas-container {
-                position: relative;
-                width: 100%;
-                height: 50vh;
-            }
-        }
-
-        /* Loader */
-        .loader-screen {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            transition: opacity 0.5s ease;
         }
     </style>
 </head>
@@ -195,6 +156,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
                     <div class="lg:col-span-6 flex flex-col justify-center">
+                        <div id="canvas-container"></div>
 
                         <div class="flex">
                             <div
@@ -263,7 +225,6 @@
             </div>
         </section>
 
-        <div id="canvas-container" class="fixed inset-0 z-[1] pointer-events-none lg:pointer-events-auto"></div>
 
         <!-- INSERT AFTER HERO SECTION -->
         <section class="py-16 lg:py-24 bg-[#0a0a0a] relative overflow-hidden border-y border-white/5" id="testimonials">
