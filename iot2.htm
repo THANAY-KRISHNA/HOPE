@@ -56,8 +56,6 @@
             /* Behind main content */
             pointer-events: none;
             will-change: left;
-            transition: left 1s ease-in-out;
-            /* Smooth CSS transition as backup/base */
         }
 
         /* Mobile Canvas Adjustment */
@@ -2093,8 +2091,8 @@
                         const moveCanvas = (side) => {
                             gsap.to("#canvas-container", {
                                 left: side === 'left' ? "0%" : "50%",
-                                duration: 1.2,
-                                ease: "power3.inOut",
+                                duration: 1.5,
+                                ease: "expo.out",
                                 overwrite: true
                             });
                         };
