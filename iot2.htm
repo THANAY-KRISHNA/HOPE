@@ -47,14 +47,17 @@
         #canvas-container {
             position: fixed;
             top: 0;
-            right: 0;
+            left: 50%;
+            /* Start at right side */
             width: 50vw;
             /* Start at 50% width to match Hero layout */
             height: 100vh;
             z-index: 0;
             /* Behind main content */
             pointer-events: none;
-            will-change: width;
+            will-change: left;
+            transition: left 1s ease-in-out;
+            /* Smooth CSS transition as backup/base */
         }
 
         /* Mobile Canvas Adjustment */
@@ -2081,17 +2084,69 @@
                 // Init 3D after loader
                 initThreeJS();
 
-                // Canvas Expansion Animation
-                // Expands from 50vw (Hero layout) to 100vw (Background layout) as user scrolls
-                gsap.to("#canvas-container", {
-                    scrollTrigger: {
-                        trigger: "body",
-                        start: "top top",
-                        end: "100vh top", // Fully expanded after scrolling 1 viewport height
-                        scrub: 0.5
-                    },
-                    width: "100vw",
-                    ease: "none"
+                // Canvas Position Choreography
+                // Moves the robot arm left/right based on the active section
+                ScrollTrigger.matchMedia({
+                    // Desktop Only
+                    "(min-width: 1024px)": function () {
+
+                        const moveCanvas = (side) => {
+                            gsap.to("#canvas-container", {
+                                left: side === 'left' ? "0%" : "50%",
+                                duration: 1.2,
+                                ease: "power3.inOut",
+                                overwrite: true
+                            });
+                        };
+
+                        // 1. Testimonials -> Left
+                        ScrollTrigger.create({
+                            trigger: "#testimonials",
+                            start: "top center",
+                            onEnter: () => moveCanvas('left'),
+                            onLeaveBack: () => moveCanvas('right') // Back to Hero
+                        });
+
+                        // 2. Capstone -> Right
+                        ScrollTrigger.create({
+                            trigger: "#capstone",
+                            start: "top center",
+                            onEnter: () => moveCanvas('right'),
+                            onLeaveBack: () => moveCanvas('left')
+                        });
+
+                        // 3. Modules -> Left
+                        ScrollTrigger.create({
+                            trigger: "#modules",
+                            start: "top center",
+                            onEnter: () => moveCanvas('left'),
+                            onLeaveBack: () => moveCanvas('right')
+                        });
+
+                        // 4. Tech Stack -> Right
+                        ScrollTrigger.create({
+                            trigger: "#tech",
+                            start: "top center",
+                            onEnter: () => moveCanvas('right'),
+                            onLeaveBack: () => moveCanvas('left')
+                        });
+
+                        // 5. Schedule -> Left
+                        ScrollTrigger.create({
+                            trigger: "#schedule",
+                            start: "top center",
+                            onEnter: () => moveCanvas('left'),
+                            onLeaveBack: () => moveCanvas('right')
+                        });
+
+                        // 6. Enroll -> Right
+                        ScrollTrigger.create({
+                            trigger: "#enroll",
+                            start: "top center",
+                            onEnter: () => moveCanvas('right'),
+                            onLeaveBack: () => moveCanvas('left')
+                        });
+                    }
                 });
 
                 // Trigger Text Reveals
