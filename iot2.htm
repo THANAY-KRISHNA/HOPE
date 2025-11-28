@@ -47,21 +47,23 @@
         #canvas-container {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100vw;
+            right: 0;
+            width: 50vw;
+            /* Start at 50% width to match Hero layout */
             height: 100vh;
-            z-index: -1;
+            z-index: 0;
+            /* Behind main content */
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            will-change: width;
         }
 
         /* Mobile Canvas Adjustment */
         @media (max-width: 1024px) {
             #canvas-container {
-                /* Ensure it stays fixed on mobile too */
-                position: fixed;
                 width: 100vw;
                 height: 100vh;
+                left: 0;
+                right: auto;
             }
         }
 
@@ -2078,6 +2080,19 @@
 
                 // Init 3D after loader
                 initThreeJS();
+
+                // Canvas Expansion Animation
+                // Expands from 50vw (Hero layout) to 100vw (Background layout) as user scrolls
+                gsap.to("#canvas-container", {
+                    scrollTrigger: {
+                        trigger: "body",
+                        start: "top top",
+                        end: "100vh top", // Fully expanded after scrolling 1 viewport height
+                        scrub: 0.5
+                    },
+                    width: "100vw",
+                    ease: "none"
+                });
 
                 // Trigger Text Reveals
                 gsap.to('.reveal-text', {
