@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IEDC | IES College of Engineering</title>
+
+    <!-- Fonts: Space Grotesk (Headings) & Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #F3F4F6;
+            --text: #111827;
+            --accent: #2563EB;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+            /* Hide default cursor */
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-heading {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            /* Center the transform anchor point */
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            opacity: 0;
+            /* Hidden initially */
+        }
+
+        /* Inner dot for precision */
+        .cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+        }
+
+        /* --- LOADER --- */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loader-text {
+            overflow: hidden;
+            line-height: 1.2;
+        }
+
+        .loader-text span {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        /* --- HORIZONTAL SCROLL SECTION --- */
+        .scroll-outer-wrapper {
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .horizontal-container {
+            width: 400%;
+            /* 4 panels * 100% */
+            height: 100%;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .panel {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* --- IMAGE REVEAL --- */
+        .image-reveal {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-reveal img {
+            transform: scale(1.3);
+            transition: transform 0.1s;
+        }
+
+        .image-reveal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            transform: scaleY(1);
+            transform-origin: bottom;
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .image-reveal.active::after {
+            transform: scaleY(0);
+        }
+
+        /* --- HERO ANIMATION --- */
+        .gradient-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.4) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor"></div>
+
+    <!-- PRELOADER -->
+    <div class="loader">
+        <div class="loader-text font-heading text-4xl md:text-6xl font-bold">
+            <span class="loader-word">INNOVATE</span>
+        </div>
+        <div class="loader-text font-heading text-4xl md:text-6xl font-bold text-blue-500">
+            <span class="loader-word">INCUBATE</span>
+        </div>
+        <div class="loader-text font-heading text-4xl md:text-6xl font-bold">
+            <span class="loader-word">INSPIRE</span>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 mix-blend-difference text-white">
+        <div class="font-heading font-bold text-2xl tracking-tighter hover-trigger cursor-pointer">IEDC / IESCE</div>
+        <div class="hidden md:flex gap-8 font-medium uppercase text-sm tracking-widest">
+            <a href="#about" class="hover:text-blue-400 transition-colors hover-trigger">About</a>
+            <a href="#events" class="hover:text-blue-400 transition-colors hover-trigger">Events</a>
+            <a href="#contact" class="hover:text-blue-400 transition-colors hover-trigger">Contact</a>
+        </div>
+    </nav>
+
+    <!-- NEW HERO SECTION -->
+    <header
+        class="relative w-full h-screen overflow-hidden bg-black text-white flex flex-col justify-between p-6 md:p-12 z-10">
+
+        <!-- Interactive Background Element -->
+        <div class="gradient-blob" id="hero-blob" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+
+        <!-- Grid overlay -->
+        <div
+            class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] z-0 pointer-events-none">
+        </div>
+
+        <!-- Top Bar Information -->
+        <div class="flex justify-between items-start z-20 w-full mt-16 md:mt-0">
+            <div class="hero-anim opacity-0 translate-y-10">
+                <span class="block text-[10px] md:text-xs font-bold tracking-[0.2em] text-gray-500 mb-2">EST.
+                    2015</span>
+                <span class="block text-sm font-medium">IES College of Engineering</span>
+            </div>
+            <div class="hero-anim opacity-0 translate-y-10 text-right hidden md:block">
+                <span class="block text-[10px] md:text-xs font-bold tracking-[0.2em] text-gray-500 mb-2">STATUS</span>
+                <span class="flex items-center justify-end gap-2 text-sm font-medium"><span
+                        class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Incubating</span>
+            </div>
+        </div>
+
+        <!-- Center Typography -->
+        <div class="relative z-20 flex-1 flex flex-col justify-center items-center text-center select-none">
+            <h1
+                class="font-heading text-[12vw] leading-[0.85] font-bold tracking-tighter mix-blend-difference hover-trigger">
+                <div class="overflow-hidden"><span class="block hero-title-anim translate-y-full">WE BUILD</span></div>
+                <div class="overflow-hidden"><span
+                        class="block hero-title-anim translate-y-full text-transparent stroke-text"
+                        style="-webkit-text-stroke: 2px white; color: transparent;">UNICORNS</span></div>
+            </h1>
+            <div class="overflow-hidden mt-8">
+                <p class="hero-anim translate-y-full opacity-0 text-base md:text-xl text-gray-400 max-w-xl">
+                    The largest innovation ecosystem in Thrissur. Transforming student projects into funded startups.
+                </p>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="flex justify-between items-end z-20 w-full">
+            <div class="hero-anim opacity-0">
+                <span class="block text-[10px] md:text-xs font-bold tracking-[0.2em] text-gray-500 mb-2">SCROLL TO
+                    EXPLORE</span>
+                <div class="h-16 w-[1px] bg-white/20 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1/2 bg-white animate-slideDown"></div>
+                </div>
+            </div>
+            <div class="hero-anim opacity-0 hidden md:block">
+                <span class="text-sm font-mono text-gray-500">IEDC.IESCE.V2.0</span>
+            </div>
+        </div>
+
+        <style>
+            @keyframes slideDown {
+                0% {
+                    transform: translateY(-100%);
+                }
+
+                100% {
+                    transform: translateY(200%);
+                }
+            }
+
+            .animate-slideDown {
+                animation: slideDown 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+            }
+        </style>
+    </header>
+
+    <!-- MARQUEE SECTION -->
+    <section class="py-12 border-y border-gray-300 bg-white overflow-hidden whitespace-nowrap z-20 relative">
+        <div class="marquee-inner flex gap-12 font-heading text-8xl font-bold text-transparent stroke-text"
+            style="-webkit-text-stroke: 1px #e5e7eb;">
+            <span class="marquee-item text-gray-200">IEDC IESCE</span>
+            <span class="marquee-item text-blue-600">INNOESPARKS</span>
+            <span class="marquee-item text-gray-200">BOOTCAMPS</span>
+            <span class="marquee-item text-blue-600">STARTUPS</span>
+            <span class="marquee-item text-gray-200">FUNDING</span>
+        </div>
+    </section>
+
+    <!-- ABOUT / STICKY SECTION -->
+    <section id="about" class="relative w-full py-24 px-6 md:px-20 bg-white z-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="sticky top-24 h-fit">
+                <h2 class="font-heading text-5xl md:text-7xl font-bold mb-8">The Engine of Innovation.</h2>
+                <p class="text-xl text-gray-600 leading-relaxed max-w-md">
+                    We are the bridge between academic theory and commercial reality. Located at IES College of
+                    Engineering, Thrissur, we provide the fuel for your startup journey.
+                </p>
+                <div class="mt-12 grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-4xl font-bold text-blue-600 counter" data-target="50">0</h4>
+                        <p class="text-sm font-bold uppercase tracking-wider text-gray-400">Startups</p>
+                    </div>
+                    <div>
+                        <h4 class="text-4xl font-bold text-blue-600 counter" data-target="200">0</h4>
+                        <p class="text-sm font-bold uppercase tracking-wider text-gray-400">Lakhs Funding</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-24">
+                <div class="image-reveal aspect-[4/5] bg-gray-200 rounded-2xl w-full" data-scroll>
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800"
+                        class="w-full h-full object-cover" alt="Student Working">
+                    <div class="mt-4">
+                        <h3 class="text-2xl font-heading font-bold">Mentorship</h3>
+                        <p class="text-gray-500">Industry experts guiding your path.</p>
+                    </div>
+                </div>
+
+                <div class="image-reveal aspect-[4/5] bg-gray-200 rounded-2xl w-full" data-scroll>
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800"
+                        class="w-full h-full object-cover" alt="Robotics">
+                    <div class="mt-4">
+                        <h3 class="text-2xl font-heading font-bold">Prototyping</h3>
+                        <p class="text-gray-500">Access to labs and tech grants.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HORIZONTAL SCROLL (EVENTS) -->
+    <div class="scroll-outer-wrapper bg-black z-30 relative">
+        <section id="events" class="horizontal-container bg-black text-white">
+
+            <!-- Panel 1: Title -->
+            <div class="panel bg-black flex-col items-start px-20 border-r border-gray-800">
+                <span class="text-blue-500 font-bold tracking-widest mb-4">SCROLL >>></span>
+                <h2 class="font-heading text-8xl md:text-9xl font-bold">Signature<br>Events</h2>
+            </div>
+
+            <!-- Panel 2: Innoesparks -->
+            <div class="panel bg-[#0f0f0f] border-r border-gray-800">
+                <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="aspect-square bg-gray-800 rounded-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-6xl font-bold mb-6">Innoesparks</h3>
+                        <p class="text-xl text-gray-400 mb-8">Our flagship annual innovation festival. A massive
+                            convergence of project expos, startup pitches, and cultural energy.</p>
+                        <button
+                            class="hover-trigger px-8 py-3 border border-white rounded-full hover:bg-white hover:text-black transition-all">View
+                            Gallery</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Bootcamps -->
+            <div class="panel bg-[#1a1a1a] border-r border-gray-800">
+                <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <h3 class="font-heading text-6xl font-bold mb-6">Startup Bootcamps</h3>
+                        <p class="text-xl text-gray-400 mb-8">Intensive weekend sessions with founders like the CEO of
+                            Carve Startup Labs. Learn to pitch, build, and scale.</p>
+                        <button
+                            class="hover-trigger px-8 py-3 bg-blue-600 border border-blue-600 rounded-full hover:bg-transparent hover:text-white transition-all">Join
+                            Next Batch</button>
+                    </div>
+                    <div class="order-1 md:order-2 aspect-square bg-gray-800 rounded-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=800"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 4: Call to Action -->
+            <div class="panel bg-blue-600 flex-col text-center">
+                <h2 class="font-heading text-6xl md:text-8xl font-bold mb-8">Ready to Launch?</h2>
+                <a href="#contact"
+                    class="hover-trigger text-2xl md:text-4xl underline decoration-2 underline-offset-8 hover:opacity-80">Apply
+                    for Incubation</a>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- LEADERSHIP SECTION -->
+    <section class="py-32 px-6 md:px-20 bg-gray-100 z-20 relative">
+        <div class="max-w-6xl mx-auto">
+            <span class="block text-center text-sm font-bold tracking-widest text-gray-400 mb-12">THE LEADERSHIP</span>
+
+            <div
+                class="group relative bg-white p-12 rounded-3xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <div class="w-40 h-40 md:w-64 md:h-64 rounded-full overflow-hidden bg-gray-200 shrink-0">
+                        <!-- Using a professional abstract placeholder if real image not available -->
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600"
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="text-center md:text-left">
+                        <div
+                            class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-xs font-bold inline-block mb-4">
+                            NODAL OFFICER</div>
+                        <h3 class="font-heading text-4xl md:text-5xl font-bold mb-4">Ms. Shahaziya Parvez M</h3>
+                        <p class="text-lg text-gray-500 mb-6">Assistant Professor, Dept of ECE</p>
+                        <p class="text-xl leading-relaxed">
+                            "Innovation is not just about ideas, it's about making ideas happen." <br>
+                            Winner of the <span class="text-black font-bold border-b-2 border-blue-500">Exemplary
+                                Institution Award</span> at NASA Space Apps Challenge (IEDC Summit).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-black text-white py-24 px-6 md:px-20 relative overflow-hidden z-20">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full blur-[100px] opacity-30"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+            <div>
+                <h2 class="font-heading text-6xl md:text-8xl font-bold mb-8">Let's<br>Build.</h2>
+                <a href="mailto:iedc@iesce.info"
+                    class="text-2xl md:text-4xl text-gray-400 hover:text-white transition-colors hover-trigger">iedc@iesce.info</a>
+            </div>
+            <div class="flex flex-col justify-end">
+                <p class="text-lg text-gray-400 max-w-sm mb-8">
+                    IES College of Engineering,<br>
+                    Chittilappilly, Thrissur<br>
+                    Kerala, 680551
+                </p>
+                <div class="flex gap-6">
+                    <a href="#"
+                        class="hover-trigger w-12 h-12 border border-gray-700 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all"><i
+                            data-lucide="instagram"></i></a>
+                    <a href="#"
+                        class="hover-trigger w-12 h-12 border border-gray-700 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all"><i
+                            data-lucide="linkedin"></i></a>
+                    <a href="#"
+                        class="hover-trigger w-12 h-12 border border-gray-700 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-all"><i
+                            data-lucide="globe"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="mt-24 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between text-gray-500 text-sm">
+            <p>&copy; 2025 IEDC IESCE. All Rights Reserved.</p>
+            <p>Designed with <span class="text-red-500">♥</span> in Kerala</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. INITIALIZE ICONS
+        lucide.createIcons();
+
+        // 2. REGISTER GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 3. INITIALIZE LENIS (Smooth Scroll)
+        // Sync Lenis with GSAP for buttery smooth rendering
+        let lenis;
+        if (typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smooth: true,
+            });
+
+            // CONNECT LENIS TO GSAP
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        } else {
+            console.warn("Lenis failed to load.");
+            document.documentElement.style.scrollBehavior = 'smooth';
+        }
+
+        // 4. FIX CURSOR ENGINE (GSAP)
+        const cursor = document.querySelector('.cursor');
+        const heroBlob = document.getElementById('hero-blob');
+        const hoverTriggers = document.querySelectorAll('.hover-trigger');
+
+        // Setup GSAP "quickTo" for instant, lag-free updates
+        const xTo = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power3" });
+        const yTo = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "power3" });
+
+        let cursorVisible = false;
+
+        document.addEventListener('mousemove', (e) => {
+            // First move reveals the cursor
+            if (!cursorVisible) {
+                gsap.to(cursor, { opacity: 1, duration: 0.3 });
+                cursorVisible = true;
+            }
+
+            // Feed GSAP the new coordinates
+            xTo(e.clientX);
+            yTo(e.clientY);
+
+            // Parallax Blob Logic (Optional Hero Effect)
+            if (heroBlob) {
+                const x = e.clientX / window.innerWidth - 0.5;
+                const y = e.clientY / window.innerHeight - 0.5;
+                // Using animate API is lighter than GSAP for background blur
+                heroBlob.animate({
+                    left: `calc(50% + ${x * 100}px)`,
+                    top: `calc(50% + ${y * 100}px)`
+                }, { duration: 1000, fill: "forwards" });
+            }
+        });
+
+        // Hover Effects (Scaling)
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => {
+                gsap.to(cursor, { scale: 3, duration: 0.2 });
+            });
+            trigger.addEventListener('mouseleave', () => {
+                gsap.to(cursor, { scale: 1, duration: 0.2 });
+            });
+        });
+
+        // 5. ANIMATIONS
+
+        // A. Loader & Hero Reveal
+        const tlLoader = gsap.timeline();
+        tlLoader.to('.loader-word', { y: 0, duration: 0.8, stagger: 0.2, ease: "power4.out" })
+            .to('.loader', { yPercent: -100, duration: 1, ease: "power4.inOut", delay: 0.5 })
+            .to('.hero-title-anim', { y: 0, duration: 1.2, stagger: 0.1, ease: "power3.out" }, "-=0.5")
+            .to('.hero-anim', { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power3.out" }, "-=0.8");
+
+        // B. Marquee
+        gsap.to(".marquee-inner", { xPercent: -50, ease: "none", duration: 20, repeat: -1 });
+
+        // C. Image Reveal
+        const revealImages = document.querySelectorAll('.image-reveal');
+        revealImages.forEach(img => {
+            ScrollTrigger.create({
+                trigger: img,
+                start: "top 80%",
+                onEnter: () => img.classList.add('active')
+            });
+        });
+
+        // D. Horizontal Scroll
+        let container = document.querySelector(".horizontal-container");
+        let sections = gsap.utils.toArray(".panel");
+
+        if (container) {
+            gsap.to(sections, {
+                xPercent: -100 * (sections.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".scroll-outer-wrapper",
+                    pin: true,
+                    scrub: 1,
+                    end: () => "+=" + (container.scrollWidth - window.innerWidth)
+                }
+            });
+        }
+
+        // E. Counter
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            gsap.to(counter, {
+                scrollTrigger: { trigger: counter, start: "top 85%" },
+                innerHTML: target,
+                duration: 2,
+                snap: { innerHTML: 1 },
+                ease: "power1.out"
+            });
+        });
+
+    </script>
+</body>
+
+</html>
