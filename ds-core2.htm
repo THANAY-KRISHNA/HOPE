@@ -120,117 +120,645 @@
 
         /* --- LAYOUT ZONES --- */
 
-        /* 1. SIDEBAR (Spotify Style) */
-        #sidebar {
+        /* --- SIDEBAR CONTAINER --- */
+        .sidebar-container {
             grid-area: sidebar;
-            background: var(--bg-main);
+            background: rgba(9, 9, 11, 0.95);
+            /* High opacity for legibility */
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            padding: 1.5rem 1rem;
-            gap: 2rem;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            /* Glass effect */
+            z-index: 50;
+            transition: width 0.3s ease;
+        }
+
+        /* --- LOGO SECTION --- */
+        .brand-header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 1rem;
+        }
+
+        .logo-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            background: rgba(204, 255, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .brand-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        /* --- SCROLL AREA --- */
+        .sidebar-scroll-area {
+            flex: 1;
             overflow-y: auto;
-        }
-
-        .logo {
-            font-family: var(--font-code);
-            font-size: 1.25rem;
-            letter-spacing: -1px;
+            padding: 1.5rem 1rem;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .nav-group h4 {
+        /* --- NAVIGATION GROUPS --- */
+        .group-header {
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
             padding-left: 0.75rem;
+            opacity: 0.7;
         }
 
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        /* --- NAV ITEMS (BUTTONS) --- */
         .nav-item {
+            width: 100%;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
             padding: 0.75rem;
-            border-radius: 6px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.2s;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
             font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            transition: color 0.2s;
+        }
+
+        /* Hover State */
         .nav-item:hover {
             background: var(--bg-hover);
             color: var(--text-main);
         }
 
-        .nav-item.active {
-            background: var(--bg-hover);
-            color: var(--accent);
-            border-left: 3px solid var(--accent);
+        .nav-item:hover svg {
+            color: var(--text-main);
         }
 
-        /* 2. MAIN STAGE (YouTube/Canvas Style) */
-        #main-stage {
+        /* Active State (The "Juice") */
+        .nav-item.active {
+            background: rgba(204, 255, 0, 0.05);
+            color: var(--text-main);
+        }
+
+        .nav-item.active svg {
+            color: var(--accent);
+        }
+
+        /* The Glowing Bar on the Left */
+        .active-indicator {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0%;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 10px var(--accent);
+            transition: height 0.2s ease;
+        }
+
+        .nav-item.active .active-indicator {
+            height: 60%;
+        }
+
+        /* --- FOOTER --- */
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Tablet Mode (Vertical, Icons Only) - Approx 768px to 1024px */
+        @media (max-width: 1024px) {
+            .sidebar-container {
+                width: 80px;
+                /* Slim width */
+            }
+
+            .brand-text,
+            .group-header,
+            .nav-text {
+                display: none;
+                /* Hide text */
+            }
+
+            .brand-header {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem 0;
+            }
+
+            .group-header {
+                margin-bottom: 0.25rem;
+                /* Reduce gap */
+            }
+
+            /* Show tooltip on hover logic could go here */
+        }
+
+        /* Mobile Mode (Horizontal Scroll Bar) - Below 768px */
+        @media (max-width: 768px) {
+            .sidebar-container {
+                width: 100%;
+                height: 65px;
+                /* Fixed height for top bar */
+                flex-direction: row;
+                align-items: center;
+                padding: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+            }
+
+            .brand-header {
+                border-bottom: none;
+                padding-right: 1rem;
+                margin-right: 1rem;
+                border-right: 1px solid var(--border);
+                height: 100%;
+            }
+
+            .logo-icon-wrapper {
+                width: 32px;
+                height: 32px;
+            }
+
+            .sidebar-scroll-area {
+                flex-direction: row;
+                align-items: center;
+                padding: 0 1rem 0 0;
+                gap: 1.5rem;
+            }
+
+            .nav-group {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-list {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .group-header {
+                display: none;
+                /* Hide headers on mobile to save space */
+            }
+
+            .nav-item {
+                padding: 0.5rem 1rem;
+                background: var(--bg-panel);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-item.active {
+                border-color: var(--accent-dim);
+            }
+
+            /* Restore text on mobile for better UX */
+            .nav-text {
+                display: inline-block;
+                font-size: 0.8rem;
+            }
+
+            .sidebar-footer {
+                display: none;
+                /* Hide footer on mobile */
+            }
+
+            .active-indicator {
+                display: none;
+                /* Remove side bar on mobile, use border instead */
+            }
+        }
+
+        /* --- MAIN STAGE CONTAINER --- */
+        .stage-container {
             grid-area: main;
             background: var(--bg-panel);
-            margin: 0.5rem;
-            border-radius: 12px;
-            overflow-y: auto;
-            position: relative;
+            border-radius: 16px;
+            /* Smooth corners for the main card */
+            margin: 1rem 0.5rem;
+            /* Floating effect */
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            /* Contains the scrollbar inside */
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
+        /* --- HEADER SECTION --- */
         .stage-header {
-            position: sticky;
-            top: 0;
-            background: rgba(18, 18, 20, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
+            background: rgba(18, 18, 20, 0.85);
+            /* Semi-transparent */
+            backdrop-filter: blur(12px);
+            /* Glass effect */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             z-index: 10;
+            flex-shrink: 0;
+            /* Prevents header from shrinking */
+        }
+
+        .header-inner {
+            padding: 1.25rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .content-area {
-            padding: 2rem;
+        /* Typography */
+        .page-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .sys-status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Pulsing Green Dot */
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 0px var(--accent);
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 10px var(--accent);
+            }
+
+            100% {
+                opacity: 0.5;
+                box-shadow: 0 0 0px var(--accent);
+            }
+        }
+
+        /* --- CONTROLS SECTION --- */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-main);
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 4px;
+        }
+
+        .lang-sep {
+            opacity: 0.3;
+        }
+
+        /* User Avatar */
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            position: relative;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            background: #ff0055;
+            /* Hot pink alert */
+            border: 2px solid var(--bg-panel);
+            border-radius: 50%;
+        }
+
+        /* --- CONTENT VIEWPORT --- */
+        .content-viewport {
             flex-grow: 1;
+            overflow-y: auto;
+            /* Independent scroll */
+            padding: 2rem;
+            position: relative;
+
+            /* Scrollbar Styling inside the content area */
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
         }
 
-        /* 3. RIGHT PANEL (Context/Queue) */
-        #right-panel {
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Mobile Improvements */
+        @media (max-width: 768px) {
+            .stage-container {
+                margin: 0;
+                /* Remove floating margins on mobile */
+                border-radius: 0;
+                /* Flat edges */
+                border: none;
+                background: var(--bg-main);
+                /* Blend with background */
+            }
+
+            .header-inner {
+                padding: 1rem;
+            }
+
+            .page-heading {
+                font-size: 1.25rem;
+            }
+
+            .lang-switch {
+                padding: 0.3rem 0.8rem;
+            }
+
+            .content-viewport {
+                padding: 1rem;
+                /* Less padding on mobile */
+                padding-bottom: 6rem;
+                /* Extra padding for bottom player bar */
+            }
+        }
+
+        /* --- RIGHT PANEL CONTAINER --- */
+        .panel-container {
             grid-area: right;
             background: var(--bg-main);
             border-left: 1px solid var(--border);
             padding: 1.5rem;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            height: 100%;
         }
 
-        .panel-card {
+        .panel-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Headers */
+        .panel-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .section-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-count {
+            background: var(--bg-hover);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+
+        /* --- CONTEXT CARD --- */
+        .context-card {
             background: var(--bg-panel);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        /* 4. PLAYER BAR (Spotify Persistent Footer) */
-        #player-bar {
-            grid-area: player;
-            background: black;
-            border-top: 1px solid var(--border);
+        .context-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            z-index: 100;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
         }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .card-body {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Download Button */
+        .action-btn-outline {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: var(--font-ui);
+            font-weight: 600;
+        }
+
+        .action-btn-outline:hover {
+            background: var(--text-main);
+            color: black;
+            border-color: var(--text-main);
+        }
+
+        /* --- QUEUE LIST --- */
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: transparent;
+            border: 1px solid transparent;
+            /* Invisible border prevents layout shift on hover */
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        /* Queue Item Hover */
+        .queue-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .queue-item:hover .thumb-wrapper {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        /* Thumbnail Box */
+        .thumb-wrapper {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        /* Meta Data */
+        .meta-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .item-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .item-duration {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* --- STATUS MODIFIERS --- */
+
+        /* Locked / Future State */
+        .status-locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-locked:hover {
+            background: transparent;
+            /* No hover effect for locked items */
+        }
+
+        /* Playing State (Optional, if an item is active) */
+        .status-playing .thumb-wrapper {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+
+        .status-playing .item-title {
+            color: var(--accent);
+        }
+
+
 
         /* --- COMPONENT: VIDEO PLAYER --- */
         .video-shell {
@@ -381,46 +909,65 @@
         }
 
         .fc-back {
-            transform: rotateY(180deg);
-            background: #18181b;
-            border: 1px solid var(--accent);
+            position: relative;
         }
 
-        /* --- COMPONENT: AUDIO PLAYER (Footer) --- */
-        .player-track-info {
+        /* --- SECTIONS: LEFT & RIGHT --- */
+        .player-side {
             display: flex;
             align-items: center;
             gap: 1rem;
-            width: 300px;
+            min-width: 0;
+            /* Prevents text overflow breaking grid */
         }
 
-        .album-art {
+        .player-side.is-right {
+            justify-content: flex-end;
+        }
+
+        /* --- TRACK INFO (LEFT) --- */
+        .album-art-wrapper {
             width: 56px;
             height: 56px;
-            background: #333;
-            border-radius: 4px;
+            background: #18181b;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: var(--text-muted);
+            flex-shrink: 0;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Audio Visualizer Bars in Album Art */
         .visualizer {
             display: flex;
             align-items: flex-end;
             gap: 3px;
-            height: 20px;
-            width: 30px;
+            height: 24px;
         }
 
         .v-bar {
             width: 4px;
             background: var(--accent);
-            animation: bounce 1s infinite;
+            animation: bounce 1s infinite ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* Staggered animation using nth-child */
+        .v-bar:nth-child(1) {
+            height: 40%;
+            animation-delay: 0s;
+        }
+
+        .v-bar:nth-child(2) {
+            height: 80%;
+            animation-delay: 0.2s;
+        }
+
+        .v-bar:nth-child(3) {
+            height: 50%;
+            animation-delay: 0.4s;
         }
 
         @keyframes bounce {
@@ -428,65 +975,125 @@
             0%,
             100% {
                 height: 20%;
+                opacity: 0.5;
             }
 
             50% {
                 height: 100%;
+                opacity: 1;
             }
         }
 
-        .player-controls {
+        .track-meta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .track-title {
+            font-size: 0.875rem;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .track-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* --- CENTER CONTROLS --- */
+        .player-center {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            flex-grow: 1;
+            width: 100%;
             max-width: 600px;
         }
 
-        .ctrl-btns {
+        .ctrl-group {
             display: flex;
             align-items: center;
             gap: 1.5rem;
         }
 
-        .play-pause-btn {
-            width: 40px;
-            height: 40px;
+        /* Buttons */
+        .icon-btn-ghost {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .icon-btn-ghost:hover {
+            color: var(--text-main);
+        }
+
+        .like-btn:hover {
+            color: var(--accent);
+            /* Heart turns lime */
+        }
+
+        .icon-btn-filled {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            /* Brighter than ghost */
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .icon-btn-filled:active {
+            transform: scale(0.9);
+        }
+
+        /* Main Play Button (FAB style) */
+        .play-pause-fab {
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: var(--text-main);
-            color: black;
             border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: black;
         }
 
-        .play-pause-btn:active {
+        .play-pause-fab:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .play-pause-fab:active {
             transform: scale(0.95);
         }
 
-        .icon-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        .icon-btn:hover {
-            color: var(--text-main);
-        }
-
-        .progress-container {
+        /* --- PROGRESS BAR --- */
+        .progress-wrapper {
             width: 100%;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.75rem;
+            gap: 12px;
+        }
+
+        .time-text {
+            font-size: 0.7rem;
             color: var(--text-muted);
-            font-family: var(--font-mono);
+            min-width: 35px;
+            /* Prevent jitter when numbers change */
         }
 
         .progress-rail {
@@ -495,85 +1102,130 @@
             background: #333;
             border-radius: 2px;
             position: relative;
+            cursor: pointer;
+            /* Increase hit area for easier clicking */
+            padding: 6px 0;
+            background-clip: content-box;
         }
 
-        .progress-now {
-            width: 60%;
+        .progress-fill {
             height: 100%;
             background: var(--text-main);
             border-radius: 2px;
+            position: relative;
+            transition: background 0.2s;
         }
 
-        .progress-now:hover {
+        .progress-rail:hover .progress-fill {
             background: var(--accent);
         }
 
-        /* Responsive */
+        .scrub-handle {
+            width: 12px;
+            height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            /* Hidden by default */
+            transition: transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-rail:hover .scrub-handle {
+            transform: translateY(-50%) scale(1);
+            /* Show on hover */
+        }
+
+        /* --- RIGHT SIDE (VOLUME) --- */
+        .volume-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100px;
+        }
+
+        .vol-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-muted);
+        }
+
+        .volume-rail {
+            flex-grow: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            height: 100%;
+            background: var(--text-muted);
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+
+        .volume-rail:hover .volume-fill {
+            background: var(--text-main);
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Tablet & Mobile: Hide Volume, simplify Layout */
         @media (max-width: 1024px) {
-            body {
-                grid-template-columns: 80px 1fr;
-                grid-template-areas: "sidebar main" "player player";
-            }
-
-            #right-panel {
+            .player-side.is-right {
                 display: none;
+                /* Hide volume controls */
             }
 
-            /* Hide right panel on tablet */
-            .sidebar-text {
+            .player-container {
+                /* Switch to 2 columns: Info | Controls */
+                grid-template-columns: 1fr auto;
+            }
+
+            .player-center {
+                width: auto;
+                gap: 0;
+            }
+
+            .progress-wrapper {
                 display: none;
-            }
-
-            #sidebar {
-                width: 80px;
-                align-items: center;
-                padding: 1.5rem 0;
-            }
-
-            .nav-group h4 {
-                display: none;
-            }
-
-            .logo span {
-                display: none;
+                /* Hide progress bar on small tablets to save space, or move it to top */
             }
         }
 
+        /* Mobile: Compact View */
         @media (max-width: 768px) {
-            body {
-                grid-template-columns: 1fr;
-                grid-template-rows: 60px 1fr 90px;
-                grid-template-areas: "sidebar" "main" "player";
+            .player-container {
+                padding: 0 1rem;
+                height: 70px;
+                position: fixed;
+                /* Stick to bottom */
+                bottom: 0;
+                width: 100%;
+                background: rgba(9, 9, 11, 0.95);
+                backdrop-filter: blur(10px);
             }
 
-            #sidebar {
-                width: 100%;
-                height: 60px;
-                flex-direction: row;
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-                padding: 0 1rem;
-                overflow-x: auto;
+            .track-meta {
+                max-width: 120px;
+                /* Force truncation on mobile */
+            }
+
+            .ctrl-group {
                 gap: 1rem;
             }
 
-            .sidebar-text {
+            /* Hide secondary buttons on mobile */
+            .icon-btn-ghost:nth-child(1),
+            /* Shuffle */
+            .icon-btn-ghost:nth-child(5) {
+                /* Repeat */
                 display: none;
             }
-
-            /* Icons only for mobile nav */
-        }
-
-        /* Lang Toggle */
-        .lang-switch {
-            background: var(--bg-hover);
-            border: 1px solid var(--border);
-            color: var(--accent);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -581,166 +1233,258 @@
 <body>
 
     <!-- 1. LEFT SIDEBAR -->
-    <nav id="sidebar">
-        <div class="logo">
-            <i data-lucide="cpu" color="var(--accent)"></i>
-            <span>HOPE OS</span>
+    <nav id="sidebar" class="sidebar-container">
+
+        <div class="brand-header">
+            <div class="logo-icon-wrapper">
+                <i data-lucide="cpu" class="icon-glow"></i>
+            </div>
+            <span class="brand-text font-mono">HOPE <span class="text-accent">OS</span></span>
         </div>
 
-        <!-- Library Section -->
-        <div class="nav-group">
-            <h4>Library</h4>
-            <div class="nav-item active" onclick="switchTab('dashboard')">
-                <i data-lucide="layout-grid" width="20"></i>
-                <span class="sidebar-text">Dashboard</span>
+        <div class="sidebar-scroll-area">
+
+            <div class="nav-group">
+                <h4 class="group-header font-mono">Library_V.2</h4>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-item active" onclick="switchTab('dashboard')" aria-label="Dashboard">
+                            <i data-lucide="layout-grid"></i>
+                            <span class="nav-text">Dashboard</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchTab('videos')" aria-label="Video Stream">
+                            <i data-lucide="play-square"></i>
+                            <span class="nav-text">Video Stream</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchTab('mindmap')" aria-label="Neural Map">
+                            <i data-lucide="network"></i>
+                            <span class="nav-text">Neural Map</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchTab('flashcards')" aria-label="Flash Recall">
+                            <i data-lucide="zap"></i>
+                            <span class="nav-text">Flash Recall</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                </ul>
             </div>
-            <div class="nav-item" onclick="switchTab('videos')">
-                <i data-lucide="play-square" width="20"></i>
-                <span class="sidebar-text">Video Stream</span>
-            </div>
-            <div class="nav-item" onclick="switchTab('mindmap')">
-                <i data-lucide="network" width="20"></i>
-                <span class="sidebar-text">Neural Map</span>
-            </div>
-            <div class="nav-item" onclick="switchTab('flashcards')">
-                <i data-lucide="zap" width="20"></i>
-                <span class="sidebar-text">Flash Recall</span>
+
+            <div class="nav-group">
+                <h4 class="group-header font-mono">S4_Modules</h4>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-item" aria-label="Maths Graph Theory">
+                            <i data-lucide="hash"></i>
+                            <span class="nav-text">Maths (Graph Theory)</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="DBMS Architecture">
+                            <i data-lucide="database"></i>
+                            <span class="nav-text">DBMS Architecture</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="OS Principals">
+                            <i data-lucide="cpu"></i>
+                            <span class="nav-text">OS Principals</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="Python Data Science">
+                            <i data-lucide="code"></i>
+                            <span class="nav-text">Python Data Science</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
 
-        <!-- Subjects Playlist -->
-        <div class="nav-group">
-            <h4>S4 Subjects</h4>
-            <div class="nav-item">
-                <i data-lucide="hash" width="16"></i>
-                <span class="sidebar-text">Maths (Graph Theory)</span>
-            </div>
-            <div class="nav-item">
-                <i data-lucide="database" width="16"></i>
-                <span class="sidebar-text">DBMS Architecture</span>
-            </div>
-            <div class="nav-item">
-                <i data-lucide="cpu" width="16"></i>
-                <span class="sidebar-text">OS Principals</span>
-            </div>
-            <div class="nav-item">
-                <i data-lucide="code" width="16"></i>
-                <span class="sidebar-text">Python Data Science</span>
-            </div>
+        <div class="sidebar-footer">
+            <button class="nav-item">
+                <i data-lucide="settings"></i>
+                <span class="nav-text">Sys_Config</span>
+                <div class="active-indicator"></div>
+            </button>
         </div>
     </nav>
 
     <!-- 2. MAIN STAGE -->
-    <main id="main-stage">
+    <main id="main-stage" class="stage-container">
+
         <header class="stage-header">
-            <div id="header-title">
-                <h2 class="bold" style="font-size: 1.5rem;">Dashboard</h2>
-                <span class="text-muted text-sm font-mono">SYS_STATUS: OPTIMAL</span>
-            </div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <button class="lang-switch" onclick="toggleLang()" id="langBtn">EN / ML</button>
-                <div
-                    style="width: 32px; height: 32px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <i data-lucide="user" width="16"></i>
+            <div class="header-inner">
+
+                <div class="title-group">
+                    <h2 id="page-title" class="page-heading">Dashboard</h2>
+                    <div class="sys-status-wrapper">
+                        <span class="status-dot"></span>
+                        <span class="status-text font-mono">SYS_STATUS: <span class="text-accent">OPTIMAL</span></span>
+                    </div>
+                </div>
+
+                <div class="header-controls">
+                    <button class="control-btn lang-switch" onclick="toggleLang()" id="langBtn"
+                        aria-label="Switch Language">
+                        <span class="lang-label">EN</span>
+                        <span class="lang-sep">/</span>
+                        <span class="lang-label">ML</span>
+                    </button>
+
+                    <button class="control-btn user-avatar" aria-label="User Profile">
+                        <i data-lucide="user"></i>
+                        <div class="notification-dot"></div>
+                    </button>
                 </div>
             </div>
         </header>
 
-        <div class="content-area" id="content-container">
-            <!-- Dynamic Content Injected Here -->
+        <div class="content-viewport" id="content-container">
         </div>
     </main>
 
     <!-- 3. RIGHT PANEL (Context) -->
-    <aside id="right-panel">
-        <h3 class="font-mono text-sm text-muted uppercase mb-4">Current Context</h3>
+    <aside id="right-panel" class="panel-container">
 
-        <div class="panel-card">
-            <div class="flex items-center gap-2 mb-2">
-                <i data-lucide="file-text" width="16" class="text-accent"></i>
-                <span class="bold text-sm">Lecture Notes</span>
-            </div>
-            <p class="text-xs text-muted" style="line-height: 1.6;">
-                Graph theory provides the backbone for many Data Science algorithms. Key concepts include Nodes, Edges,
-                and Pathfinding.
-            </p>
-            <button
-                style="width: 100%; margin-top: 1rem; background: transparent; border: 1px solid var(--border); color: white; padding: 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">
-                Download PDF
-            </button>
-        </div>
+        <section class="panel-section">
+            <h3 class="panel-header font-mono">Current_Context</h3>
 
-        <h3 class="font-mono text-sm text-muted uppercase mb-4 mt-6">Up Next</h3>
-        <div class="panel-card" style="display: flex; gap: 10px; align-items: center; cursor: pointer;">
-            <div
-                style="width: 40px; height: 40px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="play" width="16"></i>
+            <div class="context-card">
+                <div class="card-header">
+                    <i data-lucide="file-text" class="text-accent"></i>
+                    <span class="card-title">Lecture_Notes.pdf</span>
+                </div>
+
+                <p class="card-body">
+                    Graph theory provides the backbone for many Data Science algorithms. Key concepts include Nodes,
+                    Edges, and Pathfinding traversal methods.
+                </p>
+
+                <button class="action-btn-outline">
+                    <i data-lucide="download" width="14"></i>
+                    <span>Download Resource</span>
+                </button>
             </div>
-            <div>
-                <div class="text-sm bold">SQL Injection</div>
-                <div class="text-xs text-muted">12 mins</div>
+        </section>
+
+        <section class="panel-section">
+            <div class="section-title-row">
+                <h3 class="panel-header font-mono">Sequence_Queue</h3>
+                <span class="badge-count">2</span>
             </div>
-        </div>
-        <div class="panel-card" style="display: flex; gap: 10px; align-items: center; cursor: pointer; opacity: 0.6;">
-            <div
-                style="width: 40px; height: 40px; background: #333; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="play" width="16"></i>
+
+            <div class="queue-list">
+
+                <button class="queue-item status-queued">
+                    <div class="thumb-wrapper">
+                        <i data-lucide="play" width="14"></i>
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">SQL Injection Analysis</span>
+                        <span class="item-duration font-mono">12:00 mins</span>
+                    </div>
+                </button>
+
+                <button class="queue-item status-locked">
+                    <div class="thumb-wrapper">
+                        <i data-lucide="lock" width="14"></i>
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">Database Normal Forms</span>
+                        <span class="item-duration font-mono">24:45 mins</span>
+                    </div>
+                </button>
+
             </div>
-            <div>
-                <div class="text-sm bold">Normal Forms</div>
-                <div class="text-xs text-muted">24 mins</div>
-            </div>
-        </div>
+        </section>
 
     </aside>
 
     <!-- 4. PERSISTENT PLAYER BAR -->
-    <footer id="player-bar">
-        <!-- Track Info -->
-        <div class="player-track-info">
-            <div class="album-art">
+    <footer id="player-bar" class="player-container">
+
+        <div class="player-side is-left">
+            <div class="album-art-wrapper">
                 <div class="visualizer">
-                    <div class="v-bar" style="animation-delay: 0s;"></div>
-                    <div class="v-bar" style="animation-delay: 0.2s;"></div>
-                    <div class="v-bar" style="animation-delay: 0.4s;"></div>
+                    <div class="v-bar"></div>
+                    <div class="v-bar"></div>
+                    <div class="v-bar"></div>
                 </div>
             </div>
-            <div>
-                <div class="text-sm bold" id="audioTitle">S4 Exam Prep: Module 1</div>
-                <div class="text-xs text-muted font-mono" id="audioSub">Probability Distributions</div>
+
+            <div class="track-meta">
+                <div class="track-title bold" id="audioTitle">S4 Exam Prep: Module 1</div>
+                <div class="track-desc font-mono" id="audioSub">Probability Distributions</div>
             </div>
-            <i data-lucide="heart" width="16" class="text-muted" style="cursor: pointer;"></i>
+
+            <button class="icon-btn-ghost like-btn" aria-label="Save to Library">
+                <i data-lucide="heart"></i>
+            </button>
         </div>
 
-        <!-- Controls -->
-        <div class="player-controls">
-            <div class="ctrl-btns">
-                <button class="icon-btn"><i data-lucide="shuffle" width="16"></i></button>
-                <button class="icon-btn"><i data-lucide="skip-back" width="20"></i></button>
-                <button class="play-pause-btn" onclick="toggleAudio(this)">
-                    <i data-lucide="pause" width="20" fill="black"></i>
+        <div class="player-center">
+            <div class="ctrl-group">
+                <button class="icon-btn-ghost" aria-label="Shuffle">
+                    <i data-lucide="shuffle"></i>
                 </button>
-                <button class="icon-btn"><i data-lucide="skip-forward" width="20"></i></button>
-                <button class="icon-btn"><i data-lucide="repeat" width="16"></i></button>
+                <button class="icon-btn-filled" aria-label="Previous">
+                    <i data-lucide="skip-back"></i>
+                </button>
+
+                <button class="play-pause-fab" onclick="toggleAudio(this)" aria-label="Play/Pause">
+                    <i data-lucide="pause" class="icon-play"></i>
+                </button>
+
+                <button class="icon-btn-filled" aria-label="Next">
+                    <i data-lucide="skip-forward"></i>
+                </button>
+                <button class="icon-btn-ghost" aria-label="Repeat">
+                    <i data-lucide="repeat"></i>
+                </button>
             </div>
-            <div class="progress-container">
-                <span>04:20</span>
-                <div class="progress-rail">
-                    <div class="progress-now"></div>
+
+            <div class="progress-wrapper">
+                <span class="time-text font-mono">04:20</span>
+
+                <div class="progress-rail" role="slider" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-fill" style="width: 35%;">
+                        <div class="scrub-handle"></div>
+                    </div>
                 </div>
-                <span>12:00</span>
+
+                <span class="time-text font-mono">12:00</span>
             </div>
         </div>
 
-        <!-- Volume/Extras -->
-        <div style="width: 300px; display: flex; justify-content: flex-end; align-items: center; gap: 1rem;">
-            <i data-lucide="mic-2" width="16" class="text-muted"></i>
-            <i data-lucide="list-music" width="16" class="text-muted"></i>
-            <i data-lucide="volume-2" width="16" class="text-muted"></i>
-            <div style="width: 80px; height: 4px; background: #333; border-radius: 2px;">
-                <div style="width: 70%; height: 100%; background: var(--text-muted);"></div>
+        <div class="player-side is-right">
+            <button class="icon-btn-ghost" aria-label="Lyrics">
+                <i data-lucide="mic-2"></i>
+            </button>
+            <button class="icon-btn-ghost" aria-label="Queue">
+                <i data-lucide="list-music"></i>
+            </button>
+
+            <div class="volume-group">
+                <i data-lucide="volume-2" class="vol-icon"></i>
+                <div class="volume-rail">
+                    <div class="volume-fill" style="width: 70%;"></div>
+                </div>
             </div>
         </div>
+
     </footer>
 
     <script>
@@ -930,17 +1674,20 @@
         // --- APP STATE CONTROLLER ---
         function switchTab(tabName) {
             // Update Active State on Sidebar
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // Find the clicked item (approximate matching for demo)
-            // In React we would pass ID, here we just visually set active
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('onclick') && el.getAttribute('onclick').includes(`'${tabName}'`)) {
+                    el.classList.add('active');
+                }
+            });
 
             const container = document.getElementById('content-container');
-            const title = document.querySelector('#header-title h2');
+            const title = document.getElementById('page-title');
 
             // Render
             if (tabName === 'dashboard') {
                 container.innerHTML = renderDashboard();
-                title.innerText = data[currentLang].tabs.dashboard;
+                if (title) title.innerText = data[currentLang].tabs.dashboard;
             } else if (tabName === 'videos') {
                 container.innerHTML = renderVideo();
                 title.innerText = data[currentLang].tabs.videos;
@@ -957,7 +1704,7 @@
         function toggleLang() {
             currentLang = currentLang === 'en' ? 'ml' : 'en';
             // Refresh current view
-            const currentTitle = document.querySelector('#header-title h2').innerText;
+            const currentTitle = document.getElementById('page-title');
             // Simple re-render of dashboard for demo
             switchTab('dashboard');
         }
@@ -965,11 +1712,14 @@
         function toggleAudio(btn) {
             // Just for visual effect
             const icon = btn.querySelector('svg');
-            if (icon.classList.contains('lucide-pause')) {
-                btn.innerHTML = `<i data-lucide="play" width="20" fill="black"></i>`;
+            // Check if it's pause icon (Lucide renders SVG with class lucide-pause)
+            // Or check the data-lucide attribute if re-rendered
+
+            if (btn.innerHTML.includes('pause')) {
+                btn.innerHTML = `<i data-lucide="play" class="icon-play"></i>`;
                 document.querySelectorAll('.v-bar').forEach(b => b.style.animationPlayState = 'paused');
             } else {
-                btn.innerHTML = `<i data-lucide="pause" width="20" fill="black"></i>`;
+                btn.innerHTML = `<i data-lucide="pause" class="icon-play"></i>`;
                 document.querySelectorAll('.v-bar').forEach(b => b.style.animationPlayState = 'running');
             }
             lucide.createIcons();
