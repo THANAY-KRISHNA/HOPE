@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOPE | STREAM - KTU S4</title>
+
+    <!-- Fonts: Inter (UI) & JetBrains Mono (Code/Data) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <style>
+        /* --- [THEME CONFIG] --- */
+        :root {
+            --bg-main: #050505;
+            --bg-sidebar: #0A0A0A;
+            --bg-card: #141414;
+            --bg-hover: #262626;
+
+            --text-main: #FFFFFF;
+            --text-muted: #A3A3A3;
+
+            --accent-neon: #CCFF00;
+            /* HOPE Neon */
+            --accent-purple: #8A2BE2;
+
+            --border-dim: rgba(255, 255, 255, 0.08);
+
+            --sidebar-width: 260px;
+            --info-panel-width: 380px;
+            --player-height: 90px;
+        }
+
+        /* --- [RESET & BASE] --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            /* App-like feel */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        /* --- [LAYOUT GRID] --- */
+        .app-container {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr var(--info-panel-width);
+            grid-template-rows: 1fr var(--player-height);
+            height: 100%;
+            width: 100%;
+        }
+
+        /* --- [1. LEFT SIDEBAR (NAV)] --- */
+        .sidebar {
+            background: var(--bg-sidebar);
+            padding: 24px;
+            border-right: 1px solid var(--border-dim);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .brand {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-neon);
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: var(--bg-hover);
+        }
+
+        .nav-item.active {
+            color: black;
+            background: var(--accent-neon);
+            font-weight: 700;
+        }
+
+        .library-section {
+            margin-top: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .library-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .subject-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .subject-pill:hover,
+        .subject-pill.active {
+            border-color: var(--accent-neon);
+            background: #1a1a1a;
+        }
+
+        .subject-code {
+            font-family: 'JetBrains Mono';
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        /* --- [2. CENTER STAGE (MEDIA FEED)] --- */
+        .main-feed {
+            background: var(--bg-main);
+            /* Gradient overlay handled by JS */
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        /* Hero / Now Playing Header */
+        .hero-banner {
+            height: 300px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(30, 30, 30, 0) 0%, var(--bg-main) 100%),
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #ccc;
+            align-items: center;
+        }
+
+        /* Media Tabs */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(5, 5, 5, 0.9);
+            z-index: 10;
+            padding: 10px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .chip.active {
+            background: white;
+            color: black;
+            font-weight: 600;
+        }
+
+        /* Video/Podcast Content Grid */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .media-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .media-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-hover);
+        }
+
+        .thumbnail {
+            aspect-ratio: 16/9;
+            background: #222;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .duration-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-family: monospace;
+        }
+
+        .card-info {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .card-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* --- [3. RIGHT SIDEBAR (STUDY DECK)] --- */
+        .study-deck {
+            background: var(--bg-sidebar);
+            border-left: 1px solid var(--border-dim);
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .deck-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .deck-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* MindMap Container */
+        .viz-box {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            min-height: 250px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        /* Flashcard Widget */
+        .flashcard-widget {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            perspective: 1000px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fc-content {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .fc-hint {
+            font-size: 0.7rem;
+            color: var(--accent-neon);
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Notes Mini View */
+        .notes-preview {
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        /* --- [4. BOTTOM PLAYER] --- */
+        .player-bar {
+            grid-column: 1 / -1;
+            background: #000;
+            border-top: 1px solid var(--border-dim);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 100;
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 30%;
+        }
+
+        .track-art {
+            width: 56px;
+            height: 56px;
+            background: #333;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .track-text h4 {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .track-text p {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 40%;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .play-btn-main {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: black;
+            transition: transform 0.1s;
+        }
+
+        .play-btn-main:active {
+            transform: scale(0.95);
+        }
+
+        .progress-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: #666;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 30%;
+            height: 100%;
+            background: var(--text-main);
+            border-radius: 2px;
+        }
+
+        .player-extras {
+            width: 30%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .lang-toggle {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: #222;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--accent-neon);
+            border: 1px solid var(--accent-neon);
+            cursor: pointer;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 80px 1fr 0px;
+            }
+
+            /* Hide Right Sidebar, Shrink Left */
+            .sidebar {
+                padding: 10px;
+                align-items: center;
+            }
+
+            .brand span,
+            .nav-item span,
+            .library-title,
+            .subject-name {
+                display: none;
+            }
+
+            .subject-pill {
+                padding: 10px;
+                justify-content: center;
+            }
+
+            .info-panel {
+                display: none;
+            }
+
+            /* Hide study deck on small screens, maybe toggle overlay */
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 80px 60px;
+            }
+
+            /* Stack */
+            .sidebar {
+                display: none;
+            }
+
+            /* Use bottom nav logic for mobile realistically, but simplified here */
+            .player-bar {
+                bottom: 0;
+                position: fixed;
+                width: 100%;
+            }
+
+            .main-feed {
+                padding-bottom: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- === LEFT SIDEBAR === -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i data-lucide="zap" fill="currentColor"></i>
+                <span>HOPE.EDU</span>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item active"><i data-lucide="home"></i> <span>Home</span></li>
+                <li class="nav-item"><i data-lucide="search"></i> <span>Search</span></li>
+                <li class="nav-item"><i data-lucide="book-open"></i> <span>Your Library</span></li>
+            </ul>
+
+            <div class="library-section">
+                <div class="library-title">KTU S4 PLAYLISTS</div>
+                <!-- Dynamic Subject List -->
+                <div id="subject-list-container">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+                <div style="font-size: 0.75rem; color: #888;">AI ASSISTANT</div>
+                <div style="font-size: 0.85rem; font-weight: 600; margin-top: 5px; color: var(--accent-neon);">
+                    <i data-lucide="bot" size="14"></i> Hope Guide
+                </div>
+            </div>
+        </aside>
+
+        <!-- === CENTER STAGE === -->
+        <main class="main-feed" id="main-feed">
+
+            <!-- Hero Header (Dynamic) -->
+            <div class="hero-banner" id="hero-banner">
+                <div class="hero-content">
+                    <span
+                        style="background: var(--accent-neon); color: black; padding: 4px 8px; font-size: 0.7rem; font-weight: 800; border-radius: 4px; display:inline-block; margin-bottom:10px;">NOW
+                        STUDYING</span>
+                    <h1 id="hero-title">Database Normalization</h1>
+                    <div class="hero-meta">
+                        <span><i data-lucide="clock" size="14"></i> 45 mins</span>
+                        <span><i data-lucide="users" size="14"></i> KTU S4 CST-204</span>
+                        <span id="hero-lang-badge">ENG/MAL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Chips -->
+            <div class="filter-bar">
+                <div class="chip active" onclick="filterContent('all')">All</div>
+                <div class="chip" onclick="filterContent('video')">Videos</div>
+                <div class="chip" onclick="filterContent('podcast')">Podcasts</div>
+                <div class="chip" onclick="filterContent('lab')">Lab Records</div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="media-grid" id="media-grid">
+                <!-- Injected cards -->
+            </div>
+
+        </main>
+
+        <!-- === RIGHT SIDEBAR (STUDY DECK) === -->
+        <aside class="study-deck">
+
+            <!-- 1. MindMap Widget -->
+            <div>
+                <div class="deck-header">
+                    <span class="deck-title">NEURAL MAP</span>
+                    <i data-lucide="maximize-2" size="14" style="cursor: pointer; color: #888;"></i>
+                </div>
+                <div class="viz-box" id="viz-container">
+                    <!-- Mermaid Graph -->
+                </div>
+            </div>
+
+            <!-- 2. Flashcard Widget -->
+            <div>
+                <div class="deck-header">
+                    <span class="deck-title">ACTIVE RECALL</span>
+                    <span style="font-size:0.7rem; color:var(--accent-neon);">1/5</span>
+                </div>
+                <div class="flashcard-widget" id="flashcard-widget">
+                    <div class="fc-content">Click to Flip</div>
+                </div>
+            </div>
+
+            <!-- 3. Notes Summary -->
+            <div>
+                <div class="deck-header">
+                    <span class="deck-title">KEY NOTES</span>
+                </div>
+                <div class="notes-preview" id="notes-preview">
+                    Select a topic to view key summary points here.
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- === BOTTOM PLAYER === -->
+        <footer class="player-bar">
+
+            <div class="track-info">
+                <div class="track-art" id="player-art">
+                    <i data-lucide="music" color="#888"></i>
+                </div>
+                <div class="track-text">
+                    <h4 id="player-title">Select Content</h4>
+                    <p id="player-sub">Hope Protocol</p>
+                </div>
+                <i data-lucide="heart" size="16" style="color: #666; margin-left: 10px; cursor: pointer;"></i>
+            </div>
+
+            <div class="player-controls">
+                <div class="control-buttons">
+                    <i data-lucide="shuffle" size="16" color="#666"></i>
+                    <i data-lucide="skip-back" size="20" fill="white"></i>
+                    <div class="play-btn-main" onclick="togglePlay()">
+                        <i data-lucide="play" fill="black" id="play-icon-main"></i>
+                    </div>
+                    <i data-lucide="skip-forward" size="20" fill="white"></i>
+                    <i data-lucide="repeat" size="16" color="#666"></i>
+                </div>
+                <div class="progress-container">
+                    <span>0:00</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span>12:30</span>
+                </div>
+            </div>
+
+            <div class="player-extras">
+                <button class="lang-toggle" onclick="toggleLang()" id="lang-btn">EN</button>
+                <i data-lucide="mic-2" size="18" color="#ccc"></i>
+                <i data-lucide="list-video" size="18" color="#ccc"></i>
+                <i data-lucide="volume-2" size="18" color="#ccc"></i>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- === LOGIC === -->
+    <script>
+        // --- 1. MOCK DATA STORE ---
+        const ktuData = {
+            "DBMS": {
+                name: "Database Systems",
+                code: "CST 204",
+                items: [
+                    {
+                        id: "v1", type: "video", title: "Normalization & 1NF", duration: "12:40",
+                        thumb: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80&w=600",
+                        desc: "Understanding atomic values and redundancy.",
+                        mindmap: `graph TD; Norm[Normalization]-->1NF; 1NF-->Atomic; 1NF-->NoGroups; style Norm fill:#CCFF00,color:black`,
+                        flashcard: { f: "What is 1NF?", b: "Table must contain atomic values only." },
+                        notes: "Normalization minimizes redundancy. 1NF requires atomic attributes."
+                    },
+                    {
+                        id: "p1", type: "podcast", title: "SQL vs NoSQL Debate", duration: "25:00",
+                        thumb: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600",
+                        desc: "Audio breakdown of modern DB architectures.",
+                        mindmap: `graph LR; DB-->SQL; DB-->NoSQL; SQL-->Table; NoSQL-->Document;`,
+                        flashcard: { f: "ACID stands for?", b: "Atomicity, Consistency, Isolation, Durability" },
+                        notes: "SQL scales vertically. NoSQL scales horizontally."
+                    }
+                ]
+            },
+            "MATHS": {
+                name: "Prob & Statistics",
+                code: "MAT 206",
+                items: [
+                    {
+                        id: "v2", type: "video", title: "Bayes Theorem Visualized", duration: "08:15",
+                        thumb: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=600",
+                        desc: "Geometric interpretation of conditional probability.",
+                        mindmap: `graph TD; P(A|B) --> P(B|A); P(B|A) --> P(A); P(A) --> P(B);`,
+                        flashcard: { f: "Formula for P(A|B)?", b: "P(B|A) * P(A) / P(B)" },
+                        notes: "Bayes theorem describes the probability of an event, based on prior knowledge."
+                    }
+                ]
+            },
+            "OS": {
+                name: "Operating Systems",
+                code: "CST 206",
+                items: [
+                    {
+                        id: "p2", type: "podcast", title: "Process Scheduling Algos", duration: "18:20",
+                        thumb: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600",
+                        desc: "FCFS, SJF and Round Robin explained.",
+                        mindmap: `graph TD; Sched-->Preemptive; Sched-->NonPre; Pre-->RR; NonPre-->FCFS;`,
+                        flashcard: { f: "What is Starvation?", b: "Low priority process never gets CPU time." },
+                        notes: "Context switching is overhead. Round Robin is best for timesharing."
+                    }
+                ]
+            }
+        };
+
+        // --- 2. APP STATE ---
+        let currentSubject = "DBMS";
+        let currentContent = null;
+        let isPlaying = false;
+        let currentLang = "EN";
+
+        // --- 3. INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderSidebar();
+            loadSubject("DBMS");
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'dark',
+                securityLevel: 'loose',
+            });
+        });
+
+        // --- 4. RENDERERS ---
+        function renderSidebar() {
+            const list = document.getElementById('subject-list-container');
+            list.innerHTML = "";
+            Object.keys(ktuData).forEach(key => {
+                const sub = ktuData[key];
+                const pill = document.createElement('div');
+                pill.className = `subject-pill ${key === currentSubject ? 'active' : ''}`;
+                pill.onclick = () => loadSubject(key);
+                pill.innerHTML = `
+                    <span class="subject-name">${sub.name}</span>
+                    <span class="subject-code">${sub.code}</span>
+                `;
+                list.appendChild(pill);
+            });
+        }
+
+        function loadSubject(key) {
+            currentSubject = key;
+            renderSidebar(); // Update active state
+
+            // Update Hero
+            document.getElementById('hero-title').innerText = ktuData[key].name;
+
+            // Render Cards
+            const grid = document.getElementById('media-grid');
+            grid.innerHTML = "";
+
+            ktuData[key].items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "media-card";
+                card.onclick = () => playContent(item);
+
+                const icon = item.type === 'video' ? 'play-circle' : 'mic';
+
+                card.innerHTML = `
+                    <div class="thumbnail">
+                        <img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover; opacity:0.6;">
+                        <i data-lucide="${icon}" size="48" color="white" style="position:absolute; z-index:2;"></i>
+                        <span class="duration-badge">${item.duration}</span>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-sub">${item.desc}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // --- 5. PLAYER LOGIC (The "Combo" Feature) ---
+        function playContent(item) {
+            currentContent = item;
+            isPlaying = true;
+
+            // Update Player Bar
+            document.getElementById('player-title').innerText = item.title;
+            document.getElementById('player-sub').innerText = currentSubject;
+            document.getElementById('player-art').innerHTML = item.type === 'video'
+                ? `<img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover;">`
+                : `<i data-lucide="mic" color="white"></i>`;
+
+            document.getElementById('play-icon-main').setAttribute('fill', 'black'); // playing state
+
+            // Update Right Sidebar (Study Deck)
+            updateStudyDeck(item);
+
+            // In a real app, this would start the video/audio stream
+            console.log(`Now Playing: ${item.title} [${currentLang}]`);
+        }
+
+        function updateStudyDeck(item) {
+            // 1. Render MindMap
+            const viz = document.getElementById('viz-container');
+            viz.innerHTML = `<div class="mermaid">${item.mindmap}</div>`;
+            viz.removeAttribute('data-processed'); // Reset mermaid
+            mermaid.init(undefined, viz.querySelectorAll('.mermaid'));
+
+            // 2. Flashcard
+            const fc = document.getElementById('flashcard-widget');
+            fc.innerHTML = `
+                <div class="fc-content">${item.flashcard.f}</div>
+                <div class="fc-hint">Click to Reveal Answer</div>
+            `;
+            fc.onclick = () => {
+                const isFront = fc.innerHTML.includes(item.flashcard.f);
+                fc.innerHTML = isFront
+                    ? `<div class="fc-content" style="color:var(--accent-neon)">${item.flashcard.b}</div>`
+                    : `<div class="fc-content">${item.flashcard.f}</div><div class="fc-hint">Click to Reveal Answer</div>`;
+            };
+
+            // 3. Notes
+            document.getElementById('notes-preview').innerText = item.notes;
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const icon = isPlaying ? 'play' : 'pause';
+            // Simplified toggle logic for UI demo
+            document.getElementById('play-icon-main').setAttribute('fill', isPlaying ? 'black' : 'transparent');
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === "EN" ? "ML" : "EN";
+            const btn = document.getElementById('lang-btn');
+            btn.innerText = currentLang;
+            btn.style.background = currentLang === "ML" ? "var(--accent-neon)" : "#222";
+            btn.style.color = currentLang === "ML" ? "black" : "var(--accent-neon)";
+
+            // In real app, switch audio track source here
+            alert(`Switched Audio Track to ${currentLang === 'EN' ? 'English' : 'Malayalam'}`);
+        }
+
+        // Filter Logic
+        function filterContent(type) {
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            // Mock filter - re-render based on type in real implementation
+            console.log("Filtering by:", type);
+        }
+
+    </script>
+</body>
+
+</html>
