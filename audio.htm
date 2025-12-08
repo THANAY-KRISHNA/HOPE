@@ -1542,6 +1542,72 @@
             border-radius: 8px;
             border: 1px solid var(--border);
         }
+
+        /* --- FLASHCARD STYLES --- */
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .card-front {
+            background: var(--bg-panel);
+        }
+
+        .card-back {
+            background: var(--bg-hover);
+            transform: rotateY(180deg);
+            border-color: var(--accent);
+        }
+
+        .card-content {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .card-label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 
@@ -1833,6 +1899,12 @@
             // Video State
             video: {
                 playing: false
+            },
+            // Flashcard State
+            flashcards: {
+                currentDeckId: 301,
+                currentCardIndex: 0,
+                isFlipped: false
             }
         };
 
@@ -1960,6 +2032,45 @@
             }
         };
 
+        // --- MOCK DATA: FLASHCARD SETS ---
+        const flashcardSets = [
+            {
+                id: 301,
+                title: "Computer Networks",
+                count: 15,
+                mastery: 45,
+                thumb: "https://images.unsplash.com/photo-1544197150-b99a580bbcbf?auto=format&fit=crop&q=80&w=300"
+            },
+            {
+                id: 302,
+                title: "Python Advanced",
+                count: 24,
+                mastery: 80,
+                thumb: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=300"
+            },
+            {
+                id: 303,
+                title: "System Design",
+                count: 12,
+                mastery: 10,
+                thumb: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300"
+            }
+        ];
+
+        // --- MOCK DATA: FLASHCARD QUESTIONS ---
+        const flashcardData = {
+            301: [
+                { q: "What is the OSI Model?", a: "A 7-layer framework for data communication." },
+                { q: "What does TCP stand for?", a: "Transmission Control Protocol." },
+                { q: "Differentiate Hub vs Switch.", a: "Hub broadcasts to all; Switch sends to specific MAC." }
+            ],
+            302: [
+                { q: "What is a Decorator?", a: "A function that modifies the behavior of another function." },
+                { q: "Explain List Comprehension.", a: "Concise way to create lists like [x**2 for x in range(10)]." },
+                { q: "What is the GIL?", a: "Global Interpreter Lock - limits Python threads to one CPU core." }
+            ]
+        }; // Fallback/Test data for others
+
         // --- ELEMENT REFS ---
         let els = {};
 
@@ -2032,7 +2143,7 @@
                 renderMindmaps();
             } else if (tabName === 'flashcards') {
                 els.title.innerText = "Flash Recall";
-                els.container.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-muted);">Flash Recall Module Loading...</div>';
+                renderFlashcardDecks();
             }
             lucide.createIcons();
         }
@@ -2275,6 +2386,125 @@
         function resetMindmap() {
             d3.select("#mindmap-viz svg").transition().call(zoom.transform, d3.zoomIdentity);
         }
+
+        // --- FLASHCARD LOGIC ---
+        function renderFlashcardDecks() {
+            els.container.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
+                    ${flashcardSets.map(set => `
+                         <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="startFlashcardSession(${set.id})">
+                             <div style="aspect-ratio: 3/2; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative; background: #111;">
+                                <img src="${set.thumb}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
+                                <div style="position: absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+                                    <h2 class="bold text-accent" style="font-size: 2rem;">${set.mastery}%</h2>
+                                </div>
+                            </div>
+                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${set.title}</h3>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 5px;">
+                                <p class="text-muted text-xs font-mono">${set.count} cards</p>
+                                <div style="width: 60px; height: 4px; background: #333; border-radius: 2px;">
+                                    <div style="width: ${set.mastery}%; height: 100%; background: var(--accent); border-radius: 2px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function startFlashcardSession(id) {
+            state.flashcards.currentDeckId = id;
+            state.flashcards.currentCardIndex = 0;
+            state.flashcards.isFlipped = false;
+            renderFlashcardSession();
+        }
+
+        function renderFlashcardSession() {
+            const currentDeck = flashcardData[state.flashcards.currentDeckId] || flashcardData[301]; // Fallback
+            const card = currentDeck[state.flashcards.currentCardIndex];
+            const progress = ((state.flashcards.currentCardIndex + 1) / currentDeck.length) * 100;
+
+            els.container.innerHTML = `
+                <div style="display: flex; flex-direction: column; height: 100%; align-items: center; justify-content: center; position: relative;">
+                    
+                     <button class="action-btn-outline" style="position: absolute; top: 0px; left: 0px; z-index: 10; width: fit-content; border:none; padding-left:0; color: var(--text-muted);" onclick="renderFlashcardDecks()">
+                        <i data-lucide="arrow-left"></i> Exit Review
+                    </button>
+
+                    <div style="margin-bottom: 2rem; display:flex; flex-direction:column; align-items:center; gap:0.5rem;">
+                        <span class="font-mono text-muted text-sm">Card ${state.flashcards.currentCardIndex + 1} / ${currentDeck.length}</span>
+                        <div style="width: 200px; height: 4px; background: #333; border-radius: 2px;">
+                            <div style="width: ${progress}%; height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-container" onclick="flipCard()">
+                        <div class="flashcard ${state.flashcards.isFlipped ? 'flipped' : ''}" id="active-card">
+                            <div class="card-face card-front">
+                                <span class="card-label">Question</span>
+                                <div class="card-content">${card.q}</div>
+                                <div class="text-muted text-xs font-mono" style="position:absolute; bottom: 1rem; opacity: 0.5;">Click or Space to Flip</div>
+                            </div>
+                            <div class="card-face card-back">
+                                <span class="card-label text-accent">Answer</span>
+                                <div class="card-content text-accent">${card.a}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                        <button class="icon-btn-filled" onclick="prevCard()" ${state.flashcards.currentCardIndex === 0 ? 'disabled style="opacity:0.5"' : ''}>
+                            <i data-lucide="arrow-left"></i>
+                        </button>
+                         <button class="icon-btn-filled" onclick="nextCard()" ${state.flashcards.currentCardIndex === currentDeck.length - 1 ? 'disabled style="opacity:0.5"' : ''}>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function flipCard() {
+            state.flashcards.isFlipped = !state.flashcards.isFlipped;
+            const card = document.getElementById('active-card');
+            if (card) {
+                card.classList.toggle('flipped', state.flashcards.isFlipped);
+            }
+        }
+
+        function nextCard() {
+            const currentDeck = flashcardData[state.flashcards.currentDeckId] || flashcardData[301];
+            if (state.flashcards.currentCardIndex < currentDeck.length - 1) {
+                state.flashcards.currentCardIndex++;
+                state.flashcards.isFlipped = false; // Reset flip state for new card
+                renderFlashcardSession();
+            }
+        }
+
+        function prevCard() {
+            if (state.flashcards.currentCardIndex > 0) {
+                state.flashcards.currentCardIndex--;
+                state.flashcards.isFlipped = false; // Reset flip state for new card
+                renderFlashcardSession();
+            }
+        }
+
+        // Keyboard Controls
+        window.addEventListener('keydown', (e) => {
+            if (state.currentTab !== 'flashcards') return;
+            // Ensure we are in a session (simplified check: if active-card exists)
+            if (!document.getElementById('active-card')) return;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                flipCard();
+            } else if (e.code === 'ArrowRight') {
+                nextCard();
+            } else if (e.code === 'ArrowLeft') {
+                prevCard();
+            }
+        });
 
         // --- AUDIO PLAYER LOGIC ---
 
