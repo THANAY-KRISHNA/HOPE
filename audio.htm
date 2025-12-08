@@ -16,6 +16,9 @@
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
     <style>
         /* --- THEME VARIABLES (Cyberpunk Streaming) --- */
         :root {
@@ -1499,6 +1502,46 @@
                 padding: 1rem;
             }
         }
+
+        /* --- MINDMAP STYLES --- */
+        .node circle {
+            fill: var(--bg-main);
+            stroke: var(--accent);
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .node circle:hover {
+            fill: var(--accent-glow);
+            stroke-width: 3px;
+        }
+
+        .node text {
+            font-family: var(--font-code);
+            font-size: 12px;
+            fill: var(--text-main);
+            text-shadow: 0 1px 4px black;
+        }
+
+        .link {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 1.5px;
+            transition: all 0.5s;
+        }
+
+        .mindmap-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            background: var(--bg-panel);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
     </style>
 </head>
 
@@ -1854,49 +1897,68 @@
             }
         ];
 
-        // --- MOCK DATA: VIDEOS ---
-        const videos = [
+        // --- MOCK DATA: MINDMAPS LIBRARY ---
+        const mindmaps = [
             {
-                id: 101,
-                title: "Intro to Neural Networks",
-                author: "Academy AI",
-                desc: "A visual guide to how neural networks learn.",
-                thumb: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                duration: "10:34",
-                views: "1.2M"
+                id: 201,
+                title: "Machine Learning Map",
+                nodes: 42,
+                desc: "Complete hierarchy of ML algorithms.",
+                thumb: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=300"
             },
             {
-                id: 102,
-                title: "Quantum Computing Explained",
-                author: "Physics Hub",
-                desc: "Understanding q-bits and superposition.",
-                thumb: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                duration: "15:20",
-                views: "890K"
+                id: 202,
+                title: "Data Structures",
+                nodes: 28,
+                desc: "Trees, Graphs, and Hashmaps visualized.",
+                thumb: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=300"
             },
             {
-                id: 103,
-                title: "React vs Vue 2025",
-                author: "Dev Weekly",
-                desc: "Which framework should you choose?",
-                thumb: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                duration: "12:45",
-                views: "500K"
-            },
-            {
-                id: 104,
-                title: "The Mars Colonization Plan",
-                author: "SpaceX Updates",
-                desc: "Starship's latest trajectory and timeline.",
-                thumb: "https://images.unsplash.com/photo-1614728853913-1e2203d8d1e1?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                duration: "08:15",
-                views: "2.1M"
+                id: 203,
+                title: "Web Architecture",
+                nodes: 35,
+                desc: "Frontend, Backend, and DevOps flow.",
+                thumb: "https://images.unsplash.com/photo-1558494949-ef526b0042c7?auto=format&fit=crop&q=80&w=300"
             }
         ];
+
+        // --- MOCK DATA: MINDMAP DETAILS (TREE JSON) ---
+        const mindmapDetails = {
+            201: {
+                name: "Machine Learning",
+                children: [
+                    {
+                        name: "Supervised",
+                        children: [
+                            { name: "Regression", children: [{ name: "Linear" }, { name: "Polynomial" }] },
+                            { name: "Classification", children: [{ name: "SVM" }, { name: "Decision Trees" }, { name: "KNN" }] }
+                        ]
+                    },
+                    {
+                        name: "Unsupervised",
+                        children: [
+                            { name: "Clustering", children: [{ name: "K-Means" }, { name: "DBSCAN" }] },
+                            { name: "Dim. Reduction", children: [{ name: "PCA" }, { name: "t-SNE" }] }
+                        ]
+                    },
+                    {
+                        name: "Reinforcement",
+                        children: [
+                            { name: "Model-Based" },
+                            { name: "Model-Free", children: [{ name: "Q-Learning" }, { name: "Policy Gradient" }] }
+                        ]
+                    },
+                    {
+                        name: "Deep Learning",
+                        children: [
+                            { name: "CNN", children: [{ name: "ResNet" }, { name: "YOLO" }] },
+                            { name: "RNN", children: [{ name: "LSTM" }, { name: "GRU" }] },
+                            { name: "Transformers", children: [{ name: "BERT" }, { name: "GPT" }] }
+                        ]
+                    }
+                ]
+            }
+        };
 
         // --- ELEMENT REFS ---
         let els = {};
@@ -1967,7 +2029,7 @@
                 renderVideos();
             } else if (tabName === 'mindmap') {
                 els.title.innerText = "Neural Map";
-                els.container.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-muted);">Neural Map Module Loading...</div>';
+                renderMindmaps();
             } else if (tabName === 'flashcards') {
                 els.title.innerText = "Flash Recall";
                 els.container.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-muted);">Flash Recall Module Loading...</div>';
@@ -2015,7 +2077,206 @@
                     `).join('')}
                 </div>
             `;
+        } // End renderVideos
+
+        function renderMindmaps() {
+            els.container.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
+                    ${mindmaps.map(map => `
+                         <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="loadMindmap(${map.id})">
+                             <div style="aspect-ratio: 4/3; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative; background: #000;">
+                                <img src="${map.thumb}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+                                <div style="position: absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+                                    <i data-lucide="network" style="color:white; width: 40px; height: 40px;"></i>
+                                </div>
+                            </div>
+                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${map.title}</h3>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <p class="text-muted text-xs font-mono">${map.nodes} nodes</p>
+                            </div>
+                            <p class="text-muted text-xs" style="margin-top:0.5rem; opacity: 0.7;">${map.desc}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
+
+        // --- MINDMAP D3 LOGIC ---
+        function loadMindmap(id) {
+            const data = mindmapDetails[id] || mindmapDetails[201]; // Fallback
+
+            els.container.innerHTML = `
+                <div style="width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; overflow: hidden;">
+                     <button class="action-btn-outline" style="position: absolute; top: 10px; left: 10px; z-index: 10; width: fit-content; border:none; background: rgba(0,0,0,0.5); backdrop-filter:blur(4px); padding: 5px 10px; color: var(--text-main);" onclick="renderMindmaps()">
+                        <i data-lucide="arrow-left"></i> Back
+                    </button>
+                    
+                    <div id="mindmap-viz" style="flex-grow: 1; width: 100%; height: 100%; background: var(--bg-main); border-radius: 12px; border: 1px solid var(--border);"></div>
+
+                    <div class="mindmap-controls">
+                         <button class="icon-btn-ghost" onclick="zoomMindmap(1.2)"><i data-lucide="zoom-in"></i></button>
+                         <button class="icon-btn-ghost" onclick="zoomMindmap(0.8)"><i data-lucide="zoom-out"></i></button>
+                         <button class="icon-btn-ghost" onclick="resetMindmap()"><i data-lucide="refresh-cw"></i></button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+
+            // D3 Implementation
+            setTimeout(() => drawMindmap(data), 100);
+        }
+
+        let svg, g, zoom;
+
+        function drawMindmap(treeData) {
+            const width = els.container.clientWidth;
+            const height = els.container.clientHeight;
+
+            // Clear previous
+            d3.select("#mindmap-viz").selectAll("*").remove();
+
+            svg = d3.select("#mindmap-viz").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .call(d3.zoom().on("zoom", (event) => {
+                    g.attr("transform", event.transform);
+                }))
+                .append("g");
+
+            zoom = d3.zoom().on("zoom", (event) => g.attr("transform", event.transform));
+            d3.select("#mindmap-viz svg").call(zoom).on("dblclick.zoom", null);
+
+            g = d3.select("#mindmap-viz svg").append("g")
+                .attr("transform", "translate(100, " + height / 2 + ")");
+
+            const root = d3.hierarchy(treeData);
+            root.x0 = height / 2;
+            root.y0 = 0;
+
+            // Collapse all children after depth 1 to start
+            if (root.children) {
+                root.children.forEach(collapse);
+            }
+
+            updateTree(root, root);
+        }
+
+        function collapse(d) {
+            if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+            }
+        }
+
+        let i = 0;
+        const duration = 500;
+
+        function updateTree(source, root) {
+            const width = els.container.clientWidth;
+            const tree = d3.tree().size([els.container.clientHeight, width - 200]);
+
+            const treeData = tree(root);
+            const nodes = treeData.descendants();
+            const links = treeData.descendants().slice(1);
+
+            nodes.forEach(d => { d.y = d.depth * 180; }); // Width between levels
+
+            // --- NODES ---
+            const node = g.selectAll('g.node')
+                .data(nodes, d => d.id || (d.id = ++i));
+
+            const nodeEnter = node.enter().append('g')
+                .attr('class', 'node')
+                .attr('transform', d => `translate(${source.y0},${source.x0})`)
+                .on('click', (event, d) => {
+                    if (d.children) {
+                        d._children = d.children;
+                        d.children = null;
+                    } else {
+                        d.children = d._children;
+                        d._children = null;
+                    }
+                    updateTree(d, root);
+                });
+
+            nodeEnter.append('circle')
+                .attr('class', 'node')
+                .attr('r', 1e-6)
+                .style("fill", d => d._children ? "var(--accent)" : "var(--bg-main)");
+
+            nodeEnter.append('text')
+                .attr("dy", ".35em")
+                .attr("x", d => d.children || d._children ? -13 : 13)
+                .attr("text-anchor", d => d.children || d._children ? "end" : "start")
+                .text(d => d.data.name)
+                .style('fill-opacity', 1e-6);
+
+            // UPDATE
+            const nodeUpdate = node.merge(nodeEnter).transition().duration(duration)
+                .attr("transform", d => `translate(${d.y},${d.x})`);
+
+            nodeUpdate.select('circle')
+                .attr('r', 8)
+                .style("fill", d => d._children ? "var(--accent)" : "var(--bg-main)")
+                .attr('cursor', 'pointer');
+
+            nodeUpdate.select('text')
+                .style('fill-opacity', 1);
+
+            // EXIT
+            const nodeExit = node.exit().transition().duration(duration)
+                .attr("transform", d => `translate(${source.y},${source.x})`)
+                .remove();
+
+            nodeExit.select('circle').attr('r', 1e-6);
+            nodeExit.select('text').style('fill-opacity', 1e-6);
+
+            // --- LINKS ---
+            const link = g.selectAll('path.link')
+                .data(links, d => d.id);
+
+            const linkEnter = link.enter().insert('path', "g")
+                .attr("class", "link")
+                .attr('d', d => {
+                    const o = { x: source.x0, y: source.y0 };
+                    return diagonal(o, o);
+                });
+
+            const linkUpdate = link.merge(linkEnter).transition().duration(duration)
+                .attr('d', d => diagonal(d, d.parent));
+
+            const linkExit = link.exit().transition().duration(duration)
+                .attr('d', d => {
+                    const o = { x: source.x, y: source.y };
+                    return diagonal(o, o);
+                })
+                .remove();
+
+            // Stash positions
+            nodes.forEach(d => {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+        }
+
+        function diagonal(s, d) {
+            return `M ${s.y} ${s.x}
+                     C ${(s.y + d.y) / 2} ${s.x},
+                       ${(s.y + d.y) / 2} ${d.x},
+                       ${d.y} ${d.x}`;
+        }
+
+        // --- ZOOM CONTROLS ---
+        function zoomMindmap(factor) {
+            d3.select("#mindmap-viz svg").transition().call(zoom.scaleBy, factor);
+        }
+
+        function resetMindmap() {
+            d3.select("#mindmap-viz svg").transition().call(zoom.transform, d3.zoomIdentity);
+        }
+
+        // --- AUDIO PLAYER LOGIC ---
 
         // --- AUDIO PLAYER LOGIC ---
         function playAudioTrack(id) {
