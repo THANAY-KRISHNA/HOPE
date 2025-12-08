@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOPE OS | STREAM PROTOCOL</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;600;800&family=Noto+Sans+Malayalam:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- THEME VARIABLES (Cyberpunk Streaming) --- */
+        :root {
+            --bg-main: #09090b;
+            /* Deepest Black */
+            --bg-panel: #121214;
+            /* Panel Grey */
+            --bg-hover: #27272a;
+            /* Hover Grey */
+            --border: #3f3f46;
+            /* Border Grey */
+
+            --accent: #ccff00;
+            /* HOPE Lime */
+            --accent-dim: #88aa00;
+            --accent-glow: rgba(204, 255, 0, 0.15);
+
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+
+            --font-ui: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --font-ml: 'Noto Sans Malayalam', sans-serif;
+
+            --sidebar-width: 280px;
+            --player-height: 90px;
+        }
+
+        /* --- RESET --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            height: 100vh;
+            overflow: hidden;
+            /* App-like feel */
+            display: grid;
+            grid-template-areas:
+                "sidebar main right"
+                "player player player";
+            grid-template-columns: var(--sidebar-width) 1fr 300px;
+            grid-template-rows: 1fr var(--player-height);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* --- TYPOGRAPHY UTILS --- */
+        .font-mono {
+            font-family: var(--font-code);
+        }
+
+        .font-ml {
+            font-family: var(--font-ml);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* --- LAYOUT ZONES --- */
+
+        /* --- SIDEBAR CONTAINER --- */
+        .sidebar-container {
+            grid-area: sidebar;
+            background: rgba(9, 9, 11, 0.95);
+            /* High opacity for legibility */
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            /* Glass effect */
+            z-index: 50;
+            transition: width 0.3s ease;
+        }
+
+        /* --- LOGO SECTION --- */
+        .brand-header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 1rem;
+        }
+
+        .logo-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            background: rgba(204, 255, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .brand-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        /* --- SCROLL AREA --- */
+        .sidebar-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* --- NAVIGATION GROUPS --- */
+        .group-header {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        /* --- NAV ITEMS (BUTTONS) --- */
+        .nav-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            transition: color 0.2s;
+        }
+
+        /* Hover State */
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-main);
+        }
+
+        .nav-item:hover svg {
+            color: var(--text-main);
+        }
+
+        /* Active State (The "Juice") */
+        .nav-item.active {
+            background: rgba(204, 255, 0, 0.05);
+            color: var(--text-main);
+        }
+
+        .nav-item.active svg {
+            color: var(--accent);
+        }
+
+        /* The Glowing Bar on the Left */
+        .active-indicator {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0%;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 10px var(--accent);
+            transition: height 0.2s ease;
+        }
+
+        .nav-item.active .active-indicator {
+            height: 60%;
+        }
+
+        /* --- FOOTER --- */
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Large Desktop (1200px and above) */
+        @media (min-width: 1200px) {
+            body {
+                grid-template-columns: var(--sidebar-width) 1fr 320px;
+            }
+        }
+
+        /* Desktop (1024px to 1199px) */
+        @media (max-width: 1199px) {
+            body {
+                grid-template-columns: var(--sidebar-width) 1fr 280px;
+            }
+        }
+
+        /* Tablet Mode (Vertical, Icons Only) - Approx 768px to 1024px */
+        @media (max-width: 1024px) {
+            body {
+                grid-template-columns: 80px 1fr 240px;
+            }
+
+            .sidebar-container {
+                width: 80px;
+                /* Slim width */
+            }
+
+            .brand-text,
+            .group-header,
+            .nav-text {
+                display: none;
+                /* Hide text */
+            }
+
+            .brand-header {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem 0;
+            }
+
+            .group-header {
+                margin-bottom: 0.25rem;
+                /* Reduce gap */
+            }
+
+            /* Show tooltip on hover logic could go here */
+        }
+
+        /* Small Tablet (600px to 767px) */
+        @media (max-width: 767px) {
+            body {
+                grid-template-areas:
+                    "sidebar"
+                    "main"
+                    "player";
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr var(--player-height);
+            }
+
+            .sidebar-container {
+                width: 100%;
+                height: auto;
+                /* Fixed height for top bar */
+                flex-direction: row;
+                align-items: center;
+                padding: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+            }
+
+            .brand-header {
+                border-bottom: none;
+                padding-right: 1rem;
+                margin-right: 1rem;
+                border-right: 1px solid var(--border);
+                height: 100%;
+            }
+
+            .logo-icon-wrapper {
+                width: 32px;
+                height: 32px;
+            }
+
+            .sidebar-scroll-area {
+                flex-direction: row;
+                align-items: center;
+                padding: 0 1rem 0 0;
+                gap: 1.5rem;
+            }
+
+            .nav-group {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-list {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .group-header {
+                display: none;
+                /* Hide headers on mobile to save space */
+            }
+
+            .nav-item {
+                padding: 0.5rem 1rem;
+                background: var(--bg-panel);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-item.active {
+                border-color: var(--accent-dim);
+            }
+
+            /* Restore text on mobile for better UX */
+            .nav-text {
+                display: inline-block;
+                font-size: 0.8rem;
+            }
+
+            .sidebar-footer {
+                display: none;
+                /* Hide footer on mobile */
+            }
+
+            .active-indicator {
+                display: none;
+                /* Remove side bar on mobile, use border instead */
+            }
+
+            /* Hide right panel on small tablets */
+            .panel-container {
+                display: none;
+            }
+        }
+
+        /* Mobile Mode (Below 600px) */
+        @media (max-width: 600px) {
+            .nav-item {
+                padding: 0.4rem 0.8rem;
+            }
+
+            .nav-text {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* --- MAIN STAGE CONTAINER --- */
+        .stage-container {
+            grid-area: main;
+            background: var(--bg-panel);
+            border-radius: 16px;
+            /* Smooth corners for the main card */
+            margin: 1rem 0.5rem;
+            /* Floating effect */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Contains the scrollbar inside */
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- HEADER SECTION --- */
+        .stage-header {
+            background: rgba(18, 18, 20, 0.85);
+            /* Semi-transparent */
+            backdrop-filter: blur(12px);
+            /* Glass effect */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 10;
+            flex-shrink: 0;
+            /* Prevents header from shrinking */
+        }
+
+        .header-inner {
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Typography */
+        .page-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .sys-status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Pulsing Green Dot */
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 0px var(--accent);
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 10px var(--accent);
+            }
+
+            100% {
+                opacity: 0.5;
+                box-shadow: 0 0 0px var(--accent);
+            }
+        }
+
+        /* --- CONTROLS SECTION --- */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-main);
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 4px;
+        }
+
+        .lang-sep {
+            opacity: 0.3;
+        }
+
+        /* User Avatar */
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            position: relative;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            background: #ff0055;
+            /* Hot pink alert */
+            border: 2px solid var(--bg-panel);
+            border-radius: 50%;
+        }
+
+        /* --- CONTENT VIEWPORT --- */
+        .content-viewport {
+            flex-grow: 1;
+            overflow-y: auto;
+            /* Independent scroll */
+            padding: 2rem;
+            position: relative;
+
+            /* Scrollbar Styling inside the content area */
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .content-viewport {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .header-inner {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-heading {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Small Tablet */
+        @media (max-width: 767px) {
+            .stage-container {
+                margin: 0.5rem;
+                border-radius: 12px;
+            }
+
+            .header-inner {
+                padding: 1rem;
+            }
+
+            .page-heading {
+                font-size: 1.25rem;
+            }
+
+            .lang-switch {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .content-viewport {
+                padding: 1rem;
+                /* Less padding on mobile */
+                padding-bottom: 6rem;
+                /* Extra padding for bottom player bar */
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .stage-container {
+                margin: 0;
+                /* Remove floating margins on mobile */
+                border-radius: 0;
+                /* Flat edges */
+                border: none;
+                background: var(--bg-main);
+                /* Blend with background */
+            }
+
+            .header-inner {
+                padding: 0.75rem;
+            }
+
+            .page-heading {
+                font-size: 1.1rem;
+            }
+
+            .status-text {
+                font-size: 0.65rem;
+            }
+
+            .lang-switch {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.65rem;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+            }
+
+            .content-viewport {
+                padding: 0.75rem;
+            }
+        }
+
+        /* --- RIGHT PANEL CONTAINER --- */
+        .panel-container {
+            grid-area: right;
+            background: var(--bg-main);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .panel-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Headers */
+        .panel-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .section-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-count {
+            background: var(--bg-hover);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+
+        /* --- CONTEXT CARD --- */
+        .context-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .context-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .card-body {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Download Button */
+        .action-btn-outline {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: var(--font-ui);
+            font-weight: 600;
+        }
+
+        .action-btn-outline:hover {
+            background: var(--text-main);
+            color: black;
+            border-color: var(--text-main);
+        }
+
+        /* --- QUEUE LIST --- */
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: transparent;
+            border: 1px solid transparent;
+            /* Invisible border prevents layout shift on hover */
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        /* Queue Item Hover */
+        .queue-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .queue-item:hover .thumb-wrapper {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        /* Thumbnail Box */
+        .thumb-wrapper {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        /* Meta Data */
+        .meta-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .item-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .item-duration {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* --- STATUS MODIFIERS --- */
+
+        /* Locked / Future State */
+        .status-locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-locked:hover {
+            background: transparent;
+            /* No hover effect for locked items */
+        }
+
+        /* Playing State (Optional, if an item is active) */
+        .status-playing .thumb-wrapper {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+
+        .status-playing .item-title {
+            color: var(--accent);
+        }
+
+        /* --- RESPONSIVE LOGIC FOR RIGHT PANEL --- */
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .panel-container {
+                padding: 2rem;
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .panel-container {
+                padding: 1.25rem;
+                gap: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 0.85rem;
+            }
+
+            .card-body {
+                font-size: 0.75rem;
+            }
+
+            .item-title {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Small Tablet */
+        @media (max-width: 767px) {
+            .panel-container {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                width: 80%;
+                max-width: 320px;
+                height: 100%;
+                z-index: 100;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .panel-container.open {
+                right: 0;
+            }
+
+            /* Add a toggle button for the panel */
+            .panel-toggle {
+                position: fixed;
+                right: 20px;
+                bottom: 120px;
+                width: 48px;
+                height: 48px;
+                background: var(--bg-panel);
+                border: 1px solid var(--border);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-main);
+                z-index: 99;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .panel-container {
+                width: 90%;
+            }
+
+            .card-title {
+                font-size: 0.8rem;
+            }
+
+            .card-body {
+                font-size: 0.7rem;
+                line-height: 1.5;
+            }
+
+            .item-title {
+                font-size: 0.75rem;
+            }
+
+            .item-duration {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* --- COMPONENT: VIDEO PLAYER --- */
+        .video-shell {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-shell video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vid-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, black, transparent);
+            padding: 2rem 1.5rem 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-shell:hover .vid-controls {
+            opacity: 1;
+        }
+
+        .scrub-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .scrub-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 45%;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .scrub-fill::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .scrub-bar:hover .scrub-fill::after {
+            opacity: 1;
+        }
+
+        /* --- COMPONENT: MINDMAP CANVAS --- */
+        .mindmap-wrapper {
+            width: 100%;
+            height: 500px;
+            background-color: #1a1a1e;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 24px 24px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .mm-node {
+            position: absolute;
+            background: var(--bg-main);
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .mm-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--bg-hover);
+        }
+
+        .mm-line {
+            position: absolute;
+            height: 1px;
+            background: var(--border);
+            transform-origin: 0 50%;
+            pointer-events: none;
+        }
+
+        /* --- COMPONENT: FLASHCARDS --- */
+        .flashcard-deck {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            width: 500px;
+            height: 300px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .fc-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .fc-back {
+            position: relative;
+        }
+
+        /* --- PLAYER CONTAINER --- */
+        .player-container {
+            grid-area: player;
+            background: rgba(9, 9, 11, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 0 2rem;
+            height: var(--player-height);
+            z-index: 40;
+        }
+
+        /* --- SECTIONS: LEFT & RIGHT --- */
+        .player-side {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 0;
+            /* Prevents text overflow breaking grid */
+        }
+
+        .player-side.is-right {
+            justify-content: flex-end;
+        }
+
+        /* --- TRACK INFO (LEFT) --- */
+        .album-art-wrapper {
+            width: 56px;
+            height: 56px;
+            background: #18181b;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 24px;
+        }
+
+        .v-bar {
+            width: 4px;
+            background: var(--accent);
+            animation: bounce 1s infinite ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* Staggered animation using nth-child */
+        .v-bar:nth-child(1) {
+            height: 40%;
+            animation-delay: 0s;
+        }
+
+        .v-bar:nth-child(2) {
+            height: 80%;
+            animation-delay: 0.2s;
+        }
+
+        .v-bar:nth-child(3) {
+            height: 50%;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                height: 20%;
+                opacity: 0.5;
+            }
+
+            50% {
+                height: 100%;
+                opacity: 1;
+            }
+        }
+
+        .track-meta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .track-title {
+            font-size: 0.875rem;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .track-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* --- CENTER CONTROLS --- */
+        .player-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .ctrl-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Buttons */
+        .icon-btn-ghost {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .icon-btn-ghost:hover {
+            color: var(--text-main);
+        }
+
+        .like-btn:hover {
+            color: var(--accent);
+            /* Heart turns lime */
+        }
+
+        .icon-btn-filled {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            /* Brighter than ghost */
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .icon-btn-filled:active {
+            transform: scale(0.9);
+        }
+
+        /* Main Play Button (FAB style) */
+        .play-pause-fab {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--text-main);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: black;
+        }
+
+        .play-pause-fab:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .play-pause-fab:active {
+            transform: scale(0.95);
+        }
+
+        /* --- PROGRESS BAR --- */
+        .progress-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .time-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            min-width: 35px;
+            /* Prevent jitter when numbers change */
+        }
+
+        .progress-rail {
+            flex-grow: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+            /* Increase hit area for easier clicking */
+            padding: 6px 0;
+            background-clip: content-box;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-main);
+            border-radius: 2px;
+            position: relative;
+            transition: background 0.2s;
+        }
+
+        .progress-rail:hover .progress-fill {
+            background: var(--accent);
+        }
+
+        .scrub-handle {
+            width: 12px;
+            height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            /* Hidden by default */
+            transition: transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-rail:hover .scrub-handle {
+            transform: translateY(-50%) scale(1);
+            /* Show on hover */
+        }
+
+        /* --- RIGHT SIDE (VOLUME) --- */
+        .volume-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100px;
+        }
+
+        .vol-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-muted);
+        }
+
+        .volume-rail {
+            flex-grow: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            height: 100%;
+            background: var(--text-muted);
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+
+        .volume-rail:hover .volume-fill {
+            background: var(--text-main);
+        }
+
+        /* --- RESPONSIVE LOGIC FOR PLAYER --- */
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .player-container {
+                padding: 0 2.5rem;
+            }
+
+            .track-title {
+                font-size: 1rem;
+            }
+
+            .track-desc {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Tablet & Mobile: Hide Volume, simplify Layout */
+        @media (max-width: 1024px) {
+            .player-side.is-right {
+                display: none;
+                /* Hide volume controls */
+            }
+
+            .player-container {
+                /* Switch to 2 columns: Info | Controls */
+                grid-template-columns: 1fr auto;
+            }
+
+            .player-center {
+                width: auto;
+                gap: 0;
+            }
+
+            .progress-wrapper {
+                display: none;
+                /* Hide progress bar on small tablets to save space, or move it to top */
+            }
+        }
+
+        /* Small Tablet */
+        @media (max-width: 767px) {
+            .player-container {
+                padding: 0 1rem;
+                height: 70px;
+                position: fixed;
+                /* Stick to bottom */
+                bottom: 0;
+                width: 100%;
+                background: rgba(9, 9, 11, 0.95);
+                backdrop-filter: blur(10px);
+            }
+
+            .track-meta {
+                max-width: 120px;
+                /* Force truncation on mobile */
+            }
+
+            .ctrl-group {
+                gap: 1rem;
+            }
+
+            /* Hide secondary buttons on mobile */
+            .icon-btn-ghost:nth-child(1),
+            /* Shuffle */
+            .icon-btn-ghost:nth-child(5) {
+                /* Repeat */
+                display: none;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .player-container {
+                padding: 0 0.75rem;
+            }
+
+            .album-art-wrapper {
+                width: 48px;
+                height: 48px;
+            }
+
+            .visualizer {
+                height: 20px;
+            }
+
+            .track-meta {
+                max-width: 100px;
+            }
+
+            .track-title {
+                font-size: 0.8rem;
+            }
+
+            .track-desc {
+                font-size: 0.7rem;
+            }
+
+            .play-pause-fab {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn-filled {
+                padding: 6px;
+            }
+        }
+
+        /* --- COMPONENT: DASHBOARD CARDS --- */
+        .panel-card {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .panel-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- RESPONSIVE LOGIC FOR DASHBOARD --- */
+        @media (max-width: 600px) {
+            .panel-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. LEFT SIDEBAR -->
+    <nav id="sidebar" class="sidebar-container">
+
+        <div class="brand-header">
+            <div class="logo-icon-wrapper">
+                <i data-lucide="cpu" class="icon-glow"></i>
+            </div>
+            <span class="brand-text font-mono">HOPE <span class="text-accent">OS</span></span>
+        </div>
+
+        <div class="sidebar-scroll-area">
+
+            <div class="nav-group">
+                <h4 class="group-header font-mono">Library_V.2</h4>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-item active" onclick="switchTab('dashboard')" aria-label="Dashboard">
+                            <i data-lucide="layout-grid"></i>
+                            <span class="nav-text">Dashboard</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchTab('videos')" aria-label="Video Stream">
+                            <i data-lucide="play-square"></i>
+                            <span class="nav-text">Video Stream</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchTab('mindmap')" aria-label="Neural Map">
+                            <i data-lucide="network"></i>
+                            <span class="nav-text">Neural Map</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" onclick="switchTab('flashcards')" aria-label="Flash Recall">
+                            <i data-lucide="zap"></i>
+                            <span class="nav-text">Flash Recall</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-group">
+                <h4 class="group-header font-mono">S4_Modules</h4>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-item" aria-label="Maths Graph Theory">
+                            <i data-lucide="hash"></i>
+                            <span class="nav-text">Maths (Graph Theory)</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="DBMS Architecture">
+                            <i data-lucide="database"></i>
+                            <span class="nav-text">DBMS Architecture</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="OS Principals">
+                            <i data-lucide="cpu"></i>
+                            <span class="nav-text">OS Principals</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="Python Data Science">
+                            <i data-lucide="code"></i>
+                            <span class="nav-text">Python Data Science</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="nav-item">
+                <i data-lucide="settings"></i>
+                <span class="nav-text">Sys_Config</span>
+                <div class="active-indicator"></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 2. MAIN STAGE -->
+    <main id="main-stage" class="stage-container">
+
+        <header class="stage-header">
+            <div class="header-inner">
+
+                <div class="title-group">
+                    <h2 id="page-title" class="page-heading">Dashboard</h2>
+                    <div class="sys-status-wrapper">
+                        <span class="status-dot"></span>
+                        <span class="status-text font-mono">SYS_STATUS: <span class="text-accent">OPTIMAL</span></span>
+                    </div>
+                </div>
+
+                <div class="header-controls">
+                    <button class="control-btn lang-switch" onclick="toggleLang()" id="langBtn"
+                        aria-label="Switch Language">
+                        <span class="lang-label">EN</span>
+                        <span class="lang-sep">/</span>
+                        <span class="lang-label">ML</span>
+                    </button>
+
+                    <button class="control-btn user-avatar" aria-label="User Profile">
+                        <i data-lucide="user"></i>
+                        <div class="notification-dot"></div>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-viewport" id="content-container">
+        </div>
+    </main>
+
+    <!-- 3. RIGHT PANEL (Context) -->
+    <aside id="right-panel" class="panel-container">
+
+        <section class="panel-section">
+            <h3 class="panel-header font-mono">Current_Context</h3>
+
+            <div class="context-card">
+                <div class="card-header">
+                    <i data-lucide="file-text" class="text-accent"></i>
+                    <span class="card-title">Lecture_Notes.pdf</span>
+                </div>
+
+                <p class="card-body">
+                    Graph theory provides the backbone for many Data Science algorithms. Key concepts include Nodes,
+                    Edges, and Pathfinding traversal methods.
+                </p>
+
+                <button class="action-btn-outline">
+                    <i data-lucide="download" width="14"></i>
+                    <span>Download Resource</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="section-title-row">
+                <h3 class="panel-header font-mono">Sequence_Queue</h3>
+                <span class="badge-count">2</span>
+            </div>
+
+            <div class="queue-list">
+
+                <button class="queue-item status-queued">
+                    <div class="thumb-wrapper">
+                        <i data-lucide="play" width="14"></i>
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">SQL Injection Analysis</span>
+                        <span class="item-duration font-mono">12:00 mins</span>
+                    </div>
+                </button>
+
+                <button class="queue-item status-locked">
+                    <div class="thumb-wrapper">
+                        <i data-lucide="lock" width="14"></i>
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">Database Normal Forms</span>
+                        <span class="item-duration font-mono">24:45 mins</span>
+                    </div>
+                </button>
+
+            </div>
+        </section>
+
+    </aside>
+
+    <!-- Panel Toggle Button (for small screens) -->
+    <button class="panel-toggle" id="panel-toggle" onclick="togglePanel()" style="display: none;">
+        <i data-lucide="sidebar-close"></i>
+    </button>
+
+    <!-- 4. PERSISTENT PLAYER BAR -->
+    <footer id="player-bar" class="player-container">
+
+        <div class="player-side is-left">
+            <div class="album-art-wrapper">
+                <div class="visualizer">
+                    <div class="v-bar"></div>
+                    <div class="v-bar"></div>
+                    <div class="v-bar"></div>
+                </div>
+            </div>
+
+            <div class="track-meta">
+                <div class="track-title bold" id="audioTitle">S4 Exam Prep: Module 1</div>
+                <div class="track-desc font-mono" id="audioSub">Probability Distributions</div>
+            </div>
+
+            <button class="icon-btn-ghost like-btn" aria-label="Save to Library">
+                <i data-lucide="heart"></i>
+            </button>
+        </div>
+
+        <div class="player-center">
+            <div class="ctrl-group">
+                <button class="icon-btn-ghost" aria-label="Shuffle">
+                    <i data-lucide="shuffle"></i>
+                </button>
+                <button class="icon-btn-filled" aria-label="Previous">
+                    <i data-lucide="skip-back"></i>
+                </button>
+
+                <button class="play-pause-fab" onclick="toggleAudio(this)" aria-label="Play/Pause">
+                    <i data-lucide="pause" class="icon-play"></i>
+                </button>
+
+                <button class="icon-btn-filled" aria-label="Next">
+                    <i data-lucide="skip-forward"></i>
+                </button>
+                <button class="icon-btn-ghost" aria-label="Repeat">
+                    <i data-lucide="repeat"></i>
+                </button>
+            </div>
+
+            <div class="progress-wrapper">
+                <span class="time-text font-mono">04:20</span>
+
+                <div class="progress-rail" role="slider" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-fill" style="width: 35%;">
+                        <div class="scrub-handle"></div>
+                    </div>
+                </div>
+
+                <span class="time-text font-mono">12:00</span>
+            </div>
+        </div>
+
+        <div class="player-side is-right">
+            <button class="icon-btn-ghost" aria-label="Lyrics">
+                <i data-lucide="mic-2"></i>
+            </button>
+            <button class="icon-btn-ghost" aria-label="Queue">
+                <i data-lucide="list-music"></i>
+            </button>
+
+            <div class="volume-group">
+                <i data-lucide="volume-2" class="vol-icon"></i>
+                <div class="volume-rail">
+                    <div class="volume-fill" style="width: 70%;"></div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <script>
+        // --- ICONS ---
+        lucide.createIcons();
+
+        // --- DATA MOCK ---
+        const data = {
+            en: {
+                tabs: {
+                    dashboard: "Dashboard",
+                    videos: "Video Stream",
+                    mindmap: "Neural Map",
+                    flashcards: "Flash Recall"
+                },
+                video: {
+                    title: "Lec 01: Introduction to Graph Theory",
+                    desc: "Understanding Nodes, Edges, and basic traversal algorithms in Data Science contexts."
+                },
+                flashcards: [
+                    { q: "What is a Primary Key?", a: "A unique identifier for a record in a database table." },
+                    { q: "Define 'Overfitting'.", a: "When a model learns noise/details from training data to the extent it impacts performance on new data." },
+                    { q: "What is Bayes' Theorem?", a: "Describes the probability of an event, based on prior knowledge of conditions." }
+                ],
+                mindmap: [
+                    { id: 1, text: "Data Science", x: 400, y: 250, type: 'root' },
+                    { id: 2, text: "Statistics", x: 200, y: 150 },
+                    { id: 3, text: "Machine Learning", x: 600, y: 150 },
+                    { id: 4, text: "Visualization", x: 200, y: 350 },
+                    { id: 5, text: "Big Data", x: 600, y: 350 }
+                ]
+            },
+            ml: {
+                tabs: {
+                    dashboard: "ഡാഷ്‌ബോർഡ്",
+                    videos: "വീഡിയോ ക്ലാസുകൾ",
+                    mindmap: "ആശയരൂപീകരണം",
+                    flashcards: "ഓർമ്മക്കുറിപ്പുകൾ"
+                },
+                video: {
+                    title: "അധ്യായം 01: ഗ്രാഫ് തിയറി ആമുഖം",
+                    desc: "നോഡുകൾ, എഡ്ജുകൾ, അടിസ്ഥാന ട്രാവേഴ്സൽ അൽഗോരിതങ്ങൾ എന്നിവ മനസ്സിലാക്കാം."
+                },
+                flashcards: [
+                    { q: "എന്താണ് പ്രൈമറി കീ?", a: "ഒരു ടേബിളിലെ ഓരോ വരിയെയും തിരിച്ചറിയാൻ സഹായിക്കുന്ന യുണീക്ക് കീ." },
+                    { q: "ഓവർഫിറ്റിംഗ് എന്നാൽ എന്ത്?", a: "ട്രെയിനിങ് ഡാറ്റയിലെ അനാവശ്യ വിവരങ്ങൾ കൂടി പഠിച്ച് മോഡലിന്റെ കൃത്യത കുറയുന്ന അവസ്ഥ." },
+                    { q: "ബെയ്‌സ് തിയറം?", a: "മുൻകാല അറിവുകളെ അടിസ്ഥാനമാക്കി ഒരു സംഭവത്തിന്റെ സാധ്യത കണ്ടെത്തുന്ന രീതി." }
+                ],
+                mindmap: [
+                    { id: 1, text: "ഡാറ്റാ സയൻസ്", x: 400, y: 250, type: 'root' },
+                    { id: 2, text: "സ്ഥിതിവിവരക്കണക്ക്", x: 200, y: 150 },
+                    { id: 3, text: "മെഷീൻ ലേണിംഗ്", x: 600, y: 150 },
+                    { id: 4, text: "വിഷ്വലൈസേഷൻ", x: 200, y: 350 },
+                    { id: 5, text: "ബിഗ് ഡാറ്റ", x: 600, y: 350 }
+                ]
+            }
+        };
+
+        let currentLang = 'en';
+
+        // --- RENDER FUNCTIONS ---
+
+        // 1. DASHBOARD VIEW
+        function renderDashboard() {
+            const d = data[currentLang];
+            return `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <!-- Welcome Card -->
+                    <div style="grid-column: 1/-1; background: linear-gradient(135deg, #18181b 0%, #000 100%); border: 1px solid var(--border); padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div style="position: relative; z-index: 2;">
+                            <h1 class="bold" style="font-size: 2rem; margin-bottom: 0.5rem;">S4 Data Science</h1>
+                            <p class="text-muted" style="max-width: 600px;">Resume your learning path. You have 3 pending lectures and 1 active assignment.</p>
+                            <button onclick="switchTab('videos')" style="margin-top: 1.5rem; background: var(--accent); color: black; border: none; padding: 10px 24px; border-radius: 50px; font-weight: 700; cursor: pointer;">Resume Protocol</button>
+                        </div>
+                        <i data-lucide="activity" style="position: absolute; right: -20px; bottom: -20px; width: 150px; height: 150px; color: rgba(255,255,255,0.03);"></i>
+                    </div>
+
+                    <!-- Stat Cards -->
+                    <div class="panel-card" style="border-left: 4px solid var(--accent);">
+                        <div class="text-muted text-xs uppercase font-mono mb-2">Completion</div>
+                        <div class="bold" style="font-size: 1.5rem;">68%</div>
+                    </div>
+                    <div class="panel-card" style="border-left: 4px solid #2b00ff;">
+                        <div class="text-muted text-xs uppercase font-mono mb-2">Hours Logged</div>
+                        <div class="bold" style="font-size: 1.5rem;">14.2 hrs</div>
+                    </div>
+                    <div class="panel-card" style="border-left: 4px solid #fff;">
+                        <div class="text-muted text-xs uppercase font-mono mb-2">Flashcard Mastery</div>
+                        <div class="bold" style="font-size: 1.5rem;">A-</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 2. VIDEO VIEW
+        function renderVideo() {
+            const d = data[currentLang].video;
+            return `
+                <div class="video-shell">
+                    <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" loop muted autoplay></video>
+                    <div class="vid-controls">
+                        <div class="scrub-bar"><div class="scrub-fill"></div></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <i data-lucide="play" fill="white" width="20"></i>
+                                <i data-lucide="volume-2" width="20"></i>
+                                <span class="font-mono text-xs">12:30 / 45:00</span>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <i data-lucide="settings" width="20"></i>
+                                <i data-lucide="maximize" width="20"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h1 class="bold" style="font-size: 1.5rem; margin-bottom: 0.5rem;">${d.title}</h1>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                         <span class="text-xs font-mono" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px;">MODULE 1</span>
+                         <span class="text-xs font-mono" style="background: rgba(204,255,0,0.1); color: var(--accent); padding: 4px 8px; border-radius: 4px;">IMPORTANT</span>
+                    </div>
+                    <p class="text-muted text-sm">${d.desc}</p>
+                </div>
+            `;
+        }
+
+        // 3. MINDMAP VIEW
+        function renderMindMap() {
+            const nodes = data[currentLang].mindmap;
+            let html = `<div class="mindmap-wrapper" id="mm-canvas">`;
+
+            // Draw lines (Simple CSS approach for demo - ideally SVG)
+            const root = nodes.find(n => n.type === 'root');
+            nodes.forEach(n => {
+                if (n.type !== 'root') {
+                    // Quick math to position lines roughly
+                    const len = Math.sqrt(Math.pow(n.x - root.x, 2) + Math.pow(n.y - root.y, 2));
+                    const angle = Math.atan2(n.y - root.y, n.x - root.x) * 180 / Math.PI;
+                    html += `<div class="mm-line" style="width: ${len}px; left: ${root.x + 40}px; top: ${root.y + 15}px; transform: rotate(${angle}deg);"></div>`;
+                }
+            });
+
+            // Draw Nodes
+            nodes.forEach(n => {
+                const style = n.type === 'root'
+                    ? `background: var(--text-main); color: black; font-weight: bold; border: none;`
+                    : ``;
+                html += `<div class="mm-node" style="left: ${n.x}px; top: ${n.y}px; ${style}">${n.text}</div>`;
+            });
+
+            html += `
+                <div style="position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px;">
+                    <button style="width: 32px; height: 32px; background: #333; color: white; border: none; border-radius: 4px;">+</button>
+                    <button style="width: 32px; height: 32px; background: #333; color: white; border: none; border-radius: 4px;">-</button>
+                </div>
+            </div>`;
+            return html;
+        }
+
+        // 4. FLASHCARD VIEW
+        function renderFlashcards() {
+            const cards = data[currentLang].flashcards;
+            return `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <span class="font-mono text-accent text-sm">DECK: DBMS_V1</span>
+                </div>
+                <div class="flashcard-deck">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-face fc-front">
+                            <span class="text-muted text-xs font-mono mb-4">QUESTION</span>
+                            <h2 class="bold" style="font-size: 1.5rem;">${cards[0].q}</h2>
+                            <span class="text-muted text-xs font-mono" style="margin-top: auto;">CLICK TO REVEAL</span>
+                        </div>
+                        <div class="fc-face fc-back">
+                            <span class="text-accent text-xs font-mono mb-4">ANSWER</span>
+                            <p style="font-size: 1.1rem; line-height: 1.5;">${cards[0].a}</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
+                    <button class="icon-btn" style="border: 1px solid var(--border); padding: 8px 24px; border-radius: 20px;">I Knew It</button>
+                    <button class="icon-btn" style="border: 1px solid var(--border); padding: 8px 24px; border-radius: 20px;">Study Again</button>
+                </div>
+            `;
+        }
+
+        // --- APP STATE CONTROLLER ---
+        function switchTab(tabName) {
+            // Update Active State on Sidebar
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('onclick') && el.getAttribute('onclick').includes(`'${tabName}'`)) {
+                    el.classList.add('active');
+                }
+            });
+
+            const container = document.getElementById('content-container');
+            const title = document.getElementById('page-title');
+
+            // Render
+            if (tabName === 'dashboard') {
+                container.innerHTML = renderDashboard();
+                if (title) title.innerText = data[currentLang].tabs.dashboard;
+            } else if (tabName === 'videos') {
+                container.innerHTML = renderVideo();
+                title.innerText = data[currentLang].tabs.videos;
+            } else if (tabName === 'mindmap') {
+                container.innerHTML = renderMindMap();
+                title.innerText = data[currentLang].tabs.mindmap;
+            } else if (tabName === 'flashcards') {
+                container.innerHTML = renderFlashcards();
+                title.innerText = data[currentLang].tabs.flashcards;
+            }
+            lucide.createIcons();
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ml' : 'en';
+            // Refresh current view
+            const currentTitle = document.getElementById('page-title');
+            // Simple re-render of dashboard for demo
+            switchTab('dashboard');
+        }
+
+        function toggleAudio(btn) {
+            // Just for visual effect
+            const icon = btn.querySelector('svg');
+            // Check if it's pause icon (Lucide renders SVG with class lucide-pause)
+            // Or check the data-lucide attribute if re-rendered
+
+            if (btn.innerHTML.includes('pause')) {
+                btn.innerHTML = `<i data-lucide="play" class="icon-play"></i>`;
+                document.querySelectorAll('.v-bar').forEach(b => b.style.animationPlayState = 'paused');
+            } else {
+                btn.innerHTML = `<i data-lucide="pause" class="icon-play"></i>`;
+                document.querySelectorAll('.v-bar').forEach(b => b.style.animationPlayState = 'running');
+            }
+            lucide.createIcons();
+        }
+
+        function togglePanel() {
+            const panel = document.getElementById('right-panel');
+            panel.classList.toggle('open');
+
+            const toggleBtn = document.getElementById('panel-toggle');
+            const icon = toggleBtn.querySelector('i');
+
+            if (panel.classList.contains('open')) {
+                icon.setAttribute('data-lucide', 'sidebar-close');
+            } else {
+                icon.setAttribute('data-lucide', 'sidebar-open');
+            }
+
+            lucide.createIcons();
+        }
+
+        // Check screen size and show/hide panel toggle button
+        function checkScreenSize() {
+            const toggleBtn = document.getElementById('panel-toggle');
+            if (window.innerWidth <= 767) {
+                toggleBtn.style.display = 'flex';
+            } else {
+                toggleBtn.style.display = 'none';
+                // Also close the panel if it's open
+                const panel = document.getElementById('right-panel');
+                panel.classList.remove('open');
+            }
+        }
+
+        // Add event listener for window resize
+        window.addEventListener('resize', checkScreenSize);
+
+        // Init
+        switchTab('dashboard');
+        checkScreenSize();
+    </script>
+</body>
+
+</html>

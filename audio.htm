@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOPE OS | AUDIO PROTOCOL</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;600;800&family=Noto+Sans+Malayalam:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- THEME VARIABLES (Cyberpunk Streaming) --- */
+        :root {
+            --bg-main: #09090b;
+            /* Deepest Black */
+            --bg-panel: #121214;
+            /* Panel Grey */
+            --bg-hover: #27272a;
+            /* Hover Grey */
+            --border: #3f3f46;
+            /* Border Grey */
+
+            --accent: #ccff00;
+            /* HOPE Lime */
+            --accent-dim: #88aa00;
+            --accent-glow: rgba(204, 255, 0, 0.15);
+
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+
+            --font-ui: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --font-ml: 'Noto Sans Malayalam', sans-serif;
+
+            --sidebar-width: 280px;
+            --player-height: 90px;
+        }
+
+        /* --- RESET --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body {
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            height: 100vh;
+            overflow: hidden;
+            /* App-like feel */
+            display: grid;
+            grid-template-areas:
+                "sidebar main right"
+                "player player player";
+            grid-template-columns: var(--sidebar-width) 1fr 300px;
+            grid-template-rows: 1fr var(--player-height);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* --- TYPOGRAPHY UTILS --- */
+        .font-mono {
+            font-family: var(--font-code);
+        }
+
+        .font-ml {
+            font-family: var(--font-ml);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* --- LAYOUT ZONES --- */
+
+        /* --- SIDEBAR CONTAINER --- */
+        .sidebar-container {
+            grid-area: sidebar;
+            background: rgba(9, 9, 11, 0.95);
+            /* High opacity for legibility */
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            /* Glass effect */
+            z-index: 50;
+            transition: width 0.3s ease;
+        }
+
+        /* --- LOGO SECTION --- */
+        .brand-header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 1rem;
+        }
+
+        .logo-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            background: rgba(204, 255, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .brand-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        /* --- SCROLL AREA --- */
+        .sidebar-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* --- NAVIGATION GROUPS --- */
+        .group-header {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        /* --- NAV ITEMS (BUTTONS) --- */
+        .nav-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            transition: color 0.2s;
+        }
+
+        /* Hover State */
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-main);
+        }
+
+        .nav-item:hover svg {
+            color: var(--text-main);
+        }
+
+        /* Active State (The "Juice") */
+        .nav-item.active {
+            background: rgba(204, 255, 0, 0.05);
+            color: var(--text-main);
+        }
+
+        .nav-item.active svg {
+            color: var(--accent);
+        }
+
+        /* The Glowing Bar on the Left */
+        .active-indicator {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0%;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 10px var(--accent);
+            transition: height 0.2s ease;
+        }
+
+        .nav-item.active .active-indicator {
+            height: 60%;
+        }
+
+        /* --- FOOTER --- */
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Large Desktop (1200px and above) */
+        @media (min-width: 1200px) {
+            body {
+                grid-template-columns: var(--sidebar-width) 1fr 320px;
+            }
+        }
+
+        /* Desktop (1024px to 1199px) */
+        @media (max-width: 1199px) {
+            body {
+                grid-template-columns: var(--sidebar-width) 1fr 280px;
+            }
+        }
+
+        /* Tablet Mode (Vertical, Icons Only) - Approx 768px to 1024px */
+        @media (max-width: 1024px) {
+            body {
+                grid-template-columns: 80px 1fr 240px;
+            }
+
+            .sidebar-container {
+                width: 80px;
+                /* Slim width */
+            }
+
+            .brand-text,
+            .group-header,
+            .nav-text {
+                display: none;
+                /* Hide text */
+            }
+
+            .brand-header {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem 0;
+            }
+
+            .group-header {
+                margin-bottom: 0.25rem;
+                /* Reduce gap */
+            }
+        }
+
+        /* Small Tablet (600px to 767px) */
+        @media (max-width: 767px) {
+            body {
+                grid-template-areas:
+                    "sidebar"
+                    "main"
+                    "player";
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr var(--player-height);
+            }
+
+            .sidebar-container {
+                width: 100%;
+                height: auto;
+                /* Fixed height for top bar */
+                flex-direction: row;
+                align-items: center;
+                padding: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+            }
+
+            .brand-header {
+                border-bottom: none;
+                padding-right: 1rem;
+                margin-right: 1rem;
+                border-right: 1px solid var(--border);
+                height: 100%;
+            }
+
+            .logo-icon-wrapper {
+                width: 32px;
+                height: 32px;
+            }
+
+            .sidebar-scroll-area {
+                flex-direction: row;
+                align-items: center;
+                padding: 0 1rem 0 0;
+                gap: 1.5rem;
+            }
+
+            .nav-group {
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-list {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .group-header {
+                display: none;
+                /* Hide headers on mobile to save space */
+            }
+
+            .nav-item {
+                padding: 0.5rem 1rem;
+                background: var(--bg-panel);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .nav-item.active {
+                border-color: var(--accent-dim);
+            }
+
+            /* Restore text on mobile for better UX */
+            .nav-text {
+                display: inline-block;
+                font-size: 0.8rem;
+            }
+
+            .sidebar-footer {
+                display: none;
+                /* Hide footer on mobile */
+            }
+
+            .active-indicator {
+                display: none;
+                /* Remove side bar on mobile, use border instead */
+            }
+
+            /* Hide right panel on small tablets */
+            .panel-container {
+                display: none;
+            }
+        }
+
+        /* Mobile Mode (Below 600px) */
+        @media (max-width: 600px) {
+            .nav-item {
+                padding: 0.4rem 0.8rem;
+            }
+
+            .nav-text {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* --- MAIN STAGE CONTAINER --- */
+        .stage-container {
+            grid-area: main;
+            background: var(--bg-panel);
+            border-radius: 16px;
+            /* Smooth corners for the main card */
+            margin: 1rem 0.5rem;
+            /* Floating effect */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Contains the scrollbar inside */
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- HEADER SECTION --- */
+        .stage-header {
+            background: rgba(18, 18, 20, 0.85);
+            /* Semi-transparent */
+            backdrop-filter: blur(12px);
+            /* Glass effect */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 10;
+            flex-shrink: 0;
+            /* Prevents header from shrinking */
+        }
+
+        .header-inner {
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Typography */
+        .page-heading {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .sys-status-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Pulsing Green Dot */
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 0px var(--accent);
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 10px var(--accent);
+            }
+
+            100% {
+                opacity: 0.5;
+                box-shadow: 0 0 0px var(--accent);
+            }
+        }
+
+        /* --- CONTROLS SECTION --- */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-main);
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 4px;
+        }
+
+        .lang-sep {
+            opacity: 0.3;
+        }
+
+        /* User Avatar */
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            position: relative;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            background: #ff0055;
+            /* Hot pink alert */
+            border: 2px solid var(--bg-panel);
+            border-radius: 50%;
+        }
+
+        /* --- CONTENT VIEWPORT --- */
+        .content-viewport {
+            flex-grow: 1;
+            overflow-y: auto;
+            /* Independent scroll */
+            padding: 2rem;
+            position: relative;
+
+            /* Scrollbar Styling inside the content area */
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        /* --- RESPONSIVE LOGIC --- */
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .content-viewport {
+                padding: 2.5rem;
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .header-inner {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-heading {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Small Tablet */
+        @media (max-width: 767px) {
+            .stage-container {
+                margin: 0.5rem;
+                border-radius: 12px;
+            }
+
+            .header-inner {
+                padding: 1rem;
+            }
+
+            .page-heading {
+                font-size: 1.25rem;
+            }
+
+            .lang-switch {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .content-viewport {
+                padding: 1rem;
+                /* Less padding on mobile */
+                padding-bottom: 6rem;
+                /* Extra padding for bottom player bar */
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .stage-container {
+                margin: 0;
+                /* Remove floating margins on mobile */
+                border-radius: 0;
+                /* Flat edges */
+                border: none;
+                background: var(--bg-main);
+                /* Blend with background */
+            }
+
+            .header-inner {
+                padding: 0.75rem;
+            }
+
+            .page-heading {
+                font-size: 1.1rem;
+            }
+
+            .status-text {
+                font-size: 0.65rem;
+            }
+
+            .lang-switch {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.65rem;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+            }
+
+            .content-viewport {
+                padding: 0.75rem;
+            }
+        }
+
+        /* --- RIGHT PANEL CONTAINER --- */
+        .panel-container {
+            grid-area: right;
+            background: var(--bg-main);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .panel-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Headers */
+        .panel-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .section-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-count {
+            background: var(--bg-hover);
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+
+        /* --- CONTEXT CARD --- */
+        .context-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .context-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .card-body {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Download Button */
+        .action-btn-outline {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: var(--font-ui);
+            font-weight: 600;
+        }
+
+        .action-btn-outline:hover {
+            background: var(--text-main);
+            color: black;
+            border-color: var(--text-main);
+        }
+
+        /* --- QUEUE LIST --- */
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: transparent;
+            border: 1px solid transparent;
+            /* Invisible border prevents layout shift on hover */
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        /* Queue Item Hover */
+        .queue-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .queue-item:hover .thumb-wrapper {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        .thumb-wrapper {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            overflow: hidden;
+        }
+
+        .thumb-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Meta Data */
+        .meta-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .item-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .item-duration {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* --- STATUS MODIFIERS --- */
+
+        /* Locked / Future State */
+        .status-locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-locked:hover {
+            background: transparent;
+            /* No hover effect for locked items */
+        }
+
+        /* Playing State (Optional, if an item is active) */
+        .status-playing .thumb-wrapper {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+
+        .status-playing .item-title {
+            color: var(--accent);
+        }
+
+        /* --- RESPONSIVE LOGIC FOR RIGHT PANEL --- */
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .panel-container {
+                padding: 2rem;
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .panel-container {
+                padding: 1.25rem;
+                gap: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 0.85rem;
+            }
+
+            .card-body {
+                font-size: 0.75rem;
+            }
+
+            .item-title {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Small Tablet */
+        @media (max-width: 767px) {
+            .panel-container {
+                position: fixed;
+                right: -100%;
+                top: 0;
+                width: 80%;
+                max-width: 320px;
+                height: 100%;
+                z-index: 100;
+                transition: right 0.3s ease;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .panel-container.open {
+                right: 0;
+            }
+
+            /* Add a toggle button for the panel */
+            .panel-toggle {
+                position: fixed;
+                right: 20px;
+                bottom: 120px;
+                width: 48px;
+                height: 48px;
+                background: var(--bg-panel);
+                border: 1px solid var(--border);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-main);
+                z-index: 99;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .panel-container {
+                width: 90%;
+            }
+
+            .card-title {
+                font-size: 0.8rem;
+            }
+
+            .card-body {
+                font-size: 0.7rem;
+                line-height: 1.5;
+            }
+
+            .item-title {
+                font-size: 0.75rem;
+            }
+
+            .item-duration {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* --- PLAYER CONTAINER --- */
+        .player-container {
+            grid-area: player;
+            background: rgba(9, 9, 11, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 0 2rem;
+            height: var(--player-height);
+            z-index: 40;
+        }
+
+        /* --- SECTIONS: LEFT & RIGHT --- */
+        .player-side {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 0;
+            /* Prevents text overflow breaking grid */
+        }
+
+        .player-side.is-right {
+            justify-content: flex-end;
+        }
+
+        /* --- TRACK INFO (LEFT) --- */
+        .album-art-wrapper {
+            width: 56px;
+            height: 56px;
+            background: #18181b;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .album-art-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 24px;
+        }
+
+        .v-bar {
+            width: 4px;
+            background: var(--accent);
+            animation: bounce 1s infinite ease-in-out;
+            border-radius: 2px;
+        }
+
+        /* Staggered animation using nth-child */
+        .v-bar:nth-child(1) {
+            height: 40%;
+            animation-delay: 0s;
+        }
+
+        .v-bar:nth-child(2) {
+            height: 80%;
+            animation-delay: 0.2s;
+        }
+
+        .v-bar:nth-child(3) {
+            height: 50%;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                height: 20%;
+                opacity: 0.5;
+            }
+
+            50% {
+                height: 100%;
+                opacity: 1;
+            }
+        }
+
+        .track-meta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .track-title {
+            font-size: 0.875rem;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .track-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* --- CENTER CONTROLS --- */
+        .player-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .ctrl-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Buttons */
+        .icon-btn-ghost {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .icon-btn-ghost:hover {
+            color: var(--text-main);
+        }
+
+        .like-btn:hover {
+            color: var(--accent);
+            /* Heart turns lime */
+        }
+
+        .icon-btn-filled {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            /* Brighter than ghost */
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .icon-btn-filled:active {
+            transform: scale(0.9);
+        }
+
+        /* Main Play Button (FAB style) */
+        .play-pause-fab {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--text-main);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: black;
+        }
+
+        .play-pause-fab:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .play-pause-fab:active {
+            transform: scale(0.95);
+        }
+
+        /* --- PROGRESS BAR --- */
+        .progress-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .time-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            min-width: 35px;
+            /* Prevent jitter when numbers change */
+        }
+
+        .progress-rail {
+            flex-grow: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+            /* Increase hit area for easier clicking */
+            padding: 6px 0;
+            background-clip: content-box;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-main);
+            border-radius: 2px;
+            position: relative;
+            transition: background 0.2s;
+            width: 0%;
+        }
+
+        .progress-rail:hover .progress-fill {
+            background: var(--accent);
+        }
+
+        .scrub-handle {
+            width: 12px;
+            height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            /* Hidden by default */
+            transition: transform 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .progress-rail:hover .scrub-handle {
+            transform: translateY(-50%) scale(1);
+            /* Show on hover */
+        }
+
+        /* --- RIGHT SIDE (VOLUME) --- */
+        .volume-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100px;
+        }
+
+        .vol-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--text-muted);
+        }
+
+        .volume-rail {
+            flex-grow: 1;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .volume-fill {
+            height: 100%;
+            background: var(--text-muted);
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+
+        .volume-rail:hover .volume-fill {
+            background: var(--text-main);
+        }
+
+        /* --- RESPONSIVE LOGIC FOR PLAYER --- */
+
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+            .player-container {
+                padding: 0 2.5rem;
+            }
+
+            .track-title {
+                font-size: 1rem;
+            }
+
+            .track-desc {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Tablet & Mobile: Hide Volume, simplify Layout */
+        @media (max-width: 1024px) {
+            .player-side.is-right {
+                display: none;
+                /* Hide volume controls */
+            }
+
+            .player-container {
+                /* Switch to 2 columns: Info | Controls */
+                grid-template-columns: 1fr auto;
+            }
+
+            .player-center {
+                width: auto;
+                gap: 0;
+            }
+
+            .progress-wrapper {
+                display: none;
+                /* Hide progress bar on small tablets to save space, or move it to top */
+            }
+        }
+
+        /* Small Tablet */
+        @media (max-width: 767px) {
+            .player-container {
+                padding: 0 1rem;
+                height: 70px;
+                position: fixed;
+                /* Stick to bottom */
+                bottom: 0;
+                width: 100%;
+                background: rgba(9, 9, 11, 0.95);
+                backdrop-filter: blur(10px);
+            }
+
+            .track-meta {
+                max-width: 120px;
+                /* Force truncation on mobile */
+            }
+
+            .ctrl-group {
+                gap: 1rem;
+            }
+
+            /* Hide secondary buttons on mobile */
+            .icon-btn-ghost:nth-child(1),
+            /* Shuffle */
+            .icon-btn-ghost:nth-child(5) {
+                /* Repeat */
+                display: none;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .player-container {
+                padding: 0 0.75rem;
+            }
+
+            .album-art-wrapper {
+                width: 48px;
+                height: 48px;
+            }
+
+            .visualizer {
+                height: 20px;
+            }
+
+            .track-meta {
+                max-width: 100px;
+            }
+
+            .track-title {
+                font-size: 0.8rem;
+            }
+
+            .track-desc {
+                font-size: 0.7rem;
+            }
+
+            .play-pause-fab {
+                width: 36px;
+                height: 36px;
+            }
+
+            .icon-btn-filled {
+                padding: 6px;
+            }
+        }
+
+        /* --- PODCAST GRID & CARDS --- */
+        .podcast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .podcast-card {
+            background: var(--bg-hover);
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            group: 'card';
+        }
+
+        .podcast-card:hover {
+            background: var(--bg-hover);
+            border-color: var(--border);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .pc-thumb {
+            width: 100%;
+            aspect-ratio: 1;
+            background: black;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pc-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .podcast-card:hover .pc-thumb img {
+            transform: scale(1.05);
+        }
+
+        .pc-play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .podcast-card:hover .pc-play-overlay {
+            opacity: 1;
+        }
+
+        .pc-btn-play {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .podcast-card:hover .pc-btn-play {
+            transform: scale(1);
+        }
+
+        .pc-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .pc-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .pc-author {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .pc-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. LEFT SIDEBAR -->
+    <nav id="sidebar" class="sidebar-container">
+
+        <div class="brand-header">
+            <div class="logo-icon-wrapper">
+                <i data-lucide="headphones" class="icon-glow"></i>
+            </div>
+            <span class="brand-text font-mono">HOPE <span class="text-accent">AUDIO</span></span>
+        </div>
+
+        <div class="sidebar-scroll-area">
+
+            <div class="nav-group">
+                <h4 class="group-header font-mono">Library</h4>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-item" onclick="window.location.href='ds.htm'" aria-label="Dashboard">
+                            <i data-lucide="layout-grid"></i>
+                            <span class="nav-text">Dashboard</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item active" aria-label="Audio Stream">
+                            <i data-lucide="radio"></i>
+                            <span class="nav-text">Audio Stream</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="Playlists">
+                            <i data-lucide="list-music"></i>
+                            <span class="nav-text">Playlists</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="Favorites">
+                            <i data-lucide="heart"></i>
+                            <span class="nav-text">Favorites</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-group">
+                <h4 class="group-header font-mono">Categories</h4>
+                <ul class="nav-list">
+                    <li>
+                        <button class="nav-item" aria-label="Tech Talks">
+                            <i data-lucide="cpu"></i>
+                            <span class="nav-text">Tech Talks</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="Interviews">
+                            <i data-lucide="mic"></i>
+                            <span class="nav-text">Interviews</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="Lectures">
+                            <i data-lucide="book-open"></i>
+                            <span class="nav-text">Lectures</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="nav-item">
+                <i data-lucide="settings"></i>
+                <span class="nav-text">Audio_Config</span>
+                <div class="active-indicator"></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 2. MAIN STAGE -->
+    <main id="main-stage" class="stage-container">
+
+        <header class="stage-header">
+            <div class="header-inner">
+
+                <div class="title-group">
+                    <h2 id="page-title" class="page-heading">Podcast Feed</h2>
+                    <div class="sys-status-wrapper">
+                        <span class="status-dot"></span>
+                        <span class="status-text font-mono">STREAMING: <span class="text-accent">LIVE</span></span>
+                    </div>
+                </div>
+
+                <div class="header-controls">
+                    <button class="control-btn lang-switch" aria-label="Switch Region">
+                        <span class="lang-label">GLOBAL</span>
+                    </button>
+
+                    <button class="control-btn user-avatar" aria-label="User Profile">
+                        <i data-lucide="user"></i>
+                        <div class="notification-dot"></div>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-viewport" id="content-container">
+            <!-- DYNAMIC PODCAST GRID -->
+            <div class="podcast-grid" id="grid-target">
+                <!-- Items injected via JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 3. RIGHT PANEL (Context) -->
+    <aside id="right-panel" class="panel-container">
+
+        <section class="panel-section">
+            <h3 class="panel-header font-mono">Playing_Now</h3>
+
+            <div class="context-card">
+                <div class="card-header">
+                    <i data-lucide="radio" class="text-accent"></i>
+                    <span class="card-title">Episode Info</span>
+                </div>
+
+                <p class="card-body" id="ctx-desc">
+                    Select a podcast from the grid to view details and start streaming.
+                </p>
+
+                <button class="action-btn-outline">
+                    <i data-lucide="share-2" width="14"></i>
+                    <span>Share Episode</span>
+                </button>
+                <button class="action-btn-outline" style="margin-top: 10px;">
+                    <i data-lucide="download" width="14"></i>
+                    <span>Download MP3</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="panel-section">
+            <div class="section-title-row">
+                <h3 class="panel-header font-mono">Up_Next</h3>
+                <span class="badge-count">3</span>
+            </div>
+
+            <div class="queue-list" id="queue-target">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+    </aside>
+
+    <!-- Panel Toggle Button (for small screens) -->
+    <button class="panel-toggle" id="panel-toggle" onclick="togglePanel()" style="display: none;">
+        <i data-lucide="sidebar-open"></i>
+    </button>
+
+    <!-- 4. PERSISTENT PLAYER BAR -->
+    <footer id="player-bar" class="player-container">
+
+        <!-- HIDDEN AUDIO ELEMENT -->
+        <audio id="main-audio"></audio>
+
+        <div class="player-side is-left">
+            <div class="album-art-wrapper">
+                <img id="player-thumb"
+                    src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop"
+                    alt="Album Art">
+                <!-- Optional visualizer overlay if needed -->
+            </div>
+
+            <div class="track-meta">
+                <div class="track-title bold" id="player-title">Welcome to HOPE Audio</div>
+                <div class="track-desc font-mono" id="player-author">Select a track to play</div>
+            </div>
+
+            <button class="icon-btn-ghost like-btn" aria-label="Save to Library">
+                <i data-lucide="heart"></i>
+            </button>
+        </div>
+
+        <div class="player-center">
+            <div class="ctrl-group">
+                <button class="icon-btn-ghost" aria-label="Shuffle">
+                    <i data-lucide="shuffle"></i>
+                </button>
+                <button class="icon-btn-filled" onclick="prevTrack()" aria-label="Previous">
+                    <i data-lucide="skip-back"></i>
+                </button>
+
+                <button class="play-pause-fab" id="play-btn" onclick="togglePlay()" aria-label="Play/Pause">
+                    <i data-lucide="play" class="icon-play"></i>
+                </button>
+
+                <button class="icon-btn-filled" onclick="nextTrack()" aria-label="Next">
+                    <i data-lucide="skip-forward"></i>
+                </button>
+                <button class="icon-btn-ghost" aria-label="Repeat">
+                    <i data-lucide="repeat"></i>
+                </button>
+            </div>
+
+            <div class="progress-wrapper">
+                <span class="time-text font-mono" id="curr-time">00:00</span>
+
+                <div class="progress-rail" id="prog-rail">
+                    <div class="progress-fill" id="prog-fill" style="width: 0%;">
+                        <div class="scrub-handle"></div>
+                    </div>
+                </div>
+
+                <span class="time-text font-mono" id="total-time">00:00</span>
+            </div>
+        </div>
+
+        <div class="player-side is-right">
+            <button class="icon-btn-ghost" aria-label="Lyrics">
+                <i data-lucide="mic-2"></i>
+            </button>
+            <button class="icon-btn-ghost" aria-label="Queue">
+                <i data-lucide="list-music"></i>
+            </button>
+
+            <div class="volume-group">
+                <i data-lucide="volume-2" class="vol-icon"></i>
+                <div class="volume-rail">
+                    <div class="volume-fill" style="width: 70%;"></div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <script>
+        // --- ICONS ---
+        lucide.createIcons();
+
+        // --- MOCK DATA ---
+        // Replace this URL logic with real fetch calls later
+        const podcastData = [
+            {
+                id: 1,
+                title: "The Future of AI in Design",
+                author: "Tech Visionaries",
+                desc: "Exploring how generative AI is reshaping the creative landscape for UI/UX designers.",
+                thumb: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                duration: "06:12"
+            },
+            {
+                id: 2,
+                title: "Cybersecurity Trends 2025",
+                author: "NetSec Daily",
+                desc: "A deep dive into zero-trust architectures and the new wave of quantum threats.",
+                thumb: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                duration: "07:05"
+            },
+            {
+                id: 3,
+                title: "Startup Founders Talk",
+                author: "Silicon Valley Insider",
+                desc: "Real stories from the trenches of building a unicorn in a bear market.",
+                thumb: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                duration: "05:50"
+            },
+            {
+                id: 4,
+                title: "Mindfulness for Devs",
+                author: "Zen Code",
+                desc: "How to maintain mental clarity and avoid burnout during crunch time.",
+                thumb: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1999&auto=format&fit=crop",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                duration: "08:30"
+            },
+            {
+                id: 5,
+                title: "Space Tech Updates",
+                author: "Orbital News",
+                desc: "The latest verified discoveries from the James Webb Space Telescope.",
+                thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+                duration: "04:45"
+            },
+            {
+                id: 6,
+                title: "Lo-Fi Beats for Coding",
+                author: "Audio Chill",
+                desc: "A continuous mix of instrumental tracks to help you focus on deep work.",
+                thumb: "https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=2070&auto=format&fit=crop",
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+                duration: "10:00"
+            }
+        ];
+
+        const audioElement = document.getElementById('main-audio');
+        let currentTrackIndex = -1;
+        let isPlaying = false;
+
+        // --- INIT ---
+        function init() {
+            renderGrid();
+            renderQueue();
+
+            // Setup Audio Events
+            audioElement.addEventListener('timeupdate', updateProgress);
+            audioElement.addEventListener('ended', nextTrack);
+
+            // Setup Progress Bar Click
+            document.getElementById('prog-rail').addEventListener('click', seekAudio);
+        }
+
+        // --- RENDER FUNCTIONS ---
+        function renderGrid() {
+            const grid = document.getElementById('grid-target');
+            grid.innerHTML = podcastData.map((pod, index) => `
+                <div class="podcast-card" onclick="loadTrack(${index})">
+                    <div class="pc-thumb">
+                        <img src="${pod.thumb}" alt="${pod.title}">
+                        <div class="pc-play-overlay">
+                            <div class="pc-btn-play">
+                                <i data-lucide="play" width="20" fill="black"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pc-info">
+                        <div class="pc-title">${pod.title}</div>
+                        <div class="pc-author">${pod.author}</div>
+                        <div class="pc-desc">${pod.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderQueue() {
+            // Just displaying the last 3 items as "Up Next" for demo
+            const queueItems = podcastData.slice(1, 4);
+            const target = document.getElementById('queue-target');
+
+            target.innerHTML = queueItems.map((item, idx) => `
+                <div class="queue-item" onclick="loadTrack(${idx + 1})">
+                    <div class="thumb-wrapper">
+                         <img src="${item.thumb}" alt="thumb">
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">${item.title}</span>
+                        <span class="item-duration font-mono">${item.duration}</span>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // --- AUDIO CONTROLLER ---
+        function loadTrack(index) {
+            if (index < 0 || index >= podcastData.length) return;
+
+            currentTrackIndex = index;
+            const track = podcastData[index];
+
+            // Update Player UI
+            document.getElementById('player-thumb').src = track.thumb;
+            document.getElementById('player-title').innerText = track.title;
+            document.getElementById('player-author').innerText = track.author;
+
+            // Update Right Panel Info
+            document.getElementById('ctx-desc').innerText = track.desc;
+
+            // Load Audio
+            audioElement.src = track.audio;
+            playAudio();
+
+            // Update Play Button Icon globally if needed logic
+        }
+
+        function togglePlay() {
+            if (currentTrackIndex === -1) {
+                // If nothing loaded, load first track
+                loadTrack(0);
+                return;
+            }
+
+            if (audioElement.paused) {
+                playAudio();
+            } else {
+                pauseAudio();
+            }
+        }
+
+        function playAudio() {
+            audioElement.play();
+            isPlaying = true;
+            updatePlayBtnIcon();
+        }
+
+        function pauseAudio() {
+            audioElement.pause();
+            isPlaying = false;
+            updatePlayBtnIcon();
+        }
+
+        function updatePlayBtnIcon() {
+            const btn = document.getElementById('play-btn');
+            if (isPlaying) {
+                btn.innerHTML = `<i data-lucide="pause" fill="black"></i>`;
+            } else {
+                btn.innerHTML = `<i data-lucide="play" class="icon-play" fill="black"></i>`;
+            }
+            lucide.createIcons();
+        }
+
+        function nextTrack() {
+            let nextIndex = currentTrackIndex + 1;
+            if (nextIndex >= podcastData.length) nextIndex = 0; // Loop
+            loadTrack(nextIndex);
+        }
+
+        function prevTrack() {
+            let prevIndex = currentTrackIndex - 1;
+            if (prevIndex < 0) prevIndex = podcastData.length - 1; // Loop
+            loadTrack(prevIndex);
+        }
+
+        function updateProgress() {
+            const { currentTime, duration } = audioElement;
+            if (isNaN(duration)) return;
+
+            const percent = (currentTime / duration) * 100;
+            document.getElementById('prog-fill').style.width = `${percent}%`;
+
+            document.getElementById('curr-time').innerText = formatTime(currentTime);
+            document.getElementById('total-time').innerText = formatTime(duration);
+        }
+
+        function seekAudio(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const { duration } = audioElement;
+
+            if (isNaN(duration)) return;
+
+            const newTime = (clickX / width) * duration;
+            audioElement.currentTime = newTime;
+        }
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`;
+        }
+
+        // --- RESPONSIVE UTILS ---
+        function togglePanel() {
+            const panel = document.getElementById('right-panel');
+            panel.classList.toggle('open');
+
+            const toggleBtn = document.getElementById('panel-toggle');
+            const icon = toggleBtn.querySelector('i');
+
+            if (panel.classList.contains('open')) {
+                icon.setAttribute('data-lucide', 'sidebar-close');
+            } else {
+                icon.setAttribute('data-lucide', 'sidebar-open');
+            }
+            lucide.createIcons();
+        }
+
+        // Run Init
+        init();
+
+    </script>
+</body>
+
+</html>
