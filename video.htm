@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOPE OS | AUDIO PODCASTS</title>
+    <title>HOPE OS | STREAM PROTOCOL</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1520,9 +1520,9 @@
                 <h4 class="group-header font-mono">Library_V.2</h4>
                 <ul class="nav-list">
                     <li>
-                        <button class="nav-item active" onclick="switchTab('podcasts')" aria-label="Library">
-                            <i data-lucide="mic"></i>
-                            <span class="nav-text">Podcasts</span>
+                        <button class="nav-item active" onclick="switchTab('dashboard')" aria-label="Dashboard">
+                            <i data-lucide="layout-grid"></i>
+                            <span class="nav-text">Dashboard</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
@@ -1694,10 +1694,8 @@
     <footer id="player-bar" class="player-container">
 
         <div class="player-side is-left">
-            <div class="album-art-wrapper" id="player-art-wrapper" style="position: relative;">
-                <img id="player-thumb" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
-                <div class="visualizer" id="player-visualizer"
-                    style="position: absolute; bottom: 0; left: 0; right: 0; top: 0; justify-content: center; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px);">
+            <div class="album-art-wrapper">
+                <div class="visualizer">
                     <div class="v-bar"></div>
                     <div class="v-bar"></div>
                     <div class="v-bar"></div>
@@ -1709,43 +1707,42 @@
                 <div class="track-desc font-mono" id="audioSub">Probability Distributions</div>
             </div>
 
-            <button class="icon-btn-ghost like-btn" id="btn-like" aria-label="Save to Library">
+            <button class="icon-btn-ghost like-btn" aria-label="Save to Library">
                 <i data-lucide="heart"></i>
             </button>
         </div>
 
         <div class="player-center">
             <div class="ctrl-group">
-                <button class="icon-btn-ghost" id="btn-shuffle" aria-label="Shuffle">
+                <button class="icon-btn-ghost" aria-label="Shuffle">
                     <i data-lucide="shuffle"></i>
                 </button>
-                <button class="icon-btn-filled" id="btn-prev" aria-label="Previous">
+                <button class="icon-btn-filled" aria-label="Previous">
                     <i data-lucide="skip-back"></i>
                 </button>
 
-                <button class="play-pause-fab" id="btn-play" aria-label="Play/Pause">
-                    <i data-lucide="play" class="icon-play"></i>
+                <button class="play-pause-fab" onclick="toggleAudio(this)" aria-label="Play/Pause">
+                    <i data-lucide="pause" class="icon-play"></i>
                 </button>
 
-                <button class="icon-btn-filled" id="btn-next" aria-label="Next">
+                <button class="icon-btn-filled" aria-label="Next">
                     <i data-lucide="skip-forward"></i>
                 </button>
-                <button class="icon-btn-ghost" id="btn-repeat" aria-label="Repeat">
+                <button class="icon-btn-ghost" aria-label="Repeat">
                     <i data-lucide="repeat"></i>
                 </button>
             </div>
 
             <div class="progress-wrapper">
-                <span class="time-text font-mono" id="time-current">00:00</span>
+                <span class="time-text font-mono">04:20</span>
 
-                <div class="progress-rail" id="progress-rail" role="slider" aria-valuenow="0" aria-valuemin="0"
-                    aria-valuemax="100">
-                    <div class="progress-fill" id="progress-fill" style="width: 0%;">
+                <div class="progress-rail" role="slider" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-fill" style="width: 35%;">
                         <div class="scrub-handle"></div>
                     </div>
                 </div>
 
-                <span class="time-text font-mono" id="time-total">00:00</span>
+                <span class="time-text font-mono">12:00</span>
             </div>
         </div>
 
@@ -1758,11 +1755,9 @@
             </button>
 
             <div class="volume-group">
-                <button id="btn-mute" class="icon-btn-ghost" style="padding: 0;">
-                    <i data-lucide="volume-2" class="vol-icon" id="vol-icon"></i>
-                </button>
-                <div class="volume-rail" id="vol-rail">
-                    <div class="volume-fill" id="vol-fill" style="width: 70%;"></div>
+                <i data-lucide="volume-2" class="vol-icon"></i>
+                <div class="volume-rail">
+                    <div class="volume-fill" style="width: 70%;"></div>
                 </div>
             </div>
         </div>
@@ -1773,568 +1768,275 @@
         // --- ICONS ---
         lucide.createIcons();
 
-        // --- STATE ---
-        const state = {
-            currentTab: 'podcasts', // 'podcasts', 'videos', 'mindmap', 'flashcards'
-            // Audio State
-            audio: {
-                playing: false,
-                currentTrackIndex: 0,
-                volume: 0.7,
-                muted: false,
-                shuffle: false,
-                repeat: 'all',
-                isDraggingProgress: false,
-                isDraggingVolume: false
+        // --- DATA MOCK ---
+        const data = {
+            en: {
+                tabs: {
+                    dashboard: "Dashboard",
+                    videos: "Video Stream",
+                    mindmap: "Neural Map",
+                    flashcards: "Flash Recall"
+                },
+                video: {
+                    title: "Lec 01: Introduction to Graph Theory",
+                    desc: "Understanding Nodes, Edges, and basic traversal algorithms in Data Science contexts."
+                },
+                flashcards: [
+                    { q: "What is a Primary Key?", a: "A unique identifier for a record in a database table." },
+                    { q: "Define 'Overfitting'.", a: "When a model learns noise/details from training data to the extent it impacts performance on new data." },
+                    { q: "What is Bayes' Theorem?", a: "Describes the probability of an event, based on prior knowledge of conditions." }
+                ],
+                mindmap: [
+                    { id: 1, text: "Data Science", x: 400, y: 250, type: 'root' },
+                    { id: 2, text: "Statistics", x: 200, y: 150 },
+                    { id: 3, text: "Machine Learning", x: 600, y: 150 },
+                    { id: 4, text: "Visualization", x: 200, y: 350 },
+                    { id: 5, text: "Big Data", x: 600, y: 350 }
+                ]
             },
-            // Video State
-            video: {
-                playing: false
+            ml: {
+                tabs: {
+                    dashboard: "ഡാഷ്‌ബോർഡ്",
+                    videos: "വീഡിയോ ക്ലാസുകൾ",
+                    mindmap: "ആശയരൂപീകരണം",
+                    flashcards: "ഓർമ്മക്കുറിപ്പുകൾ"
+                },
+                video: {
+                    title: "അധ്യായം 01: ഗ്രാഫ് തിയറി ആമുഖം",
+                    desc: "നോഡുകൾ, എഡ്ജുകൾ, അടിസ്ഥാന ട്രാവേഴ്സൽ അൽഗോരിതങ്ങൾ എന്നിവ മനസ്സിലാക്കാം."
+                },
+                flashcards: [
+                    { q: "എന്താണ് പ്രൈമറി കീ?", a: "ഒരു ടേബിളിലെ ഓരോ വരിയെയും തിരിച്ചറിയാൻ സഹായിക്കുന്ന യുണീക്ക് കീ." },
+                    { q: "ഓവർഫിറ്റിംഗ് എന്നാൽ എന്ത്?", a: "ട്രെയിനിങ് ഡാറ്റയിലെ അനാവശ്യ വിവരങ്ങൾ കൂടി പഠിച്ച് മോഡലിന്റെ കൃത്യത കുറയുന്ന അവസ്ഥ." },
+                    { q: "ബെയ്‌സ് തിയറം?", a: "മുൻകാല അറിവുകളെ അടിസ്ഥാനമാക്കി ഒരു സംഭവത്തിന്റെ സാധ്യത കണ്ടെത്തുന്ന രീതി." }
+                ],
+                mindmap: [
+                    { id: 1, text: "ഡാറ്റാ സയൻസ്", x: 400, y: 250, type: 'root' },
+                    { id: 2, text: "സ്ഥിതിവിവരക്കണക്ക്", x: 200, y: 150 },
+                    { id: 3, text: "മെഷീൻ ലേണിംഗ്", x: 600, y: 150 },
+                    { id: 4, text: "വിഷ്വലൈസേഷൻ", x: 200, y: 350 },
+                    { id: 5, text: "ബിഗ് ഡാറ്റ", x: 600, y: 350 }
+                ]
             }
         };
 
-        const audioObj = new Audio();
-        audioObj.volume = state.audio.volume;
-
-        // --- MOCK DATA: PODCASTS ---
-        const podcasts = [
-            {
-                id: 1,
-                title: "The Future of AI",
-                author: "DeepMind Radio",
-                desc: "Exploring the boundaries of AGI, ethics, and the new dawn of computing.",
-                thumb: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=200",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-                duration: "06:12"
-            },
-            {
-                id: 2,
-                title: "Cyberpunk Ambience",
-                author: "Neon Dreams",
-                desc: "Focus music for coding and hacking in the dystopian future.",
-                thumb: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=200",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-                duration: "07:05"
-            },
-            {
-                id: 3,
-                title: "Tech Trends 2025",
-                author: "Silicon Valley Weekly",
-                desc: "What's next in VR, AR, and Quantum Computing?",
-                thumb: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=200",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-                duration: "05:45"
-            },
-            {
-                id: 4,
-                title: "Space Exploration Today",
-                author: "Cosmos Daily",
-                desc: "The latest updates on the Mars mission and lunar bases.",
-                thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=200",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-                duration: "08:20"
-            },
-            {
-                id: 5,
-                title: "Startup Hustle",
-                author: "Founder Mode",
-                desc: "Strategies for scaling your business in a competitive market.",
-                thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=200",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
-                duration: "04:30"
-            },
-            {
-                id: 6,
-                title: "Data Science Daily",
-                author: "Analytics Pro",
-                desc: "Daily digest of the most important news in data science.",
-                thumb: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=200",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
-                duration: "04:30"
-            }
-        ];
-
-        // --- MOCK DATA: VIDEOS ---
-        const videos = [
-            {
-                id: 101,
-                title: "Intro to Neural Networks",
-                author: "Academy AI",
-                desc: "A visual guide to how neural networks learn.",
-                thumb: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                duration: "10:34",
-                views: "1.2M"
-            },
-            {
-                id: 102,
-                title: "Quantum Computing Explained",
-                author: "Physics Hub",
-                desc: "Understanding q-bits and superposition.",
-                thumb: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                duration: "15:20",
-                views: "890K"
-            },
-            {
-                id: 103,
-                title: "React vs Vue 2025",
-                author: "Dev Weekly",
-                desc: "Which framework should you choose?",
-                thumb: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                duration: "12:45",
-                views: "500K"
-            },
-            {
-                id: 104,
-                title: "The Mars Colonization Plan",
-                author: "SpaceX Updates",
-                desc: "Starship's latest trajectory and timeline.",
-                thumb: "https://images.unsplash.com/photo-1614728853913-1e2203d8d1e1?auto=format&fit=crop&q=80&w=300",
-                src: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-                duration: "08:15",
-                views: "2.1M"
-            }
-        ];
-
-        // --- ELEMENT REFS ---
-        let els = {};
-
-        // --- INIT ---
-        function init() {
-            els = {
-                container: document.getElementById('content-container'),
-                title: document.getElementById('page-title'),
-
-                // Audio Player UI
-                audioTitle: document.getElementById('audioTitle'),
-                audioSub: document.getElementById('audioSub'),
-                playBtn: document.getElementById('btn-play'),
-                prevBtn: document.getElementById('btn-prev'),
-                nextBtn: document.getElementById('btn-next'),
-                shuffleBtn: document.getElementById('btn-shuffle'),
-                repeatBtn: document.getElementById('btn-repeat'),
-                likeBtn: document.getElementById('btn-like'),
-                progressFill: document.getElementById('progress-fill'),
-                progressRail: document.getElementById('progress-rail'),
-                timeCurr: document.getElementById('time-current'),
-                timeTotal: document.getElementById('time-total'),
-                visualizers: document.querySelectorAll('.v-bar'),
-                playerThumb: document.getElementById('player-thumb'),
-
-                // Volume
-                muteBtn: document.getElementById('btn-mute'),
-                volIcon: document.getElementById('vol-icon'),
-                volRail: document.getElementById('vol-rail'),
-                volFill: document.getElementById('vol-fill'),
-
-                // Sidebar
-                navItems: document.querySelectorAll('.nav-item')
-            };
-
-            setupAudioEvents();
-            updateVolumeUI(); // Initial volume state
-
-            // Check Resize
-            window.addEventListener('resize', checkScreenSize);
-            checkScreenSize();
-
-            // Default View
-            switchTab('podcasts');
-        }
-
-        // --- NAVIGATION ---
-        function switchTab(tabName) {
-            state.currentTab = tabName;
-
-            // Update Sidebar Active State
-            els.navItems.forEach(btn => {
-                btn.classList.remove('active');
-                // Check if onclick contains the tabName or if it's the default (first item)
-                const oc = btn.getAttribute('onclick');
-                if (oc && oc.includes(`'${tabName}'`)) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Render Content
-            if (tabName === 'podcasts') {
-                els.title.innerText = "Podcast Library";
-                renderPodcasts();
-            } else if (tabName === 'videos') {
-                els.title.innerText = "Video Stream";
-                renderVideos();
-            } else if (tabName === 'mindmap') {
-                els.title.innerText = "Neural Map";
-                els.container.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-muted);">Neural Map Module Loading...</div>';
-            } else if (tabName === 'flashcards') {
-                els.title.innerText = "Flash Recall";
-                els.container.innerHTML = '<div style="display:flex; height:100%; align-items:center; justify-content:center; color:var(--text-muted);">Flash Recall Module Loading...</div>';
-            }
-            lucide.createIcons();
-        }
+        let currentLang = 'en';
 
         // --- RENDER FUNCTIONS ---
-        function renderPodcasts() {
-            els.container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
-                    ${podcasts.map(pod => `
-                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playAudioTrack(${pod.id})">
-                             <div style="aspect-ratio: 1; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
-                                <img src="${pod.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${pod.duration}</div>
-                            </div>
-                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${pod.title}</h3>
-                            <p class="text-muted text-xs font-mono" style="margin-bottom: 0.5rem;">${pod.author}</p>
-                            <p class="text-muted text-xs" style="opacity: 0.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${pod.desc}</p>
+
+        // 1. DASHBOARD VIEW
+        function renderDashboard() {
+            const d = data[currentLang];
+            return `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <!-- Welcome Card -->
+                    <div style="grid-column: 1/-1; background: linear-gradient(135deg, #18181b 0%, #000 100%); border: 1px solid var(--border); padding: 2rem; border-radius: 12px; position: relative; overflow: hidden;">
+                        <div style="position: relative; z-index: 2;">
+                            <h1 class="bold" style="font-size: 2rem; margin-bottom: 0.5rem;">S4 Data Science</h1>
+                            <p class="text-muted" style="max-width: 600px;">Resume your learning path. You have 3 pending lectures and 1 active assignment.</p>
+                            <button onclick="switchTab('videos')" style="margin-top: 1.5rem; background: var(--accent); color: black; border: none; padding: 10px 24px; border-radius: 50px; font-weight: 700; cursor: pointer;">Resume Protocol</button>
                         </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        function renderVideos() {
-            els.container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
-                    ${videos.map(vid => `
-                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playVideo(${vid.id})">
-                             <div style="aspect-ratio: 16/9; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
-                                <img src="${vid.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${vid.duration}</div>
-                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.5); padding: 12px; border-radius: 50%;">
-                                    <i data-lucide="play" color="white" fill="white"></i>
-                                </div>
-                            </div>
-                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${vid.title}</h3>
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <p class="text-muted text-xs font-mono">${vid.author}</p>
-                                <p class="text-muted text-xs font-mono" style="opacity:0.6;">${vid.views} views</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-
-        // --- AUDIO PLAYER LOGIC ---
-        function playAudioTrack(id) {
-            const pod = podcasts.find(p => p.id === id);
-            if (!pod) return;
-
-            // Pausing any active video players could happen here if needed locally, but changing view does that naturally
-
-            state.audio.currentTrackIndex = podcasts.indexOf(pod);
-
-            if (audioObj.src !== pod.src) {
-                audioObj.src = pod.src;
-                audioObj.load();
-            }
-            audioObj.play().catch(e => console.error("Play error", e));
-            state.audio.playing = true;
-
-            // Update UI Metadata
-            if (els.audioTitle) els.audioTitle.innerText = pod.title;
-            if (els.audioSub) els.audioSub.innerText = pod.author;
-            if (els.playerThumb) {
-                els.playerThumb.src = pod.thumb;
-                els.playerThumb.style.display = 'block';
-            }
-
-            updatePlayBtnIcon();
-            els.visualizers.forEach(b => b.style.animationPlayState = 'running');
-        }
-
-        function toggleAudioPlay() {
-            if (!audioObj.src) {
-                playAudioTrack(podcasts[0].id);
-                return;
-            }
-
-            if (audioObj.paused) {
-                audioObj.play();
-                state.audio.playing = true;
-                els.visualizers.forEach(b => b.style.animationPlayState = 'running');
-            } else {
-                audioObj.pause();
-                state.audio.playing = false;
-                els.visualizers.forEach(b => b.style.animationPlayState = 'paused');
-            }
-            updatePlayBtnIcon();
-        }
-
-        function updatePlayBtnIcon() {
-            if (!els.playBtn) return;
-            if (state.audio.playing) {
-                els.playBtn.innerHTML = '<i data-lucide="pause" class="icon-play" fill="black"></i>';
-            } else {
-                els.playBtn.innerHTML = '<i data-lucide="play" class="icon-play" fill="black"></i>';
-            }
-            lucide.createIcons();
-        }
-
-        // --- VIDEO PLAYER LOGIC ---
-        function playVideo(id) {
-            const vid = videos.find(v => v.id === id);
-            if (!vid) return;
-
-            // Stop Audio if playing
-            if (state.audio.playing) {
-                toggleAudioPlay();
-            }
-
-            // Render Video Player View
-            els.container.innerHTML = `
-                <div style="display: flex; flex-direction: column; height: 100%; animation: fade-in 0.3s ease;">
-                    
-                    <button class="action-btn-outline" style="width: fit-content; margin-bottom: 1rem; border:none; padding-left:0; color: var(--text-muted);" onclick="renderVideos()">
-                        <i data-lucide="arrow-left"></i> Back to Videos
-                    </button>
-                    
-                    <div style="flex-grow: 1; background: black; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
-                        <video id="main-video-player" controls autoplay style="width: 100%; height: 100%; object-fit: contain;">
-                            <source src="${vid.src}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <i data-lucide="activity" style="position: absolute; right: -20px; bottom: -20px; width: 150px; height: 150px; color: rgba(255,255,255,0.03);"></i>
                     </div>
-                    
-                    <div style="margin-top: 1.5rem;">
-                        <h2 class="bold" style="font-size: 1.5rem; margin-bottom: 0.5rem;">${vid.title}</h2>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                             <div>
-                                <span class="text-accent bold" style="margin-right: 1rem;">${vid.author}</span>
-                                <span class="text-muted font-mono text-sm">${vid.views} views • ${vid.duration}</span>
-                             </div>
-                             <div style="display:flex; gap: 1rem;">
-                                <button class="icon-btn-ghost active"><i data-lucide="thumbs-up"></i></button>
-                                <button class="icon-btn-ghost"><i data-lucide="share-2"></i></button>
-                                <button class="icon-btn-ghost"><i data-lucide="bookmark"></i></button>
-                             </div>
-                        </div>
-                        <p class="text-muted" style="margin-top: 1rem; max-width: 800px; line-height: 1.6;">${vid.desc}</p>
+
+                    <!-- Stat Cards -->
+                    <div class="panel-card" style="border-left: 4px solid var(--accent);">
+                        <div class="text-muted text-xs uppercase font-mono mb-2">Completion</div>
+                        <div class="bold" style="font-size: 1.5rem;">68%</div>
+                    </div>
+                    <div class="panel-card" style="border-left: 4px solid #2b00ff;">
+                        <div class="text-muted text-xs uppercase font-mono mb-2">Hours Logged</div>
+                        <div class="bold" style="font-size: 1.5rem;">14.2 hrs</div>
+                    </div>
+                    <div class="panel-card" style="border-left: 4px solid #fff;">
+                        <div class="text-muted text-xs uppercase font-mono mb-2">Flashcard Mastery</div>
+                        <div class="bold" style="font-size: 1.5rem;">A-</div>
                     </div>
                 </div>
             `;
-            lucide.createIcons();
         }
 
-        // --- SHARED UTILS ---
-        function formatTime(s) {
-            if (isNaN(s)) return "00:00";
-            const min = Math.floor(s / 60);
-            const sec = Math.floor(s % 60);
-            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        // 2. VIDEO VIEW
+        function renderVideo() {
+            const d = data[currentLang].video;
+            return `
+                <div class="video-shell">
+                    <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" loop muted autoplay></video>
+                    <div class="vid-controls">
+                        <div class="scrub-bar"><div class="scrub-fill"></div></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; gap: 1rem; align-items: center;">
+                                <i data-lucide="play" fill="white" width="20"></i>
+                                <i data-lucide="volume-2" width="20"></i>
+                                <span class="font-mono text-xs">12:30 / 45:00</span>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <i data-lucide="settings" width="20"></i>
+                                <i data-lucide="maximize" width="20"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h1 class="bold" style="font-size: 1.5rem; margin-bottom: 0.5rem;">${d.title}</h1>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                         <span class="text-xs font-mono" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px;">MODULE 1</span>
+                         <span class="text-xs font-mono" style="background: rgba(204,255,0,0.1); color: var(--accent); padding: 4px 8px; border-radius: 4px;">IMPORTANT</span>
+                    </div>
+                    <p class="text-muted text-sm">${d.desc}</p>
+                </div>
+            `;
         }
 
-        // --- AUDIO EVENT LISTENERS ---
-        function setupAudioEvents() {
-            // Audio Update
-            audioObj.addEventListener('timeupdate', () => {
-                if (state.audio.isDraggingProgress) return;
-                if (!audioObj.duration) return;
+        // 3. MINDMAP VIEW
+        function renderMindMap() {
+            const nodes = data[currentLang].mindmap;
+            let html = `<div class="mindmap-wrapper" id="mm-canvas">`;
 
-                const pct = (audioObj.currentTime / audioObj.duration) * 100;
-                if (els.progressFill) els.progressFill.style.width = pct + '%';
-                if (els.timeCurr) els.timeCurr.innerText = formatTime(audioObj.currentTime);
-                if (els.timeTotal) els.timeTotal.innerText = formatTime(audioObj.duration);
-            });
-
-            audioObj.addEventListener('ended', () => {
-                if (state.audio.repeat === 'one') {
-                    audioObj.currentTime = 0;
-                    audioObj.play();
-                } else {
-                    playNextAudio();
-                }
-            });
-
-            // Controls
-            if (els.playBtn) els.playBtn.onclick = toggleAudioPlay;
-            if (els.nextBtn) els.nextBtn.onclick = playNextAudio;
-            if (els.prevBtn) els.prevBtn.onclick = playPrevAudio;
-            if (els.shuffleBtn) els.shuffleBtn.onclick = toggleAudioShuffle;
-            if (els.repeatBtn) els.repeatBtn.onclick = toggleAudioRepeat;
-            if (els.likeBtn) els.likeBtn.onclick = toggleAudioLike;
-            if (els.muteBtn) els.muteBtn.onclick = toggleMute;
-
-            // Progress Bar
-            const handleSeek = (e) => {
-                if (!els.progressRail) return 0;
-                const rect = els.progressRail.getBoundingClientRect();
-                let x = e.clientX - rect.left;
-                if (x < 0) x = 0;
-                if (x > rect.width) x = rect.width;
-                const pct = x / rect.width;
-                if (els.progressFill) els.progressFill.style.width = (pct * 100) + '%';
-                return pct;
-            };
-
-            if (els.progressRail) {
-                els.progressRail.onmousedown = (e) => {
-                    state.audio.isDraggingProgress = true;
-                    const pct = handleSeek(e);
-                    if (audioObj.duration && els.timeCurr) els.timeCurr.innerText = formatTime(pct * audioObj.duration);
-                };
-            }
-
-            window.addEventListener('mousemove', (e) => {
-                if (state.audio.isDraggingProgress) {
-                    const pct = handleSeek(e);
-                    if (audioObj.duration && els.timeCurr) els.timeCurr.innerText = formatTime(pct * audioObj.duration);
-                }
-                if (state.audio.isDraggingVolume && els.volRail) {
-                    const rect = els.volRail.getBoundingClientRect();
-                    let x = e.clientX - rect.left;
-                    if (x < 0) x = 0;
-                    if (x > rect.width) x = rect.width;
-                    const pct = x / rect.width;
-                    setVolume(pct);
+            // Draw lines (Simple CSS approach for demo - ideally SVG)
+            const root = nodes.find(n => n.type === 'root');
+            nodes.forEach(n => {
+                if (n.type !== 'root') {
+                    // Quick math to position lines roughly
+                    const len = Math.sqrt(Math.pow(n.x - root.x, 2) + Math.pow(n.y - root.y, 2));
+                    const angle = Math.atan2(n.y - root.y, n.x - root.x) * 180 / Math.PI;
+                    html += `<div class="mm-line" style="width: ${len}px; left: ${root.x + 40}px; top: ${root.y + 15}px; transform: rotate(${angle}deg);"></div>`;
                 }
             });
 
-            window.addEventListener('mouseup', (e) => {
-                if (state.audio.isDraggingProgress) {
-                    state.audio.isDraggingProgress = false;
-                    const pct = handleSeek(e);
-                    if (audioObj.duration) {
-                        audioObj.currentTime = pct * audioObj.duration;
-                    }
-                }
-                if (state.audio.isDraggingVolume) {
-                    state.audio.isDraggingVolume = false;
+            // Draw Nodes
+            nodes.forEach(n => {
+                const style = n.type === 'root'
+                    ? `background: var(--text-main); color: black; font-weight: bold; border: none;`
+                    : ``;
+                html += `<div class="mm-node" style="left: ${n.x}px; top: ${n.y}px; ${style}">${n.text}</div>`;
+            });
+
+            html += `
+                <div style="position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px;">
+                    <button style="width: 32px; height: 32px; background: #333; color: white; border: none; border-radius: 4px;">+</button>
+                    <button style="width: 32px; height: 32px; background: #333; color: white; border: none; border-radius: 4px;">-</button>
+                </div>
+            </div>`;
+            return html;
+        }
+
+        // 4. FLASHCARD VIEW
+        function renderFlashcards() {
+            const cards = data[currentLang].flashcards;
+            return `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <span class="font-mono text-accent text-sm">DECK: DBMS_V1</span>
+                </div>
+                <div class="flashcard-deck">
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="fc-face fc-front">
+                            <span class="text-muted text-xs font-mono mb-4">QUESTION</span>
+                            <h2 class="bold" style="font-size: 1.5rem;">${cards[0].q}</h2>
+                            <span class="text-muted text-xs font-mono" style="margin-top: auto;">CLICK TO REVEAL</span>
+                        </div>
+                        <div class="fc-face fc-back">
+                            <span class="text-accent text-xs font-mono mb-4">ANSWER</span>
+                            <p style="font-size: 1.1rem; line-height: 1.5;">${cards[0].a}</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
+                    <button class="icon-btn" style="border: 1px solid var(--border); padding: 8px 24px; border-radius: 20px;">I Knew It</button>
+                    <button class="icon-btn" style="border: 1px solid var(--border); padding: 8px 24px; border-radius: 20px;">Study Again</button>
+                </div>
+            `;
+        }
+
+        // --- APP STATE CONTROLLER ---
+        function switchTab(tabName) {
+            // Update Active State on Sidebar
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('onclick') && el.getAttribute('onclick').includes(`'${tabName}'`)) {
+                    el.classList.add('active');
                 }
             });
 
-            if (els.volRail) {
-                els.volRail.onmousedown = (e) => {
-                    state.audio.isDraggingVolume = true;
-                    const rect = els.volRail.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const pct = x / rect.width;
-                    setVolume(pct);
-                };
-            }
-        }
+            const container = document.getElementById('content-container');
+            const title = document.getElementById('page-title');
 
-        // --- AUDIO HELPERS ---
-        function playNextAudio() {
-            let nextIndex;
-            if (state.audio.shuffle) {
-                do {
-                    nextIndex = Math.floor(Math.random() * podcasts.length);
-                } while (nextIndex === state.audio.currentTrackIndex && podcasts.length > 1);
-            } else {
-                nextIndex = state.audio.currentTrackIndex + 1;
-                if (nextIndex >= podcasts.length) {
-                    if (state.audio.repeat === 'all') nextIndex = 0;
-                    else return;
-                }
-            }
-            playAudioTrack(podcasts[nextIndex].id);
-        }
-
-        function playPrevAudio() {
-            let prevIndex = state.audio.currentTrackIndex - 1;
-            if (prevIndex < 0) prevIndex = podcasts.length - 1;
-            playAudioTrack(podcasts[prevIndex].id);
-        }
-
-        function toggleAudioRepeat() {
-            if (state.audio.repeat === 'all') {
-                state.audio.repeat = 'one';
-                if (els.repeatBtn) {
-                    els.repeatBtn.style.color = 'var(--accent)';
-                    els.repeatBtn.innerHTML = '<i data-lucide="repeat-1"></i>';
-                }
-            } else if (state.audio.repeat === 'one') {
-                state.audio.repeat = 'none';
-                if (els.repeatBtn) {
-                    els.repeatBtn.style.color = 'var(--text-muted)';
-                    els.repeatBtn.innerHTML = '<i data-lucide="repeat"></i>';
-                }
-            } else {
-                state.audio.repeat = 'all';
-                if (els.repeatBtn) {
-                    els.repeatBtn.style.color = 'var(--accent)';
-                    els.repeatBtn.innerHTML = '<i data-lucide="repeat"></i>';
-                }
+            // Render
+            if (tabName === 'dashboard') {
+                container.innerHTML = renderDashboard();
+                if (title) title.innerText = data[currentLang].tabs.dashboard;
+            } else if (tabName === 'videos') {
+                container.innerHTML = renderVideo();
+                title.innerText = data[currentLang].tabs.videos;
+            } else if (tabName === 'mindmap') {
+                container.innerHTML = renderMindMap();
+                title.innerText = data[currentLang].tabs.mindmap;
+            } else if (tabName === 'flashcards') {
+                container.innerHTML = renderFlashcards();
+                title.innerText = data[currentLang].tabs.flashcards;
             }
             lucide.createIcons();
         }
 
-        function toggleAudioShuffle() {
-            state.audio.shuffle = !state.audio.shuffle;
-            if (els.shuffleBtn) els.shuffleBtn.style.color = state.audio.shuffle ? 'var(--accent)' : 'var(--text-muted)';
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ml' : 'en';
+            // Refresh current view
+            const currentTitle = document.getElementById('page-title');
+            // Simple re-render of dashboard for demo
+            switchTab('dashboard');
         }
 
-        function toggleAudioLike() {
-            if (els.likeBtn) {
-                const icon = els.likeBtn.querySelector('svg');
-                if (els.likeBtn.classList.contains('active')) {
-                    els.likeBtn.classList.remove('active');
-                    els.likeBtn.style.color = 'var(--text-muted)';
-                    if (icon) icon.setAttribute('fill', 'none');
-                } else {
-                    els.likeBtn.classList.add('active');
-                    els.likeBtn.style.color = 'var(--accent)';
-                    if (icon) icon.setAttribute('fill', 'var(--accent)');
-                }
-            }
-        }
+        function toggleAudio(btn) {
+            // Just for visual effect
+            const icon = btn.querySelector('svg');
+            // Check if it's pause icon (Lucide renders SVG with class lucide-pause)
+            // Or check the data-lucide attribute if re-rendered
 
-        function setVolume(pct) {
-            state.audio.volume = Math.max(0, Math.min(1, pct));
-            audioObj.volume = state.audio.muted ? 0 : state.audio.volume;
-            updateVolumeUI();
-        }
-
-        function toggleMute() {
-            state.audio.muted = !state.audio.muted;
-            audioObj.volume = state.audio.muted ? 0 : state.audio.volume;
-            updateVolumeUI();
-        }
-
-        function updateVolumeUI() {
-            if (els.volFill) els.volFill.style.width = (state.audio.volume * 100) + '%';
-
-            const v = state.audio.muted ? 0 : state.audio.volume;
-            let iconName = 'volume-x';
-            if (v > 0.5) iconName = 'volume-2';
-            else if (v > 0) iconName = 'volume-1';
-
-            if (state.audio.muted) iconName = 'volume-x';
-
-            if (els.volIcon) {
-                els.volIcon.setAttribute('data-lucide', iconName);
-                if (state.audio.muted) els.volIcon.style.color = 'var(--text-muted)';
-                else els.volIcon.style.color = 'var(--text-main)';
+            if (btn.innerHTML.includes('pause')) {
+                btn.innerHTML = `<i data-lucide="play" class="icon-play"></i>`;
+                document.querySelectorAll('.v-bar').forEach(b => b.style.animationPlayState = 'paused');
+            } else {
+                btn.innerHTML = `<i data-lucide="pause" class="icon-play"></i>`;
+                document.querySelectorAll('.v-bar').forEach(b => b.style.animationPlayState = 'running');
             }
             lucide.createIcons();
-        }
-
-        function checkScreenSize() {
-            const toggleBtn = document.getElementById('panel-toggle');
-            if (!toggleBtn) return;
-
-            if (window.innerWidth <= 767) {
-                toggleBtn.style.display = 'flex';
-            } else {
-                toggleBtn.style.display = 'none';
-                const panel = document.getElementById('right-panel');
-                if (panel) panel.classList.remove('open');
-            }
         }
 
         function togglePanel() {
             const panel = document.getElementById('right-panel');
-            if (panel) {
-                panel.classList.toggle('open');
-                lucide.createIcons();
+            panel.classList.toggle('open');
+
+            const toggleBtn = document.getElementById('panel-toggle');
+            const icon = toggleBtn.querySelector('i');
+
+            if (panel.classList.contains('open')) {
+                icon.setAttribute('data-lucide', 'sidebar-close');
+            } else {
+                icon.setAttribute('data-lucide', 'sidebar-open');
+            }
+
+            lucide.createIcons();
+        }
+
+        // Check screen size and show/hide panel toggle button
+        function checkScreenSize() {
+            const toggleBtn = document.getElementById('panel-toggle');
+            if (window.innerWidth <= 767) {
+                toggleBtn.style.display = 'flex';
+            } else {
+                toggleBtn.style.display = 'none';
+                // Also close the panel if it's open
+                const panel = document.getElementById('right-panel');
+                panel.classList.remove('open');
             }
         }
 
-        // Start
-        init();
+        // Add event listener for window resize
+        window.addEventListener('resize', checkScreenSize);
+
+        // Init
+        switchTab('dashboard');
+        checkScreenSize();
     </script>
 </body>
 
