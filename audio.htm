@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOPE OS | AUDIO PROTOCOL</title>
+    <title>HOPE OS | AUDIO PODCASTS</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -310,6 +310,8 @@
                 margin-bottom: 0.25rem;
                 /* Reduce gap */
             }
+
+            /* Show tooltip on hover logic could go here */
         }
 
         /* Small Tablet (600px to 767px) */
@@ -795,6 +797,7 @@
             color: var(--text-main);
         }
 
+        /* Thumbnail Box */
         .thumb-wrapper {
             width: 42px;
             height: 42px;
@@ -807,13 +810,6 @@
             flex-shrink: 0;
             color: var(--text-muted);
             transition: all 0.2s;
-            overflow: hidden;
-        }
-
-        .thumb-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         /* Meta Data */
@@ -949,6 +945,158 @@
             }
         }
 
+        /* --- COMPONENT: VIDEO PLAYER --- */
+        .video-shell {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-shell video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vid-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, black, transparent);
+            padding: 2rem 1.5rem 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-shell:hover .vid-controls {
+            opacity: 1;
+        }
+
+        .scrub-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .scrub-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 45%;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .scrub-fill::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--text-main);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .scrub-bar:hover .scrub-fill::after {
+            opacity: 1;
+        }
+
+        /* --- COMPONENT: MINDMAP CANVAS --- */
+        .mindmap-wrapper {
+            width: 100%;
+            height: 500px;
+            background-color: #1a1a1e;
+            background-image: radial-gradient(var(--border) 1px, transparent 1px);
+            background-size: 24px 24px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .mm-node {
+            position: absolute;
+            background: var(--bg-main);
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .mm-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--bg-hover);
+        }
+
+        .mm-line {
+            position: absolute;
+            height: 1px;
+            background: var(--border);
+            transform-origin: 0 50%;
+            pointer-events: none;
+        }
+
+        /* --- COMPONENT: FLASHCARDS --- */
+        .flashcard-deck {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            width: 500px;
+            height: 300px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .fc-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .fc-back {
+            position: relative;
+        }
+
         /* --- PLAYER CONTAINER --- */
         .player-container {
             grid-area: player;
@@ -989,12 +1137,6 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .album-art-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         .visualizer {
@@ -1171,7 +1313,6 @@
             border-radius: 2px;
             position: relative;
             transition: background 0.2s;
-            width: 0%;
         }
 
         .progress-rail:hover .progress-fill {
@@ -1338,114 +1479,25 @@
             }
         }
 
-        /* --- PODCAST GRID & CARDS --- */
-        .podcast-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .podcast-card {
-            background: var(--bg-hover);
-            border: 1px solid transparent;
-            border-radius: 12px;
-            padding: 1rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            position: relative;
-            group: 'card';
-        }
-
-        .podcast-card:hover {
-            background: var(--bg-hover);
-            border-color: var(--border);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .pc-thumb {
-            width: 100%;
-            aspect-ratio: 1;
-            background: black;
+        /* --- COMPONENT: DASHBOARD CARDS --- */
+        .panel-card {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            overflow: hidden;
-            position: relative;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .pc-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        .panel-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .podcast-card:hover .pc-thumb img {
-            transform: scale(1.05);
-        }
-
-        .pc-play-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .podcast-card:hover .pc-play-overlay {
-            opacity: 1;
-        }
-
-        .pc-btn-play {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--accent);
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transform: scale(0.8);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .podcast-card:hover .pc-btn-play {
-            transform: scale(1);
-        }
-
-        .pc-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .pc-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.3;
-        }
-
-        .pc-author {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .pc-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            opacity: 0.7;
-            margin-top: 4px;
+        /* --- RESPONSIVE LOGIC FOR DASHBOARD --- */
+        @media (max-width: 600px) {
+            .panel-card {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
@@ -1457,41 +1509,41 @@
 
         <div class="brand-header">
             <div class="logo-icon-wrapper">
-                <i data-lucide="headphones" class="icon-glow"></i>
+                <i data-lucide="cpu" class="icon-glow"></i>
             </div>
-            <span class="brand-text font-mono">HOPE <span class="text-accent">AUDIO</span></span>
+            <span class="brand-text font-mono">HOPE <span class="text-accent">OS</span></span>
         </div>
 
         <div class="sidebar-scroll-area">
 
             <div class="nav-group">
-                <h4 class="group-header font-mono">Library</h4>
+                <h4 class="group-header font-mono">Library_V.2</h4>
                 <ul class="nav-list">
                     <li>
-                        <button class="nav-item" onclick="window.location.href='ds.htm'" aria-label="Dashboard">
-                            <i data-lucide="layout-grid"></i>
-                            <span class="nav-text">Dashboard</span>
+                        <button class="nav-item active" aria-label="Library">
+                            <i data-lucide="mic"></i>
+                            <span class="nav-text">Podcasts</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
                     <li>
-                        <button class="nav-item active" aria-label="Audio Stream">
-                            <i data-lucide="radio"></i>
-                            <span class="nav-text">Audio Stream</span>
+                        <button class="nav-item" onclick="switchTab('videos')" aria-label="Video Stream">
+                            <i data-lucide="play-square"></i>
+                            <span class="nav-text">Video Stream</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
                     <li>
-                        <button class="nav-item" aria-label="Playlists">
-                            <i data-lucide="list-music"></i>
-                            <span class="nav-text">Playlists</span>
+                        <button class="nav-item" onclick="switchTab('mindmap')" aria-label="Neural Map">
+                            <i data-lucide="network"></i>
+                            <span class="nav-text">Neural Map</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
                     <li>
-                        <button class="nav-item" aria-label="Favorites">
-                            <i data-lucide="heart"></i>
-                            <span class="nav-text">Favorites</span>
+                        <button class="nav-item" onclick="switchTab('flashcards')" aria-label="Flash Recall">
+                            <i data-lucide="zap"></i>
+                            <span class="nav-text">Flash Recall</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
@@ -1499,26 +1551,33 @@
             </div>
 
             <div class="nav-group">
-                <h4 class="group-header font-mono">Categories</h4>
+                <h4 class="group-header font-mono">S4_Modules</h4>
                 <ul class="nav-list">
                     <li>
-                        <button class="nav-item" aria-label="Tech Talks">
+                        <button class="nav-item" aria-label="Maths Graph Theory">
+                            <i data-lucide="hash"></i>
+                            <span class="nav-text">Maths (Graph Theory)</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="DBMS Architecture">
+                            <i data-lucide="database"></i>
+                            <span class="nav-text">DBMS Architecture</span>
+                            <div class="active-indicator"></div>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" aria-label="OS Principals">
                             <i data-lucide="cpu"></i>
-                            <span class="nav-text">Tech Talks</span>
+                            <span class="nav-text">OS Principals</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
                     <li>
-                        <button class="nav-item" aria-label="Interviews">
-                            <i data-lucide="mic"></i>
-                            <span class="nav-text">Interviews</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" aria-label="Lectures">
-                            <i data-lucide="book-open"></i>
-                            <span class="nav-text">Lectures</span>
+                        <button class="nav-item" aria-label="Python Data Science">
+                            <i data-lucide="code"></i>
+                            <span class="nav-text">Python Data Science</span>
                             <div class="active-indicator"></div>
                         </button>
                     </li>
@@ -1529,7 +1588,7 @@
         <div class="sidebar-footer">
             <button class="nav-item">
                 <i data-lucide="settings"></i>
-                <span class="nav-text">Audio_Config</span>
+                <span class="nav-text">Sys_Config</span>
                 <div class="active-indicator"></div>
             </button>
         </div>
@@ -1542,16 +1601,19 @@
             <div class="header-inner">
 
                 <div class="title-group">
-                    <h2 id="page-title" class="page-heading">Podcast Feed</h2>
+                    <h2 id="page-title" class="page-heading">Dashboard</h2>
                     <div class="sys-status-wrapper">
                         <span class="status-dot"></span>
-                        <span class="status-text font-mono">STREAMING: <span class="text-accent">LIVE</span></span>
+                        <span class="status-text font-mono">SYS_STATUS: <span class="text-accent">OPTIMAL</span></span>
                     </div>
                 </div>
 
                 <div class="header-controls">
-                    <button class="control-btn lang-switch" aria-label="Switch Region">
-                        <span class="lang-label">GLOBAL</span>
+                    <button class="control-btn lang-switch" onclick="toggleLang()" id="langBtn"
+                        aria-label="Switch Language">
+                        <span class="lang-label">EN</span>
+                        <span class="lang-sep">/</span>
+                        <span class="lang-label">ML</span>
                     </button>
 
                     <button class="control-btn user-avatar" aria-label="User Profile">
@@ -1563,10 +1625,6 @@
         </header>
 
         <div class="content-viewport" id="content-container">
-            <!-- DYNAMIC PODCAST GRID -->
-            <div class="podcast-grid" id="grid-target">
-                <!-- Items injected via JS -->
-            </div>
         </div>
     </main>
 
@@ -1574,37 +1632,54 @@
     <aside id="right-panel" class="panel-container">
 
         <section class="panel-section">
-            <h3 class="panel-header font-mono">Playing_Now</h3>
+            <h3 class="panel-header font-mono">Current_Context</h3>
 
             <div class="context-card">
                 <div class="card-header">
-                    <i data-lucide="radio" class="text-accent"></i>
-                    <span class="card-title">Episode Info</span>
+                    <i data-lucide="file-text" class="text-accent"></i>
+                    <span class="card-title">Lecture_Notes.pdf</span>
                 </div>
 
-                <p class="card-body" id="ctx-desc">
-                    Select a podcast from the grid to view details and start streaming.
+                <p class="card-body">
+                    Graph theory provides the backbone for many Data Science algorithms. Key concepts include Nodes,
+                    Edges, and Pathfinding traversal methods.
                 </p>
 
                 <button class="action-btn-outline">
-                    <i data-lucide="share-2" width="14"></i>
-                    <span>Share Episode</span>
-                </button>
-                <button class="action-btn-outline" style="margin-top: 10px;">
                     <i data-lucide="download" width="14"></i>
-                    <span>Download MP3</span>
+                    <span>Download Resource</span>
                 </button>
             </div>
         </section>
 
         <section class="panel-section">
             <div class="section-title-row">
-                <h3 class="panel-header font-mono">Up_Next</h3>
-                <span class="badge-count">3</span>
+                <h3 class="panel-header font-mono">Sequence_Queue</h3>
+                <span class="badge-count">2</span>
             </div>
 
-            <div class="queue-list" id="queue-target">
-                <!-- Populated by JS -->
+            <div class="queue-list">
+
+                <button class="queue-item status-queued">
+                    <div class="thumb-wrapper">
+                        <i data-lucide="play" width="14"></i>
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">SQL Injection Analysis</span>
+                        <span class="item-duration font-mono">12:00 mins</span>
+                    </div>
+                </button>
+
+                <button class="queue-item status-locked">
+                    <div class="thumb-wrapper">
+                        <i data-lucide="lock" width="14"></i>
+                    </div>
+                    <div class="meta-wrapper">
+                        <span class="item-title">Database Normal Forms</span>
+                        <span class="item-duration font-mono">24:45 mins</span>
+                    </div>
+                </button>
+
             </div>
         </section>
 
@@ -1612,26 +1687,24 @@
 
     <!-- Panel Toggle Button (for small screens) -->
     <button class="panel-toggle" id="panel-toggle" onclick="togglePanel()" style="display: none;">
-        <i data-lucide="sidebar-open"></i>
+        <i data-lucide="sidebar-close"></i>
     </button>
 
     <!-- 4. PERSISTENT PLAYER BAR -->
     <footer id="player-bar" class="player-container">
 
-        <!-- HIDDEN AUDIO ELEMENT -->
-        <audio id="main-audio"></audio>
-
         <div class="player-side is-left">
             <div class="album-art-wrapper">
-                <img id="player-thumb"
-                    src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop"
-                    alt="Album Art">
-                <!-- Optional visualizer overlay if needed -->
+                <div class="visualizer">
+                    <div class="v-bar"></div>
+                    <div class="v-bar"></div>
+                    <div class="v-bar"></div>
+                </div>
             </div>
 
             <div class="track-meta">
-                <div class="track-title bold" id="player-title">Welcome to HOPE Audio</div>
-                <div class="track-desc font-mono" id="player-author">Select a track to play</div>
+                <div class="track-title bold" id="audioTitle">S4 Exam Prep: Module 1</div>
+                <div class="track-desc font-mono" id="audioSub">Probability Distributions</div>
             </div>
 
             <button class="icon-btn-ghost like-btn" aria-label="Save to Library">
@@ -1644,15 +1717,15 @@
                 <button class="icon-btn-ghost" aria-label="Shuffle">
                     <i data-lucide="shuffle"></i>
                 </button>
-                <button class="icon-btn-filled" onclick="prevTrack()" aria-label="Previous">
+                <button class="icon-btn-filled" id="btn-prev" aria-label="Previous">
                     <i data-lucide="skip-back"></i>
                 </button>
 
-                <button class="play-pause-fab" id="play-btn" onclick="togglePlay()" aria-label="Play/Pause">
+                <button class="play-pause-fab" id="btn-play" aria-label="Play/Pause">
                     <i data-lucide="play" class="icon-play"></i>
                 </button>
 
-                <button class="icon-btn-filled" onclick="nextTrack()" aria-label="Next">
+                <button class="icon-btn-filled" id="btn-next" aria-label="Next">
                     <i data-lucide="skip-forward"></i>
                 </button>
                 <button class="icon-btn-ghost" aria-label="Repeat">
@@ -1661,15 +1734,16 @@
             </div>
 
             <div class="progress-wrapper">
-                <span class="time-text font-mono" id="curr-time">00:00</span>
+                <span class="time-text font-mono" id="time-current">00:00</span>
 
-                <div class="progress-rail" id="prog-rail">
-                    <div class="progress-fill" id="prog-fill" style="width: 0%;">
+                <div class="progress-rail" id="progress-rail" role="slider" aria-valuenow="0" aria-valuemin="0"
+                    aria-valuemax="100">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%;">
                         <div class="scrub-handle"></div>
                     </div>
                 </div>
 
-                <span class="time-text font-mono" id="total-time">00:00</span>
+                <span class="time-text font-mono" id="time-total">00:00</span>
             </div>
         </div>
 
@@ -1695,241 +1769,248 @@
         // --- ICONS ---
         lucide.createIcons();
 
+        // --- STATE ---
+        const state = {
+            playing: false,
+            currentTrackIndex: 0,
+            volume: 0.7
+        };
+
+        const audio = new Audio();
+        audio.volume = state.volume;
+
         // --- MOCK DATA ---
-        // Replace this URL logic with real fetch calls later
-        const podcastData = [
+        const podcasts = [
             {
                 id: 1,
-                title: "The Future of AI in Design",
-                author: "Tech Visionaries",
-                desc: "Exploring how generative AI is reshaping the creative landscape for UI/UX designers.",
-                thumb: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                title: "The Future of AI",
+                author: "DeepMind Radio",
+                desc: "Exploring the boundaries of AGI, ethics, and the new dawn of computing.",
+                thumb: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=200",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                 duration: "06:12"
             },
             {
                 id: 2,
-                title: "Cybersecurity Trends 2025",
-                author: "NetSec Daily",
-                desc: "A deep dive into zero-trust architectures and the new wave of quantum threats.",
-                thumb: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                title: "Cyberpunk Ambience",
+                author: "Neon Dreams",
+                desc: "Focus music for coding and hacking in the dystopian future.",
+                thumb: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=200",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
                 duration: "07:05"
             },
             {
                 id: 3,
-                title: "Startup Founders Talk",
-                author: "Silicon Valley Insider",
-                desc: "Real stories from the trenches of building a unicorn in a bear market.",
-                thumb: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-                duration: "05:50"
+                title: "Tech Trends 2025",
+                author: "Silicon Valley Weekly",
+                desc: "What's next in VR, AR, and Quantum Computing?",
+                thumb: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=200",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                duration: "05:45"
             },
             {
                 id: 4,
-                title: "Mindfulness for Devs",
-                author: "Zen Code",
-                desc: "How to maintain mental clarity and avoid burnout during crunch time.",
-                thumb: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1999&auto=format&fit=crop",
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-                duration: "08:30"
+                title: "Space Exploration Today",
+                author: "Cosmos Daily",
+                desc: "The latest updates on the Mars mission and lunar bases.",
+                thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=200",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                duration: "08:20"
             },
             {
                 id: 5,
-                title: "Space Tech Updates",
-                author: "Orbital News",
-                desc: "The latest verified discoveries from the James Webb Space Telescope.",
-                thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
-                duration: "04:45"
+                title: "Startup Hustle",
+                author: "Founder Mode",
+                desc: "Strategies for scaling your business in a competitive market.",
+                thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=200",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+                duration: "04:30"
             },
             {
                 id: 6,
-                title: "Lo-Fi Beats for Coding",
-                author: "Audio Chill",
-                desc: "A continuous mix of instrumental tracks to help you focus on deep work.",
-                thumb: "https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=2070&auto=format&fit=crop",
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
-                duration: "10:00"
+                title: "Data Science Daily",
+                author: "Analytics Pro",
+                desc: "Daily digest of the most important news in data science.",
+                thumb: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=200",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+                duration: "04:30"
             }
         ];
 
-        const audioElement = document.getElementById('main-audio');
-        let currentTrackIndex = -1;
-        let isPlaying = false;
+        // --- ELEMENT REFS ---
+        // We defer querySelector until after DOM load to be safe, though inline script is at bottom
+        let els = {};
 
         // --- INIT ---
         function init() {
-            renderGrid();
-            renderQueue();
+            els = {
+                container: document.getElementById('content-container'),
+                title: document.getElementById('page-title'),
+                audioTitle: document.getElementById('audioTitle'),
+                audioSub: document.getElementById('audioSub'),
+                playBtn: document.getElementById('btn-play'),
+                prevBtn: document.getElementById('btn-prev'),
+                nextBtn: document.getElementById('btn-next'),
+                progressFill: document.getElementById('progress-fill'),
+                progressRail: document.getElementById('progress-rail'),
+                timeCurr: document.getElementById('time-current'),
+                timeTotal: document.getElementById('time-total'),
+                visualizers: document.querySelectorAll('.v-bar')
+            };
 
-            // Setup Audio Events
-            audioElement.addEventListener('timeupdate', updateProgress);
-            audioElement.addEventListener('ended', nextTrack);
+            els.title.innerText = "Podcast Library";
+            renderLibrary();
+            setupPlayerEvents();
 
-            // Setup Progress Bar Click
-            document.getElementById('prog-rail').addEventListener('click', seekAudio);
+            // Check Resize
+            window.addEventListener('resize', checkScreenSize);
+            checkScreenSize();
         }
 
-        // --- RENDER FUNCTIONS ---
-        function renderGrid() {
-            const grid = document.getElementById('grid-target');
-            grid.innerHTML = podcastData.map((pod, index) => `
-                <div class="podcast-card" onclick="loadTrack(${index})">
-                    <div class="pc-thumb">
-                        <img src="${pod.thumb}" alt="${pod.title}">
-                        <div class="pc-play-overlay">
-                            <div class="pc-btn-play">
-                                <i data-lucide="play" width="20" fill="black"></i>
+        function renderLibrary() {
+            els.container.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
+                    ${podcasts.map(pod => `
+                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playTrack(${pod.id})">
+                             <div style="aspect-ratio: 1; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
+                                <img src="${pod.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${pod.duration}</div>
                             </div>
+                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${pod.title}</h3>
+                            <p class="text-muted text-xs font-mono" style="margin-bottom: 0.5rem;">${pod.author}</p>
+                            <p class="text-muted text-xs" style="opacity: 0.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${pod.desc}</p>
                         </div>
-                    </div>
-                    <div class="pc-info">
-                        <div class="pc-title">${pod.title}</div>
-                        <div class="pc-author">${pod.author}</div>
-                        <div class="pc-desc">${pod.desc}</div>
-                    </div>
+                    `).join('')}
                 </div>
-            `).join('');
-            lucide.createIcons();
+            `;
         }
 
-        function renderQueue() {
-            // Just displaying the last 3 items as "Up Next" for demo
-            const queueItems = podcastData.slice(1, 4);
-            const target = document.getElementById('queue-target');
+        // --- PLAYER LOGIC ---
+        function playTrack(id) {
+            const pod = podcasts.find(p => p.id === id);
+            if (!pod) return;
 
-            target.innerHTML = queueItems.map((item, idx) => `
-                <div class="queue-item" onclick="loadTrack(${idx + 1})">
-                    <div class="thumb-wrapper">
-                         <img src="${item.thumb}" alt="thumb">
-                    </div>
-                    <div class="meta-wrapper">
-                        <span class="item-title">${item.title}</span>
-                        <span class="item-duration font-mono">${item.duration}</span>
-                    </div>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
+            // correct index
+            state.currentTrackIndex = podcasts.indexOf(pod);
 
-        // --- AUDIO CONTROLLER ---
-        function loadTrack(index) {
-            if (index < 0 || index >= podcastData.length) return;
+            // Update Audio
+            if (audio.src !== pod.src) {
+                audio.src = pod.src;
+                audio.load();
+            }
+            audio.play().catch(e => console.error("Play error", e));
+            state.playing = true;
 
-            currentTrackIndex = index;
-            const track = podcastData[index];
+            // Update UI
+            els.audioTitle.innerText = pod.title;
+            els.audioSub.innerText = pod.author;
 
-            // Update Player UI
-            document.getElementById('player-thumb').src = track.thumb;
-            document.getElementById('player-title').innerText = track.title;
-            document.getElementById('player-author').innerText = track.author;
-
-            // Update Right Panel Info
-            document.getElementById('ctx-desc').innerText = track.desc;
-
-            // Load Audio
-            audioElement.src = track.audio;
-            playAudio();
-
-            // Update Play Button Icon globally if needed logic
+            updatePlayBtnIcon();
+            els.visualizers.forEach(b => b.style.animationPlayState = 'running');
         }
 
         function togglePlay() {
-            if (currentTrackIndex === -1) {
-                // If nothing loaded, load first track
-                loadTrack(0);
+            if (!audio.src) {
+                playTrack(podcasts[0].id);
                 return;
             }
 
-            if (audioElement.paused) {
-                playAudio();
+            if (audio.paused) {
+                audio.play();
+                state.playing = true;
+                els.visualizers.forEach(b => b.style.animationPlayState = 'running');
             } else {
-                pauseAudio();
+                audio.pause();
+                state.playing = false;
+                els.visualizers.forEach(b => b.style.animationPlayState = 'paused');
             }
-        }
-
-        function playAudio() {
-            audioElement.play();
-            isPlaying = true;
             updatePlayBtnIcon();
         }
 
-        function pauseAudio() {
-            audioElement.pause();
-            isPlaying = false;
-            updatePlayBtnIcon();
+        function playNext() {
+            let next = state.currentTrackIndex + 1;
+            if (next >= podcasts.length) next = 0;
+            playTrack(podcasts[next].id);
+        }
+
+        function playPrev() {
+            let prev = state.currentTrackIndex - 1;
+            if (prev < 0) prev = podcasts.length - 1;
+            playTrack(podcasts[prev].id);
         }
 
         function updatePlayBtnIcon() {
-            const btn = document.getElementById('play-btn');
-            if (isPlaying) {
-                btn.innerHTML = `<i data-lucide="pause" fill="black"></i>`;
+            if (!els.playBtn) return;
+
+            if (state.playing) {
+                els.playBtn.innerHTML = '<i data-lucide="pause" class="icon-play" fill="black"></i>';
             } else {
-                btn.innerHTML = `<i data-lucide="play" class="icon-play" fill="black"></i>`;
+                els.playBtn.innerHTML = '<i data-lucide="play" class="icon-play" fill="black"></i>';
             }
             lucide.createIcons();
         }
 
-        function nextTrack() {
-            let nextIndex = currentTrackIndex + 1;
-            if (nextIndex >= podcastData.length) nextIndex = 0; // Loop
-            loadTrack(nextIndex);
+        function formatTime(s) {
+            if (isNaN(s)) return "00:00";
+            const min = Math.floor(s / 60);
+            const sec = Math.floor(s % 60);
+            return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
         }
 
-        function prevTrack() {
-            let prevIndex = currentTrackIndex - 1;
-            if (prevIndex < 0) prevIndex = podcastData.length - 1; // Loop
-            loadTrack(prevIndex);
+        function setupPlayerEvents() {
+            // Audio Events
+            audio.addEventListener('timeupdate', () => {
+                if (!audio.duration) return;
+                const pct = (audio.currentTime / audio.duration) * 100;
+                if (els.progressFill) els.progressFill.style.width = pct + '%';
+                if (els.timeCurr) els.timeCurr.innerText = formatTime(audio.currentTime);
+                if (els.timeTotal) els.timeTotal.innerText = formatTime(audio.duration);
+            });
+
+            audio.addEventListener('ended', playNext);
+
+            // Controls
+            if (els.playBtn) els.playBtn.onclick = togglePlay;
+            if (els.nextBtn) els.nextBtn.onclick = playNext;
+            if (els.prevBtn) els.prevBtn.onclick = playPrev;
+
+            // Progress Bar Seek
+            if (els.progressRail) {
+                els.progressRail.onclick = (e) => {
+                    const rect = els.progressRail.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const pct = x / rect.width;
+                    if (audio.duration) {
+                        const newTime = pct * audio.duration;
+                        audio.currentTime = newTime;
+                    }
+                };
+            }
         }
 
-        function updateProgress() {
-            const { currentTime, duration } = audioElement;
-            if (isNaN(duration)) return;
+        function checkScreenSize() {
+            const toggleBtn = document.getElementById('panel-toggle');
+            if (!toggleBtn) return;
 
-            const percent = (currentTime / duration) * 100;
-            document.getElementById('prog-fill').style.width = `${percent}%`;
-
-            document.getElementById('curr-time').innerText = formatTime(currentTime);
-            document.getElementById('total-time').innerText = formatTime(duration);
+            if (window.innerWidth <= 767) {
+                toggleBtn.style.display = 'flex';
+            } else {
+                toggleBtn.style.display = 'none';
+                const panel = document.getElementById('right-panel');
+                if (panel) panel.classList.remove('open');
+            }
         }
 
-        function seekAudio(e) {
-            const width = this.clientWidth;
-            const clickX = e.offsetX;
-            const { duration } = audioElement;
-
-            if (isNaN(duration)) return;
-
-            const newTime = (clickX / width) * duration;
-            audioElement.currentTime = newTime;
-        }
-
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min < 10 ? '0' + min : min}:${sec < 10 ? '0' + sec : sec}`;
-        }
-
-        // --- RESPONSIVE UTILS ---
         function togglePanel() {
             const panel = document.getElementById('right-panel');
             panel.classList.toggle('open');
-
-            const toggleBtn = document.getElementById('panel-toggle');
-            const icon = toggleBtn.querySelector('i');
-
-            if (panel.classList.contains('open')) {
-                icon.setAttribute('data-lucide', 'sidebar-close');
-            } else {
-                icon.setAttribute('data-lucide', 'sidebar-open');
-            }
+            // Icon logic update handled by css/lucide re-render in simpler implementations, 
+            // but let's keep it simple for now as we removed the big state controller
             lucide.createIcons();
         }
 
-        // Run Init
+        // Start
         init();
-
     </script>
 </body>
 
