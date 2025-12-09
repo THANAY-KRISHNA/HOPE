@@ -1743,6 +1743,142 @@
                 text-align: center;
             }
         }
+
+        /* --- CUSTOM VIDEO PLAYER --- */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-wrapper:hover .vid-controls-bar,
+        .video-wrapper:hover .vid-overlay-play {
+            opacity: 1;
+        }
+
+        .vid-overlay-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .vid-overlay-play:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: var(--accent);
+            color: black;
+        }
+
+        .vid-controls-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            padding: 20px 20px 10px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .vid-controls-bar.active {
+            opacity: 1;
+        }
+
+        .vid-progress-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            transition: height 0.2s;
+        }
+
+        .vid-progress-container:hover {
+            height: 8px;
+        }
+
+        .vid-progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
+            width: 0%;
+            position: relative;
+        }
+
+        .vid-progress-handle {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .vid-progress-container:hover .vid-progress-handle {
+            opacity: 1;
+        }
+
+        .vid-btn-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .vid-left-controls,
+        .vid-right-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vid-time {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: #ddd;
+        }
+
+        .vid-vol-slider {
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .vid-vol-fill {
+            height: 100%;
+            background: white;
+            border-radius: 2px;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -2860,11 +2996,47 @@
                         <i data-lucide="arrow-left"></i> Back to Videos
                     </button>
                     
-                    <div style="flex-grow: 1; min-height: 250px; background: black; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
-                        <video id="main-video-player" controls autoplay playsinline webkit-playsinline style="width: 100%; height: 100%; object-fit: contain;">
+                    <div id="video-wrapper" class="video-wrapper" style="flex-grow: 1; min-height: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <video id="main-video-player" playsinline webkit-playsinline style="width: 100%; height: 100%; object-fit: contain;">
                             <source src="${vid.src}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
+                        
+                        <!-- CENTER PLAY BUTTON -->
+                        <div id="vid-overlay-play" class="vid-overlay-play">
+                            <i data-lucide="play" fill="white" width="32" height="32"></i>
+                        </div>
+
+                        <!-- CONTROLS BAR -->
+                        <div id="vid-controls-bar" class="vid-controls-bar">
+                             <!-- Progress -->
+                             <div class="vid-progress-container" id="vid-progress-rail">
+                                <div class="vid-progress-fill" id="vid-progress-fill">
+                                    <div class="vid-progress-handle"></div>
+                                </div>
+                             </div>
+                             
+                             <!-- Buttons -->
+                             <div class="vid-btn-row">
+                                <div class="vid-left-controls">
+                                    <button class="icon-btn-ghost" id="vid-btn-play"><i data-lucide="play" fill="white"></i></button>
+                                    <div class="vid-time">
+                                        <span id="vid-time-curr">00:00</span> / <span id="vid-time-total">00:00</span>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:8px; margin-left:10px;">
+                                         <button class="icon-btn-ghost" id="vid-btn-mute" style="padding:0;"><i data-lucide="volume-2" width="20"></i></button>
+                                         <div class="vid-vol-slider" id="vid-vol-rail">
+                                            <div class="vid-vol-fill" id="vid-vol-fill"></div>
+                                         </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="vid-right-controls">
+                                     <button class="icon-btn-ghost"><i data-lucide="settings"></i></button>
+                                     <button class="icon-btn-ghost" id="vid-btn-fs"><i data-lucide="maximize"></i></button>
+                                </div>
+                             </div>
+                        </div>
                     </div>
                     
                     <div style="margin-top: 1.5rem;">
@@ -2886,11 +3058,130 @@
             `;
             lucide.createIcons();
 
-            // Explicit play for Mobile
-            setTimeout(() => {
-                const v = document.getElementById('main-video-player');
-                if (v) v.play().catch(e => console.log("Auto-play blocked", e));
-            }, 100);
+            setupVideoPlayer();
+        }
+
+        function setupVideoPlayer() {
+            const video = document.getElementById('main-video-player');
+            const wrapper = document.getElementById('video-wrapper');
+            const playBtnOverlay = document.getElementById('vid-overlay-play');
+            const playBtnBar = document.getElementById('vid-btn-play');
+            const progressRail = document.getElementById('vid-progress-rail');
+            const progressFill = document.getElementById('vid-progress-fill');
+            const timeCurr = document.getElementById('vid-time-curr');
+            const timeTotal = document.getElementById('vid-time-total');
+            const muteBtn = document.getElementById('vid-btn-mute');
+            const volRail = document.getElementById('vid-vol-rail');
+            const volFill = document.getElementById('vid-vol-fill');
+            const fsBtn = document.getElementById('vid-btn-fs');
+            const controlsBar = document.getElementById('vid-controls-bar');
+
+            if (!video) return;
+
+            // 1. Play/Pause Logic
+            const togglePlay = () => {
+                if (video.paused || video.ended) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            };
+
+            const updatePlayUI = () => {
+                if (video.paused) {
+                    playBtnOverlay.style.opacity = '1';
+                    playBtnOverlay.style.transform = 'translate(-50%, -50%) scale(1)';
+                    playBtnBar.innerHTML = '<i data-lucide="play" fill="white"></i>';
+                    controlsBar.classList.add('active'); // Show controls when paused
+                } else {
+                    playBtnOverlay.style.opacity = '0';
+                    playBtnOverlay.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                    playBtnBar.innerHTML = '<i data-lucide="pause" fill="white"></i>';
+                    controlsBar.classList.remove('active'); // Hide controls when playing
+                }
+                lucide.createIcons();
+            };
+
+            video.addEventListener('click', togglePlay);
+            playBtnOverlay.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); });
+            playBtnBar.addEventListener('click', (e) => { e.stopPropagation(); togglePlay(); });
+
+            video.addEventListener('play', updatePlayUI);
+            video.addEventListener('pause', updatePlayUI);
+            video.addEventListener('ended', updatePlayUI); // Ensure UI updates when video ends
+
+            // 2. Time Update
+            video.addEventListener('timeupdate', () => {
+                if (!video.duration) return;
+                const pct = (video.currentTime / video.duration) * 100;
+                progressFill.style.width = pct + '%';
+                timeCurr.innerText = formatTime(video.currentTime);
+                timeTotal.innerText = formatTime(video.duration);
+            });
+
+            // 3. Scrubbing
+            const scrub = (e) => {
+                const rect = progressRail.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                if (x < 0) x = 0;
+                if (x > rect.width) x = rect.width;
+                const pct = x / rect.width;
+                video.currentTime = pct * video.duration;
+            };
+
+            let scrubDrag = false;
+            progressRail.addEventListener('mousedown', (e) => {
+                scrubDrag = true;
+                scrub(e);
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (scrubDrag) scrub(e);
+            });
+            window.addEventListener('mouseup', () => { scrubDrag = false; });
+
+            // 4. Volume
+            const setVol = (pct) => {
+                video.volume = Math.max(0, Math.min(1, pct));
+                volFill.style.width = (video.volume * 100) + '%';
+                if (video.volume === 0) {
+                    muteBtn.innerHTML = '<i data-lucide="volume-x" width="20"></i>';
+                } else {
+                    muteBtn.innerHTML = '<i data-lucide="volume-2" width="20"></i>';
+                }
+                lucide.createIcons();
+            }
+
+            // Initialize volume UI
+            setVol(video.volume);
+
+            volRail.addEventListener('mousedown', (e) => {
+                const rect = volRail.getBoundingClientRect();
+                const pct = (e.clientX - rect.left) / rect.width;
+                setVol(pct);
+            });
+
+            muteBtn.addEventListener('click', () => {
+                if (video.volume > 0) {
+                    video.trashVol = video.volume; // store
+                    setVol(0);
+                } else {
+                    setVol(video.trashVol || 0.5);
+                }
+            });
+
+            // 5. Fullscreen
+            fsBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    wrapper.requestFullscreen().catch(err => {
+                        alert(`Error attempting to enable fullscreen: ${err.message}`);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // Auto-play (if allowed)
+            video.play().catch(() => updatePlayUI());
         }
 
         // --- SHARED UTILS ---
