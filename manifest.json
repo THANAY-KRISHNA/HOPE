@@ -1,0 +1,17 @@
+{
+    "name": "HOPE OS",
+    "short_name": "HOPE",
+    "start_url": "audio.htm",
+    "display": "standalone",
+    "background_color": "#050505",
+    "theme_color": "#050505",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
