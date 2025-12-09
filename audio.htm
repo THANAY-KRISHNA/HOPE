@@ -3124,7 +3124,7 @@
 
             video.addEventListener('play', updatePlayUI);
             video.addEventListener('pause', updatePlayUI);
-            video.addEventListener('ended', updatePlayUI); // Ensure UI updates when video ends
+            video.addEventListener('ended', updatePlayUI);
 
             // 2. Time Update
             video.addEventListener('timeupdate', () => {
@@ -3135,27 +3135,37 @@
                 timeTotal.innerText = formatTime(video.duration);
             });
 
-            // 3. Scrubbing
+            // 3. Scrubbing (Mouse & Touch)
+            const getX = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+
             const scrub = (e) => {
                 const rect = progressRail.getBoundingClientRect();
-                let x = e.clientX - rect.left;
+                let x = getX(e) - rect.left;
                 if (x < 0) x = 0;
                 if (x > rect.width) x = rect.width;
                 const pct = x / rect.width;
                 video.currentTime = pct * video.duration;
             };
 
-            let scrubDrag = false;
-            progressRail.addEventListener('mousedown', (e) => {
-                scrubDrag = true;
+            const startScrub = (e) => {
                 scrub(e);
-            });
-            window.addEventListener('mousemove', (e) => {
-                if (scrubDrag) scrub(e);
-            });
-            window.addEventListener('mouseup', () => { scrubDrag = false; });
+                document.addEventListener('mousemove', scrub);
+                document.addEventListener('touchmove', scrub);
+                document.addEventListener('mouseup', stopScrub);
+                document.addEventListener('touchend', stopScrub);
+            };
 
-            // 4. Volume
+            const stopScrub = () => {
+                document.removeEventListener('mousemove', scrub);
+                document.removeEventListener('touchmove', scrub);
+                document.removeEventListener('mouseup', stopScrub);
+                document.removeEventListener('touchend', stopScrub);
+            };
+
+            progressRail.addEventListener('mousedown', startScrub);
+            progressRail.addEventListener('touchstart', startScrub, { passive: false });
+
+            // 4. Volume (Mouse & Touch)
             const setVol = (pct) => {
                 video.volume = Math.max(0, Math.min(1, pct));
                 volFill.style.width = (video.volume * 100) + '%';
@@ -3170,11 +3180,32 @@
             // Initialize volume UI
             setVol(video.volume);
 
-            volRail.addEventListener('mousedown', (e) => {
+            const dragVol = (e) => {
                 const rect = volRail.getBoundingClientRect();
-                const pct = (e.clientX - rect.left) / rect.width;
+                let x = getX(e) - rect.left;
+                if (x < 0) x = 0;
+                if (x > rect.width) x = rect.width;
+                const pct = x / rect.width;
                 setVol(pct);
-            });
+            };
+
+            const startVolDrag = (e) => {
+                dragVol(e);
+                document.addEventListener('mousemove', dragVol);
+                document.addEventListener('touchmove', dragVol);
+                document.addEventListener('mouseup', stopVolDrag);
+                document.addEventListener('touchend', stopVolDrag);
+            };
+
+            const stopVolDrag = () => {
+                document.removeEventListener('mousemove', dragVol);
+                document.removeEventListener('touchmove', dragVol);
+                document.removeEventListener('mouseup', stopVolDrag);
+                document.removeEventListener('touchend', stopVolDrag);
+            };
+
+            volRail.addEventListener('mousedown', startVolDrag);
+            volRail.addEventListener('touchstart', startVolDrag, { passive: false });
 
             muteBtn.addEventListener('click', () => {
                 if (video.volume > 0) {
@@ -3188,11 +3219,12 @@
             // 5. Fullscreen
             fsBtn.addEventListener('click', () => {
                 if (!document.fullscreenElement) {
-                    wrapper.requestFullscreen().catch(err => {
-                        alert(`Error attempting to enable fullscreen: ${err.message}`);
-                    });
+                    // Try webkit prefix for Safari support if needed, though most modern use standard
+                    if (wrapper.requestFullscreen) wrapper.requestFullscreen();
+                    else if (wrapper.webkitRequestFullscreen) wrapper.webkitRequestFullscreen();
                 } else {
-                    document.exitFullscreen();
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
                 }
             });
 
