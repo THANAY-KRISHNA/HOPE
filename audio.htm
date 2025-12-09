@@ -71,9 +71,9 @@
             /* App-like feel */
             display: grid;
             grid-template-areas:
-                "sidebar main right"
-                "player player player";
-            grid-template-columns: var(--sidebar-width) 1fr 300px;
+                "main right"
+                "player player";
+            grid-template-columns: 1fr 300px;
             grid-template-rows: 1fr var(--player-height);
         }
 
@@ -586,6 +586,43 @@
             scrollbar-color: var(--border) transparent;
         }
 
+        /* --- TOP NAV --- */
+        .top-nav {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .top-nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .top-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .top-nav-btn.active {
+            background: var(--accent);
+            color: black;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
         /* --- RESPONSIVE LOGIC --- */
 
         /* Large Desktop */
@@ -597,6 +634,10 @@
 
         /* Tablet */
         @media (max-width: 1024px) {
+            body {
+                grid-template-columns: 1fr 240px;
+            }
+
             .header-inner {
                 padding: 1rem 1.5rem;
             }
@@ -1891,98 +1932,10 @@
 
 <body>
 
-    <!-- 1. LEFT SIDEBAR -->
-    <nav id="sidebar" class="sidebar-container">
-
-        <div class="brand-header">
-            <div class="logo-icon-wrapper">
-                <i data-lucide="cpu" class="icon-glow"></i>
-            </div>
-            <span class="brand-text font-mono">HOPE <span class="text-accent">OS</span></span>
-        </div>
-
-        <div class="sidebar-scroll-area">
-
-            <div class="nav-group">
-                <h4 class="group-header font-mono">Library_V.2</h4>
-                <ul class="nav-list">
-                    <li>
-                        <button class="nav-item active" onclick="switchTab('podcasts')" aria-label="Library">
-                            <i data-lucide="mic"></i>
-                            <span class="nav-text">Podcasts</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" onclick="switchTab('videos')" aria-label="Video Stream">
-                            <i data-lucide="play-square"></i>
-                            <span class="nav-text">Video Stream</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" onclick="switchTab('mindmap')" aria-label="Neural Map">
-                            <i data-lucide="network"></i>
-                            <span class="nav-text">Neural Map</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" onclick="switchTab('flashcards')" aria-label="Flash Recall">
-                            <i data-lucide="zap"></i>
-                            <span class="nav-text">Flash Recall</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="nav-group">
-                <h4 class="group-header font-mono">S4_Modules</h4>
-                <ul class="nav-list">
-                    <li>
-                        <button class="nav-item" aria-label="Maths Graph Theory">
-                            <i data-lucide="hash"></i>
-                            <span class="nav-text">Maths (Graph Theory)</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" aria-label="DBMS Architecture">
-                            <i data-lucide="database"></i>
-                            <span class="nav-text">DBMS Architecture</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" aria-label="OS Principals">
-                            <i data-lucide="cpu"></i>
-                            <span class="nav-text">OS Principals</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="nav-item" aria-label="Python Data Science">
-                            <i data-lucide="code"></i>
-                            <span class="nav-text">Python Data Science</span>
-                            <div class="active-indicator"></div>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="sidebar-footer">
-            <button class="nav-item">
-                <i data-lucide="settings"></i>
-                <span class="nav-text">Sys_Config</span>
-                <div class="active-indicator"></div>
-            </button>
-        </div>
-    </nav>
+    <!-- 1. LEFT SIDEBAR REMOVED -->
 
     <!-- 2. MAIN STAGE -->
-    <main id="main-stage" class="stage-container">
+    <main id="main-stage" class="stage-container" style="margin-left: 0.5rem;">
 
         <header class="stage-header">
             <div class="header-inner">
@@ -1993,6 +1946,22 @@
                         <span class="status-dot"></span>
                         <span class="status-text font-mono">SYS_STATUS: <span class="text-accent">OPTIMAL</span></span>
                     </div>
+                </div>
+
+                <!-- TOP NAVIGATION -->
+                <div class="top-nav">
+                    <button class="top-nav-btn active" onclick="switchTab('podcasts')" id="nav-podcasts">
+                        <i data-lucide="mic" width="16"></i> Podcasts
+                    </button>
+                    <button class="top-nav-btn" onclick="switchTab('videos')" id="nav-videos">
+                        <i data-lucide="play-square" width="16"></i> Videos
+                    </button>
+                    <button class="top-nav-btn" onclick="switchTab('mindmap')" id="nav-mindmap">
+                        <i data-lucide="network" width="16"></i> Map
+                    </button>
+                    <button class="top-nav-btn" onclick="switchTab('flashcards')" id="nav-flashcards">
+                        <i data-lucide="zap" width="16"></i> Recall
+                    </button>
                 </div>
 
                 <div class="header-controls">
@@ -2530,12 +2499,11 @@
         function switchTab(tabName) {
             state.currentTab = tabName;
 
-            // Update Sidebar Active State
-            els.navItems.forEach(btn => {
+            // Update Top Nav Active State
+            const btns = document.querySelectorAll('.top-nav-btn');
+            btns.forEach(btn => {
                 btn.classList.remove('active');
-                // Check if onclick contains the tabName or if it's the default (first item)
-                const oc = btn.getAttribute('onclick');
-                if (oc && oc.includes(`'${tabName}'`)) {
+                if (btn.id === `nav-${tabName}`) {
                     btn.classList.add('active');
                 }
             });
