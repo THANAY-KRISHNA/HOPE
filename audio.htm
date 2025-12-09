@@ -2109,6 +2109,49 @@
         const audioObj = new Audio();
         audioObj.volume = state.audio.volume;
 
+        // --- MOCK DATA: VIDEOS ---
+        const videos = [
+            {
+                id: 101,
+                title: "Intro to Neural Networks",
+                author: "Academy AI",
+                desc: "A visual guide to how neural networks learn.",
+                thumb: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=300",
+                src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                duration: "10:34",
+                views: "1.2M"
+            },
+            {
+                id: 102,
+                title: "Quantum Computing Explained",
+                author: "Physics Hub",
+                desc: "Understanding q-bits and superposition.",
+                thumb: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=300",
+                src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                duration: "15:20",
+                views: "890K"
+            },
+            {
+                id: 103,
+                title: "React vs Vue 2025",
+                author: "Dev Weekly",
+                desc: "Which framework should you choose?",
+                thumb: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=300",
+                src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                duration: "12:45",
+                views: "500K"
+            },
+            {
+                id: 104,
+                title: "The Mars Colonization Plan",
+                author: "SpaceX Updates",
+                desc: "Starship's latest trajectory and timeline.",
+                thumb: "https://images.unsplash.com/photo-1614728853913-1e2203d8d1e1?auto=format&fit=crop&q=80&w=300",
+                src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                duration: "08:15",
+                views: "2.1M"
+            }
+        ];
         // --- MOCK DATA: PODCASTS ---
         const podcasts = [
             {
@@ -2817,8 +2860,8 @@
                         <i data-lucide="arrow-left"></i> Back to Videos
                     </button>
                     
-                    <div style="flex-grow: 1; background: black; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
-                        <video id="main-video-player" controls autoplay style="width: 100%; height: 100%; object-fit: contain;">
+                    <div style="flex-grow: 1; min-height: 250px; background: black; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative;">
+                        <video id="main-video-player" controls autoplay playsinline webkit-playsinline style="width: 100%; height: 100%; object-fit: contain;">
                             <source src="${vid.src}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -2826,7 +2869,7 @@
                     
                     <div style="margin-top: 1.5rem;">
                         <h2 class="bold" style="font-size: 1.5rem; margin-bottom: 0.5rem;">${vid.title}</h2>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div style="display:flex; flex-wrap: wrap; gap: 1rem; justify-content:space-between; align-items:center;">
                              <div>
                                 <span class="text-accent bold" style="margin-right: 1rem;">${vid.author}</span>
                                 <span class="text-muted font-mono text-sm">${vid.views} views • ${vid.duration}</span>
@@ -2842,6 +2885,12 @@
                 </div>
             `;
             lucide.createIcons();
+
+            // Explicit play for Mobile
+            setTimeout(() => {
+                const v = document.getElementById('main-video-player');
+                if (v) v.play().catch(e => console.log("Auto-play blocked", e));
+            }, 100);
         }
 
         // --- SHARED UTILS ---
