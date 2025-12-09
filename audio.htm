@@ -3035,12 +3035,16 @@
                              <!-- Buttons -->
                              <div class="vid-btn-row">
                                 <div class="vid-left-controls">
-                                    <button class="icon-btn-ghost" id="vid-btn-play"><i data-lucide="play" fill="white"></i></button>
+                                    <button class="icon-btn-ghost" id="vid-btn-play" style="color: white;">
+                                        <!-- Dual Icons for Switch -->
+                                        <span id="icon-play-wrapper"><i data-lucide="play" fill="white"></i></span>
+                                        <span id="icon-pause-wrapper" style="display:none;"><i data-lucide="pause" fill="white"></i></span>
+                                    </button>
                                     <div class="vid-time">
                                         <span id="vid-time-curr">00:00</span> / <span id="vid-time-total">00:00</span>
                                     </div>
                                     <div style="display:flex; align-items:center; gap:8px; margin-left:10px;">
-                                         <button class="icon-btn-ghost" id="vid-btn-mute" style="padding:0;"><i data-lucide="volume-2" width="20"></i></button>
+                                         <button class="icon-btn-ghost" id="vid-btn-mute" style="padding:0; color:white;"><i data-lucide="volume-2" width="20"></i></button>
                                          <div class="vid-vol-slider" id="vid-vol-rail">
                                             <div class="vid-vol-fill" id="vid-vol-fill"></div>
                                          </div>
@@ -3048,8 +3052,8 @@
                                 </div>
                                 
                                 <div class="vid-right-controls">
-                                     <button class="icon-btn-ghost"><i data-lucide="settings"></i></button>
-                                     <button class="icon-btn-ghost" id="vid-btn-fs"><i data-lucide="maximize"></i></button>
+                                     <button class="icon-btn-ghost" style="color:white;"><i data-lucide="settings"></i></button>
+                                     <button class="icon-btn-ghost" id="vid-btn-fs" style="color:white;"><i data-lucide="maximize"></i></button>
                                 </div>
                              </div>
                         </div>
@@ -3082,6 +3086,8 @@
             const wrapper = document.getElementById('video-wrapper');
             const playBtnOverlay = document.getElementById('vid-overlay-play');
             const playBtnBar = document.getElementById('vid-btn-play');
+            const iconPlayWrapper = document.getElementById('icon-play-wrapper');
+            const iconPauseWrapper = document.getElementById('icon-pause-wrapper');
             const progressRail = document.getElementById('vid-progress-rail');
             const progressFill = document.getElementById('vid-progress-fill');
             const timeCurr = document.getElementById('vid-time-curr');
@@ -3097,7 +3103,7 @@
             // 1. Play/Pause Logic
             const togglePlay = () => {
                 if (video.paused || video.ended) {
-                    video.play();
+                    video.play().catch(e => console.error("Play prevented", e));
                 } else {
                     video.pause();
                 }
@@ -3105,17 +3111,27 @@
 
             const updatePlayUI = () => {
                 if (video.paused) {
+                    // Show Overlay
                     playBtnOverlay.style.opacity = '1';
                     playBtnOverlay.style.transform = 'translate(-50%, -50%) scale(1)';
-                    playBtnBar.innerHTML = '<i data-lucide="play" fill="white"></i>';
+
+                    // Bar Button: Show PLAY icon
+                    if (iconPlayWrapper) iconPlayWrapper.style.display = 'inline';
+                    if (iconPauseWrapper) iconPauseWrapper.style.display = 'none';
+
                     controlsBar.classList.add('active'); // Show controls when paused
                 } else {
+                    // Hide Overlay
                     playBtnOverlay.style.opacity = '0';
                     playBtnOverlay.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                    playBtnBar.innerHTML = '<i data-lucide="pause" fill="white"></i>';
+
+                    // Bar Button: Show PAUSE icon
+                    if (iconPlayWrapper) iconPlayWrapper.style.display = 'none';
+                    if (iconPauseWrapper) iconPauseWrapper.style.display = 'inline';
+
                     controlsBar.classList.remove('active'); // Hide controls when playing
                 }
-                lucide.createIcons();
+                // No recurring lucide.createIcons needed here since we are just toggling visibility
             };
 
             video.addEventListener('click', togglePlay);
@@ -3174,7 +3190,7 @@
                 } else {
                     muteBtn.innerHTML = '<i data-lucide="volume-2" width="20"></i>';
                 }
-                lucide.createIcons();
+                lucide.createIcons({ root: muteBtn }); // Only update mute btn icons
             }
 
             // Initialize volume UI
