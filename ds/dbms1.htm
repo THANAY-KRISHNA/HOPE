@@ -725,35 +725,30 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="190" y="105" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Supervises</text>
 
-                    <line x1="110" y1="100" x2="170" y2="100" stroke="#7e57c2" stroke-width="2" />
-                    <line x1="210" y1="100" x2="270" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <!-- Fixed overlap -->
+                    <path d="M210,100 L230,100 L230,50 L110,50 L110,70" stroke="#7e57c2" stroke-width="2" fill="none" />
 
-                    <rect x="270" y="70" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
-                        stroke-width="2" />
-                    <text x="330" y="105" text-anchor="middle" font-size="16" font-weight="bold"
-                        fill="#1565c0">EMPLOYEE</text>
-
-                    <text x="190" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">Unary (Recursive)</text>
+                    <text x="110" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">Unary (Recursive)</text>
 
                     <!-- Binary -->
-                    <rect x="450" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                    <rect x="350" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
-                    <text x="510" y="105" text-anchor="middle" font-size="16" font-weight="bold"
+                    <text x="410" y="105" text-anchor="middle" font-size="16" font-weight="bold"
                         fill="#2e7d32">STUDENT</text>
 
-                    <path d="M570,100 L590,80 L610,100 L590,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="590" y="105" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M470,100 L490,80 L510,100 L490,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="490" y="105" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Takes</text>
 
+                    <!-- Fixed alignment -->
                     <line x1="510" y1="100" x2="570" y2="100" stroke="#7e57c2" stroke-width="2" />
-                    <line x1="610" y1="100" x2="670" y2="100" stroke="#7e57c2" stroke-width="2" />
 
-                    <rect x="670" y="70" width="120" height="60" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
+                    <rect x="570" y="70" width="120" height="60" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
                         stroke-width="2" />
-                    <text x="730" y="105" text-anchor="middle" font-size="16" font-weight="bold"
+                    <text x="630" y="105" text-anchor="middle" font-size="16" font-weight="bold"
                         fill="#ad1457">COURSE</text>
 
-                    <text x="590" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">Binary (Most Common)</text>
+                    <text x="490" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">Binary (Most Common)</text>
                 </svg>
             </div>
 
@@ -777,13 +772,13 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="155" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
                     <text x="225" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,1)</text>
 
-                    <line x1="110" y1="100" x2="170" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <!-- Fixed alignment -->
                     <line x1="210" y1="100" x2="270" y2="100" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="270" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
                     <text x="330" y="105" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">DEPARTMENT</text>
+                        fill="#2e7d32">DEPT</text>
 
                     <text x="190" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">One-to-One (1:1)</text>
 
@@ -791,7 +786,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <rect x="450" y="70" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
                         stroke-width="2" />
                     <text x="510" y="105" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#1565c0">DEPARTMENT</text>
+                        fill="#1565c0">DEPT</text>
 
                     <path d="M570,100 L590,80 L610,100 L590,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
                     <text x="590" y="105" text-anchor="middle" font-size="12" font-weight="bold"
@@ -800,7 +795,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="555" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
                     <text x="625" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
 
-                    <line x1="510" y1="100" x2="570" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <!-- Fixed alignment -->
                     <line x1="610" y1="100" x2="670" y2="100" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="670" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
@@ -823,7 +818,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="155" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
                     <text x="225" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
 
-                    <line x1="110" y1="220" x2="170" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <!-- Fixed alignment -->
                     <line x1="210" y1="220" x2="270" y2="220" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="270" y="190" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
@@ -843,7 +838,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="590" y="225" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Works_In</text>
 
-                    <line x1="510" y1="220" x2="570" y2="220" stroke="#7e57c2" stroke-width="4" />
+                    <!-- Fixed alignment -->
                     <text x="540" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Total</text>
 
                     <line x1="610" y1="220" x2="670" y2="220" stroke="#7e57c2" stroke-width="2" />
@@ -852,7 +847,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <rect x="670" y="190" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
                     <text x="730" y="225" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">DEPARTMENT</text>
+                        fill="#2e7d32">DEPT</text>
 
                     <text x="590" y="270" text-anchor="middle" font-size="14" fill="#5e35b1">Total vs Partial
                         Participation</text>
@@ -971,7 +966,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <!-- DEPENDENT Weak Entity -->
                     <rect x="550" y="200" width="160" height="80" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
                         stroke-width="3" />
-                    <rect x="552" y="202" width="156" height="76" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
+                    <rect x="553" y="203" width="154" height="74" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
                         stroke-width="2" />
                     <text x="630" y="230" text-anchor="middle" font-size="16" font-weight="bold"
                         fill="#ad1457">DEPENDENT</text>
@@ -989,11 +984,11 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="375" y="115" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
 
                     <!-- CONTROLS Relationship -->
-                    <path d="M180,150 L180,170 L160,190 L200,190 Z" fill="#ffcc80" stroke="#f57c00" stroke-width="2" />
-                    <text x="180" y="185" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M180,150 L200,170 L180,190 L160,170 Z" fill="#ffcc80" stroke="#f57c00" stroke-width="2" />
+                    <text x="180" y="175" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Controls</text>
-                    <text x="160" y="170" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
-                    <text x="200" y="170" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+                    <text x="160" y="160" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
+                    <text x="210" y="180" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
 
                     <!-- WORKS_ON Relationship -->
                     <path d="M300,240 L340,220 L380,240 L340,260 Z" fill="#c8e6c9" stroke="#388e3c" stroke-width="2" />
@@ -1024,23 +1019,25 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <!-- WORKS_FOR to EMPLOYEE -->
                     <line x1="380" y1="130" x2="400" y2="130" stroke="#1976d2" stroke-width="2" />
                     <!-- DEPARTMENT to CONTROLS -->
-                    <line x1="180" y1="150" x2="180" y2="170" stroke="#f57c00" stroke-width="2" />
-                    <!-- CONTROLS to PROJECT -->
+                    <line x1="180" y1="150" x2="180" y2="150" stroke="#f57c00" stroke-width="2" />
                     <line x1="180" y1="190" x2="180" y2="200" stroke="#f57c00" stroke-width="2" />
                     <!-- PROJECT to WORKS_ON -->
                     <line x1="260" y1="240" x2="300" y2="240" stroke="#388e3c" stroke-width="2" />
                     <!-- WORKS_ON to EMPLOYEE -->
                     <line x1="380" y1="240" x2="400" y2="240" stroke="#388e3c" stroke-width="2" />
                     <!-- EMPLOYEE to MANAGES -->
-                    <line x1="400" y1="100" x2="300" y2="70" stroke="#0288d1" stroke-width="2" />
+                    <line x1="400" y1="100" x2="380" y2="70" stroke="#0288d1" stroke-width="2" />
                     <!-- MANAGES to DEPARTMENT -->
-                    <line x1="340" y1="90" x2="260" y2="100" stroke="#0288d1" stroke-width="2" />
+                    <line x1="300" y1="70" x2="260" y2="100" stroke="#0288d1" stroke-width="2" />
                     <!-- EMPLOYEE to SUPERVISES (recursive) -->
-                    <line x1="480" y1="150" x2="460" y2="160" stroke="#689f38" stroke-width="2" />
-                    <line x1="510" y1="170" x2="530" y2="160" stroke="#689f38" stroke-width="2" />
-                    <line x1="530" y1="160" x2="560" y2="150" stroke="#689f38" stroke-width="2" />
+                    <line x1="480" y1="150" x2="480" y2="130" stroke="#689f38" stroke-width="2" />
+                    <line x1="480" y1="130" x2="510" y2="130" stroke="#689f38" stroke-width="2" />
+                    <line x1="560" y1="110" x2="600" y2="110" stroke="#689f38" stroke-width="2" />
+                    <line x1="600" y1="110" x2="600" y2="150" stroke="#689f38" stroke-width="2" />
+                    <line x1="600" y1="150" x2="540" y2="150" stroke="#689f38" stroke-width="2" />
+
                     <!-- EMPLOYEE to HAS -->
-                    <line x1="480" y1="190" x2="460" y2="200" stroke="#d81b60" stroke-width="2" />
+                    <line x1="480" y1="150" x2="480" y2="190" stroke="#d81b60" stroke-width="2" />
                     <!-- HAS to DEPENDENT -->
                     <line x1="540" y1="190" x2="550" y2="200" stroke="#d81b60" stroke-width="2" />
 
@@ -1080,7 +1077,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="350" y="465" text-anchor="start" font-size="12" fill="#333">Identifying Relationship
                         (Double)</text>
 
-                    <line x1="80" y1="480" x2="100" y2="480" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="80" y="480" x2="100" y2="480" stroke="#7e57c2" stroke-width="2" />
                     <text x="110" y="485" text-anchor="start" font-size="10" fill="#333">Line with (min,max) =
                         Cardinality</text>
 

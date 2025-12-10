@@ -400,12 +400,19 @@
                         DBs, Graph ML</text>
 
                     <!-- Connecting lines -->
-                    <path d="M140,240 Q180,220 220,190" stroke="#2c3e50" stroke-width="2" fill="none" />
-                    <path d="M220,190 Q260,170 300,140" stroke="#2c3e50" stroke-width="2" fill="none" />
-                    <path d="M300,140 Q340,160 380,190" stroke="#2c3e50" stroke-width="2" fill="none" />
-                    <path d="M380,190 Q420,120 460,90" stroke="#2c3e50" stroke-width="2" fill="none" />
-                    <path d="M460,90 Q510,120 560,140" stroke="#2c3e50" stroke-width="2" fill="none" />
-                    <path d="M560,140 Q610,170 660,190" stroke="#2c3e50" stroke-width="2" fill="none" />
+                    <!-- Connecting lines (Edge to Edge) -->
+                    <!-- File Systems (140,240) -> Hierarchical (160,190) -->
+                    <path d="M140,240 Q150,240 160,190" stroke="#2c3e50" stroke-width="2" fill="none" />
+                    <!-- Hierarchical (Right: 240,190) -> RDBMS (Left: 260,140) -->
+                    <path d="M240,190 Q250,190 260,140" stroke="#2c3e50" stroke-width="2" fill="none" />
+                    <!-- RDBMS (Right: 340,140) -> OO (Left: 360,190) -->
+                    <path d="M340,140 Q350,140 360,190" stroke="#2c3e50" stroke-width="2" fill="none" />
+                    <!-- OO (Right: 440,190) -> NoSQL (Left: 460,90) -->
+                    <path d="M440,190 Q450,190 460,90" stroke="#2c3e50" stroke-width="2" fill="none" />
+                    <!-- NoSQL (Right: 540,90) -> Cloud (Left: 560,140) -->
+                    <path d="M540,90 Q550,90 560,140" stroke="#2c3e50" stroke-width="2" fill="none" />
+                    <!-- Cloud (Right: 640,140) -> AI (Left: 660,190) -->
+                    <path d="M640,140 Q650,140 660,190" stroke="#2c3e50" stroke-width="2" fill="none" />
                 </svg>
             </div>
 
@@ -452,7 +459,15 @@
                         fill="white">Key-Value</text>
                     <text x="150" y="120" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Redis,
                         DynamoDB</text>
-                    <line x1="230" y1="100" x2="320" y2="160" stroke="#3498db" stroke-width="2" />
+                    <!-- Arrows (Connected to edges) -->
+                    <!-- KV (Right: 210,100) -> NoSQL (Leftish: 335,165) -->
+                    <line x1="210" y1="100" x2="335" y2="165" stroke="#3498db" stroke-width="2" />
+                    <!-- Doc (Left: 590,100) -> NoSQL (Rightish: 465,165) -->
+                    <line x1="590" y1="100" x2="465" y2="165" stroke="#27ae60" stroke-width="2" />
+                    <!-- Col (Right: 210,300) -> NoSQL (Leftish: 335,235) -->
+                    <line x1="210" y1="300" x2="335" y2="235" stroke="#9b59b6" stroke-width="2" />
+                    <!-- Graph (Left: 590,300) -> NoSQL (Rightish: 465,235) -->
+                    <line x1="590" y1="300" x2="465" y2="235" stroke="#e67e22" stroke-width="2" />
 
                     <!-- Document Stores -->
                     <circle cx="650" cy="100" r="60" fill="#27ae60" fill-opacity="0.8" stroke="#229954"
@@ -461,7 +476,6 @@
                         fill="white">Document</text>
                     <text x="650" y="120" text-anchor="middle" font-family="Arial" font-size="12" fill="white">MongoDB,
                         CouchDB</text>
-                    <line x1="590" y1="100" x2="480" y2="160" stroke="#27ae60" stroke-width="2" />
 
                     <!-- Column-Family Stores -->
                     <circle cx="150" cy="300" r="60" fill="#9b59b6" fill-opacity="0.8" stroke="#8e44ad"
@@ -470,7 +484,6 @@
                         fill="white">Column-Family</text>
                     <text x="150" y="320" text-anchor="middle" font-family="Arial" font-size="12"
                         fill="white">Cassandra, HBase</text>
-                    <line x1="230" y1="300" x2="320" y2="240" stroke="#9b59b6" stroke-width="2" />
 
                     <!-- Graph Databases -->
                     <circle cx="650" cy="300" r="60" fill="#e67e22" fill-opacity="0.8" stroke="#d35400"
@@ -479,7 +492,6 @@
                         fill="white">Graph</text>
                     <text x="650" y="320" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Neo4j,
                         Neptune</text>
-                    <line x1="590" y1="300" x2="480" y2="240" stroke="#e67e22" stroke-width="2" />
 
                     <!-- Legend at bottom -->
                     <rect x="50" y="380" width="700" height="50" fill="#f8f9fa" stroke="#ddd" stroke-width="1" rx="5" />
