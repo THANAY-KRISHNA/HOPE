@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin-docs: Database Module 3 - Design Theory & Transaction Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6572 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .document-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+
+        .document-meta {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .module-container {
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            padding: 25px 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .subsection-header {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin: 20px 0 10px 0;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .subsubsection-header {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin: 15px 0 8px 0;
+            padding-left: 15px;
+            border-left: 3px solid #9b59b6;
+        }
+
+        .content-list {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-list li {
+            margin-bottom: 8px;
+        }
+
+        .definition-box {
+            background-color: #f1f8ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .definition-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .example-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-family: inherit;
+        }
+
+        .visual-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .svg-visual {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .note-box {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: #5d4037;
+            margin-bottom: 5px;
+        }
+
+        .key-term {
+            background-color: #e8f5e9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #f2f6fc;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .hierarchy-list {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        .hierarchy-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .hierarchy-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 10px;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .algorithm-box {
+            background-color: #f5f5f5;
+            border: 1px solid #bdbdbd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .algorithm-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-family: inherit;
+        }
+
+        .step {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .step:before {
+            content: "Step";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .problem-box {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #c62828;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .equation {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Cambria', 'Times New Roman', serif;
+            text-align: center;
+            border-left: 3px solid #9c27b0;
+        }
+
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        .property-box {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .property-title {
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .module-container,
+            .document-header {
+                box-shadow: none;
+                margin-bottom: 10px;
+                break-inside: avoid;
+            }
+
+            .visual-container {
+                break-inside: avoid;
+            }
+
+            .footer {
+                display: none;
+            }
+
+            .section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="document-header">
+        <div class="document-title">Justin-docs</div>
+        <div class="document-subtitle">Database Systems - Module 3: Database Design Theory & Normalization and
+            Transaction Management</div>
+        <div class="document-meta">
+            <div><i class="fas fa-user"></i> Author: Justin</div>
+            <div><i class="fas fa-calendar"></i> 2024 Scheme</div>
+            <div><i class="fas fa-book"></i> Handbook 2025</div>
+            <div><i class="fas fa-clock"></i> Total Contact Hours: 11 Hours</div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">3.1 DATABASE DESIGN THEORY & NORMALIZATION</div>
+
+        <div class="section">
+            <h2 class="section-header">Introduction to Database Design Theory</h2>
+
+            <div class="definition-box">
+                <div class="definition-title">Database Design Theory</div>
+                <p>Provides formal principles and methods for designing good database schemas that minimize redundancy
+                    and avoid anomalies. The core concept is <span class="key-term">normalization</span> - the process
+                    of organizing data to reduce redundancy and improve data integrity.</p>
+            </div>
+
+            <div class="subsection-header">The Problem: Data Redundancy and Anomalies</div>
+
+            <div class="example-box">
+                <div class="example-title">Unnormalized Relation Example:</div>
+                <p>STUDENT_COURSE<br>
+                    StudentID | StudentName | Dept | CourseID | CourseName | Instructor | Grade<br>
+                    ----------|-------------|------|----------|------------|------------|-------<br>
+                    101 | John Doe | CS | C101 | Database | Dr. Smith | A<br>
+                    101 | John Doe | CS | C102 | OS | Dr. Jones | B<br>
+                    102 | Jane Smith | Math | C101 | Database | Dr. Smith | A<br>
+                    101 | John Doe | CS | C103 | Networks | Dr. Brown | B+</p>
+            </div>
+
+            <div class="problem-box">
+                <div class="problem-title">Problems with this design:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">Insertion Anomaly</span>: Cannot insert a new course without a student
+                        taking it</li>
+                    <li><span class="key-term">Deletion Anomaly</span>: Deleting a student's last course deletes course
+                        information</li>
+                    <li><span class="key-term">Update Anomaly</span>: Changing course instructor requires updating
+                        multiple rows</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Functional Dependencies (FDs)</h2>
+
+            <div class="definition-box">
+                <div class="definition-title">Functional Dependency</div>
+                <p>A functional dependency X → Y holds on relation R if, for any two tuples t₁ and t₂ in R:</p>
+                <div class="equation">If t₁[X] = t₂[X], then t₁[Y] = t₂[Y]</div>
+                <p>In other words: X <span class="key-term">functionally determines</span> Y, or Y is <span
+                        class="key-term">functionally dependent</span> on X.</p>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="250" viewBox="0 0 800 250">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#2c3e50">Functional Dependencies</text>
+
+                    <!-- FD Diagram -->
+                    <rect x="100" y="80" width="250" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="225" y="115" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#1565c0">Determinant (X)</text>
+
+                    <text x="360" y="115" text-anchor="middle" font-size="24" font-weight="bold" fill="#5e35b1">→</text>
+
+                    <rect x="400" y="80" width="250" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="525" y="115" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#2e7d32">Dependent (Y)</text>
+
+                    <text x="225" y="150" text-anchor="middle" font-size="12" fill="#5e35b1">If same X value</text>
+                    <text x="525" y="150" text-anchor="middle" font-size="12" fill="#5e35b1">Then same Y value</text>
+
+                    <!-- Types of FDs -->
+                    <text x="400" y="190" text-anchor="middle" font-size="16" font-weight="bold" fill="#5e35b1">Types of
+                        Functional Dependencies</text>
+
+                    <rect x="50" y="210" width="160" height="30" rx="3" ry="3" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="1" />
+                    <text x="130" y="230" text-anchor="middle" font-size="11" fill="#e65100">Trivial FD: Y ⊆ X</text>
+
+                    <rect x="220" y="210" width="160" height="30" rx="3" ry="3" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="1" />
+                    <text x="300" y="230" text-anchor="middle" font-size="11" fill="#1565c0">Partial FD: X' ⊂ X →
+                        Y</text>
+
+                    <rect x="390" y="210" width="160" height="30" rx="3" ry="3" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="1" />
+                    <text x="470" y="230" text-anchor="middle" font-size="11" fill="#2e7d32">Transitive FD: X→Y, Y→Z,
+                        Y↛X</text>
+
+                    <rect x="560" y="210" width="160" height="30" rx="3" ry="3" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="1" />
+                    <text x="640" y="230" text-anchor="middle" font-size="11" fill="#ad1457">Full FD: Only X → Y</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">Inference Rules for Functional Dependencies (Armstrong's Axioms)</div>
+
+            <div class="property-box">
+                <div class="property-title">Armstrong's Axioms (1974) - Complete and sound inference rules:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">Reflexivity (Inclusion) Rule</span>: If Y ⊆ X, then X → Y</li>
+                    <li><span class="key-term">Augmentation Rule</span>: If X → Y, then XZ → YZ for any Z</li>
+                    <li><span class="key-term">Transitivity Rule</span>: If X → Y and Y → Z, then X → Z</li>
+                </ul>
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">Additional Useful Rules (derivable from Armstrong's axioms):</div>
+                <ul class="content-list">
+                    <li><span class="key-term">Union Rule</span>: If X → Y and X → Z, then X → YZ</li>
+                    <li><span class="key-term">Decomposition Rule</span>: If X → YZ, then X → Y and X → Z</li>
+                    <li><span class="key-term">Pseudotransitivity Rule</span>: If X → Y and WY → Z, then WX → Z</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Closure of Attributes and Minimal Cover</h2>
+
+            <div class="definition-box">
+                <div class="definition-title">Closure of a Set of Attributes (X⁺)</div>
+                <p>The closure of a set of attributes X under a set of FDs F, denoted X⁺, is the set of all attributes
+                    that are functionally determined by X.</p>
+            </div>
+
+            <div class="algorithm-box">
+                <div class="algorithm-title">Algorithm to Compute X⁺:</div>
+                <div class="step">Initialize X⁺ = X</div>
+                <div class="step">Repeat until no change:</div>
+                <div class="step" style="padding-left: 40px;">For each FD Y → Z in F:</div>
+                <div class="step" style="padding-left: 60px;">If Y ⊆ X⁺: X⁺ = X⁺ ∪ Z</div>
+                <div class="step">Return X⁺</div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example: Computing Closure</div>
+                <p>Given F = {A → B, B → C, C → D}<br>
+                    Find {A}⁺<br><br>
+                    Step 1: X⁺ = {A}<br>
+                    Step 2: A → B, A ∈ X⁺, so X⁺ = {A, B}<br>
+                    Step 3: B → C, B ∈ X⁺, so X⁺ = {A, B, C}<br>
+                    Step 4: C → D, C ∈ X⁺, so X⁺ = {A, B, C, D}<br>
+                    Result: {A}⁺ = {A, B, C, D}</p>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-title">Minimal Cover (Canonical Cover)</div>
+                <p>A minimal cover of F is a minimal set of FDs that is equivalent to F with:<br>
+                    1. Single attribute on right side (decomposed)<br>
+                    2. No extraneous attributes on left side<br>
+                    3. No redundant FDs</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Normalization Theory</h2>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="300" viewBox="0 0 800 300">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#2c3e50">Normalization Hierarchy</text>
+
+                    <!-- 1NF -->
+                    <rect x="50" y="70" width="200" height="50" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="3" />
+                    <text x="150" y="100" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#1565c0">1NF</text>
+                    <text x="150" y="120" text-anchor="middle" font-size="12" fill="#0d47a1">Atomic Values</text>
+
+                    <!-- Arrow down -->
+                    <line x1="150" y1="120" x2="150" y2="140" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="145,140 150,150 155,140" fill="#7e57c2" />
+
+                    <!-- 2NF -->
+                    <rect x="50" y="150" width="200" height="50" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="3" />
+                    <text x="150" y="180" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#2e7d32">2NF</text>
+                    <text x="150" y="200" text-anchor="middle" font-size="12" fill="#1b5e20">No Partial
+                        Dependencies</text>
+
+                    <!-- Arrow down -->
+                    <line x1="150" y1="200" x2="150" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="145,220 150,230 155,220" fill="#7e57c2" />
+
+                    <!-- 3NF -->
+                    <rect x="300" y="70" width="200" height="50" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="3" />
+                    <text x="400" y="100" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#e65100">3NF</text>
+                    <text x="400" y="120" text-anchor="middle" font-size="12" fill="#bf360c">No Transitive
+                        Dependencies</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="120" x2="400" y2="140" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="395,140 400,150 405,140" fill="#7e57c2" />
+
+                    <!-- BCNF -->
+                    <rect x="300" y="150" width="200" height="50" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="3" />
+                    <text x="400" y="180" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#ad1457">BCNF</text>
+                    <text x="400" y="200" text-anchor="middle" font-size="12" fill="#880e4f">Every Determinant is
+                        Superkey</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="200" x2="400" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="395,220 400,230 405,220" fill="#7e57c2" />
+
+                    <!-- Higher Normal Forms -->
+                    <rect x="550" y="70" width="200" height="130" rx="5" ry="5" fill="#f3e5f5" stroke="#8e24aa"
+                        stroke-width="3" />
+                    <text x="650" y="100" text-anchor="middle" font-size="16" font-weight="bold" fill="#6a1b9a">Higher
+                        NF</text>
+                    <text x="650" y="125" text-anchor="middle" font-size="12" fill="#4a148c">4NF, 5NF, DKNF</text>
+                    <text x="650" y="145" text-anchor="middle" font-size="10" fill="#4a148c">Multi-valued &</text>
+                    <text x="650" y="160" text-anchor="middle" font-size="10" fill="#4a148c">Join Dependencies</text>
+
+                    <!-- Arrows between levels -->
+                    <line x1="250" y1="95" x2="300" y2="95" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="295,90 300,95 295,100" fill="#7e57c2" />
+
+                    <line x1="250" y1="175" x2="300" y2="175" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="295,170 300,175 295,180" fill="#7e57c2" />
+
+                    <line x1="500" y1="95" x2="550" y2="95" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="545,90 550,95 545,100" fill="#7e57c2" />
+
+                    <line x1="500" y1="175" x2="550" y2="175" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="545,170 550,175 545,180" fill="#7e57c2" />
+                </svg>
+            </div>
+
+            <div class="subsection-header">First Normal Form (1NF)</div>
+
+            <div class="definition-box">
+                <div class="definition-title">1NF Definition:</div>
+                <p>A relation is in 1NF if:<br>
+                    1. All attributes contain <span class="key-term">atomic (indivisible) values</span><br>
+                    2. No repeating groups or arrays</p>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Violating 1NF → 1NF Compliant:</div>
+                <p>-- Violating 1NF<br>
+                    STUDENT(101, "John", ["DB", "OS", "Networks"])<br><br>
+                    -- 1NF compliant<br>
+                    STUDENT_COURSE(101, "John", "DB")<br>
+                    STUDENT_COURSE(101, "John", "OS")<br>
+                    STUDENT_COURSE(101, "John", "Networks")</p>
+            </div>
+
+            <div class="subsection-header">Second Normal Form (2NF)</div>
+
+            <div class="definition-box">
+                <div class="definition-title">2NF Definition:</div>
+                <p>A relation is in 2NF if:<br>
+                    1. It is in 1NF<br>
+                    2. <span class="key-term">No partial dependency</span>: Every non-prime attribute is fully
+                    functionally dependent on the entire primary key</p>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="200" viewBox="0 0 800 200">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Partial
+                        Dependency in 2NF</text>
+
+                    <!-- Before 2NF -->
+                    <rect x="50" y="60" width="300" height="80" rx="5" ry="5" fill="#ffebee" stroke="#f44336"
+                        stroke-width="2" />
+                    <text x="200" y="90" text-anchor="middle" font-size="16" font-weight="bold" fill="#c62828">Violating
+                        2NF</text>
+                    <text x="200" y="110" text-anchor="middle" font-size="14" fill="#b71c1c">SALES(OrderID, ProductID,
+                        CustomerName, Quantity, Price)</text>
+
+                    <text x="200" y="135" text-anchor="middle" font-size="12" fill="#5e35b1">PK: {OrderID,
+                        ProductID}</text>
+                    <text x="200" y="155" text-anchor="middle" font-size="12" fill="#5e35b1">Partial FD: OrderID →
+                        CustomerName</text>
+
+                    <!-- Arrow -->
+                    <line x1="350" y1="100" x2="450" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="445,95 450,100 445,105" fill="#7e57c2" />
+
+                    <!-- After 2NF -->
+                    <rect x="450" y="60" width="300" height="80" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="600" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">2NF
+                        Compliant</text>
+
+                    <rect x="460" y="95" width="130" height="35" rx="3" ry="3" fill="#c8e6c9" stroke="#66bb6a"
+                        stroke-width="1" />
+                    <text x="525" y="117" text-anchor="middle" font-size="12" fill="#388e3c">ORDER(OrderID,
+                        CustomerName)</text>
+
+                    <rect x="610" y="95" width="130" height="35" rx="3" ry="3" fill="#b3e5fc" stroke="#29b6f6"
+                        stroke-width="1" />
+                    <text x="675" y="117" text-anchor="middle" font-size="12" fill="#0288d1">ORDER_DETAIL(OrderID,
+                        ProductID, Quantity, Price)</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">Third Normal Form (3NF)</div>
+
+            <div class="definition-box">
+                <div class="definition-title">3NF Definition:</div>
+                <p>A relation is in 3NF if:<br>
+                    1. It is in 2NF<br>
+                    2. <span class="key-term">No transitive dependency</span>: No non-prime attribute is transitively
+                    dependent on the primary key</p>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">3NF Violation → 3NF Decomposition:</div>
+                <p>-- Original violating 3NF<br>
+                    EMPLOYEE(EmpID, Name, DeptID, DeptName, Location)<br>
+                    FDs: EmpID → Name, DeptID; DeptID → DeptName, Location<br><br>
+                    -- Decompose to 3NF<br>
+                    EMPLOYEE(EmpID, Name, DeptID)<br>
+                    DEPARTMENT(DeptID, DeptName, Location)</p>
+            </div>
+
+            <div class="subsection-header">Boyce-Codd Normal Form (BCNF)</div>
+
+            <div class="definition-box">
+                <div class="definition-title">BCNF Definition:</div>
+                <p>A relation is in BCNF if for every non-trivial FD X → A:<br>
+                    - X is a <span class="key-term">superkey</span></p>
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">Comparison: 3NF vs BCNF</div>
+                <ul class="content-list">
+                    <li><span class="key-term">BCNF is stronger than 3NF</span></li>
+                    <li>3NF allows: X → A where A is prime attribute, even if X is not superkey</li>
+                    <li>BCNF doesn't allow this</li>
+                    <li><span class="key-term">Trade-off</span>: BCNF eliminates all redundancy but may lose
+                        dependencies; 3NF preserves dependencies but may have some redundancy</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Summary of Normal Forms</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Normal Form</th>
+                        <th>Condition</th>
+                        <th>Removes</th>
+                        <th>Properties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key-term">1NF</span></td>
+                        <td>Atomic values, no repeating groups</td>
+                        <td>Repeating groups</td>
+                        <td>Basic structure</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">2NF</span></td>
+                        <td>1NF + no partial dependencies</td>
+                        <td>Partial dependencies</td>
+                        <td>Full functional dependency on PK</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">3NF</span></td>
+                        <td>2NF + no transitive dependencies</td>
+                        <td>Transitive dependencies</td>
+                        <td>Preserves dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">BCNF</span></td>
+                        <td>Every determinant is a superkey</td>
+                        <td>All FD-based redundancy</td>
+                        <td>May lose dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">4NF</span></td>
+                        <td>No non-trivial MVDs</td>
+                        <td>Multi-valued dependencies</td>
+                        <td>Handles MVDs</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">5NF</span></td>
+                        <td>No join dependency</td>
+                        <td>Join dependencies</td>
+                        <td>Projection-Join NF</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">3.2 TRANSACTION MANAGEMENT</div>
+
+        <div class="section">
+            <h2 class="section-header">Introduction to Transaction Processing</h2>
+
+            <div class="definition-box">
+                <div class="definition-title">Transaction</div>
+                <p>A <span class="key-term">transaction</span> is a logical unit of database processing that includes
+                    one or more database access operations. Transforms database from one <span
+                        class="key-term">consistent state</span> to another.</p>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="300" viewBox="0 0 800 300">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#2c3e50">Transaction States</text>
+
+                    <!-- Begin Transaction -->
+                    <rect x="350" y="60" width="100" height="40" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="400" y="85" text-anchor="middle" font-size="14" fill="#1565c0">Begin</text>
+
+                    <!-- Arrow -->
+                    <line x1="400" y1="100" x2="400" y2="120" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="395,115 400,120 405,115" fill="#7e57c2" />
+
+                    <!-- Active -->
+                    <rect x="300" y="120" width="200" height="40" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="400" y="145" text-anchor="middle" font-size="14" fill="#2e7d32">Active</text>
+                    <text x="400" y="165" text-anchor="middle" font-size="10" fill="#1b5e20">Executing operations</text>
+
+                    <!-- Two arrows from Active -->
+                    <line x1="350" y1="160" x2="300" y2="190" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="305,185 300,190 305,195" fill="#7e57c2" />
+
+                    <line x1="450" y1="160" x2="500" y2="190" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="495,185 500,190 495,195" fill="#7e57c2" />
+
+                    <!-- Partially Committed -->
+                    <rect x="150" y="190" width="150" height="40" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="2" />
+                    <text x="225" y="215" text-anchor="middle" font-size="14" fill="#e65100">Partially Committed</text>
+
+                    <!-- Failed -->
+                    <rect x="450" y="190" width="150" height="40" rx="5" ry="5" fill="#ffebee" stroke="#f44336"
+                        stroke-width="2" />
+                    <text x="525" y="215" text-anchor="middle" font-size="14" fill="#c62828">Failed</text>
+
+                    <!-- Arrows from Partially Committed -->
+                    <line x1="225" y1="230" x2="225" y2="250" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="220,245 225,250 230,245" fill="#7e57c2" />
+
+                    <!-- Arrows from Failed -->
+                    <line x1="525" y1="230" x2="525" y2="250" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="520,245 525,250 530,245" fill="#7e57c2" />
+
+                    <!-- Committed and Aborted -->
+                    <rect x="150" y="250" width="150" height="40" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="225" y="275" text-anchor="middle" font-size="14" fill="#2e7d32">Committed</text>
+
+                    <rect x="450" y="250" width="150" height="40" rx="5" ry="5" fill="#f5f5f5" stroke="#9e9e9e"
+                        stroke-width="2" />
+                    <text x="525" y="275" text-anchor="middle" font-size="14" fill="#616161">Aborted</text>
+
+                    <!-- Arrow from Committed back to Begin (restart) -->
+                    <path d="M225,290 Q225,320 400,320 Q575,320 575,290" stroke="#7e57c2" stroke-width="2" fill="none"
+                        stroke-dasharray="5,3" />
+                    <polygon points="570,285 575,290 570,295" fill="#7e57c2" />
+                    <text x="400" y="315" text-anchor="middle" font-size="10" fill="#5e35b1">Restart (if transient
+                        failure)</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">ACID Properties</div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="180" viewBox="0 0 800 180">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">ACID
+                        Properties</text>
+
+                    <!-- A - Atomicity -->
+                    <circle cx="150" cy="100" r="50" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" />
+                    <text x="150" y="95" text-anchor="middle" font-size="24" font-weight="bold" fill="#1565c0">A</text>
+                    <text x="150" y="115" text-anchor="middle" font-size="14" fill="#0d47a1">Atomicity</text>
+                    <text x="150" y="135" text-anchor="middle" font-size="10" fill="#0d47a1">"All or nothing"</text>
+
+                    <!-- C - Consistency -->
+                    <circle cx="280" cy="100" r="50" fill="#e8f5e9" stroke="#388e3c" stroke-width="3" />
+                    <text x="280" y="95" text-anchor="middle" font-size="24" font-weight="bold" fill="#2e7d32">C</text>
+                    <text x="280" y="115" text-anchor="middle" font-size="14" fill="#1b5e20">Consistency</text>
+                    <text x="280" y="135" text-anchor="middle" font-size="10" fill="#1b5e20">"Correctness
+                        preserving"</text>
+
+                    <!-- I - Isolation -->
+                    <circle cx="410" cy="100" r="50" fill="#fff3e0" stroke="#f57c00" stroke-width="3" />
+                    <text x="410" y="95" text-anchor="middle" font-size="24" font-weight="bold" fill="#e65100">I</text>
+                    <text x="410" y="115" text-anchor="middle" font-size="14" fill="#bf360c">Isolation</text>
+                    <text x="410" y="135" text-anchor="middle" font-size="10" fill="#bf360c">"Concurrent execution
+                        invisible"</text>
+
+                    <!-- D - Durability -->
+                    <circle cx="540" cy="100" r="50" fill="#fce4ec" stroke="#c2185b" stroke-width="3" />
+                    <text x="540" y="95" text-anchor="middle" font-size="24" font-weight="bold" fill="#ad1457">D</text>
+                    <text x="540" y="115" text-anchor="middle" font-size="14" fill="#880e4f">Durability</text>
+                    <text x="540" y="135" text-anchor="middle" font-size="10" fill="#880e4f">"Once committed, always
+                        there"</text>
+
+                    <!-- Connecting lines -->
+                    <line x1="200" y1="100" x2="230" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="330" y1="100" x2="360" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="460" y1="100" x2="490" y2="100" stroke="#7e57c2" stroke-width="2" />
+                </svg>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example demonstrating ACID:</div>
+                <p>-- Money transfer transaction<br>
+                    BEGIN TRANSACTION;<br>
+                    -- Atomicity: Both updates or neither<br>
+                    UPDATE Accounts SET Balance = Balance - 100 WHERE AccNo = 101;<br>
+                    UPDATE Accounts SET Balance = Balance + 100 WHERE AccNo = 102;<br>
+                    <br>
+                    -- Consistency: Balances remain non-negative<br>
+                    -- (Assuming CHECK constraint: Balance >= 0)<br>
+                    <br>
+                    -- Isolation: Other transactions see either old or new balances,<br>
+                    -- not intermediate state where 101 deducted but 102 not credited<br>
+                    <br>
+                    -- Durability: Once committed, changes survive system crash<br>
+                    COMMIT;
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Problems in Transaction Processing</h2>
+
+            <div class="subsection-header">Problems with Concurrent Transactions</div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="400" viewBox="0 0 800 400">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#2c3e50">Concurrency Problems</text>
+
+                    <!-- Lost Update -->
+                    <rect x="50" y="60" width="300" height="80" rx="5" ry="5" fill="#ffebee" stroke="#f44336"
+                        stroke-width="2" />
+                    <text x="200" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#c62828">Lost
+                        Update Problem</text>
+
+                    <text x="200" y="105" text-anchor="middle" font-size="12" fill="#5e35b1">T1: R(A,100) W(A,90) T2:
+                        R(A,100) W(A,120)</text>
+                    <text x="200" y="125" text-anchor="middle" font-size="12" fill="#5e35b1">Result: A=120 (T1's update
+                        lost!)</text>
+
+                    <!-- Arrow to example -->
+                    <line x1="200" y1="140" x2="200" y2="160" stroke="#7e57c2" stroke-width="1"
+                        stroke-dasharray="5,3" />
+
+                    <!-- Lost Update Timeline -->
+                    <text x="200" y="170" text-anchor="middle" font-size="10" font-weight="bold"
+                        fill="#c62828">Timeline:</text>
+                    <line x1="100" y1="180" x2="300" y2="180" stroke="#c62828" stroke-width="1" />
+
+                    <text x="110" y="200" text-anchor="middle" font-size="8" fill="#c62828">T1: R(A)</text>
+                    <circle cx="110" cy="180" r="3" fill="#c62828" />
+
+                    <text x="150" y="200" text-anchor="middle" font-size="8" fill="#c62828">T2: R(A)</text>
+                    <circle cx="150" cy="180" r="3" fill="#5e35b1" />
+
+                    <text x="190" y="195" text-anchor="middle" font-size="8" fill="#c62828">T1: W(A,90)</text>
+                    <circle cx="190" cy="180" r="3" fill="#c62828" />
+
+                    <text x="230" y="195" text-anchor="middle" font-size="8" fill="#c62828">T2: W(A,120)</text>
+                    <circle cx="230" cy="180" r="3" fill="#5e35b1" />
+
+                    <text x="270" y="200" text-anchor="middle" font-size="8" fill="#c62828">T1 lost!</text>
+
+                    <!-- Dirty Read -->
+                    <rect x="450" y="60" width="300" height="80" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="2" />
+                    <text x="600" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#e65100">Dirty
+                        Read Problem</text>
+
+                    <text x="600" y="105" text-anchor="middle" font-size="12" fill="#5e35b1">T1: W(A,90) T2: R(A,90) T1:
+                        Rollback</text>
+                    <text x="600" y="125" text-anchor="middle" font-size="12" fill="#5e35b1">T2 read uncommitted
+                        data!</text>
+
+                    <!-- Non-repeatable Read -->
+                    <rect x="50" y="220" width="300" height="80" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="200" y="245" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#1565c0">Non-repeatable Read</text>
+
+                    <text x="200" y="265" text-anchor="middle" font-size="12" fill="#5e35b1">T1: R(A,100) T2: W(A,120)
+                        T1: R(A,120)</text>
+                    <text x="200" y="285" text-anchor="middle" font-size="12" fill="#5e35b1">Same read, different
+                        values!</text>
+
+                    <!-- Phantom Read -->
+                    <rect x="450" y="220" width="300" height="80" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="600" y="245" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">Phantom
+                        Read</text>
+
+                    <text x="600" y="265" text-anchor="middle" font-size="12" fill="#5e35b1">T1: SELECT COUNT(*) =
+                        100</text>
+                    <text x="600" y="285" text-anchor="middle" font-size="12" fill="#5e35b1">T2: INSERT T1: SELECT
+                        COUNT(*) = 101</text>
+                    <text x="600" y="305" text-anchor="middle" font-size="12" fill="#5e35b1">New rows appear!</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Concurrency Control with Two-Phase Locking (2PL)</h2>
+
+            <div class="definition-box">
+                <div class="definition-title">Two-Phase Locking Protocol (2PL)</div>
+                <p><span class="key-term">Theorem</span>: If all transactions follow 2PL, all schedules are conflict
+                    serializable.</p>
+                <p><span class="key-term">The Protocol</span>:<br>
+                    1. <span class="key-term">Growing Phase</span>: Transaction can obtain locks, cannot release any
+                    locks<br>
+                    2. <span class="key-term">Shrinking Phase</span>: Transaction can release locks, cannot obtain new
+                    locks</p>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="300" viewBox="0 0 800 300">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Two-Phase
+                        Locking (2PL)</text>
+
+                    <!-- Transaction T1 -->
+                    <rect x="50" y="60" width="200" height="180" rx="5" ry="5" fill="#f5f5f5" stroke="#9e9e9e"
+                        stroke-width="2" />
+                    <text x="150" y="85" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#2c3e50">Transaction T1</text>
+
+                    <!-- Growing Phase -->
+                    <rect x="70" y="100" width="160" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="150" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">Growing
+                        Phase</text>
+                    <text x="150" y="145" text-anchor="middle" font-size="12" fill="#1b5e20">Acquire locks only</text>
+
+                    <!-- Arrow down -->
+                    <line x1="150" y1="160" x2="150" y2="180" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="145,175 150,180 155,175" fill="#7e57c2" />
+
+                    <!-- Shrinking Phase -->
+                    <rect x="70" y="180" width="160" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="150" y="205" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#1565c0">Shrinking Phase</text>
+                    <text x="150" y="225" text-anchor="middle" font-size="12" fill="#0d47a1">Release locks only</text>
+
+                    <!-- Lock Point -->
+                    <circle cx="150" cy="170" r="8" fill="#ffd600" />
+                    <text x="150" y="172" text-anchor="middle" font-size="8" font-weight="bold" fill="#5e35b1">LP</text>
+                    <text x="150" y="185" text-anchor="middle" font-size="10" fill="#5e35b1">Lock Point</text>
+
+                    <!-- Example Operations -->
+                    <rect x="300" y="60" width="450" height="180" rx="5" ry="5" fill="#f5f5f5" stroke="#9e9e9e"
+                        stroke-width="2" />
+                    <text x="525" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">T1
+                        Operations with 2PL</text>
+
+                    <!-- Operations list -->
+                    <text x="325" y="115" text-anchor="start" font-size="14" fill="#2c3e50">1. lock-X(A) <tspan
+                            fill="#2e7d32">← Growing phase begins</tspan></text>
+                    <text x="325" y="135" text-anchor="start" font-size="14" fill="#2c3e50">2. read(A)</text>
+                    <text x="325" y="155" text-anchor="start" font-size="14" fill="#2c3e50">3. A = A - 50</text>
+                    <text x="325" y="175" text-anchor="start" font-size="14" fill="#2c3e50">4. write(A)</text>
+                    <text x="325" y="195" text-anchor="start" font-size="14" fill="#2c3e50">5. lock-X(B) <tspan
+                            fill="#2e7d32">← Still growing</tspan></text>
+                    <text x="325" y="215" text-anchor="start" font-size="14" fill="#2c3e50">6. unlock(A) <tspan
+                            fill="#1565c0">← First unlock → Shrinking phase</tspan></text>
+
+                    <!-- Lock compatibility matrix -->
+                    <rect x="300" y="250" width="450" height="40" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="1" />
+                    <text x="525" y="265" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">Lock
+                        Compatibility Matrix</text>
+
+                    <rect x="310" y="275" width="430" height="60" rx="3" ry="3" fill="#f5f5f5" stroke="#bdbdbd"
+                        stroke-width="1" />
+
+                    <text x="350" y="295" text-anchor="middle" font-size="12" fill="#5e35b1">Requested</text>
+                    <text x="430" y="295" text-anchor="middle" font-size="12" fill="#5e35b1">S-lock</text>
+                    <text x="510" y="295" text-anchor="middle" font-size="12" fill="#5e35b1">X-lock</text>
+
+                    <line x1="400" y1="280" x2="400" y2="330" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="480" y1="280" x2="480" y2="330" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="320" y1="300" x2="740" y2="300" stroke="#bdbdbd" stroke-width="1" />
+
+                    <text x="380" y="320" text-anchor="middle" font-size="12" fill="#5e35b1">S-lock</text>
+                    <text x="380" y="320" text-anchor="middle" font-size="12" fill="#5e35b1"></text>
+                    <text x="460" y="320" text-anchor="middle" font-size="12" fill="#2e7d32">Yes</text>
+                    <text x="540" y="320" text-anchor="middle" font-size="12" fill="#c62828">No</text>
+
+                    <text x="680" y="320" text-anchor="middle" font-size="12" fill="#5e35b1">X-lock</text>
+                    <text x="460" y="345" text-anchor="middle" font-size="12" fill="#c62828">No</text>
+                    <text x="540" y="345" text-anchor="middle" font-size="12" fill="#c62828">No</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">Deadlocks in Locking</div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="250" viewBox="0 0 800 250">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Deadlock
+                        Example</text>
+
+                    <!-- Wait-for Graph -->
+                    <circle cx="300" cy="100" r="50" fill="#ffebee" stroke="#f44336" stroke-width="3" />
+                    <text x="300" y="95" text-anchor="middle" font-size="20" font-weight="bold" fill="#c62828">T1</text>
+                    <text x="300" y="115" text-anchor="middle" font-size="12" fill="#b71c1c">Holds: lock-X(A)</text>
+                    <text x="300" y="130" text-anchor="middle" font-size="12" fill="#b71c1c">Waits for: lock-X(B)</text>
+
+                    <circle cx="500" cy="100" r="50" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" />
+                    <text x="500" y="95" text-anchor="middle" font-size="20" font-weight="bold" fill="#1565c0">T2</text>
+                    <text x="500" y="115" text-anchor="middle" font-size="12" fill="#0d47a1">Holds: lock-X(B)</text>
+                    <text x="500" y="130" text-anchor="middle" font-size="12" fill="#0d47a1">Waits for: lock-X(A)</text>
+
+                    <!-- Arrows showing wait-for -->
+                    <path d="M330,100 C380,80 420,80 470,100" stroke="#7e57c2" stroke-width="2" fill="none"
+                        marker-end="url(#arrowhead)" />
+                    <path d="M470,100 C420,120 380,120 330,100" stroke="#7e57c2" stroke-width="2" fill="none"
+                        marker-end="url(#arrowhead)" />
+
+                    <!-- Cycle indicator -->
+                    <text x="400" y="170" text-anchor="middle" font-size="16" font-weight="bold" fill="#c62828">CYCLE
+                        DETECTED → DEADLOCK!</text>
+
+                    <!-- Arrowhead definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#7e57c2" />
+                        </marker>
+                    </defs>
+
+                    <!-- Deadlock handling strategies -->
+                    <rect x="50" y="190" width="350" height="50" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="1" />
+                    <text x="225" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">Deadlock
+                        Prevention</text>
+                    <text x="225" y="230" text-anchor="middle" font-size="12" fill="#bf360c">Wait-Die, Wound-Wait</text>
+
+                    <rect x="420" y="190" width="350" height="50" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="1" />
+                    <text x="595" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">Deadlock
+                        Detection & Recovery</text>
+                    <text x="595" y="230" text-anchor="middle" font-size="12" fill="#1b5e20">Wait-for graph, Victim
+                        selection</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Database Recovery Management</h2>
+
+            <div class="subsection-header">Log-Based Recovery Techniques</div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="350" viewBox="0 0 800 350">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Recovery
+                        Techniques</text>
+
+                    <!-- Deferred Update -->
+                    <rect x="50" y="60" width="300" height="130" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="200" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">Deferred
+                        Update</text>
+                    <text x="200" y="105" text-anchor="middle" font-size="14" fill="#1b5e20">(NO-UNDO/REDO)</text>
+
+                    <rect x="70" y="120" width="260" height="60" rx="3" ry="3" fill="#f1f8ff" stroke="#90caf9"
+                        stroke-width="1" />
+                    <text x="200" y="140" text-anchor="middle" font-size="12" fill="#1565c0">Principle: Don't modify DB
+                        until commit</text>
+                    <text x="200" y="160" text-anchor="middle" font-size="11" fill="#0d47a1">- Write only to log during
+                        execution</text>
+                    <text x="200" y="175" text-anchor="middle" font-size="11" fill="#0d47a1">- Copy to DB only at
+                        commit</text>
+
+                    <!-- Immediate Update -->
+                    <rect x="450" y="60" width="300" height="130" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="600" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#1565c0">Immediate
+                        Update</text>
+                    <text x="600" y="105" text-anchor="middle" font-size="14" fill="#0d47a1">(UNDO/REDO)</text>
+
+                    <rect x="470" y="120" width="260" height="60" rx="3" ry="3" fill="#f1f8ff" stroke="#90caf9"
+                        stroke-width="1" />
+                    <text x="600" y="140" text-anchor="middle" font-size="12" fill="#1565c0">Principle: Update DB during
+                        execution</text>
+                    <text x="600" y="160" text-anchor="middle" font-size="11" fill="#0d47a1">- Write log record first
+                        (WAL)</text>
+                    <text x="600" y="175" text-anchor="middle" font-size="11" fill="#0d47a1">- Update DB
+                        immediately</text>
+
+                    <!-- Comparison -->
+                    <rect x="50" y="210" width="700" height="130" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd"
+                        stroke-width="1" />
+                    <text x="400" y="235" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#2c3e50">Comparison of Recovery Techniques</text>
+
+                    <!-- Table headers -->
+                    <line x1="100" y1="250" x2="700" y2="250" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="100" y1="250" x2="100" y2="320" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="250" y1="250" x2="250" y2="320" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="400" y1="250" x2="400" y2="320" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="550" y1="250" x2="550" y2="320" stroke="#bdbdbd" stroke-width="1" />
+                    <line x1="700" y1="250" x2="700" y2="320" stroke="#bdbdbd" stroke-width="1" />
+
+                    <text x="175" y="265" text-anchor="middle" font-size="12" font-weight="bold"
+                        fill="#5e35b1">Technique</text>
+                    <text x="325" y="265" text-anchor="middle" font-size="12" font-weight="bold"
+                        fill="#5e35b1">UNDO</text>
+                    <text x="475" y="265" text-anchor="middle" font-size="12" font-weight="bold"
+                        fill="#5e35b1">REDO</text>
+                    <text x="625" y="265" text-anchor="middle" font-size="12" font-weight="bold" fill="#5e35b1">When to
+                        Write DB</text>
+
+                    <line x1="100" y1="280" x2="700" y2="280" stroke="#bdbdbd" stroke-width="1" />
+
+                    <!-- Deferred row -->
+                    <text x="175" y="295" text-anchor="middle" font-size="12" fill="#2e7d32">Deferred Update</text>
+                    <text x="325" y="295" text-anchor="middle" font-size="12" fill="#c62828">NO</text>
+                    <text x="475" y="295" text-anchor="middle" font-size="12" fill="#2e7d32">YES</text>
+                    <text x="625" y="295" text-anchor="middle" font-size="12" fill="#0d47a1">At commit</text>
+
+                    <line x1="100" y1="310" x2="700" y2="310" stroke="#bdbdbd" stroke-width="1" />
+
+                    <!-- Immediate row -->
+                    <text x="175" y="330" text-anchor="middle" font-size="12" fill="#1565c0">Immediate Update</text>
+                    <text x="325" y="330" text-anchor="middle" font-size="12" fill="#2e7d32">YES</text>
+                    <text x="475" y="330" text-anchor="middle" font-size="12" fill="#2e7d32">YES</text>
+                    <text x="625" y="330" text-anchor="middle" font-size="12" fill="#0d47a1">During execution</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">ARIES Recovery Algorithm</div>
+
+            <div class="definition-box">
+                <div class="definition-title">ARIES (Algorithm for Recovery and Isolation Exploiting Semantics)</div>
+                <p>Industry-strength recovery algorithm used in IBM DB2, Microsoft SQL Server.</p>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="250" viewBox="0 0 800 250">
+                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">ARIES
+                        Three-Phase Recovery</text>
+
+                    <!-- Analysis Phase -->
+                    <rect x="50" y="70" width="200" height="150" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="150" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#1565c0">Analysis
+                        Phase</text>
+                    <text x="150" y="115" text-anchor="middle" font-size="12" fill="#0d47a1">Determine dirty
+                        pages</text>
+                    <text x="150" y="130" text-anchor="middle" font-size="12" fill="#0d47a1">Identify active
+                        transactions</text>
+                    <text x="150" y="145" text-anchor="middle" font-size="12" fill="#0d47a1">Start from last
+                        checkpoint</text>
+                    <text x="150" y="180" text-anchor="middle" font-size="10" fill="#5e35b1">Input: Log,
+                        Checkpoint</text>
+                    <text x="150" y="195" text-anchor="middle" font-size="10" fill="#5e35b1">Output: Dirty page
+                        table,</text>
+                    <text x="150" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">Active transaction
+                        table</text>
+
+                    <!-- Arrow -->
+                    <line x1="250" y1="145" x2="300" y2="145" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="295,140 300,145 295,150" fill="#7e57c2" />
+
+                    <!-- Redo Phase -->
+                    <rect x="300" y="70" width="200" height="150" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="400" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">Redo
+                        Phase</text>
+                    <text x="400" y="115" text-anchor="middle" font-size="12" fill="#1b5e20">Repeat history</text>
+                    <text x="400" y="130" text-anchor="middle" font-size="12" fill="#1b5e20">Redo all updates</text>
+                    <text x="400" y="145" text-anchor="middle" font-size="12" fill="#1b5e20">(including losers)</text>
+                    <text x="400" y="180" text-anchor="middle" font-size="10" fill="#5e35b1">Use Page LSN to
+                        avoid</text>
+                    <text x="400" y="195" text-anchor="middle" font-size="10" fill="#5e35b1">unnecessary redos</text>
+                    <text x="400" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">From earliest dirty
+                        page</text>
+
+                    <!-- Arrow -->
+                    <line x1="500" y1="145" x2="550" y2="145" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="545,140 550,145 545,150" fill="#7e57c2" />
+
+                    <!-- Undo Phase -->
+                    <rect x="550" y="70" width="200" height="150" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="2" />
+                    <text x="650" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#e65100">Undo
+                        Phase</text>
+                    <text x="650" y="115" text-anchor="middle" font-size="12" fill="#bf360c">Rollback loser
+                        transactions</text>
+                    <text x="650" y="130" text-anchor="middle" font-size="12" fill="#bf360c">Traverse log
+                        backwards</text>
+                    <text x="650" y="145" text-anchor="middle" font-size="12" fill="#bf360c">Write CLRs</text>
+                    <text x="650" y="180" text-anchor="middle" font-size="10" fill="#5e35b1">Compensation Log
+                        Records</text>
+                    <text x="650" y="195" text-anchor="middle" font-size="10" fill="#5e35b1">Ensure atomicity of</text>
+                    <text x="650" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">undo operations</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">MODULE 3 SUMMARY</h2>
+
+            <div class="subsection-header">Key Concepts to Remember:</div>
+
+            <div class="note-box">
+                <div class="note-title">Normalization Theory:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">Functional Dependencies</span>: Foundation of normalization</li>
+                    <li><span class="key-term">Normal Forms</span>: 1NF (atomic values), 2NF (no partial dependencies),
+                        3NF (no transitive dependencies), BCNF (every determinant is superkey)</li>
+                    <li><span class="key-term">Decomposition Properties</span>: Lossless join, dependency preservation
+                    </li>
+                </ul>
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">Transaction Management:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">ACID Properties</span>: Atomicity, Consistency, Isolation, Durability
+                    </li>
+                    <li><span class="key-term">Concurrency Problems</span>: Lost update, Dirty read, Non-repeatable
+                        read, Phantom read</li>
+                    <li><span class="key-term">Two-Phase Locking (2PL)</span>: Growing phase, Shrinking phase</li>
+                    <li><span class="key-term">Recovery Techniques</span>: Deferred update, Immediate update, Shadow
+                        paging, ARIES</li>
+                </ul>
+            </div>
+
+            <div class="subsection-header">Important Algorithms:</div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>Algorithm</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="key-term">Normalization</span></td>
+                        <td>Closure Algorithm (X⁺)</td>
+                        <td>Compute all attributes determined by X</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">Normalization</span></td>
+                        <td>Minimal Cover Algorithm</td>
+                        <td>Find minimal equivalent set of FDs</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">Normalization</span></td>
+                        <td>3NF Synthesis Algorithm</td>
+                        <td>Decompose to 3NF preserving dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">Normalization</span></td>
+                        <td>BCNF Decomposition Algorithm</td>
+                        <td>Decompose to BCNF (may lose dependencies)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">Concurrency</span></td>
+                        <td>2PL Protocol</td>
+                        <td>Ensure conflict serializability</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">Concurrency</span></td>
+                        <td>Deadlock Detection (Wait-for graph)</td>
+                        <td>Detect deadlocks in locking</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key-term">Recovery</span></td>
+                        <td>ARIES (Analysis, Redo, Undo)</td>
+                        <td>Industry-strength recovery algorithm</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="subsection-header">Real-World Applications:</div>
+
+            <div class="property-box">
+                <div class="property-title">Normalization in Practice:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">OLTP Systems</span>: Highly normalized (3NF/BCNF)</li>
+                    <li><span class="key-term">Data Warehouses</span>: Denormalized for query performance</li>
+                    <li><span class="key-term">Decision</span>: Normalize first, then denormalize selectively</li>
+                </ul>
+            </div>
+
+            <div class="property-box">
+                <div class="property-title">Transaction Management in Practice:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">Banking</span>: Strict serializability, immediate update with undo/redo
+                    </li>
+                    <li><span class="key-term">E-commerce</span>: Weaker isolation for performance (READ COMMITTED)</li>
+                    <li><span class="key-term">Recovery</span>: ARIES in most commercial DBMS</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Justin-docs Database Module 3 Notes | Author: Justin | 2024 Scheme | Handbook 2025</p>
+        <p>This document is formatted for optimal printing. Use browser's print function (Ctrl+P) to generate a physical
+            copy.</p>
+    </div>
+
+    <script>
+        // Simple script to enhance the document experience
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add subtle hover effects to key terms
+            const keyTerms = document.querySelectorAll('.key-term');
+            keyTerms.forEach(term => {
+                term.addEventListener('mouseenter', function () {
+                    this.style.transform = 'scale(1.02)';
+                    this.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                });
+                term.addEventListener('mouseleave', function () {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+
+            // Add highlight to algorithm steps on hover
+            const steps = document.querySelectorAll('.step');
+            steps.forEach(step => {
+                step.addEventListener('mouseenter', function () {
+                    this.style.backgroundColor = '#e3f2fd';
+                    this.style.transition = 'background-color 0.3s ease';
+                    this.style.borderRadius = '3px';
+                });
+                step.addEventListener('mouseleave', function () {
+                    this.style.backgroundColor = '';
+                });
+            });
+
+            // Make example boxes stand out on hover
+            const exampleBoxes = document.querySelectorAll('.example-box, .algorithm-box');
+            exampleBoxes.forEach(box => {
+                box.addEventListener('mouseenter', function () {
+                    this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                    this.style.transition = 'box-shadow 0.3s ease';
+                });
+                box.addEventListener('mouseleave', function () {
+                    this.style.boxShadow = '';
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

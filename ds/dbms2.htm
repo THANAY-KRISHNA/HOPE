@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin-docs: Relational Data Model and SQL</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fefefe;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            counter-reset: section subsection figure;
+        }
+
+        /* Header styling */
+        header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Main content styling */
+        .module-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+            counter-increment: section;
+        }
+
+        h2:before {
+            content: counter(section) ". ";
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        h3 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            counter-increment: subsection;
+        }
+
+        h3:before {
+            content: counter(section) "." counter(subsection) " ";
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Lists */
+        ul,
+        ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Code and examples */
+        .code-block {
+            background-color: #f4f4f4;
+            border-left: 4px solid #2c3e50;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .example {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* SVG containers */
+        .svg-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ecf0f1;
+            border-radius: 5px;
+        }
+
+        .svg-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-size: 12pt;
+                line-height: 1.4;
+                color: #000;
+                background: none;
+                max-width: 100%;
+                padding: 0;
+            }
+
+            h1,
+            h2,
+            h3 {
+                color: #000;
+            }
+
+            .code-block {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+
+            .svg-container {
+                page-break-inside: avoid;
+                border: 1px solid #ccc;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+
+            footer {
+                border-top: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Justin-docs</h1>
+        <div class="subtitle">Relational Data Model and SQL Handbook</div>
+        <div class="meta">
+            <div>Author: Justin</div>
+            <div>2024 Scheme</div>
+            <div>Handbook 2025</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="module-info">
+            <strong>MODULE 2: RELATIONAL DATA MODEL AND SQL</strong><br>
+            Total Contact Hours: 11 Hours
+        </div>
+
+        <section>
+            <h2>The Relational Data Model and Relational Database Constraints</h2>
+
+            <h3>Introduction to Relational Model</h3>
+            <p>The <strong>Relational Model</strong> was proposed by <strong>Dr. Edgar F. Codd</strong> in 1970 in his
+                seminal paper "A Relational Model of Data for Large Shared Data Banks." It revolutionized database
+                systems by providing a simple, mathematical foundation for data management.</p>
+
+            <h4>Key Innovations by Codd:</h4>
+            <ul>
+                <li><strong>Data Independence</strong>: Separation of logical and physical representations</li>
+                <li><strong>Set-Theoretic Foundation</strong>: Based on mathematical relations</li>
+                <li><strong>Declarative Querying</strong>: Users specify <strong>what</strong> they want, not
+                    <strong>how</strong> to get it
+                </li>
+                <li><strong>Normalization</strong>: Systematic approach to eliminate data redundancy</li>
+            </ul>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: Relational Model Architecture</div>
+                <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Database box -->
+                    <rect x="50" y="50" width="200" height="300" fill="#e8f4f8" stroke="#3498db" stroke-width="3"
+                        rx="5" />
+                    <text x="150" y="85" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold"
+                        fill="#2c3e50">Database</text>
+
+                    <!-- Tables -->
+                    <rect x="70" y="110" width="160" height="40" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+                    <text x="150" y="135" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Table
+                        1</text>
+
+                    <rect x="70" y="160" width="160" height="40" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+                    <text x="150" y="185" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Table
+                        2</text>
+
+                    <rect x="70" y="210" width="160" height="40" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+                    <text x="150" y="235" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Table
+                        3</text>
+
+                    <rect x="70" y="260" width="160" height="40" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+                    <text x="150" y="285" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Table
+                        4</text>
+
+                    <!-- Relationships -->
+                    <line x1="250" y1="130" x2="350" y2="130" stroke="#e74c3c" stroke-width="2" />
+                    <line x1="250" y1="180" x2="350" y2="150" stroke="#e74c3c" stroke-width="2" />
+                    <line x1="250" y1="230" x2="350" y2="170" stroke="#e74c3c" stroke-width="2" />
+                    <line x1="250" y1="280" x2="350" y2="190" stroke="#e74c3c" stroke-width="2" />
+
+                    <!-- Constraints box -->
+                    <rect x="350" y="50" width="200" height="150" fill="#f9ebdf" stroke="#e67e22" stroke-width="3"
+                        rx="5" />
+                    <text x="450" y="85" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold"
+                        fill="#2c3e50">Constraints</text>
+
+                    <circle cx="400" y="130" r="8" fill="#e67e22" />
+                    <text x="415" y="135" font-family="Arial" font-size="14" fill="#2c3e50">Primary Keys</text>
+
+                    <circle cx="400" y="160" r="8" fill="#e67e22" />
+                    <text x="415" y="165" font-family="Arial" font-size="14" fill="#2c3e50">Foreign Keys</text>
+
+                    <circle cx="400" y="190" r="8" fill="#e67e22" />
+                    <text x="415" y="195" font-family="Arial" font-size="14" fill="#2c3e50">Data Types</text>
+
+                    <!-- Users -->
+                    <rect x="600" y="150" width="150" height="100" fill="#e8f6e8" stroke="#27ae60" stroke-width="3"
+                        rx="5" />
+                    <text x="675" y="185" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold"
+                        fill="#2c3e50">Users</text>
+
+                    <!-- Arrows to users -->
+                    <line x1="550" y1="125" x2="600" y2="175" stroke="#9b59b6" stroke-width="2"
+                        marker-end="url(#arrow)" />
+                    <line x1="450" y1="200" x2="600" y2="200" stroke="#9b59b6" stroke-width="2"
+                        marker-end="url(#arrow)" />
+
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"
+                            markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#9b59b6" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <h3>Basic Concepts of Relational Model</h3>
+
+            <h4>1. Domain (D)</h4>
+            <p>A <strong>domain</strong> is a set of atomic (indivisible) values. Each value in a domain is of the same
+                data type.</p>
+
+            <div class="example">
+                <div class="example-title">Examples of Domains:</div>
+                <div class="code-block">D1 = Student_IDs = {101, 102, 103, ...} // INTEGER, 3 digits
+                    D2 = Names = {"John", "Jane", "Bob", ...} // VARCHAR(50)
+                    D3 = GPAs = {0.0, 0.1, ..., 4.0} // DECIMAL(3,1), 0.0-4.0
+                    D4 = Grades = {"A", "B", "C", "D", "F"} // CHAR(1)</div>
+            </div>
+
+            <h4>2. Relation (R)</h4>
+            <p>A <strong>relation</strong> is a subset of the Cartesian product of one or more domains. A relation is a
+                <strong>set of tuples</strong> (no duplicates).
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mathematical Term</th>
+                        <th>Database Term</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Relation</td>
+                        <td>Table</td>
+                    </tr>
+                    <tr>
+                        <td>Tuple</td>
+                        <td>Row, Record</td>
+                    </tr>
+                    <tr>
+                        <td>Attribute</td>
+                        <td>Column, Field</td>
+                    </tr>
+                    <tr>
+                        <td>Cardinality</td>
+                        <td>Number of rows</td>
+                    </tr>
+                    <tr>
+                        <td>Degree</td>
+                        <td>Number of columns</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: Structure of a Relation (Table)</div>
+                <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Table representation -->
+                    <rect x="50" y="50" width="700" height="200" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+
+                    <!-- Column headers -->
+                    <rect x="50" y="50" width="700" height="40" fill="#2c3e50" stroke="#2c3e50" stroke-width="2" />
+
+                    <text x="100" y="75" text-anchor="middle" font-family="Arial" font-size="16"
+                        fill="white">StudentID</text>
+                    <text x="250" y="75" text-anchor="middle" font-family="Arial" font-size="16"
+                        fill="white">Name</text>
+                    <text x="400" y="75" text-anchor="middle" font-family="Arial" font-size="16"
+                        fill="white">Major</text>
+                    <text x="550" y="75" text-anchor="middle" font-family="Arial" font-size="16" fill="white">GPA</text>
+                    <text x="700" y="75" text-anchor="middle" font-family="Arial" font-size="16"
+                        fill="white">Year</text>
+
+                    <!-- Column separators -->
+                    <line x1="150" y1="50" x2="150" y2="250" stroke="#2c3e50" stroke-width="1" />
+                    <line x1="300" y1="50" x2="300" y2="250" stroke="#2c3e50" stroke-width="1" />
+                    <line x1="450" y1="50" x2="450" y2="250" stroke="#2c3e50" stroke-width="1" />
+                    <line x1="600" y1="50" x2="600" y2="250" stroke="#2c3e50" stroke-width="1" />
+
+                    <!-- Row separators -->
+                    <line x1="50" y1="90" x2="750" y2="90" stroke="#2c3e50" stroke-width="1" />
+                    <line x1="50" y1="130" x2="750" y2="130" stroke="#2c3e50" stroke-width="1" />
+                    <line x1="50" y1="170" x2="750" y2="170" stroke="#2c3e50" stroke-width="1" />
+                    <line x1="50" y1="210" x2="750" y2="210" stroke="#2c3e50" stroke-width="1" />
+
+                    <!-- Data rows -->
+                    <text x="100" y="115" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">101</text>
+                    <text x="250" y="115" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">John
+                        Doe</text>
+                    <text x="400" y="115" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">CS</text>
+                    <text x="550" y="115" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">3.8</text>
+                    <text x="700" y="115" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">2024</text>
+
+                    <text x="100" y="155" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">102</text>
+                    <text x="250" y="155" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Jane
+                        Smith</text>
+                    <text x="400" y="155" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">Math</text>
+                    <text x="550" y="155" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">3.9</text>
+                    <text x="700" y="155" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">2023</text>
+
+                    <text x="100" y="195" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">103</text>
+                    <text x="250" y="195" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Bob
+                        Wilson</text>
+                    <text x="400" y="195" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">Physics</text>
+                    <text x="550" y="195" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">3.5</text>
+                    <text x="700" y="195" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">2024</text>
+
+                    <text x="100" y="235" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">104</text>
+                    <text x="250" y="235" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Alice
+                        Brown</text>
+                    <text x="400" y="235" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">Biology</text>
+                    <text x="550" y="235" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">3.7</text>
+                    <text x="700" y="235" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">2025</text>
+
+                    <!-- Labels -->
+                    <text x="50" y="280" font-family="Arial" font-size="14" fill="#2c3e50">Relation/Table:
+                        STUDENT</text>
+                    <text x="500" y="280" font-family="Arial" font-size="14" fill="#2c3e50">Degree: 5 attributes</text>
+                    <text x="500" y="300" font-family="Arial" font-size="14" fill="#2c3e50">Cardinality: 4 tuples</text>
+                </svg>
+            </div>
+
+            <h3>Relational Database Constraints</h3>
+            <p>Constraints are rules that must be satisfied by every valid instance of the database.</p>
+
+            <h4>1. Domain Constraints</h4>
+            <p>Each attribute value must be an atomic value from its domain.</p>
+
+            <div class="code-block">CREATE TABLE Student (
+                StudentID INT CHECK (StudentID BETWEEN 100 AND 999),
+                Name VARCHAR(50) NOT NULL,
+                GPA DECIMAL(3,2) CHECK (GPA BETWEEN 0.0 AND 4.0),
+                Gender CHAR(1) CHECK (Gender IN ('M', 'F', 'O'))
+                );</div>
+
+            <h4>2. Key Constraints</h4>
+            <ul>
+                <li><strong>Superkey</strong>: A set of attributes that uniquely identifies tuples</li>
+                <li><strong>Candidate Key</strong>: A minimal superkey</li>
+                <li><strong>Primary Key</strong>: The chosen candidate key for identifying tuples</li>
+                <li><strong>Foreign Key</strong>: Attributes that reference primary key of another relation</li>
+            </ul>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: Key Relationships in Database</div>
+                <svg viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Primary Key Visualization -->
+                    <rect x="50" y="50" width="300" height="60" fill="#e8f6e8" stroke="#27ae60" stroke-width="2"
+                        rx="5" />
+                    <text x="200" y="75" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold"
+                        fill="#2c3e50">Primary Key</text>
+                    <text x="200" y="95" text-anchor="middle" font-family="Arial" font-size="14" fill="#2c3e50">Unique
+                        identifier for each row</text>
+
+                    <!-- Foreign Key Visualization -->
+                    <rect x="450" y="50" width="300" height="60" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="600" y="75" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold"
+                        fill="#2c3e50">Foreign Key</text>
+                    <text x="600" y="95" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">References primary key in another table</text>
+
+                    <!-- Relationship Arrow -->
+                    <line x1="350" y1="80" x2="450" y2="80" stroke="#3498db" stroke-width="3"
+                        marker-end="url(#arrow2)" />
+
+                    <!-- Example Tables -->
+                    <rect x="100" y="140" width="200" height="80" fill="#fff" stroke="#2c3e50" stroke-width="2"
+                        rx="3" />
+                    <text x="200" y="160" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">EMPLOYEE</text>
+                    <line x1="100" y1="170" x2="300" y2="170" stroke="#2c3e50" stroke-width="1" />
+                    <text x="150" y="190" text-anchor="middle" font-family="Arial" font-size="12" fill="#27ae60">EmpID
+                        (PK)</text>
+                    <text x="250" y="190" text-anchor="middle" font-family="Arial" font-size="12"
+                        fill="#2c3e50">Name</text>
+
+                    <rect x="500" y="140" width="200" height="80" fill="#fff" stroke="#2c3e50" stroke-width="2"
+                        rx="3" />
+                    <text x="600" y="160" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">DEPARTMENT</text>
+                    <line x1="500" y1="170" x2="700" y2="170" stroke="#2c3e50" stroke-width="1" />
+                    <text x="550" y="190" text-anchor="middle" font-family="Arial" font-size="12" fill="#27ae60">DeptID
+                        (PK)</text>
+                    <text x="650" y="190" text-anchor="middle" font-family="Arial" font-size="12"
+                        fill="#e67e22">ManagerID (FK)</text>
+
+                    <!-- Relationship between tables -->
+                    <line x1="300" y1="190" x2="500" y2="190" stroke="#9b59b6" stroke-width="2"
+                        stroke-dasharray="5,5" />
+
+                    <defs>
+                        <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"
+                            markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#3498db" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <h4>3. Entity Integrity Constraint</h4>
+            <p><strong>Rule</strong>: No primary key attribute can be NULL. Primary key identifies tuples; NULL means
+                unknown/undefined identifier.</p>
+
+            <h4>4. Referential Integrity Constraint</h4>
+            <p><strong>Rule</strong>: A foreign key value must either match a primary key value in the referenced
+                relation or be NULL.</p>
+
+            <div class="code-block">CREATE TABLE Employee (
+                EmpID INT PRIMARY KEY,
+                Name VARCHAR(50),
+                DeptID INT,
+                FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+                ON DELETE CASCADE -- Delete employees when department deleted
+                ON UPDATE CASCADE -- Update DeptID in employees when changed in department
+                );</div>
+        </section>
+
+        <section>
+            <h2>Relational Algebra and Relational Calculus</h2>
+
+            <h3>Relational Algebra</h3>
+            <p>Relational Algebra is a <strong>procedural query language</strong> that provides a set of operations to
+                manipulate relations. It forms the theoretical foundation for SQL.</p>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: Relational Algebra Operations</div>
+                <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Central relation -->
+                    <rect x="350" y="200" width="100" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="400" y="230" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">Relation R</text>
+
+                    <!-- SELECT operation -->
+                    <rect x="150" y="100" width="120" height="50" fill="#f9ebdf" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="210" y="115" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold"
+                        fill="#2c3e50">SELECT</text>
+                    <text x="210" y="135" text-anchor="middle" font-family="Arial" font-size="12"
+                        fill="#2c3e50">σ_condition(R)</text>
+                    <line x1="270" y1="125" x2="350" y2="200" stroke="#e67e22" stroke-width="2" />
+
+                    <!-- PROJECT operation -->
+                    <rect x="550" y="100" width="120" height="50" fill="#f9ebdf" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="610" y="115" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold"
+                        fill="#2c3e50">PROJECT</text>
+                    <text x="610" y="135" text-anchor="middle" font-family="Arial" font-size="12"
+                        fill="#2c3e50">π_attributes(R)</text>
+                    <line x1="550" y1="125" x2="450" y2="200" stroke="#e67e22" stroke-width="2" />
+
+                    <!-- UNION operation -->
+                    <rect x="100" y="300" width="120" height="50" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="160" y="315" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold"
+                        fill="#2c3e50">UNION</text>
+                    <text x="160" y="335" text-anchor="middle" font-family="Arial" font-size="12" fill="#2c3e50">R ∪
+                        S</text>
+                    <line x1="220" y1="325" x2="350" y2="260" stroke="#e67e22" stroke-width="2" />
+
+                    <!-- JOIN operation -->
+                    <rect x="550" y="300" width="120" height="50" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="610" y="315" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold"
+                        fill="#2c3e50">JOIN</text>
+                    <text x="610" y="335" text-anchor="middle" font-family="Arial" font-size="12" fill="#2c3e50">R ⨝
+                        S</text>
+                    <line x1="550" y1="325" x2="450" y2="260" stroke="#e67e22" stroke-width="2" />
+
+                    <!-- Relation S for join -->
+                    <rect x="650" y="380" width="100" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="700" y="410" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">Relation S</text>
+                    <line x1="700" y1="380" x2="610" y2="350" stroke="#3498db" stroke-width="2" />
+
+                    <!-- Result relation -->
+                    <rect x="350" y="400" width="100" height="60" fill="#d5f4e6" stroke="#27ae60" stroke-width="3"
+                        rx="5" />
+                    <text x="400" y="430" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Result</text>
+
+                    <!-- Arrows to result -->
+                    <line x1="400" y1="260" x2="400" y2="400" stroke="#27ae60" stroke-width="2"
+                        marker-end="url(#arrow3)" />
+                    <line x1="610" y1="350" x2="400" y2="400" stroke="#27ae60" stroke-width="2"
+                        marker-end="url(#arrow3)" />
+
+                    <defs>
+                        <marker id="arrow3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"
+                            markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#27ae60" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <h4>Basic Operations</h4>
+            <ul>
+                <li><strong>SELECT (σ)</strong>: σₚ(R) - Selects tuples that satisfy predicate p</li>
+                <li><strong>PROJECT (π)</strong>: πₐ₁,ₐ₂,...,ₐₙ(R) - Selects columns (attributes)</li>
+                <li><strong>UNION (∪)</strong>: R ∪ S - Combines tuples from two relations</li>
+                <li><strong>SET DIFFERENCE (-)</strong>: R - S - Tuples in R but not in S</li>
+                <li><strong>CARTESIAN PRODUCT (×)</strong>: R × S - Combines every tuple of R with every tuple of S</li>
+            </ul>
+
+            <div class="example">
+                <div class="example-title">Relational Algebra Examples:</div>
+                <div class="code-block">-- Employees with salary > 50000
+                    σ_(Salary > 50000)(EMPLOYEE)
+
+                    -- Only name and salary columns
+                    π_Name,Salary(EMPLOYEE)
+
+                    -- Employees in Dept 10 or Dept 20
+                    σ_DeptID=10(EMPLOYEE) ∪ σ_DeptID=20(EMPLOYEE)
+
+                    -- Natural join between EMPLOYEE and DEPARTMENT
+                    EMPLOYEE ⨝* DEPARTMENT</div>
+            </div>
+
+            <h3>Relational Calculus</h3>
+            <p>Relational Calculus is a <strong>non-procedural (declarative)</strong> query language. Users specify
+                <strong>what</strong> data they want without specifying <strong>how</strong> to get it.
+            </p>
+
+            <h4>Tuple Relational Calculus (TRC)</h4>
+            <p><strong>General Form</strong>: {t | P(t)} where t is a tuple variable and P(t) is a formula describing t.
+            </p>
+
+            <div class="code-block">-- Employees with salary > 50000
+                {t | EMPLOYEE(t) ∧ t.Salary > 50000}
+
+                -- Employees who work on project 'ProjectX'
+                {t | EMPLOYEE(t) ∧ ∃w(WORKS_ON(w) ∧ w.EmpID = t.EmpID
+                ∧ ∃p(PROJECT(p) ∧ p.ProjID = w.ProjID
+                ∧ p.Name = 'ProjectX'))}</div>
+
+            <h4>Domain Relational Calculus (DRC)</h4>
+            <p><strong>General Form</strong>: {&lt;x₁, x₂, ..., xₙ&gt; | P(x₁, x₂, ..., xₙ)}</p>
+
+            <div class="code-block">-- Employees with salary > 50000
+                {<id, name, sal, did> | EMPLOYEE(id, name, sal, did) ∧ sal > 50000}</div>
+        </section>
+
+        <section>
+            <h2>Structured Query Language (SQL)</h2>
+
+            <h3>Data Definition Language (DDL)</h3>
+            <p>SQL commands for defining database structure.</p>
+
+            <div class="code-block">-- CREATE TABLE
+                CREATE TABLE Employee (
+                EmpID INT PRIMARY KEY,
+                Name VARCHAR(50) NOT NULL,
+                Salary DECIMAL(10,2),
+                HireDate DATE DEFAULT CURRENT_DATE,
+                DeptID INT,
+                FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+                );
+
+                -- ALTER TABLE
+                ALTER TABLE Employee
+                ADD Email VARCHAR(100);
+
+                -- DROP TABLE
+                DROP TABLE IF EXISTS OldEmployee;</div>
+
+            <h3>Data Manipulation Language (DML)</h3>
+            <p>SQL commands for manipulating data.</p>
+
+            <h4>SELECT Statement</h4>
+            <div class="code-block">-- Basic SELECT
+                SELECT * FROM Employee;
+
+                -- SELECT with WHERE
+                SELECT Name, Salary FROM Employee WHERE Salary > 50000;
+
+                -- SELECT with JOIN
+                SELECT e.Name, d.DeptName
+                FROM Employee e
+                INNER JOIN Department d ON e.DeptID = d.DeptID;
+
+                -- SELECT with GROUP BY
+                SELECT DeptID, AVG(Salary) as AvgSalary
+                FROM Employee
+                GROUP BY DeptID
+                HAVING AVG(Salary) > 50000;</div>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: SQL JOIN Types Visualization</div>
+                <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Title -->
+                    <text x="400" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold"
+                        fill="#2c3e50">SQL JOIN Operations</text>
+
+                    <!-- INNER JOIN -->
+                    <rect x="50" y="60" width="200" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="150" y="80" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Table A</text>
+                    <circle cx="80" y="100" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="120" y="100" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="160" y="100" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="200" y="100" r="20" fill="#3498db" fill-opacity="0.7" />
+
+                    <rect x="300" y="60" width="200" height="60" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="400" y="80" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Table B</text>
+                    <circle cx="320" y="100" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="360" y="100" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="400" y="100" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="440" y="100" r="20" fill="#e67e22" fill-opacity="0.7" />
+
+                    <rect x="550" y="60" width="200" height="60" fill="#d5f4e6" stroke="#27ae60" stroke-width="2"
+                        rx="5" />
+                    <text x="650" y="80" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">INNER JOIN</text>
+                    <circle cx="580" y="100" r="20" fill="#27ae60" fill-opacity="0.7" />
+                    <circle cx="620" y="100" r="20" fill="#27ae60" fill-opacity="0.7" />
+                    <circle cx="660" y="100" r="20" fill="#27ae60" fill-opacity="0.7" />
+
+                    <!-- LEFT JOIN -->
+                    <rect x="50" y="160" width="200" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="150" y="180" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Table A</text>
+                    <circle cx="80" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="120" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="160" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="200" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+
+                    <rect x="300" y="160" width="200" height="60" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="400" y="180" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Table B</text>
+                    <circle cx="320" y="200" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="360" y="200" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="400" y="200" r="20" fill="#e67e22" fill-opacity="0.7" />
+
+                    <rect x="550" y="160" width="200" height="60" fill="#d5f4e6" stroke="#27ae60" stroke-width="2"
+                        rx="5" />
+                    <text x="650" y="180" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">LEFT JOIN</text>
+                    <circle cx="580" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="620" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="660" y="200" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="700" y="200" r="20" fill="#3498db" fill-opacity="0.3" stroke="#3498db"
+                        stroke-width="1" />
+
+                    <!-- FULL OUTER JOIN -->
+                    <rect x="50" y="260" width="200" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="150" y="280" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Table A</text>
+                    <circle cx="80" y="300" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="120" y="300" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="160" y="300" r="20" fill="#3498db" fill-opacity="0.7" />
+
+                    <rect x="300" y="260" width="200" height="60" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="400" y="280" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">Table B</text>
+                    <circle cx="320" y="300" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="360" y="300" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="400" y="300" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="440" y="300" r="20" fill="#e67e22" fill-opacity="0.7" />
+
+                    <rect x="550" y="260" width="200" height="60" fill="#d5f4e6" stroke="#27ae60" stroke-width="2"
+                        rx="5" />
+                    <text x="650" y="280" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">FULL OUTER JOIN</text>
+                    <circle cx="570" y="300" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="610" y="300" r="20" fill="#3498db" fill-opacity="0.7" />
+                    <circle cx="650" y="300" r="20" fill="#27ae60" fill-opacity="0.7" />
+                    <circle cx="690" y="300" r="20" fill="#e67e22" fill-opacity="0.7" />
+                    <circle cx="730" y="300" r="20" fill="#3498db" fill-opacity="0.3" stroke="#3498db"
+                        stroke-width="1" />
+
+                    <!-- Legend -->
+                    <text x="400" y="370" text-anchor="middle" font-family="Arial" font-size="12" fill="#2c3e50">●
+                        Matching rows in both tables</text>
+                    <text x="400" y="390" text-anchor="middle" font-family="Arial" font-size="12" fill="#2c3e50">○ Rows
+                        present in only one table (with NULLs for missing)</text>
+                </svg>
+            </div>
+
+            <h4>INSERT, UPDATE, DELETE Statements</h4>
+            <div class="code-block">-- INSERT
+                INSERT INTO Employee (EmpID, Name, Salary, DeptID)
+                VALUES (101, 'John Doe', 50000, 10);
+
+                -- UPDATE
+                UPDATE Employee
+                SET Salary = Salary * 1.1
+                WHERE DeptID = 10;
+
+                -- DELETE
+                DELETE FROM Employee
+                WHERE EmpID = 101;</div>
+        </section>
+
+        <section>
+            <h2>ER-to-Relational Mapping</h2>
+
+            <p>Systematic process to convert Entity-Relationship diagrams to relational schemas.</p>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: ER-to-Relational Mapping Process</div>
+                <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                    <!-- ER Diagram side -->
+                    <rect x="50" y="50" width="300" height="400" fill="#f8f9fa" stroke="#2c3e50" stroke-width="2"
+                        rx="5" />
+                    <text x="200" y="80" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold"
+                        fill="#2c3e50">ER Diagram</text>
+
+                    <!-- Entity -->
+                    <rect x="100" y="120" width="100" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="150" y="150" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">EMPLOYEE</text>
+
+                    <!-- Weak Entity -->
+                    <rect x="200" y="220" width="100" height="60" fill="#fdebd0" stroke="#e67e22" stroke-width="2"
+                        rx="5" />
+                    <text x="250" y="250" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">DEPENDENT</text>
+                    <line x1="150" y1="180" x2="250" y2="220" stroke="#e67e22" stroke-width="2" />
+
+                    <!-- Relationship -->
+                    <ellipse cx="150" y="300" rx="50" ry="30" fill="#d5f4e6" stroke="#27ae60" stroke-width="2" />
+                    <text x="150" y="305" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">Works_On</text>
+
+                    <!-- Another Entity -->
+                    <rect x="100" y="350" width="100" height="60" fill="#e8f4f8" stroke="#3498db" stroke-width="2"
+                        rx="5" />
+                    <text x="150" y="380" text-anchor="middle" font-family="Arial" font-size="14"
+                        fill="#2c3e50">PROJECT</text>
+
+                    <!-- Relationships lines -->
+                    <line x1="150" y1="180" x2="150" y2="270" stroke="#9b59b6" stroke-width="2" />
+                    <line x1="150" y1="330" x2="150" y2="350" stroke="#9b59b6" stroke-width="2" />
+
+                    <!-- Arrow to Relational Schema -->
+                    <line x1="350" y1="250" x2="450" y2="250" stroke="#2c3e50" stroke-width="3"
+                        marker-end="url(#arrow4)">
+                        <animate attributeName="x2" from="450" to="500" dur="2s" repeatCount="indefinite" />
+                    </line>
+                    <text x="400" y="240" text-anchor="middle" font-family="Arial" font-size="16"
+                        fill="#2c3e50">Mapping</text>
+
+                    <!-- Relational Schema side -->
+                    <rect x="500" y="50" width="250" height="400" fill="#f8f9fa" stroke="#2c3e50" stroke-width="2"
+                        rx="5" />
+                    <text x="625" y="80" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold"
+                        fill="#2c3e50">Relational Schema</text>
+
+                    <!-- Employee Table -->
+                    <rect x="525" y="110" width="200" height="40" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+                    <text x="625" y="135" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">EMPLOYEE</text>
+                    <line x1="525" y1="130" x2="725" y2="130" stroke="#2c3e50" stroke-width="1" />
+                    <text x="575" y="150" text-anchor="middle" font-family="Arial" font-size="12" fill="#27ae60">EmpID
+                        (PK)</text>
+                    <text x="675" y="150" text-anchor="middle" font-family="Arial" font-size="12"
+                        fill="#2c3e50">Name</text>
+
+                    <!-- Dependent Table -->
+                    <rect x="525" y="170" width="200" height="40" fill="#fff" stroke="#e67e22" stroke-width="2" />
+                    <text x="625" y="195" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">DEPENDENT</text>
+                    <line x1="525" y1="190" x2="725" y2="190" stroke="#e67e22" stroke-width="1" />
+                    <text x="575" y="210" text-anchor="middle" font-family="Arial" font-size="12" fill="#e67e22">EmpID
+                        (PK,FK)</text>
+                    <text x="675" y="210" text-anchor="middle" font-family="Arial" font-size="12" fill="#e67e22">DepName
+                        (PK)</text>
+
+                    <!-- Works_On Table -->
+                    <rect x="525" y="250" width="200" height="40" fill="#fff" stroke="#27ae60" stroke-width="2" />
+                    <text x="625" y="275" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">WORKS_ON</text>
+                    <line x1="525" y1="270" x2="725" y2="270" stroke="#27ae60" stroke-width="1" />
+                    <text x="575" y="290" text-anchor="middle" font-family="Arial" font-size="12" fill="#27ae60">EmpID
+                        (PK,FK)</text>
+                    <text x="675" y="290" text-anchor="middle" font-family="Arial" font-size="12" fill="#27ae60">ProjID
+                        (PK,FK)</text>
+
+                    <!-- Project Table -->
+                    <rect x="525" y="320" width="200" height="40" fill="#fff" stroke="#2c3e50" stroke-width="2" />
+                    <text x="625" y="345" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold"
+                        fill="#2c3e50">PROJECT</text>
+                    <line x1="525" y1="340" x2="725" y2="340" stroke="#2c3e50" stroke-width="1" />
+                    <text x="575" y="360" text-anchor="middle" font-family="Arial" font-size="12" fill="#27ae60">ProjID
+                        (PK)</text>
+                    <text x="675" y="360" text-anchor="middle" font-family="Arial" font-size="12"
+                        fill="#2c3e50">ProjName</text>
+
+                    <!-- Foreign key relationships -->
+                    <line x1="625" y1="150" x2="625" y2="210" stroke="#9b59b6" stroke-width="1"
+                        stroke-dasharray="5,5" />
+                    <line x1="625" y1="150" x2="625" y2="290" stroke="#9b59b6" stroke-width="1"
+                        stroke-dasharray="5,5" />
+                    <line x1="625" y1="360" x2="625" y2="290" stroke="#9b59b6" stroke-width="1"
+                        stroke-dasharray="5,5" />
+
+                    <defs>
+                        <marker id="arrow4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"
+                            markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#2c3e50" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <h3>Mapping Steps Summary</h3>
+            <ol>
+                <li><strong>Regular Entity Types</strong>: Create relation with all simple attributes</li>
+                <li><strong>Weak Entity Types</strong>: Create relation with owner's PK as FK, composite PK</li>
+                <li><strong>Binary 1:1 Relationships</strong>: Foreign key in one relation</li>
+                <li><strong>Binary 1:N Relationships</strong>: Foreign key in the "N" side</li>
+                <li><strong>Binary M:N Relationships</strong>: New relation with FKs from both entities</li>
+                <li><strong>Multi-valued Attributes</strong>: New relation with entity PK + multi-valued attribute</li>
+                <li><strong>N-ary Relationships</strong>: New relation with FKs from all participating entities</li>
+            </ol>
+
+            <div class="code-block">-- Example: Complete COMPANY database schema
+                CREATE TABLE DEPARTMENT (
+                DeptID INT PRIMARY KEY,
+                Name VARCHAR(50) NOT NULL,
+                Location VARCHAR(100)
+                );
+
+                CREATE TABLE EMPLOYEE (
+                EmpID INT PRIMARY KEY,
+                Name VARCHAR(50) NOT NULL,
+                Salary DECIMAL(10,2),
+                BirthDate DATE,
+                DeptID INT,
+                SupervisorID INT,
+                FOREIGN KEY (DeptID) REFERENCES DEPARTMENT(DeptID),
+                FOREIGN KEY (SupervisorID) REFERENCES EMPLOYEE(EmpID)
+                );
+
+                CREATE TABLE PROJECT (
+                ProjID INT PRIMARY KEY,
+                Name VARCHAR(50) NOT NULL,
+                Location VARCHAR(100),
+                DeptID INT,
+                FOREIGN KEY (DeptID) REFERENCES DEPARTMENT(DeptID)
+                );
+
+                CREATE TABLE WORKS_ON (
+                EmpID INT,
+                ProjID INT,
+                Hours DECIMAL(5,2),
+                PRIMARY KEY (EmpID, ProjID),
+                FOREIGN KEY (EmpID) REFERENCES EMPLOYEE(EmpID),
+                FOREIGN KEY (ProjID) REFERENCES PROJECT(ProjID)
+                );</div>
+        </section>
+
+        <section>
+            <h2>Module 2 Summary</h2>
+
+            <h3>Key Concepts to Remember</h3>
+            <ul>
+                <li><strong>Relational Model Fundamentals</strong>: Relations, tuples, attributes, domains, schema vs
+                    instance</li>
+                <li><strong>Relational Constraints</strong>: Domain, key, entity integrity, referential integrity
+                    constraints</li>
+                <li><strong>Relational Algebra</strong>: Basic operations (σ, π, ∪, −, ×) and additional operations (∩,
+                    ⨝, ÷)</li>
+                <li><strong>Relational Calculus</strong>: Tuple Relational Calculus {t | P(t)} and Domain Relational
+                    Calculus</li>
+                <li><strong>SQL</strong>: DDL (CREATE, ALTER, DROP), DML (SELECT, INSERT, UPDATE, DELETE), advanced
+                    queries</li>
+                <li><strong>ER-to-Relational Mapping</strong>: Systematic algorithm for converting ER diagrams to
+                    relational schemas</li>
+            </ul>
+
+            <h3>Important SQL Clauses to Master</h3>
+            <ul>
+                <li><strong>SELECT</strong> with all options (WHERE, GROUP BY, HAVING, ORDER BY)</li>
+                <li><strong>JOIN</strong> operations (INNER, LEFT, RIGHT, FULL, CROSS)</li>
+                <li><strong>Subqueries</strong> (correlated and non-correlated)</li>
+                <li><strong>Set operations</strong> (UNION, INTERSECT, EXCEPT)</li>
+                <li><strong>Window functions</strong> for advanced analytics</li>
+            </ul>
+
+            <div class="svg-container">
+                <div class="svg-title">Figure: Database Knowledge Hierarchy</div>
+                <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Foundation layer -->
+                    <rect x="200" y="250" width="400" height="50" fill="#2c3e50" rx="5" />
+                    <text x="400" y="280" text-anchor="middle" font-family="Arial" font-size="16"
+                        fill="white">Foundation: Relational Model &amp; Constraints</text>
+
+                    <!-- Middle layer -->
+                    <rect x="250" y="190" width="300" height="50" fill="#3498db" rx="5" />
+                    <text x="400" y="220" text-anchor="middle" font-family="Arial" font-size="16" fill="white">Theory:
+                        Relational Algebra &amp; Calculus</text>
+
+                    <!-- Application layer -->
+                    <rect x="300" y="130" width="200" height="50" fill="#27ae60" rx="5" />
+                    <text x="400" y="160" text-anchor="middle" font-family="Arial" font-size="16" fill="white">Practice:
+                        SQL Language</text>
+
+                    <!-- Design layer -->
+                    <rect x="350" y="70" width="100" height="50" fill="#9b59b6" rx="5" />
+                    <text x="400" y="100" text-anchor="middle" font-family="Arial" font-size="16" fill="white">Design:
+                        ER Mapping</text>
+
+                    <!-- Arrows between layers -->
+                    <line x1="400" y1="120" x2="400" y2="130" stroke="#2c3e50" stroke-width="2" />
+                    <line x1="400" y1="180" x2="400" y2="190" stroke="#2c3e50" stroke-width="2" />
+                    <line x1="400" y1="240" x2="400" y2="250" stroke="#2c3e50" stroke-width="2" />
+
+                    <!-- Connector lines -->
+                    <line x1="250" y1="215" x2="200" y2="275" stroke="#2c3e50" stroke-width="1"
+                        stroke-dasharray="5,5" />
+                    <line x1="550" y1="215" x2="600" y2="275" stroke="#2c3e50" stroke-width="1"
+                        stroke-dasharray="5,5" />
+                    <line x1="300" y1="155" x2="250" y2="215" stroke="#2c3e50" stroke-width="1"
+                        stroke-dasharray="5,5" />
+                    <line x1="500" y1="155" x2="550" y2="215" stroke="#2c3e50" stroke-width="1"
+                        stroke-dasharray="5,5" />
+                    <line x1="350" y1="95" x2="300" y2="155" stroke="#2c3e50" stroke-width="1" stroke-dasharray="5,5" />
+                    <line x1="450" y1="95" x2="500" y2="155" stroke="#2c3e50" stroke-width="1" stroke-dasharray="5,5" />
+                </svg>
+            </div>
+
+            <h3>Next Module Preview</h3>
+            <p>Module 3 will cover:</p>
+            <ul>
+                <li><strong>Normalization theory</strong> (1NF, 2NF, 3NF, BCNF)</li>
+                <li><strong>Functional dependencies</strong> and decomposition</li>
+                <li><strong>Transaction management</strong> and ACID properties</li>
+                <li><strong>Concurrency control</strong> and locking protocols</li>
+                <li><strong>Database recovery</strong> techniques</li>
+            </ul>
+
+            <p><strong>Tip</strong>: Master SQL thoroughly as it's fundamental for database professionals. Practice
+                writing complex queries and understand their performance implications.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Justin-docs • Relational Data Model and SQL Handbook • 2024 Scheme • Handbook 2025</p>
+        <p>Author: Justin • Comprehensive Database Module Reference</p>
+    </footer>
+</body>
+
+</html>

@@ -1890,10 +1890,12 @@
             }
 
             .fp-header {
-                position: absolute;
-                top: 2rem;
-                right: 2rem;
-                width: auto;
+                /* Reset position for desktop if needed, but flex layout is safer */
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 100%;
+                margin-bottom: 0;
             }
 
             .fp-art-container {
