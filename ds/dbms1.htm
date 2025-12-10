@@ -145,7 +145,7 @@
             color: #2c3e50;
         }
 
-        .visual-container {
+        .svg-container {
             background-color: white;
             border: 1px solid #ddd;
             padding: 20px;
@@ -247,7 +247,7 @@
                 margin-bottom: 10px;
             }
 
-            .visual-container {
+            .svg-container {
                 break-inside: avoid;
             }
 
@@ -297,7 +297,7 @@
                 <li><span class="key-term">Procedures</span>: Instructions and rules for using the database system</li>
             </ul>
 
-            <div class="visual-container">
+            <div class="svg-container">
                 <svg class="svg-visual" width="800" height="200" viewBox="0 0 800 200">
                     <rect x="10" y="10" width="780" height="180" rx="10" ry="10" fill="#f1f8ff" stroke="#3498db"
                         stroke-width="2" />
@@ -363,7 +363,7 @@
 
             <div class="subsection-header">Historical Evolution of Data Models:</div>
 
-            <div class="visual-container">
+            <div class="svg-container">
                 <svg class="svg-visual" width="800" height="180" viewBox="0 0 800 180">
                     <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Evolution
                         of Data Models</text>
@@ -418,7 +418,7 @@
 
             <div class="subsection-header">The Three Levels:</div>
 
-            <div class="visual-container">
+            <div class="svg-container">
                 <svg class="svg-visual" width="800" height="350" viewBox="0 0 800 350">
                     <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
                         fill="#2c3e50">Three-Schema Architecture</text>
@@ -544,7 +544,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                 developed by Peter Chen in 1976. It provides a graphical representation (ER diagrams) for database
                 design.</p>
 
-            <div class="visual-container">
+            <div class="svg-container">
                 <svg class="svg-visual" width="800" height="300" viewBox="0 0 800 300">
                     <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Basic ER
                         Model Components</text>
@@ -610,7 +610,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
 
             <div class="subsection-header">Types of Attributes:</div>
 
-            <div class="visual-container">
+            <div class="svg-container">
                 <svg class="svg-visual" width="800" height="280" viewBox="0 0 800 280">
                     <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Attribute
                         Types in ER Model</text>
@@ -713,7 +713,7 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
 
             <div class="subsection-header">Degree of Relationships:</div>
 
-            <div class="visual-container">
+            <div class="svg-container">
                 <svg class="svg-visual" width="800" height="220" viewBox="0 0 800 220">
                     <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
                         fill="#2c3e50">Relationship Degrees</text>
@@ -759,107 +759,142 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
 
             <div class="subsection-header">Cardinality Ratio Constraints:</div>
 
-            <div class="visual-container">
-                <svg class="svg-visual" width="800" height="300" viewBox="0 0 800 300">
-                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold"
-                        fill="#2c3e50">Cardinality Constraints</text>
+            <div class="svg-container">
+                <!-- ViewBox increased for spacing -->
+                <svg class="svg-visual" width="800" height="550" viewBox="0 0 800 550">
 
-                    <!-- One-to-One -->
-                    <rect x="50" y="70" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
-                        stroke-width="2" />
-                    <text x="110" y="105" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#1565c0">EMPLOYEE</text>
+                    <text x="400" y="30" text-anchor="middle" font-size="24" font-weight="bold" fill="#2c3e50">ER
+                        Cardinality & Participation Constraints</text>
+                    <text x="400" y="55" text-anchor="middle" font-size="14" fill="#666">Using (min, max) Structural
+                        Notation</text>
 
-                    <path d="M200,100 L220,80 L240,100 L220,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="220" y="105" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#e65100">Manages</text>
+                    <!-- ================= ROW 1: One-to-One (1:1) ================= -->
+                    <g class="diagram-row" transform="translate(50, 100)">
+                        <text x="0" y="-10" font-size="16" font-weight="bold" fill="#0277bd">1. One-to-One (1:1)</text>
+                        <text x="200" y="-10" font-size="12" fill="#555">Example: Department Management</text>
 
-                    <text x="185" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
-                    <text x="255" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,1)</text>
+                        <!-- Left Entity: EMPLOYEE -->
+                        <rect x="0" y="20" width="120" height="50" fill="#ffffff" stroke="#333" stroke-width="2" />
+                        <text x="60" y="50" text-anchor="middle" class="entity-text">EMPLOYEE</text>
 
-                    <!-- Connecting lines for 1:1 relationship -->
-                    <line x1="170" y1="100" x2="200" y2="100" stroke="#7e57c2" stroke-width="2" />
-                    <line x1="240" y1="100" x2="270" y2="100" stroke="#7e57c2" stroke-width="2" />
+                        <!-- Right Entity: DEPARTMENT -->
+                        <rect x="400" y="20" width="120" height="50" fill="#ffffff" stroke="#333" stroke-width="2" />
+                        <text x="460" y="50" text-anchor="middle" class="entity-text">DEPARTMENT</text>
 
-                    <rect x="270" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
-                        stroke-width="2" />
-                    <text x="330" y="105" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">DEPT</text>
+                        <!-- Relationship: MANAGES -->
+                        <polygon points="260,20 300,45 260,70 220,45" fill="#f5f5f5" stroke="#333" stroke-width="2" />
+                        <text x="260" y="49" text-anchor="middle" class="rel-text">MANAGES</text>
 
-                    <text x="190" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">One-to-One (1:1)</text>
+                        <!-- Lines -->
+                        <!-- Employee side (Partial: 0,1) - Single Line -->
+                        <line x1="120" y1="45" x2="220" y2="45" stroke="#333" stroke-width="2" />
 
-                    <!-- One-to-Many -->
-                    <rect x="450" y="70" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
-                        stroke-width="2" />
-                    <text x="510" y="105" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#1565c0">DEPT</text>
+                        <!-- Dept side (Total: 1,1) - Double Line -->
+                        <line x1="300" y1="42" x2="400" y2="42" stroke="#333" stroke-width="2" />
+                        <line x1="300" y1="48" x2="400" y2="48" stroke="#333" stroke-width="2" />
 
-                    <path d="M600,100 L620,80 L640,100 L620,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="620" y="105" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#e65100">Employs</text>
+                        <!-- Constraints Text -->
+                        <text x="130" y="35" class="label">(0, 1)</text>
+                        <text x="360" y="35" class="label">(1, 1)</text>
 
-                    <text x="585" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
-                    <text x="655" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+                        <!-- Explanation -->
+                        <text x="540" y="35" font-size="11" fill="#444">• An Emp manages 0 or 1 Dept.</text>
+                        <text x="540" y="55" font-size="11" fill="#444">• A Dept is managed by exactly 1 Emp.</text>
+                    </g>
 
-                    <!-- Connecting lines for 1:N relationship -->
-                    <line x1="570" y1="100" x2="600" y2="100" stroke="#7e57c2" stroke-width="2" />
-                    <line x1="640" y1="100" x2="670" y2="100" stroke="#7e57c2" stroke-width="2" />
 
-                    <rect x="670" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
-                        stroke-width="2" />
-                    <text x="730" y="105" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">EMPLOYEE</text>
+                    <!-- ================= ROW 2: One-to-Many (1:N) ================= -->
+                    <g class="diagram-row" transform="translate(50, 220)">
+                        <text x="0" y="-10" font-size="16" font-weight="bold" fill="#0277bd">2. One-to-Many (1:N)</text>
+                        <text x="200" y="-10" font-size="12" fill="#555">Example: Department Staffing</text>
 
-                    <text x="590" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">One-to-Many (1:N)</text>
+                        <!-- Left Entity: DEPARTMENT -->
+                        <rect x="0" y="20" width="120" height="50" fill="#ffffff" stroke="#333" stroke-width="2" />
+                        <text x="60" y="50" text-anchor="middle" class="entity-text">DEPARTMENT</text>
 
-                    <!-- Many-to-Many -->
-                    <rect x="50" y="190" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
-                        stroke-width="2" />
-                    <text x="110" y="225" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#1565c0">STUDENT</text>
+                        <!-- Right Entity: EMPLOYEE -->
+                        <rect x="400" y="20" width="120" height="50" fill="#ffffff" stroke="#333" stroke-width="2" />
+                        <text x="460" y="50" text-anchor="middle" class="entity-text">EMPLOYEE</text>
 
-                    <path d="M200,220 L220,200 L240,220 L220,240 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="220" y="225" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#e65100">Takes</text>
+                        <!-- Relationship: HAS / WORKS_FOR -->
+                        <polygon points="260,20 300,45 260,70 220,45" fill="#f5f5f5" stroke="#333" stroke-width="2" />
+                        <text x="260" y="49" text-anchor="middle" class="rel-text">HAS</text>
 
-                    <text x="185" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
-                    <text x="255" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+                        <!-- Lines -->
+                        <!-- Dept side (Total: 1,N) - Double Line (Dept must have employees) -->
+                        <!-- Note: Business rules vary, assuming Dept needs at least 1 employee -->
+                        <line x1="120" y1="42" x2="220" y2="42" stroke="#333" stroke-width="2" />
+                        <line x1="120" y1="48" x2="220" y2="48" stroke="#333" stroke-width="2" />
 
-                    <!-- Connecting lines for M:N relationship -->
-                    <line x1="170" y1="220" x2="200" y2="220" stroke="#7e57c2" stroke-width="2" />
-                    <line x1="240" y1="220" x2="270" y2="220" stroke="#7e57c2" stroke-width="2" />
+                        <!-- Employee side (Total: 1,1) - Double Line (Emp must belong to Dept) -->
+                        <line x1="300" y1="42" x2="400" y2="42" stroke="#333" stroke-width="2" />
+                        <line x1="300" y1="48" x2="400" y2="48" stroke="#333" stroke-width="2" />
 
-                    <rect x="270" y="190" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
-                        stroke-width="2" />
-                    <text x="330" y="225" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">COURSE</text>
+                        <!-- Constraints Text -->
+                        <text x="130" y="35" class="label">(1, N)</text>
+                        <text x="360" y="35" class="label">(1, 1)</text>
 
-                    <text x="190" y="270" text-anchor="middle" font-size="14" fill="#5e35b1">Many-to-Many (M:N)</text>
+                        <!-- Explanation -->
+                        <text x="540" y="35" font-size="11" fill="#444">• A Dept has 1 to N Employees.</text>
+                        <text x="540" y="55" font-size="11" fill="#444">• An Emp belongs to exactly 1 Dept.</text>
+                    </g>
 
-                    <!-- Participation -->
-                    <rect x="450" y="190" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
-                        stroke-width="2" />
-                    <text x="510" y="225" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#1565c0">EMPLOYEE</text>
 
-                    <path d="M600,220 L620,200 L640,220 L620,240 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="620" y="225" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#e65100">Works_In</text>
+                    <!-- ================= ROW 3: Many-to-Many (M:N) ================= -->
+                    <g class="diagram-row" transform="translate(50, 340)">
+                        <text x="0" y="-10" font-size="16" font-weight="bold" fill="#0277bd">3. Many-to-Many
+                            (M:N)</text>
+                        <text x="200" y="-10" font-size="12" fill="#555">Example: Course Enrollment</text>
 
-                    <!-- Connecting lines for participation constraints -->
-                    <line x1="570" y1="220" x2="600" y2="220" stroke="#7e57c2" stroke-width="4" />
-                    <text x="585" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Total</text>
+                        <!-- Left Entity: STUDENT -->
+                        <rect x="0" y="20" width="120" height="50" fill="#ffffff" stroke="#333" stroke-width="2" />
+                        <text x="60" y="50" text-anchor="middle" class="entity-text">STUDENT</text>
 
-                    <line x1="640" y1="220" x2="670" y2="220" stroke="#7e57c2" stroke-width="2" />
-                    <text x="655" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Partial</text>
+                        <!-- Right Entity: COURSE -->
+                        <rect x="400" y="20" width="120" height="50" fill="#ffffff" stroke="#333" stroke-width="2" />
+                        <text x="460" y="50" text-anchor="middle" class="entity-text">COURSE</text>
 
-                    <rect x="670" y="190" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
-                        stroke-width="2" />
-                    <text x="730" y="225" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">DEPT</text>
+                        <!-- Relationship: ENROLLS -->
+                        <polygon points="260,20 300,45 260,70 220,45" fill="#f5f5f5" stroke="#333" stroke-width="2" />
+                        <text x="260" y="49" text-anchor="middle" class="rel-text">ENROLLS</text>
 
-                    <text x="590" y="270" text-anchor="middle" font-size="14" fill="#5e35b1">Total vs Partial
-                        Participation</text>
+                        <!-- Lines -->
+                        <!-- Student side (Partial: 0,N) - Single Line (Student might not take classes) -->
+                        <line x1="120" y1="45" x2="220" y2="45" stroke="#333" stroke-width="2" />
+
+                        <!-- Course side (Partial: 0,N) - Single Line (New course might have 0 students) -->
+                        <line x1="300" y1="45" x2="400" y2="45" stroke="#333" stroke-width="2" />
+
+                        <!-- Constraints Text -->
+                        <text x="130" y="35" class="label">(0, N)</text>
+                        <text x="360" y="35" class="label">(0, M)</text>
+
+                        <!-- Explanation -->
+                        <text x="540" y="35" font-size="11" fill="#444">• Student takes 0 to N courses.</text>
+                        <text x="540" y="55" font-size="11" fill="#444">• Course has 0 to M students.</text>
+                    </g>
+
+
+                    <!-- ================= LEGEND / KEY ================= -->
+                    <g transform="translate(50, 460)">
+                        <rect width="700" height="70" rx="4" fill="#fafafa" stroke="#ccc" stroke-dasharray="4" />
+                        <text x="350" y="20" text-anchor="middle" font-weight="bold" font-size="12" fill="#333">Notation
+                            Key</text>
+
+                        <!-- Single Line -->
+                        <line x1="50" y1="45" x2="100" y2="45" stroke="#333" stroke-width="2" />
+                        <text x="110" y="50" font-size="11" fill="#333">= Partial Participation (min=0)</text>
+
+                        <!-- Double Line -->
+                        <line x1="300" y1="42" x2="350" y2="42" stroke="#333" stroke-width="2" />
+                        <line x1="300" y1="48" x2="350" y2="48" stroke="#333" stroke-width="2" />
+                        <text x="360" y="50" font-size="11" fill="#333">= Total Participation (min>0)</text>
+
+                        <!-- Min Max -->
+                        <text x="550" y="50" font-size="11" font-family="monospace" fill="#333">(min, max)</text>
+                        <text x="620" y="50" font-size="11" fill="#333">Constraint on Entity</text>
+                    </g>
+
                 </svg>
             </div>
         </div>
@@ -867,66 +902,117 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
         <div class="section">
             <h2 class="section-header">Enhanced ER (EER) Modeling</h2>
 
-            <div class="visual-container">
-                <svg class="svg-visual" width="800" height="350" viewBox="0 0 800 350">
-                    <text x="400" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Enhanced
-                        ER (EER) - Specialization/Generalization</text>
+            <div class="svg-container">
+                <!-- 
+           ViewBox: 0 0 800 500 (Height increased for spacing)
+           Logic: Drawn connecting lines first (background), then shapes, then text.
+        -->
+                <svg class="svg-visual" width="800" height="500" viewBox="0 0 800 500">
 
-                    <!-- Superclass -->
-                    <rect x="350" y="80" width="150" height="70" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
-                        stroke-width="3" />
-                    <text x="425" y="115" text-anchor="middle" font-size="16" font-weight="bold"
-                        fill="#1565c0">PERSON</text>
-                    <text x="425" y="135" text-anchor="middle" font-size="12" fill="#0d47a1">Superclass</text>
+                    <!-- Title -->
+                    <text x="400" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c3e50">Enhanced
+                        ER
+                        (EER) Modeling</text>
 
-                    <!-- ISA Triangle -->
-                    <polygon points="425,150 410,170 440,170" fill="#7e57c2" stroke="#5e35b1" stroke-width="2" />
-                    <text x="425" y="190" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#5e35b1">ISA</text>
-                    <text x="425" y="205" text-anchor="middle" font-size="10" fill="#5e35b1">Total, Disjoint</text>
+                    <!-- ================= CONNECTING LINES (Background) ================= -->
 
-                    <!-- Subclasses -->
-                    <rect x="200" y="220" width="150" height="70" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
-                        stroke-width="2" />
-                    <text x="275" y="255" text-anchor="middle" font-size="16" font-weight="bold"
-                        fill="#2e7d32">EMPLOYEE</text>
-                    <text x="275" y="275" text-anchor="middle" font-size="12" fill="#1b5e20">Subclass</text>
+                    <!-- LEVEL 1: PERSON -> ISA (Total Participation = Double Line) -->
+                    <!-- We draw two lines slightly offset to simulate a double line -->
+                    <line x1="398" y1="100" x2="398" y2="140" stroke="#1976d2" stroke-width="2" />
+                    <line x1="402" y1="100" x2="402" y2="140" stroke="#1976d2" stroke-width="2" />
 
-                    <rect x="500" y="220" width="150" height="70" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
-                        stroke-width="2" />
-                    <text x="575" y="255" text-anchor="middle" font-size="16" font-weight="bold"
-                        fill="#ad1457">STUDENT</text>
-                    <text x="575" y="275" text-anchor="middle" font-size="12" fill="#880e4f">Subclass</text>
+                    <!-- LEVEL 1: ISA -> Subclasses (Orthogonal) -->
+                    <!-- Path goes from ISA bottom (400,160) -> Split Left/Right -> Down to Rects -->
+                    <path d="M400,170 L400,190 L275,190 L275,220" fill="none" stroke="#5e35b1" stroke-width="2" />
+                    <path d="M400,170 L400,190 L525,190 L525,220" fill="none" stroke="#5e35b1" stroke-width="2" />
 
-                    <!-- Connecting lines -->
-                    <line x1="425" y1="170" x2="275" y2="220" stroke="#7e57c2" stroke-width="2" />
-                    <line x1="425" y1="170" x2="575" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <!-- LEVEL 2: EMPLOYEE -> Overlapping (Partial Participation = Single Line) -->
+                    <line x1="275" y1="280" x2="275" y2="310" stroke="#388e3c" stroke-width="2" />
 
-                    <!-- Further specialization -->
-                    <rect x="150" y="310" width="120" height="60" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
-                        stroke-width="1" />
-                    <text x="210" y="340" text-anchor="middle" font-size="14" fill="#e65100">FACULTY</text>
+                    <!-- LEVEL 2: Overlapping -> Subclasses (Orthogonal) -->
+                    <path d="M275,340 L275,355 L210,355 L210,370" fill="none" stroke="#8e24aa" stroke-width="2" />
+                    <path d="M275,340 L275,355 L340,355 L340,370" fill="none" stroke="#8e24aa" stroke-width="2" />
 
-                    <rect x="280" y="310" width="120" height="60" rx="5" ry="5" fill="#f3e5f5" stroke="#8e24aa"
-                        stroke-width="1" />
-                    <text x="340" y="340" text-anchor="middle" font-size="14" fill="#6a1b9a">STAFF</text>
 
-                    <line x1="275" y1="290" x2="210" y2="310" stroke="#7e57c2" stroke-width="1" />
-                    <line x1="275" y1="290" x2="340" y2="310" stroke="#7e57c2" stroke-width="1" />
+                    <!-- ================= SHAPES & ENTITIES ================= -->
 
-                    <text x="275" y="305" text-anchor="middle" font-size="10" fill="#5e35b1">Partial, Overlapping</text>
+                    <!-- SUPERCLASS: PERSON -->
+                    <g transform="translate(325, 40)">
+                        <rect width="150" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" />
+                        <text x="75" y="25" text-anchor="middle" font-size="16" font-weight="bold"
+                            fill="#1565c0">PERSON</text>
+                        <text x="75" y="45" text-anchor="middle" font-size="12" fill="#0d47a1">Superclass</text>
+                    </g>
 
-                    <!-- Legend -->
-                    <rect x="550" y="310" width="200" height="60" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd"
-                        stroke-width="1" />
-                    <text x="650" y="325" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#5d4037">Constraints</text>
+                    <!-- RELATIONSHIP NODE 1: Disjoint (d) -->
+                    <!-- Triangle/Circle hybrid or just a Circle for standard EER notation -->
+                    <g transform="translate(400, 155)">
+                        <circle cx="0" cy="0" r="15" fill="#ede7f6" stroke="#5e35b1" stroke-width="2" />
+                        <text x="0" y="4" text-anchor="middle" font-size="12" font-weight="bold" fill="#5e35b1">d</text>
+                        <!-- Label -->
+                        <text x="25" y="4" text-anchor="start" font-size="11" fill="#5e35b1">Disjoint</text>
+                    </g>
 
-                    <line x1="570" y1="340" x2="590" y2="340" stroke="#7e57c2" stroke-width="4" />
-                    <text x="605" y="345" text-anchor="start" font-size="10" fill="#333">Total Participation</text>
+                    <!-- SUBCLASS 1: EMPLOYEE -->
+                    <g transform="translate(200, 220)">
+                        <rect width="150" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2" />
+                        <text x="75" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#2e7d32">EMPLOYEE</text>
+                        <text x="75" y="45" text-anchor="middle" font-size="11" fill="#1b5e20">Subclass</text>
+                    </g>
 
-                    <line x1="570" y1="355" x2="590" y2="355" stroke="#7e57c2" stroke-width="2" />
-                    <text x="605" y="360" text-anchor="start" font-size="10" fill="#333">Partial Participation</text>
+                    <!-- SUBCLASS 2: STUDENT -->
+                    <g transform="translate(450, 220)">
+                        <rect width="150" height="60" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b" stroke-width="2" />
+                        <text x="75" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#ad1457">STUDENT</text>
+                        <text x="75" y="45" text-anchor="middle" font-size="11" fill="#880e4f">Subclass</text>
+                    </g>
+
+                    <!-- RELATIONSHIP NODE 2: Overlapping (o) -->
+                    <g transform="translate(275, 325)">
+                        <circle cx="0" cy="0" r="15" fill="#f3e5f5" stroke="#8e24aa" stroke-width="2" />
+                        <text x="0" y="4" text-anchor="middle" font-size="12" font-weight="bold" fill="#8e24aa">o</text>
+                        <!-- Label -->
+                        <text x="25" y="4" text-anchor="start" font-size="11" fill="#8e24aa">Overlapping</text>
+                    </g>
+
+                    <!-- SUBCLASS 1.1: FACULTY -->
+                    <g transform="translate(150, 370)">
+                        <rect width="120" height="50" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1" />
+                        <text x="60" y="30" text-anchor="middle" font-size="13" font-weight="bold"
+                            fill="#e65100">FACULTY</text>
+                    </g>
+
+                    <!-- SUBCLASS 1.2: STAFF -->
+                    <g transform="translate(280, 370)">
+                        <rect width="120" height="50" rx="5" ry="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1" />
+                        <text x="60" y="30" text-anchor="middle" font-size="13" font-weight="bold"
+                            fill="#6a1b9a">STAFF</text>
+                    </g>
+
+                    <!-- ================= LEGEND ================= -->
+                    <g transform="translate(500, 340)">
+                        <rect width="250" height="100" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1" />
+                        <text x="125" y="20" text-anchor="middle" font-size="12" font-weight="bold"
+                            fill="#5d4037">Notation
+                            Key</text>
+
+                        <!-- Double Line -->
+                        <line x1="20" y1="40" x2="60" y2="40" stroke="#333" stroke-width="3" />
+                        <line x1="20" y1="40" x2="60" y2="40" stroke="white" stroke-width="1" />
+                        <text x="70" y="45" font-size="11" fill="#333">Total Participation</text>
+
+                        <!-- Single Line -->
+                        <line x1="20" y1="60" x2="60" y2="60" stroke="#333" stroke-width="1" />
+                        <text x="70" y="65" font-size="11" fill="#333">Partial Participation</text>
+
+                        <!-- Disjoint -->
+                        <circle cx="30" cy="80" r="8" fill="white" stroke="#333" stroke-width="1" />
+                        <text x="30" y="83" text-anchor="middle" font-size="8" font-weight="bold">d</text>
+                        <text x="70" y="85" font-size="11" fill="#333">Disjoint (Exclusive)</text>
+                    </g>
+
                 </svg>
             </div>
         </div>
@@ -935,188 +1021,198 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
     <div class="module-container">
         <div class="module-header">1.3 REFINING THE ER DESIGN FOR THE COMPANY DATABASE</div>
 
+        <div class="section">
+            <h2 class="section-header">Complete COMPANY Database ER Diagram</h2>
 
-        <div class="visual-container">
-            <!-- 
+            <div class="svg-container">
+                <!-- 
            Fixed ViewBox: 0 0 800 600 (Increased height to fit bottom text) 
            Structure: Defined styles in defs or attributes for cleaner code.
            Logic: Lines drawn first (background), then shapes, then text.
         -->
-            <svg class="svg-visual" width="800" height="600" viewBox="0 0 800 600">
+                <svg class="svg-visual" width="800" height="600" viewBox="0 0 800 600">
 
-                <!-- Title -->
-                <text x="400" y="30" text-anchor="middle" font-size="24" font-weight="bold" fill="#2c3e50">COMPANY
-                    Database ER Diagram</text>
+                    <!-- Title -->
+                    <text x="400" y="30" text-anchor="middle" font-size="24" font-weight="bold" fill="#2c3e50">COMPANY
+                        Database ER Diagram</text>
 
-                <!-- ================= CONNECTING LINES (Drawn first to sit behind shapes) ================= -->
+                    <!-- ================= CONNECTING LINES (Drawn first to sit behind shapes) ================= -->
 
-                <!-- Manages (Dept to Emp) -->
-                <line x1="260" y1="80" x2="500" y2="80" stroke="#0288d1" stroke-width="2" />
+                    <!-- Manages (Dept to Emp) -->
+                    <line x1="260" y1="80" x2="500" y2="80" stroke="#0288d1" stroke-width="2" />
 
-                <!-- Works_For (Dept to Emp) -->
-                <line x1="260" y1="140" x2="500" y2="140" stroke="#1976d2" stroke-width="2" />
+                    <!-- Works_For (Dept to Emp) -->
+                    <line x1="260" y1="140" x2="500" y2="140" stroke="#1976d2" stroke-width="2" />
 
-                <!-- Controls (Dept to Project) -->
-                <line x1="180" y1="160" x2="180" y2="300" stroke="#f57c00" stroke-width="2" />
+                    <!-- Controls (Dept to Project) -->
+                    <line x1="180" y1="160" x2="180" y2="300" stroke="#f57c00" stroke-width="2" />
 
-                <!-- Works_On (Emp to Project) - Orthogonal Path -->
-                <!-- From Employee Bottom (580, 160) down and left to Project Right (260, 340) -->
-                <path d="M580,160 L580,250 L350,250 L350,340 L260,340" fill="none" stroke="#388e3c" stroke-width="2" />
-
-                <!-- Has (Emp to Dependent) -->
-                <line x1="580" y1="160" x2="580" y2="300" stroke="#d81b60" stroke-width="2" />
-
-                <!-- Supervises (Recursive on Emp) -->
-                <path d="M660,110 L690,110 L690,50 L580,50 L580,80" fill="none" stroke="#689f38" stroke-width="2" />
-
-
-                <!-- ================= RELATIONSHIPS (Diamonds) ================= -->
-
-                <!-- MANAGES (Blue) -->
-                <g transform="translate(380, 80)"> <!-- Center point -->
-                    <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#b3e5fc" stroke="#0288d1" stroke-width="2" />
-                    <text y="5" text-anchor="middle" font-size="10" font-weight="bold" fill="#0277bd">Manages</text>
-                    <!-- Attribute: StartDate -->
-                    <line x1="0" y1="-20" x2="0" y2="-40" stroke="#fbc02d" stroke-width="1" />
-                    <circle cx="0" cy="-45" r="15" fill="#fff9c4" stroke="#fbc02d" stroke-width="1" />
-                    <text y="-42" text-anchor="middle" font-size="9" fill="#f57f17">Start</text>
-                </g>
-
-                <!-- WORKS_FOR (Dark Blue) -->
-                <g transform="translate(380, 140)">
-                    <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
-                    <text y="5" text-anchor="middle" font-size="10" font-weight="bold" fill="#0d47a1">Works_For</text>
-                    <!-- Cardinality Text -->
-                    <text x="-50" y="-10" font-size="10" fill="#5e35b1">(N,1)</text>
-                    <text x="50" y="-10" font-size="10" fill="#5e35b1">(1,1)</text>
-                </g>
-
-                <!-- CONTROLS (Orange) - Vertical center between Dept(160) and Proj(300) -->
-                <g transform="translate(180, 230)">
-                    <path d="M-20,0 L0,-20 L20,0 L0,20 Z" fill="#ffcc80" stroke="#f57c00" stroke-width="2" />
-                    <text x="35" y="5" text-anchor="start" font-size="10" font-weight="bold"
-                        fill="#e65100">Controls</text>
-                    <text x="-15" y="-30" font-size="10" fill="#5e35b1">(1,1)</text>
-                    <text x="-15" y="40" font-size="10" fill="#5e35b1">(0,N)</text>
-                </g>
-
-                <!-- WORKS_ON (Green) - Located on the orthogonal path -->
-                <g transform="translate(430, 250)">
-                    <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#c8e6c9" stroke="#388e3c" stroke-width="2" />
-                    <text y="5" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">Works_On</text>
-                    <!-- Attribute: Hours -->
-                    <line x1="0" y1="20" x2="0" y2="40" stroke="#8e24aa" stroke-width="1" />
-                    <circle cx="0" cy="45" r="15" fill="#e1bee7" stroke="#8e24aa" stroke-width="1" />
-                    <text y="48" text-anchor="middle" font-size="9" fill="#6a1b9a">Hours</text>
-                </g>
-
-                <!-- HAS (Pink) - Identifying Relationship (Double Diamond) -->
-                <g transform="translate(580, 230)">
-                    <!-- Outer Diamond -->
-                    <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#f8bbd9" stroke="#d81b60" stroke-width="2" />
-                    <!-- Inner Diamond -->
-                    <path d="M-24,0 L0,-16 L24,0 L0,16 Z" fill="none" stroke="#d81b60" stroke-width="1" />
-                    <text x="40" y="5" text-anchor="start" font-size="10" font-weight="bold" fill="#c2185b">Has</text>
-                </g>
-
-                <!-- SUPERVISES (Green) - Recursive -->
-                <g transform="translate(690, 80)">
-                    <path d="M-20,0 L0,-15 L20,0 L0,15 Z" fill="#dcedc8" stroke="#689f38" stroke-width="2" />
-                    <text x="25" y="5" text-anchor="start" font-size="10" font-weight="bold"
-                        fill="#558b2f">Supervises</text>
-                </g>
-
-
-                <!-- ================= ENTITIES (Rectangles) ================= -->
-
-                <!-- DEPARTMENT -->
-                <g transform="translate(100, 80)">
-                    <rect width="160" height="80" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" />
-                    <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#1565c0">DEPARTMENT</text>
-                    <line x1="0" y1="35" x2="160" y2="35" stroke="#1976d2" stroke-width="1" />
-                    <text x="80" y="55" text-anchor="middle" font-size="11" fill="#0d47a1">DeptID (PK)</text>
-                    <text x="80" y="70" text-anchor="middle" font-size="11" fill="#0d47a1">Name, Location</text>
-                </g>
-
-                <!-- EMPLOYEE -->
-                <g transform="translate(500, 80)">
-                    <rect width="160" height="80" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="3" />
-                    <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#2e7d32">EMPLOYEE</text>
-                    <line x1="0" y1="35" x2="160" y2="35" stroke="#388e3c" stroke-width="1" />
-                    <text x="80" y="55" text-anchor="middle" font-size="11" fill="#1b5e20">EmpID (PK)</text>
-                    <text x="80" y="70" text-anchor="middle" font-size="11" fill="#1b5e20">Name, Salary,
-                        BirthDate</text>
-                </g>
-
-                <!-- PROJECT -->
-                <g transform="translate(100, 300)">
-                    <rect width="160" height="80" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00" stroke-width="3" />
-                    <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#e65100">PROJECT</text>
-                    <line x1="0" y1="35" x2="160" y2="35" stroke="#f57c00" stroke-width="1" />
-                    <text x="80" y="55" text-anchor="middle" font-size="11" fill="#bf360c">ProjID (PK)</text>
-                    <text x="80" y="70" text-anchor="middle" font-size="11" fill="#bf360c">Name, Loc, Budget</text>
-                </g>
-
-                <!-- DEPENDENT (Weak Entity - Double Border) -->
-                <g transform="translate(500, 300)">
-                    <!-- Outer Rect -->
-                    <rect width="160" height="80" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b" stroke-width="3" />
-                    <!-- Inner Rect -->
-                    <rect x="4" y="4" width="152" height="72" rx="3" ry="3" fill="none" stroke="#c2185b"
-                        stroke-width="1" />
-
-                    <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
-                        fill="#ad1457">DEPENDENT</text>
-                    <line x1="0" y1="35" x2="160" y2="35" stroke="#c2185b" stroke-width="1" />
-                    <text x="80" y="55" text-anchor="middle" font-size="11" fill="#880e4f">Name (PPK)</text>
-                    <text x="80" y="70" text-anchor="middle" font-size="11" fill="#880e4f">Relationship,
-                        BirthDate</text>
-                </g>
-
-
-                <!-- ================= LEGEND (Bottom) ================= -->
-                <g transform="translate(50, 420)">
-                    <rect width="700" height="150" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1" />
-                    <text x="350" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#5d4037">Database
-                        Legend & Constraints</text>
-
-                    <!-- Legend Items -->
-                    <!-- Strong Entity -->
-                    <rect x="30" y="45" width="30" height="20" rx="3" fill="#e3f2fd" stroke="#1976d2"
+                    <!-- Works_On (Emp to Project) - Orthogonal Path -->
+                    <!-- From Employee Bottom (580, 160) down and left to Project Right (260, 340) -->
+                    <path d="M580,160 L580,250 L350,250 L350,340 L260,340" fill="none" stroke="#388e3c"
                         stroke-width="2" />
-                    <text x="70" y="60" font-size="11" fill="#333">Strong Entity</text>
 
-                    <!-- Weak Entity -->
-                    <g transform="translate(180, 45)">
-                        <rect width="30" height="20" rx="3" fill="#fce4ec" stroke="#c2185b" stroke-width="2" />
-                        <rect x="2" y="2" width="26" height="16" rx="2" fill="none" stroke="#c2185b" stroke-width="1" />
+                    <!-- Has (Emp to Dependent) -->
+                    <line x1="580" y1="160" x2="580" y2="300" stroke="#d81b60" stroke-width="2" />
+
+                    <!-- Supervises (Recursive on Emp) -->
+                    <path d="M660,110 L690,110 L690,50 L580,50 L580,80" fill="none" stroke="#689f38" stroke-width="2" />
+
+
+                    <!-- ================= RELATIONSHIPS (Diamonds) ================= -->
+
+                    <!-- MANAGES (Blue) -->
+                    <g transform="translate(380, 80)"> <!-- Center point -->
+                        <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#b3e5fc" stroke="#0288d1" stroke-width="2" />
+                        <text y="5" text-anchor="middle" font-size="10" font-weight="bold" fill="#0277bd">Manages</text>
+                        <!-- Attribute: StartDate -->
+                        <line x1="0" y1="-20" x2="0" y2="-40" stroke="#fbc02d" stroke-width="1" />
+                        <circle cx="0" cy="-45" r="15" fill="#fff9c4" stroke="#fbc02d" stroke-width="1" />
+                        <text y="-42" text-anchor="middle" font-size="9" fill="#f57f17">Start</text>
                     </g>
-                    <text x="220" y="60" font-size="11" fill="#333">Weak Entity</text>
 
-                    <!-- Relationship -->
-                    <path d="M320,55 L335,45 L350,55 L335,65 Z" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
-                    <text x="360" y="60" font-size="11" fill="#333">Relationship</text>
-
-                    <!-- Identifying Relationship -->
-                    <g transform="translate(460, 0)">
-                        <path d="M0,55 L15,45 L30,55 L15,65 Z" fill="#f8bbd9" stroke="#d81b60" stroke-width="2" />
-                        <path d="M4,55 L15,48 L26,55 L15,62 Z" fill="none" stroke="#d81b60" stroke-width="1" />
+                    <!-- WORKS_FOR (Dark Blue) -->
+                    <g transform="translate(380, 140)">
+                        <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+                        <text y="5" text-anchor="middle" font-size="10" font-weight="bold"
+                            fill="#0d47a1">Works_For</text>
+                        <!-- Cardinality Text -->
+                        <text x="-50" y="-10" font-size="10" fill="#5e35b1">(N,1)</text>
+                        <text x="50" y="-10" font-size="10" fill="#5e35b1">(1,1)</text>
                     </g>
-                    <text x="500" y="60" font-size="11" fill="#333">Identifying Rel.</text>
 
-                    <!-- Constraints Text -->
-                    <text x="350" y="90" text-anchor="middle" font-size="12" font-weight="bold"
-                        fill="#444">Constraints:</text>
-                    <text x="350" y="110" text-anchor="middle" font-size="11" fill="#333">• Every department has exactly
-                        one manager (Total Participation)</text>
-                    <text x="350" y="125" text-anchor="middle" font-size="11" fill="#333">• Every employee works for
-                        exactly one department (Total Participation)</text>
-                </g>
+                    <!-- CONTROLS (Orange) - Vertical center between Dept(160) and Proj(300) -->
+                    <g transform="translate(180, 230)">
+                        <path d="M-20,0 L0,-20 L20,0 L0,20 Z" fill="#ffcc80" stroke="#f57c00" stroke-width="2" />
+                        <text x="35" y="5" text-anchor="start" font-size="10" font-weight="bold"
+                            fill="#e65100">Controls</text>
+                        <text x="-15" y="-30" font-size="10" fill="#5e35b1">(1,1)</text>
+                        <text x="-15" y="40" font-size="10" fill="#5e35b1">(0,N)</text>
+                    </g>
 
-            </svg>
+                    <!-- WORKS_ON (Green) - Located on the orthogonal path -->
+                    <g transform="translate(430, 250)">
+                        <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#c8e6c9" stroke="#388e3c" stroke-width="2" />
+                        <text y="5" text-anchor="middle" font-size="10" font-weight="bold"
+                            fill="#2e7d32">Works_On</text>
+                        <!-- Attribute: Hours -->
+                        <line x1="0" y1="20" x2="0" y2="40" stroke="#8e24aa" stroke-width="1" />
+                        <circle cx="0" cy="45" r="15" fill="#e1bee7" stroke="#8e24aa" stroke-width="1" />
+                        <text y="48" text-anchor="middle" font-size="9" fill="#6a1b9a">Hours</text>
+                    </g>
+
+                    <!-- HAS (Pink) - Identifying Relationship (Double Diamond) -->
+                    <g transform="translate(580, 230)">
+                        <!-- Outer Diamond -->
+                        <path d="M-30,0 L0,-20 L30,0 L0,20 Z" fill="#f8bbd9" stroke="#d81b60" stroke-width="2" />
+                        <!-- Inner Diamond -->
+                        <path d="M-24,0 L0,-16 L24,0 L0,16 Z" fill="none" stroke="#d81b60" stroke-width="1" />
+                        <text x="40" y="5" text-anchor="start" font-size="10" font-weight="bold"
+                            fill="#c2185b">Has</text>
+                    </g>
+
+                    <!-- SUPERVISES (Green) - Recursive -->
+                    <g transform="translate(690, 80)">
+                        <path d="M-20,0 L0,-15 L20,0 L0,15 Z" fill="#dcedc8" stroke="#689f38" stroke-width="2" />
+                        <text x="25" y="5" text-anchor="start" font-size="10" font-weight="bold"
+                            fill="#558b2f">Supervises</text>
+                    </g>
+
+
+                    <!-- ================= ENTITIES (Rectangles) ================= -->
+
+                    <!-- DEPARTMENT -->
+                    <g transform="translate(100, 80)">
+                        <rect width="160" height="80" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" />
+                        <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#1565c0">DEPARTMENT</text>
+                        <line x1="0" y1="35" x2="160" y2="35" stroke="#1976d2" stroke-width="1" />
+                        <text x="80" y="55" text-anchor="middle" font-size="11" fill="#0d47a1">DeptID (PK)</text>
+                        <text x="80" y="70" text-anchor="middle" font-size="11" fill="#0d47a1">Name, Location</text>
+                    </g>
+
+                    <!-- EMPLOYEE -->
+                    <g transform="translate(500, 80)">
+                        <rect width="160" height="80" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="3" />
+                        <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#2e7d32">EMPLOYEE</text>
+                        <line x1="0" y1="35" x2="160" y2="35" stroke="#388e3c" stroke-width="1" />
+                        <text x="80" y="55" text-anchor="middle" font-size="11" fill="#1b5e20">EmpID (PK)</text>
+                        <text x="80" y="70" text-anchor="middle" font-size="11" fill="#1b5e20">Name, Salary,
+                            BirthDate</text>
+                    </g>
+
+                    <!-- PROJECT -->
+                    <g transform="translate(100, 300)">
+                        <rect width="160" height="80" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00" stroke-width="3" />
+                        <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#e65100">PROJECT</text>
+                        <line x1="0" y1="35" x2="160" y2="35" stroke="#f57c00" stroke-width="1" />
+                        <text x="80" y="55" text-anchor="middle" font-size="11" fill="#bf360c">ProjID (PK)</text>
+                        <text x="80" y="70" text-anchor="middle" font-size="11" fill="#bf360c">Name, Loc, Budget</text>
+                    </g>
+
+                    <!-- DEPENDENT (Weak Entity - Double Border) -->
+                    <g transform="translate(500, 300)">
+                        <!-- Outer Rect -->
+                        <rect width="160" height="80" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b" stroke-width="3" />
+                        <!-- Inner Rect -->
+                        <rect x="4" y="4" width="152" height="72" rx="3" ry="3" fill="none" stroke="#c2185b"
+                            stroke-width="1" />
+
+                        <text x="80" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#ad1457">DEPENDENT</text>
+                        <line x1="0" y1="35" x2="160" y2="35" stroke="#c2185b" stroke-width="1" />
+                        <text x="80" y="55" text-anchor="middle" font-size="11" fill="#880e4f">Name (PPK)</text>
+                        <text x="80" y="70" text-anchor="middle" font-size="11" fill="#880e4f">Relationship,
+                            BirthDate</text>
+                    </g>
+
+
+                    <!-- ================= LEGEND (Bottom) ================= -->
+                    <g transform="translate(50, 420)">
+                        <rect width="700" height="150" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd" stroke-width="1" />
+                        <text x="350" y="25" text-anchor="middle" font-size="14" font-weight="bold"
+                            fill="#5d4037">Database
+                            Legend & Constraints</text>
+
+                        <!-- Legend Items -->
+                        <!-- Strong Entity -->
+                        <rect x="30" y="45" width="30" height="20" rx="3" fill="#e3f2fd" stroke="#1976d2"
+                            stroke-width="2" />
+                        <text x="70" y="60" font-size="11" fill="#333">Strong Entity</text>
+
+                        <!-- Weak Entity -->
+                        <g transform="translate(180, 45)">
+                            <rect width="30" height="20" rx="3" fill="#fce4ec" stroke="#c2185b" stroke-width="2" />
+                            <rect x="2" y="2" width="26" height="16" rx="2" fill="none" stroke="#c2185b"
+                                stroke-width="1" />
+                        </g>
+                        <text x="220" y="60" font-size="11" fill="#333">Weak Entity</text>
+
+                        <!-- Relationship -->
+                        <path d="M320,55 L335,45 L350,55 L335,65 Z" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+                        <text x="360" y="60" font-size="11" fill="#333">Relationship</text>
+
+                        <!-- Identifying Relationship -->
+                        <g transform="translate(460, 0)">
+                            <path d="M0,55 L15,45 L30,55 L15,65 Z" fill="#f8bbd9" stroke="#d81b60" stroke-width="2" />
+                            <path d="M4,55 L15,48 L26,55 L15,62 Z" fill="none" stroke="#d81b60" stroke-width="1" />
+                        </g>
+                        <text x="500" y="60" font-size="11" fill="#333">Identifying Rel.</text>
+
+                        <!-- Constraints Text -->
+                        <text x="350" y="90" text-anchor="middle" font-size="12" font-weight="bold"
+                            fill="#444">Constraints:</text>
+                        <text x="350" y="110" text-anchor="middle" font-size="11" fill="#333">• Every department has
+                            exactly
+                            one manager (Total Participation)</text>
+                        <text x="350" y="125" text-anchor="middle" font-size="11" fill="#333">• Every employee works for
+                            exactly one department (Total Participation)</text>
+                    </g>
+
+                </svg>
+            </div>
         </div>
 
 
