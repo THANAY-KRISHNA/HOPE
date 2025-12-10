@@ -143,6 +143,13 @@
             white-space: pre-wrap;
         }
 
+        /* Override Prism defaults to remove scrollbars */
+        pre[class*="language-"] {
+            overflow: visible !important;
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+        }
+
         .example-title {
             font-weight: 600;
             margin-bottom: 8px;

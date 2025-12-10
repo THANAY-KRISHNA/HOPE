@@ -132,6 +132,13 @@
             border-radius: 5px;
         }
 
+        /* Override Prism defaults to remove scrollbars */
+        pre[class*="language-"] {
+            overflow: visible !important;
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+        }
+
         .example {
             background-color: #f9f9f9;
             border: 1px solid #ddd;
