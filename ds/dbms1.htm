@@ -120,13 +120,15 @@
         }
 
         .example-box {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
+            background-color: #2d2d2d;
+            color: #ccc;
+            border: 1px solid #2c3e50;
             padding: 15px;
             margin: 15px 0;
             border-radius: 4px;
             font-family: 'Courier New', monospace;
             font-size: 0.95rem;
+            white-space: pre-wrap;
         }
 
         .example-title {
@@ -246,6 +248,7 @@
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -507,19 +510,19 @@
 
             <div class="example-box">
                 <div class="example-title">DDL Example:</div>
-                <p>CREATE TABLE Student (<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;StudentID INT PRIMARY KEY,<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;Name VARCHAR(50) NOT NULL,<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;Major VARCHAR(30),<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;GPA DECIMAL(3,2)<br>
-                    );</p>
+                <pre><code class="language-sql">CREATE TABLE Student (
+    StudentID INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Major VARCHAR(30),
+    GPA DECIMAL(3,2)
+    );</code></pre>
             </div>
 
             <div class="example-box">
                 <div class="example-title">DML Example:</div>
-                <p>INSERT INTO Student VALUES (104, 'Alice Brown', 'Biology', 3.7);<br>
-                    SELECT Name, GPA FROM Student WHERE GPA > 3.5;<br>
-                    UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</p>
+                <pre><code class="language-sql">INSERT INTO Student VALUES (104, 'Alice Brown', 'Biology', 3.7);
+SELECT Name, GPA FROM Student WHERE GPA > 3.5;
+UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
             </div>
         </div>
     </div>
@@ -1084,6 +1087,16 @@
         <div class="section">
             <h2 class="section-header">Design Quality Checklist</h2>
 
+            <div class="example-box">
+                <div class="example-title">Violating 1NF → 1NF Compliant:</div>
+                <pre><code class="language-sql">-- Violating 1NF
+STUDENT(101, "John", ["DB", "OS", "Networks"])
+
+-- 1NF compliant
+STUDENT_COURSE(101, "John", "DB")
+STUDENT_COURSE(101, "John", "OS")
+STUDENT_COURSE(101, "John", "Networks")</code></pre>
+            </div>
             <table class="comparison-table">
                 <thead>
                     <tr>

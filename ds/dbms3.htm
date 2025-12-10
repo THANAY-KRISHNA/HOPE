@@ -131,14 +131,15 @@
         }
 
         .example-box {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
+            background-color: #2d2d2d;
+            color: #ccc;
+            border: 1px solid #2c3e50;
             padding: 15px;
             margin: 15px 0;
             border-radius: 4px;
             font-family: 'Courier New', monospace;
             font-size: 0.95rem;
-            overflow-x: auto;
+            white-space: pre-wrap;
         }
 
         .example-title {
@@ -340,6 +341,7 @@
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -372,13 +374,13 @@
 
             <div class="example-box">
                 <div class="example-title">Unnormalized Relation Example:</div>
-                <p>STUDENT_COURSE<br>
-                    StudentID | StudentName | Dept | CourseID | CourseName | Instructor | Grade<br>
-                    ----------|-------------|------|----------|------------|------------|-------<br>
-                    101 | John Doe | CS | C101 | Database | Dr. Smith | A<br>
-                    101 | John Doe | CS | C102 | OS | Dr. Jones | B<br>
-                    102 | Jane Smith | Math | C101 | Database | Dr. Smith | A<br>
-                    101 | John Doe | CS | C103 | Networks | Dr. Brown | B+</p>
+                <pre><code class="language-sql">STUDENT_COURSE
+StudentID | StudentName | Dept | CourseID | CourseName | Instructor | Grade
+----------|-------------|------|----------|------------|------------|-------
+101 | John Doe | CS | C101 | Database | Dr. Smith | A
+101 | John Doe | CS | C102 | OS | Dr. Jones | B
+102 | Jane Smith | Math | C101 | Database | Dr. Smith | A
+101 | John Doe | CS | C103 | Networks | Dr. Brown | B+</code></pre>
             </div>
 
             <div class="problem-box">
@@ -491,13 +493,14 @@
 
             <div class="example-box">
                 <div class="example-title">Example: Computing Closure</div>
-                <p>Given F = {A → B, B → C, C → D}<br>
-                    Find {A}⁺<br><br>
-                    Step 1: X⁺ = {A}<br>
-                    Step 2: A → B, A ∈ X⁺, so X⁺ = {A, B}<br>
-                    Step 3: B → C, B ∈ X⁺, so X⁺ = {A, B, C}<br>
-                    Step 4: C → D, C ∈ X⁺, so X⁺ = {A, B, C, D}<br>
-                    Result: {A}⁺ = {A, B, C, D}</p>
+                <pre><code class="language-sql">Given F = {A → B, B → C, C → D}
+Find {A}⁺
+
+Step 1: X⁺ = {A}
+Step 2: A → B, A ∈ X⁺, so X⁺ = {A, B}
+Step 3: B → C, B ∈ X⁺, so X⁺ = {A, B, C}
+Step 4: C → D, C ∈ X⁺, so X⁺ = {A, B, C, D}
+Result: {A}⁺ = {A, B, C, D}</code></pre>
             </div>
 
             <div class="definition-box">
@@ -1368,12 +1371,12 @@
         </div>
     </div>
 
-    <div class="footer">
-        <p>Justin-docs Database Module 3 Notes | Author: Justin | 2024 Scheme | Handbook 2025</p>
-        <p>This document is formatted for optimal printing. Use browser's print function (Ctrl+P) to generate a physical
-            copy.</p>
-    </div>
+    <footer>
+        <p>Justin-docs • Database Module 3</p>
+    </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
     <script>
         // Simple script to enhance the document experience
         document.addEventListener('DOMContentLoaded', function () {

@@ -111,15 +111,16 @@
 
         /* Code and examples */
         .code-block {
-            background-color: #f4f4f4;
+            background-color: #2d2d2d;
+            /* Prism Tomorrow background */
+            color: #ccc;
             border-left: 4px solid #2c3e50;
             padding: 15px;
             margin: 20px 0;
             font-family: 'Courier New', monospace;
             font-size: 0.95rem;
-            overflow-x: auto;
             white-space: pre-wrap;
-            border-radius: 0 5px 5px 0;
+            border-radius: 5px;
         }
 
         .example {
@@ -228,6 +229,7 @@
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -342,10 +344,12 @@
 
             <div class="example">
                 <div class="example-title">Examples of Domains:</div>
-                <div class="code-block">D1 = Student_IDs = {101, 102, 103, ...} // INTEGER, 3 digits
+                <div class="code-block">
+                    <pre><code class="language-sql">D1 = Student_IDs = {101, 102, 103, ...} // INTEGER, 3 digits
                     D2 = Names = {"John", "Jane", "Bob", ...} // VARCHAR(50)
                     D3 = GPAs = {0.0, 0.1, ..., 4.0} // DECIMAL(3,1), 0.0-4.0
-                    D4 = Grades = {"A", "B", "C", "D", "F"} // CHAR(1)</div>
+                    D4 = Grades = {"A", "B", "C", "D", "F"} // CHAR(1)</code></pre>
+                </div>
             </div>
 
             <h4>2. Relation (R)</h4>
@@ -474,12 +478,14 @@
             <h4>1. Domain Constraints</h4>
             <p>Each attribute value must be an atomic value from its domain.</p>
 
-            <div class="code-block">CREATE TABLE Student (
+            <div class="code-block">
+                <pre><code class="language-sql">CREATE TABLE Student (
                 StudentID INT CHECK (StudentID BETWEEN 100 AND 999),
                 Name VARCHAR(50) NOT NULL,
                 GPA DECIMAL(3,2) CHECK (GPA BETWEEN 0.0 AND 4.0),
                 Gender CHAR(1) CHECK (Gender IN ('M', 'F', 'O'))
-                );</div>
+                );</code></pre>
+            </div>
 
             <h4>2. Key Constraints</h4>
             <ul>
@@ -554,14 +560,16 @@
             <p><strong>Rule</strong>: A foreign key value must either match a primary key value in the referenced
                 relation or be NULL.</p>
 
-            <div class="code-block">CREATE TABLE Employee (
+            <div class="code-block">
+                <pre><code class="language-sql">CREATE TABLE Employee (
                 EmpID INT PRIMARY KEY,
                 Name VARCHAR(50),
                 DeptID INT,
                 FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
                 ON DELETE CASCADE -- Delete employees when department deleted
                 ON UPDATE CASCADE -- Update DeptID in employees when changed in department
-                );</div>
+                );</code></pre>
+            </div>
         </section>
 
         <section>
@@ -655,7 +663,8 @@
 
             <div class="example">
                 <div class="example-title">Relational Algebra Examples:</div>
-                <div class="code-block">-- Employees with salary > 50000
+                <div class="code-block">
+                    <pre><code class="language-sql">-- Employees with salary > 50000
                     σ_(Salary > 50000)(EMPLOYEE)
 
                     -- Only name and salary columns
@@ -665,7 +674,8 @@
                     σ_DeptID=10(EMPLOYEE) ∪ σ_DeptID=20(EMPLOYEE)
 
                     -- Natural join between EMPLOYEE and DEPARTMENT
-                    EMPLOYEE ⨝* DEPARTMENT</div>
+                    EMPLOYEE ⨝* DEPARTMENT</code></pre>
+                </div>
             </div>
 
             <h3>Relational Calculus</h3>
@@ -677,19 +687,23 @@
             <p><strong>General Form</strong>: {t | P(t)} where t is a tuple variable and P(t) is a formula describing t.
             </p>
 
-            <div class="code-block">-- Employees with salary > 50000
+            <div class="code-block">
+                <pre><code class="language-sql">-- Employees with salary > 50000
                 {t | EMPLOYEE(t) ∧ t.Salary > 50000}
 
                 -- Employees who work on project 'ProjectX'
                 {t | EMPLOYEE(t) ∧ ∃w(WORKS_ON(w) ∧ w.EmpID = t.EmpID
                 ∧ ∃p(PROJECT(p) ∧ p.ProjID = w.ProjID
-                ∧ p.Name = 'ProjectX'))}</div>
+                ∧ p.Name = 'ProjectX'))}</code></pre>
+            </div>
 
             <h4>Domain Relational Calculus (DRC)</h4>
             <p><strong>General Form</strong>: {&lt;x₁, x₂, ..., xₙ&gt; | P(x₁, x₂, ..., xₙ)}</p>
 
-            <div class="code-block">-- Employees with salary > 50000
-                {<id, name, sal, did> | EMPLOYEE(id, name, sal, did) ∧ sal > 50000}</div>
+            <div class="code-block">
+                <pre><code class="language-sql">-- Employees with salary > 50000
+                {<id, name, sal, did> | EMPLOYEE(id, name, sal, did) ∧ sal > 50000}</code></pre>
+            </div>
         </section>
 
         <section>
@@ -698,7 +712,8 @@
             <h3>Data Definition Language (DDL)</h3>
             <p>SQL commands for defining database structure.</p>
 
-            <div class="code-block">-- CREATE TABLE
+            <div class="code-block">
+                <pre><code class="language-sql">-- CREATE TABLE
                 CREATE TABLE Employee (
                 EmpID INT PRIMARY KEY,
                 Name VARCHAR(50) NOT NULL,
@@ -713,13 +728,15 @@
                 ADD Email VARCHAR(100);
 
                 -- DROP TABLE
-                DROP TABLE IF EXISTS OldEmployee;</div>
+                DROP TABLE IF EXISTS OldEmployee;</code></pre>
+            </div>
 
             <h3>Data Manipulation Language (DML)</h3>
             <p>SQL commands for manipulating data.</p>
 
             <h4>SELECT Statement</h4>
-            <div class="code-block">-- Basic SELECT
+            <div class="code-block">
+                <pre><code class="language-sql">-- Basic SELECT
                 SELECT * FROM Employee;
 
                 -- SELECT with WHERE
@@ -734,7 +751,8 @@
                 SELECT DeptID, AVG(Salary) as AvgSalary
                 FROM Employee
                 GROUP BY DeptID
-                HAVING AVG(Salary) > 50000;</div>
+                HAVING AVG(Salary) > 50000;</code></pre>
+            </div>
 
             <div class="svg-container">
                 <div class="svg-title">Figure: SQL JOIN Types Visualization</div>
@@ -1096,9 +1114,12 @@
     </main>
 
     <footer>
-        <p>Justin-docs • Relational Data Model and SQL Handbook • 2024 Scheme • Handbook 2025</p>
+        <p>Justin-docs • Relational Data Model and SQL • 2024 Scheme • Handbook 2025</p>
         <p>Author: Justin • Comprehensive Database Module Reference</p>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 </body>
 
 </html>

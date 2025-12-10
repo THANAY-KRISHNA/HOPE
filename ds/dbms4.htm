@@ -120,15 +120,16 @@
 
         /* Code and examples */
         .code-block {
-            background-color: #f4f4f4;
+            background-color: #2d2d2d;
+            /* Prism Tomorrow background */
+            color: #ccc;
             border-left: 4px solid #2c3e50;
             padding: 15px;
             margin: 20px 0;
             font-family: 'Courier New', monospace;
             font-size: 0.95rem;
-            overflow-x: auto;
             white-space: pre-wrap;
-            border-radius: 0 5px 5px 0;
+            border-radius: 5px;
         }
 
         .example {
@@ -276,6 +277,7 @@
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -884,7 +886,8 @@
 
             <h4>Query Examples</h4>
 
-            <div class="code-block">// MongoDB Query Examples
+            <div class="code-block">
+                <pre><code class="language-javascript">// MongoDB Query Examples
 
                 // Find documents
                 db.users.find({ age: { $gt: 21 } })
@@ -904,7 +907,8 @@
                 db.products.updateOne(
                 { _id: 123 },
                 { $inc: { stock: -1 }, $set: { last_updated: new Date() } }
-                )</div>
+                )</code></pre>
+            </div>
 
             <h3>Column-Family Stores (Wide-Column Stores)</h3>
 
@@ -1053,7 +1057,8 @@
 
             <h4>Cassandra Query Language (CQL) Example</h4>
 
-            <div class="code-block">-- Create table with partition and clustering keys
+            <div class="code-block">
+                <pre><code class="language-sql">-- Create table with partition and clustering keys
                 CREATE TABLE sensor_data (
                 sensor_id UUID,
                 year_month TEXT, -- Partition by month
@@ -1069,7 +1074,8 @@
                 WHERE sensor_id = ?
                 AND year_month = '2024-01'
                 AND timestamp >= '2024-01-15 00:00:00'
-                ORDER BY timestamp DESC;</div>
+                ORDER BY timestamp DESC;</code></pre>
+            </div>
 
             <h3>Graph Databases</h3>
 
@@ -1177,7 +1183,8 @@
 
             <h4>Cypher Query Examples</h4>
 
-            <div class="code-block">-- Create nodes and relationships
+            <div class="code-block">
+                <pre><code class="language-cypher">-- Create nodes and relationships
                 CREATE (alice:Person {name: 'Alice', age: 30})
                 CREATE (bob:Person {name: 'Bob', age: 28})
                 CREATE (python:Skill {name: 'Python'})
@@ -1193,7 +1200,8 @@
                 WHERE NOT (alice)-[:FRIEND]->(friendOfFriend)
                 AND alice <> friendOfFriend
                     RETURN friendOfFriend.name, COUNT(*) as mutualFriends
-                    ORDER BY mutualFriends DESC</div>
+                    ORDER BY mutualFriends DESC</code></pre>
+            </div>
 
         </section>
 
@@ -1656,6 +1664,11 @@
         <p>Justin-docs • Introduction to NoSQL Concepts and Architectural Patterns • 2024 Scheme • Handbook 2025</p>
         <p>Author: Justin • Comprehensive Database Module Reference</p>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cypher.min.js"></script>
 </body>
 
 </html>

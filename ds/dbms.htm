@@ -145,14 +145,14 @@
         }
 
         .code-block {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
+            background-color: #2d2d2d;
+            color: #ccc;
+            border: 1px solid #2c3e50;
             padding: 0.75rem;
             margin: 0.75rem 0;
             font-family: 'Courier New', monospace;
             font-size: 11pt;
-            overflow-x: auto;
-            white-space: pre;
+            white-space: pre-wrap;
         }
 
         .table-container {
@@ -220,6 +220,7 @@
             }
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -554,7 +555,8 @@
 
                 <div class="subsection">
                     <h4 class="subsection-title">Data Definition Language (DDL)</h4>
-                    <div class="code-block">CREATE TABLE Employee (
+                    <div class="code-block">
+                        <pre><code class="language-sql">CREATE TABLE Employee (
                         EmpID INT PRIMARY KEY,
                         Name VARCHAR(50) NOT NULL,
                         DeptID INT,
@@ -564,12 +566,14 @@
 
                         ALTER TABLE Employee ADD COLUMN HireDate DATE;
                         DROP TABLE Employee;
-                        CREATE INDEX idx_name ON Employee(Name);</div>
+                        CREATE INDEX idx_name ON Employee(Name);</code></pre>
+                    </div>
                 </div>
 
                 <div class="subsection">
                     <h4 class="subsection-title">Data Manipulation Language (DML)</h4>
-                    <div class="code-block">-- INSERT
+                    <div class="code-block">
+                        <pre><code class="language-sql">-- INSERT
                         INSERT INTO Employee VALUES (101, 'John', 5, 50000);
 
                         -- SELECT with various clauses
@@ -590,669 +594,676 @@
                         UPDATE Employee SET Salary = Salary * 1.1 WHERE DeptID = 5;
 
                         -- DELETE
-                        DELETE FROM Employee WHERE EmpID = 101;</div>
+                        DELETE FROM Employee WHERE EmpID = 101;</code></pre>
+                    </div>
                 </div>
 
                 <div class="subsection">
                     <h4 class="subsection-title">Advanced SQL Features</h4>
                     <p><strong>Views</strong>: Virtual tables</p>
-                    <div class="code-block">CREATE VIEW HighEarners AS
-                        SELECT * FROM Employee WHERE Salary > 70000;</div>
+                    <div class="code-block">
+                        <pre><code class="language-sql">CREATE VIEW HighEarners AS
+                        SELECT * FROM Employee WHERE Salary > 70000;</code></pre>
+                    </div>
                     <p><strong>Assertions</strong>: Complex constraints (rarely supported)</p>
                     <p><strong>Triggers</strong>: Automatic actions on events</p>
-                    <div class="code-block">CREATE TRIGGER SalaryCheck
+                    <div class="code-block">
+                        <pre><code class="language-sql">CREATE TRIGGER SalaryCheck
                         BEFORE INSERT ON Employee
                         FOR EACH ROW
                         BEGIN
-                        IF NEW.Salary < 0 THEN SET NEW.Salary=0; END IF; END;</div>
-                            <p><strong>Stored Procedures and Functions</strong></p>
-                            <p><strong>Cursors</strong>: For row-by-row processing</p>
+                        IF NEW.Salary < 0 THEN SET NEW.Salary=0; END IF; END;</code></pre>
                     </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">2.4 ER-to-Relational Mapping</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Mapping Algorithm</h4>
-                        <ol>
-                            <li><strong>Regular Entity Types</strong>: Create relation with all simple attributes</li>
-                            <li><strong>Weak Entity Types</strong>: Include primary key of owner as foreign key</li>
-                            <li><strong>Binary 1:1 Relationships</strong>: Foreign key in either relation</li>
-                            <li><strong>Binary 1:N Relationships</strong>: Foreign key in N-side relation</li>
-                            <li><strong>Binary M:N Relationships</strong>: Create new relation with foreign keys</li>
-                            <li><strong>Multi-valued Attributes</strong>: Create new relation</li>
-                            <li><strong>N-ary Relationships</strong>: Create new relation with foreign keys</li>
-                            <li><strong>Specialization/Generalization</strong>:
-                                <ul>
-                                    <li>Option 1: Multiple relations (one for superclass, one for each subclass)</li>
-                                    <li>Option 2: Single relation with type attribute</li>
-                                    <li>Option 3: Multiple relations (only subclasses)</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
+                    <p><strong>Stored Procedures and Functions</strong></p>
+                    <p><strong>Cursors</strong>: For row-by-row processing</p>
                 </div>
             </div>
 
-            <div id="module3" class="module">
-                <h2 class="module-title">MODULE 3: Database Design Theory & Transaction Management</h2>
-                <p><strong>Contact Hours: 11</strong></p>
-
-                <div class="section">
-                    <h3 class="section-title">3.1 Functional Dependencies and Normalization</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Functional Dependencies (FDs)</h4>
-                        <p>Notation: X → Y (X determines Y)</p>
-                        <p><strong>Armstrong's Axioms</strong>:</p>
-                        <ol>
-                            <li>Reflexivity: If Y ⊆ X, then X → Y</li>
-                            <li>Augmentation: If X → Y, then XZ → YZ</li>
-                            <li>Transitivity: If X → Y and Y → Z, then X → Z</li>
-                        </ol>
-                        <p><strong>Additional Rules</strong>:</p>
-                        <ul>
-                            <li>Union: If X → Y and X → Z, then X → YZ</li>
-                            <li>Decomposition: If X → YZ, then X → Y and X → Z</li>
-                            <li>Pseudotransitivity: If X → Y and WY → Z, then WX → Z</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Normalization</h4>
-                        <p><strong>First Normal Form (1NF)</strong>:</p>
-                        <ul>
-                            <li>All attributes contain atomic values</li>
-                            <li>No repeating groups</li>
-                            <li>Each cell contains single value</li>
-                        </ul>
-
-                        <p><strong>Second Normal Form (2NF)</strong>:</p>
-                        <ul>
-                            <li>Must be in 1NF</li>
-                            <li>No partial dependency (all non-key attributes fully dependent on entire primary key)
-                            </li>
-                            <li><strong>Partial Dependency</strong>: Non-key attribute depends on part of composite key
-                            </li>
-                        </ul>
-
-                        <p><strong>Third Normal Form (3NF)</strong>:</p>
-                        <ul>
-                            <li>Must be in 2NF</li>
-                            <li>No transitive dependency (non-key attributes dependent only on primary key)</li>
-                            <li><strong>Transitive Dependency</strong>: A → B and B → C, so A → C transitively</li>
-                            <li>Alternative definition: For every FD X → Y, either:
-                                <ol>
-                                    <li>X is superkey, OR</li>
-                                    <li>Y is prime attribute (part of candidate key)</li>
-                                </ol>
-                            </li>
-                        </ul>
-
-                        <p><strong>Boyce-Codd Normal Form (BCNF)</strong>:</p>
-                        <ul>
-                            <li>Stronger than 3NF</li>
-                            <li>For every FD X → Y, X must be superkey</li>
-                            <li>Eliminates all redundancy due to functional dependencies</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Normalization Process</h4>
-                        <ol>
-                            <li>Identify all FDs</li>
-                            <li>Find candidate keys</li>
-                            <li>Check normal form condition</li>
-                            <li>Decompose if necessary</li>
-                            <li>Ensure decomposition is lossless and dependency-preserving</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">3.2 Transaction Management</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Transaction Concepts</h4>
-                        <ul>
-                            <li><strong>Transaction</strong>: Logical unit of database processing</li>
-                            <li><strong>ACID Properties</strong>:
-                                <ul>
-                                    <li><strong>Atomicity</strong>: All or nothing</li>
-                                    <li><strong>Consistency</strong>: Preserves database constraints</li>
-                                    <li><strong>Isolation</strong>: Concurrent transactions don't interfere</li>
-                                    <li><strong>Durability</strong>: Committed changes persist</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Transaction States</h4>
-                        <ul>
-                            <li>Active → Partially Committed → Committed</li>
-                            <li>Active → Failed → Aborted</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Problems in Concurrent Transactions</h4>
-                        <ul>
-                            <li><strong>Lost Update</strong>: Two transactions update same data, one overwrites</li>
-                            <li><strong>Dirty Read</strong>: Read uncommitted data that later rolls back</li>
-                            <li><strong>Non-repeatable Read</strong>: Different reads of same data yield different
-                                results</li>
-                            <li><strong>Phantom Read</strong>: New rows appear between reads</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Schedules and Serializability</h4>
-                        <ul>
-                            <li><strong>Schedule</strong>: Sequence of operations from multiple transactions</li>
-                            <li><strong>Serial Schedule</strong>: Transactions execute one after another</li>
-                            <li><strong>Concurrent Schedule</strong>: Operations interleaved</li>
-                            <li><strong>Serializability</strong>: Schedule equivalent to some serial schedule
-                                <ul>
-                                    <li><strong>Conflict Serializability</strong>: Can transform to serial via swap of
-                                        non-conflicting operations</li>
-                                    <li><strong>View Serializability</strong>: Less restrictive, harder to test</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Recoverability</h4>
-                        <ul>
-                            <li><strong>Recoverable Schedule</strong>: No transaction commits until all transactions it
-                                read from commit</li>
-                            <li><strong>Cascadeless Schedule</strong>: No transaction reads uncommitted data</li>
-                            <li><strong>Strict Schedule</strong>: No transaction reads or writes uncommitted data</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">3.3 Concurrency Control with Two-Phase Locking</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Locking Protocol</h4>
-                        <ul>
-                            <li><strong>Shared Lock (S-lock)</strong>: For reading</li>
-                            <li><strong>Exclusive Lock (X-lock)</strong>: For writing</li>
-                            <li><strong>Compatibility Matrix</strong>:
-                                <ul>
-                                    <li>S with S: ✓</li>
-                                    <li>S with X: ✗</li>
-                                    <li>X with S: ✗</li>
-                                    <li>X with X: ✗</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Two-Phase Locking (2PL)</h4>
-                        <ul>
-                            <li><strong>Growing Phase</strong>: Acquire locks, no releasing</li>
-                            <li><strong>Shrinking Phase</strong>: Release locks, no acquiring</li>
-                            <li><strong>Strict 2PL</strong>: Hold X-locks until commit/abort</li>
-                            <li><strong>Rigorous 2PL</strong>: Hold all locks until commit/abort</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Problems with Locking</h4>
-                        <ul>
-                            <li><strong>Deadlock</strong>: Circular wait for locks
-                                <ul>
-                                    <li>Prevention: Wait-die, Wound-wait</li>
-                                    <li>Detection: Wait-for graph</li>
-                                    <li>Recovery: Victim selection and rollback</li>
-                                </ul>
-                            </li>
-                            <li><strong>Starvation</strong>: Transaction never gets locks</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">3.4 Database Recovery Management</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Failure Types</h4>
-                        <ul>
-                            <li>Transaction failures (logical errors, system errors)</li>
-                            <li>System crashes</li>
-                            <li>Media failures</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Recovery Concepts</h4>
-                        <ul>
-                            <li><strong>Log</strong>: Sequential record of all transactions
-                                <ul>
-                                    <li>Write-ahead logging (WAL): Log record written before database update</li>
-                                    <li>Log entries: [start T], [write T, X, old_value, new_value], [commit T], [abort
-                                        T]</li>
-                                </ul>
-                            </li>
-                            <li><strong>Checkpoint</strong>: Synchronize log and database
-                                <ul>
-                                    <li>Consistent checkpoint: No active transactions</li>
-                                    <li>Fuzzy checkpoint: Allows active transactions</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Recovery Techniques</h4>
-                        <ol>
-                            <li><strong>Deferred Update (NO-UNDO/REDO)</strong>:
-                                <ul>
-                                    <li>Updates written to log only during execution</li>
-                                    <li>Database updated only after commit</li>
-                                    <li>Recovery: Redo committed transactions</li>
-                                </ul>
-                            </li>
-                            <li><strong>Immediate Update (UNDO/REDO)</strong>:
-                                <ul>
-                                    <li>Database updated during execution</li>
-                                    <li>Log records written before database updates</li>
-                                    <li>Recovery: Undo uncommitted, Redo committed</li>
-                                </ul>
-                            </li>
-                            <li><strong>Shadow Paging</strong>:
-                                <ul>
-                                    <li>Two page tables: Current and Shadow</li>
-                                    <li>Updates to current page table only</li>
-                                    <li>Commit: Make current page table permanent</li>
-                                    <li>Abort: Discard current page table</li>
-                                    <li>Advantages: No log needed, simple recovery</li>
-                                    <li>Disadvantages: Data fragmentation, overhead</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">ARIES Recovery Algorithm</h4>
-                        <p>(Advanced)</p>
-                        <ul>
-                            <li>Analysis: Identify dirty pages and active transactions</li>
-                            <li>Redo: Repeat history to restore state before crash</li>
-                            <li>Undo: Rollback uncommitted transactions</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div id="module4" class="module">
-                <h2 class="module-title">MODULE 4: NoSQL Databases</h2>
-                <p><strong>Contact Hours: 11</strong></p>
-
-                <div class="section">
-                    <h3 class="section-title">4.1 Introduction to NoSQL Concepts</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Evolution of Databases</h4>
-                        <ul>
-                            <li>1960s: Hierarchical and Network databases</li>
-                            <li>1970s: Relational databases</li>
-                            <li>1980s: SQL standardization</li>
-                            <li>1990s: Object-oriented databases</li>
-                            <li>2000s: NoSQL movement</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">NoSQL Characteristics</h4>
-                        <ul>
-                            <li>Non-relational</li>
-                            <li>Schema-less or flexible schema</li>
-                            <li>Horizontally scalable</li>
-                            <li>Eventually consistent</li>
-                            <li>Open source</li>
-                            <li>Designed for distributed systems</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">CAP Theorem</h4>
-                        <p>(Brewer's Theorem)</p>
-                        <ul>
-                            <li><strong>Consistency</strong>: All nodes see same data at same time</li>
-                            <li><strong>Availability</strong>: Every request receives response (success/failure)</li>
-                            <li><strong>Partition Tolerance</strong>: System continues despite network partitions</li>
-                            <li><strong>Theorem</strong>: Can achieve at most 2 of 3 properties</li>
-                            <li><strong>Trade-offs</strong>:
-                                <ul>
-                                    <li>CA: Traditional RDBMS (sacrifice partition tolerance)</li>
-                                    <li>CP: MongoDB, HBase, Redis (sacrifice availability)</li>
-                                    <li>AP: Cassandra, CouchDB, DynamoDB (sacrifice consistency)</li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <div class="svg-container">
-                            <div class="svg-title">CAP Theorem</div>
-                            <svg width="400" height="350" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="200" cy="100" r="60" fill="#e8f4fc" stroke="#3498db" stroke-width="2" />
-                                <text x="200" y="105" text-anchor="middle" font-family="Arial" font-size="16"
-                                    font-weight="bold">Consistency</text>
-
-                                <circle cx="120" cy="220" r="60" fill="#d6eaf8" stroke="#3498db" stroke-width="2" />
-                                <text x="120" y="225" text-anchor="middle" font-family="Arial" font-size="16"
-                                    font-weight="bold">Availability</text>
-
-                                <circle cx="280" cy="220" r="60" fill="#aed6f1" stroke="#3498db" stroke-width="2" />
-                                <text x="280" y="225" text-anchor="middle" font-family="Arial" font-size="16"
-                                    font-weight="bold">Partition</text>
-                                <text x="280" y="245" text-anchor="middle" font-family="Arial" font-size="16"
-                                    font-weight="bold">Tolerance</text>
-
-                                <line x1="170" y1="140" x2="140" y2="180" stroke="#3498db" stroke-width="2" />
-                                <line x1="230" y1="140" x2="260" y2="180" stroke="#3498db" stroke-width="2" />
-                                <line x1="180" y1="220" x2="220" y2="220" stroke="#3498db" stroke-width="2" />
-
-                                <text x="200" y="310" text-anchor="middle" font-family="Arial" font-size="14"
-                                    font-weight="bold">Choose any 2 of 3</text>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">BASE Properties</h4>
-                        <p>(vs ACID)</p>
-                        <ul>
-                            <li><strong>Basically Available</strong>: System guarantees availability</li>
-                            <li><strong>Soft State</strong>: State may change over time, even without input</li>
-                            <li><strong>Eventually Consistent</strong>: System becomes consistent over time</li>
-                            <li>Contrast with ACID: Strong consistency vs. eventual consistency</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">NoSQL Use Cases</h4>
-                        <p><strong>Appropriate</strong>: Big data, real-time web apps, content management, social
-                            networks, IoT</p>
-                        <p><strong>Limitations</strong>:
-                        <ul>
-                            <li>Lack of standardization</li>
-                            <li>Limited transaction support</li>
-                            <li>Eventual consistency issues</li>
-                            <li>Steeper learning curve</li>
-                            <li>Less mature tools</li>
-                        </ul>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">4.2 NoSQL Architectural Patterns</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Key-Value Stores</h4>
-                        <ul>
-                            <li><strong>Concept</strong>: Simplest NoSQL model</li>
-                            <li><strong>Structure</strong>: Hash table of key-value pairs</li>
-                            <li><strong>Operations</strong>: get(key), put(key, value), delete(key)</li>
-                            <li><strong>Examples</strong>: Redis, DynamoDB, Riak, BerkeleyDB</li>
-                            <li><strong>Characteristics</strong>:
-                                <ul>
-                                    <li>Extremely fast for simple queries</li>
-                                    <li>No query language (just key access)</li>
-                                    <li>Values can be anything (blobs)</li>
-                                </ul>
-                            </li>
-                            <li><strong>Use Cases</strong>: Session storage, caching, user profiles, shopping carts</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Document Stores</h4>
-                        <ul>
-                            <li><strong>Concept</strong>: Key-document pairs (documents are semi-structured)</li>
-                            <li><strong>Structure</strong>: Collections of documents (JSON, XML, BSON)</li>
-                            <li><strong>Querying</strong>: Field-based queries, indexing, map-reduce</li>
-                            <li><strong>Examples</strong>: MongoDB, CouchDB, Couchbase, Firebase</li>
-                            <li><strong>Characteristics</strong>:
-                                <ul>
-                                    <li>Document-oriented (self-describing)</li>
-                                    <li>Schema flexibility</li>
-                                    <li>Supports nesting and complex hierarchies</li>
-                                    <li>Secondary indexes</li>
-                                </ul>
-                            </li>
-                            <li><strong>Use Cases</strong>: Content management, blogging platforms, e-commerce catalogs
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Column Family Stores (Wide Column Stores)</h4>
-                        <ul>
-                            <li><strong>Concept</strong>: Two-dimensional key-value stores</li>
-                            <li><strong>Structure</strong>:
-                                <ul>
-                                    <li>Keyspace (database) → Column Family (table) → Rows → Columns</li>
-                                    <li>Sparse, distributed, multi-dimensional map</li>
-                                </ul>
-                            </li>
-                            <li><strong>Examples</strong>: Cassandra, HBase, Google Bigtable</li>
-                            <li><strong>Characteristics</strong>:
-                                <ul>
-                                    <li>Column-oriented storage</li>
-                                    <li>Excellent for write-heavy workloads</li>
-                                    <li>Built for distribution and scalability</li>
-                                    <li>Tunable consistency</li>
-                                </ul>
-                            </li>
-                            <li><strong>Use Cases</strong>: Time-series data, event logging, content recommendation,
-                                fraud detection</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Graph Databases</h4>
-                        <ul>
-                            <li><strong>Concept</strong>: Nodes, edges, and properties</li>
-                            <li><strong>Structure</strong>:
-                                <ul>
-                                    <li>Nodes: Entities/vertices</li>
-                                    <li>Edges: Relationships with direction and type</li>
-                                    <li>Properties: Key-value pairs on nodes and edges</li>
-                                </ul>
-                            </li>
-                            <li><strong>Query Language</strong>: Cypher (Neo4j), Gremlin, SPARQL</li>
-                            <li><strong>Examples</strong>: Neo4j, Amazon Neptune, OrientDB, ArangoDB</li>
-                            <li><strong>Characteristics</strong>:
-                                <ul>
-                                    <li>Optimized for relationship traversal</li>
-                                    <li>Flexible schema</li>
-                                    <li>ACID compliant</li>
-                                    <li>Native graph processing</li>
-                                </ul>
-                            </li>
-                            <li><strong>Use Cases</strong>: Social networks, recommendation engines, fraud detection,
-                                network analysis, knowledge graphs</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">4.3 Comparison and Selection Guidelines</h3>
-
-                    <div class="table-container">
-                        <table>
-                            <tr>
-                                <th><strong>Aspect</strong></th>
-                                <th><strong>Key-Value</strong></th>
-                                <th><strong>Document</strong></th>
-                                <th><strong>Column Family</strong></th>
-                                <th><strong>Graph</strong></th>
-                                <th><strong>Relational</strong></th>
-                            </tr>
-                            <tr>
-                                <td><strong>Data Model</strong></td>
-                                <td>Key-Value pairs</td>
-                                <td>JSON/BSON docs</td>
-                                <td>Tables, rows, cols</td>
-                                <td>Nodes & edges</td>
-                                <td>Tables, rows, cols</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Query Complexity</strong></td>
-                                <td>Simple (by key)</td>
-                                <td>Moderate</td>
-                                <td>Moderate</td>
-                                <td>Complex (traversal)</td>
-                                <td>Complex (joins)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Scalability</strong></td>
-                                <td>Excellent</td>
-                                <td>Good</td>
-                                <td>Excellent</td>
-                                <td>Vertical</td>
-                                <td>Horizontal limited</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Consistency</strong></td>
-                                <td>Eventual</td>
-                                <td>Strong/Eventual</td>
-                                <td>Tunable</td>
-                                <td>Strong</td>
-                                <td>Strong</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Transactions</strong></td>
-                                <td>Limited</td>
-                                <td>Multi-document</td>
-                                <td>Limited</td>
-                                <td>ACID</td>
-                                <td>ACID</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Use Case</strong></td>
-                                <td>Caching, sessions</td>
-                                <td>Content management</td>
-                                <td>Time-series, logs</td>
-                                <td>Social networks</td>
-                                <td>Complex queries</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">4.4 Polyglot Persistence</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Concept</h4>
-                        <p>Using multiple data storage technologies for different needs</p>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Rationale</h4>
-                        <p>No single database solves all problems</p>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Approach</h4>
-                        <ul>
-                            <li>RDBMS for transactional data</li>
-                            <li>Document store for content</li>
-                            <li>Key-value for caching</li>
-                            <li>Graph for relationships</li>
-                        </ul>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Challenges</h4>
-                        <ul>
-                            <li>Increased complexity</li>
-                            <li>Data synchronization</li>
-                            <li>Expertise requirements</li>
-                            <li>Operational overhead</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <h3 class="section-title">4.5 Emerging Trends</h3>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">NewSQL</h4>
-                        <p>Combines scalability of NoSQL with ACID guarantees of RDBMS</p>
-                        <p>Examples: Google Spanner, CockroachDB, VoltDB</p>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Multi-model Databases</h4>
-                        <p>Single database supporting multiple models</p>
-                        <p>Examples: ArangoDB, OrientDB, CosmosDB</p>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Blockchain Databases</h4>
-                        <p>Immutable, decentralized ledger</p>
-                    </div>
-
-                    <div class="subsection">
-                        <h4 class="subsection-title">Time-series Databases</h4>
-                        <p>Optimized for time-stamped data</p>
-                        <p>Examples: InfluxDB, TimescaleDB</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="key-takeaways" class="key-takeaways">
-                <h2 class="key-takeaways-title">Key Takeaways for Exam Preparation</h2>
+            <div class="section">
+                <h3 class="section-title">2.4 ER-to-Relational Mapping</h3>
 
                 <div class="subsection">
-                    <h4 class="subsection-title">Important Concepts to Master:</h4>
+                    <h4 class="subsection-title">Mapping Algorithm</h4>
                     <ol>
-                        <li><strong>ER Modeling</strong>: Practice drawing ER diagrams with all constraints</li>
-                        <li><strong>Normalization</strong>: Solve normalization problems up to 3NF/BCNF</li>
-                        <li><strong>SQL Queries</strong>: Write complex queries with joins, subqueries, aggregation</li>
-                        <li><strong>Transactions</strong>: Understand ACID, serializability, locking protocols</li>
-                        <li><strong>CAP Theorem</strong>: Be able to explain trade-offs with examples</li>
-                        <li><strong>NoSQL Types</strong>: Compare and contrast the four main types</li>
+                        <li><strong>Regular Entity Types</strong>: Create relation with all simple attributes</li>
+                        <li><strong>Weak Entity Types</strong>: Include primary key of owner as foreign key</li>
+                        <li><strong>Binary 1:1 Relationships</strong>: Foreign key in either relation</li>
+                        <li><strong>Binary 1:N Relationships</strong>: Foreign key in N-side relation</li>
+                        <li><strong>Binary M:N Relationships</strong>: Create new relation with foreign keys</li>
+                        <li><strong>Multi-valued Attributes</strong>: Create new relation</li>
+                        <li><strong>N-ary Relationships</strong>: Create new relation with foreign keys</li>
+                        <li><strong>Specialization/Generalization</strong>:
+                            <ul>
+                                <li>Option 1: Multiple relations (one for superclass, one for each subclass)</li>
+                                <li>Option 2: Single relation with type attribute</li>
+                                <li>Option 3: Multiple relations (only subclasses)</li>
+                            </ul>
+                        </li>
                     </ol>
                 </div>
+            </div>
+        </div>
+
+        <div id="module3" class="module">
+            <h2 class="module-title">MODULE 3: Database Design Theory & Transaction Management</h2>
+            <p><strong>Contact Hours: 11</strong></p>
+
+            <div class="section">
+                <h3 class="section-title">3.1 Functional Dependencies and Normalization</h3>
 
                 <div class="subsection">
-                    <h4 class="subsection-title">Common Exam Questions:</h4>
+                    <h4 class="subsection-title">Functional Dependencies (FDs)</h4>
+                    <p>Notation: X → Y (X determines Y)</p>
+                    <p><strong>Armstrong's Axioms</strong>:</p>
+                    <ol>
+                        <li>Reflexivity: If Y ⊆ X, then X → Y</li>
+                        <li>Augmentation: If X → Y, then XZ → YZ</li>
+                        <li>Transitivity: If X → Y and Y → Z, then X → Z</li>
+                    </ol>
+                    <p><strong>Additional Rules</strong>:</p>
                     <ul>
-                        <li>Convert ER diagram to relational schema</li>
-                        <li>Normalize a given relation to 3NF</li>
-                        <li>Write SQL queries for given scenarios</li>
-                        <li>Check schedule for serializability</li>
-                        <li>Choose appropriate database type for given use case</li>
-                        <li>Explain CAP theorem with examples</li>
+                        <li>Union: If X → Y and X → Z, then X → YZ</li>
+                        <li>Decomposition: If X → YZ, then X → Y and X → Z</li>
+                        <li>Pseudotransitivity: If X → Y and WY → Z, then WX → Z</li>
                     </ul>
                 </div>
 
                 <div class="subsection">
-                    <h4 class="subsection-title">Study Strategy:</h4>
+                    <h4 class="subsection-title">Normalization</h4>
+                    <p><strong>First Normal Form (1NF)</strong>:</p>
+                    <ul>
+                        <li>All attributes contain atomic values</li>
+                        <li>No repeating groups</li>
+                        <li>Each cell contains single value</li>
+                    </ul>
+
+                    <p><strong>Second Normal Form (2NF)</strong>:</p>
+                    <ul>
+                        <li>Must be in 1NF</li>
+                        <li>No partial dependency (all non-key attributes fully dependent on entire primary key)
+                        </li>
+                        <li><strong>Partial Dependency</strong>: Non-key attribute depends on part of composite key
+                        </li>
+                    </ul>
+
+                    <p><strong>Third Normal Form (3NF)</strong>:</p>
+                    <ul>
+                        <li>Must be in 2NF</li>
+                        <li>No transitive dependency (non-key attributes dependent only on primary key)</li>
+                        <li><strong>Transitive Dependency</strong>: A → B and B → C, so A → C transitively</li>
+                        <li>Alternative definition: For every FD X → Y, either:
+                            <ol>
+                                <li>X is superkey, OR</li>
+                                <li>Y is prime attribute (part of candidate key)</li>
+                            </ol>
+                        </li>
+                    </ul>
+
+                    <p><strong>Boyce-Codd Normal Form (BCNF)</strong>:</p>
+                    <ul>
+                        <li>Stronger than 3NF</li>
+                        <li>For every FD X → Y, X must be superkey</li>
+                        <li>Eliminates all redundancy due to functional dependencies</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Normalization Process</h4>
                     <ol>
-                        <li><strong>Module 1 & 2</strong>: Focus on practical design and SQL writing</li>
-                        <li><strong>Module 3</strong>: Understand theory with proofs and algorithms</li>
-                        <li><strong>Module 4</strong>: Learn through comparison and use cases</li>
-                        <li><strong>Practice</strong>: Solve previous years' questions</li>
-                        <li><strong>Diagrams</strong>: Practice drawing ER diagrams and state diagrams</li>
+                        <li>Identify all FDs</li>
+                        <li>Find candidate keys</li>
+                        <li>Check normal form condition</li>
+                        <li>Decompose if necessary</li>
+                        <li>Ensure decomposition is lossless and dependency-preserving</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">3.2 Transaction Management</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Transaction Concepts</h4>
+                    <ul>
+                        <li><strong>Transaction</strong>: Logical unit of database processing</li>
+                        <li><strong>ACID Properties</strong>:
+                            <ul>
+                                <li><strong>Atomicity</strong>: All or nothing</li>
+                                <li><strong>Consistency</strong>: Preserves database constraints</li>
+                                <li><strong>Isolation</strong>: Concurrent transactions don't interfere</li>
+                                <li><strong>Durability</strong>: Committed changes persist</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Transaction States</h4>
+                    <ul>
+                        <li>Active → Partially Committed → Committed</li>
+                        <li>Active → Failed → Aborted</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Problems in Concurrent Transactions</h4>
+                    <ul>
+                        <li><strong>Lost Update</strong>: Two transactions update same data, one overwrites</li>
+                        <li><strong>Dirty Read</strong>: Read uncommitted data that later rolls back</li>
+                        <li><strong>Non-repeatable Read</strong>: Different reads of same data yield different
+                            results</li>
+                        <li><strong>Phantom Read</strong>: New rows appear between reads</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Schedules and Serializability</h4>
+                    <ul>
+                        <li><strong>Schedule</strong>: Sequence of operations from multiple transactions</li>
+                        <li><strong>Serial Schedule</strong>: Transactions execute one after another</li>
+                        <li><strong>Concurrent Schedule</strong>: Operations interleaved</li>
+                        <li><strong>Serializability</strong>: Schedule equivalent to some serial schedule
+                            <ul>
+                                <li><strong>Conflict Serializability</strong>: Can transform to serial via swap of
+                                    non-conflicting operations</li>
+                                <li><strong>View Serializability</strong>: Less restrictive, harder to test</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Recoverability</h4>
+                    <ul>
+                        <li><strong>Recoverable Schedule</strong>: No transaction commits until all transactions it
+                            read from commit</li>
+                        <li><strong>Cascadeless Schedule</strong>: No transaction reads uncommitted data</li>
+                        <li><strong>Strict Schedule</strong>: No transaction reads or writes uncommitted data</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">3.3 Concurrency Control with Two-Phase Locking</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Locking Protocol</h4>
+                    <ul>
+                        <li><strong>Shared Lock (S-lock)</strong>: For reading</li>
+                        <li><strong>Exclusive Lock (X-lock)</strong>: For writing</li>
+                        <li><strong>Compatibility Matrix</strong>:
+                            <ul>
+                                <li>S with S: ✓</li>
+                                <li>S with X: ✗</li>
+                                <li>X with S: ✗</li>
+                                <li>X with X: ✗</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Two-Phase Locking (2PL)</h4>
+                    <ul>
+                        <li><strong>Growing Phase</strong>: Acquire locks, no releasing</li>
+                        <li><strong>Shrinking Phase</strong>: Release locks, no acquiring</li>
+                        <li><strong>Strict 2PL</strong>: Hold X-locks until commit/abort</li>
+                        <li><strong>Rigorous 2PL</strong>: Hold all locks until commit/abort</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Problems with Locking</h4>
+                    <ul>
+                        <li><strong>Deadlock</strong>: Circular wait for locks
+                            <ul>
+                                <li>Prevention: Wait-die, Wound-wait</li>
+                                <li>Detection: Wait-for graph</li>
+                                <li>Recovery: Victim selection and rollback</li>
+                            </ul>
+                        </li>
+                        <li><strong>Starvation</strong>: Transaction never gets locks</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">3.4 Database Recovery Management</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Failure Types</h4>
+                    <ul>
+                        <li>Transaction failures (logical errors, system errors)</li>
+                        <li>System crashes</li>
+                        <li>Media failures</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Recovery Concepts</h4>
+                    <ul>
+                        <li><strong>Log</strong>: Sequential record of all transactions
+                            <ul>
+                                <li>Write-ahead logging (WAL): Log record written before database update</li>
+                                <li>Log entries: [start T], [write T, X, old_value, new_value], [commit T], [abort
+                                    T]</li>
+                            </ul>
+                        </li>
+                        <li><strong>Checkpoint</strong>: Synchronize log and database
+                            <ul>
+                                <li>Consistent checkpoint: No active transactions</li>
+                                <li>Fuzzy checkpoint: Allows active transactions</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Recovery Techniques</h4>
+                    <ol>
+                        <li><strong>Deferred Update (NO-UNDO/REDO)</strong>:
+                            <ul>
+                                <li>Updates written to log only during execution</li>
+                                <li>Database updated only after commit</li>
+                                <li>Recovery: Redo committed transactions</li>
+                            </ul>
+                        </li>
+                        <li><strong>Immediate Update (UNDO/REDO)</strong>:
+                            <ul>
+                                <li>Database updated during execution</li>
+                                <li>Log records written before database updates</li>
+                                <li>Recovery: Undo uncommitted, Redo committed</li>
+                            </ul>
+                        </li>
+                        <li><strong>Shadow Paging</strong>:
+                            <ul>
+                                <li>Two page tables: Current and Shadow</li>
+                                <li>Updates to current page table only</li>
+                                <li>Commit: Make current page table permanent</li>
+                                <li>Abort: Discard current page table</li>
+                                <li>Advantages: No log needed, simple recovery</li>
+                                <li>Disadvantages: Data fragmentation, overhead</li>
+                            </ul>
+                        </li>
                     </ol>
                 </div>
 
-                <p>This comprehensive coverage should prepare you for both theoretical understanding and practical
-                    application as required by the course objectives and assessment methods.</p>
+                <div class="subsection">
+                    <h4 class="subsection-title">ARIES Recovery Algorithm</h4>
+                    <p>(Advanced)</p>
+                    <ul>
+                        <li>Analysis: Identify dirty pages and active transactions</li>
+                        <li>Redo: Repeat history to restore state before crash</li>
+                        <li>Undo: Rollback uncommitted transactions</li>
+                    </ul>
+                </div>
             </div>
         </div>
+
+        <div id="module4" class="module">
+            <h2 class="module-title">MODULE 4: NoSQL Databases</h2>
+            <p><strong>Contact Hours: 11</strong></p>
+
+            <div class="section">
+                <h3 class="section-title">4.1 Introduction to NoSQL Concepts</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Evolution of Databases</h4>
+                    <ul>
+                        <li>1960s: Hierarchical and Network databases</li>
+                        <li>1970s: Relational databases</li>
+                        <li>1980s: SQL standardization</li>
+                        <li>1990s: Object-oriented databases</li>
+                        <li>2000s: NoSQL movement</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">NoSQL Characteristics</h4>
+                    <ul>
+                        <li>Non-relational</li>
+                        <li>Schema-less or flexible schema</li>
+                        <li>Horizontally scalable</li>
+                        <li>Eventually consistent</li>
+                        <li>Open source</li>
+                        <li>Designed for distributed systems</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">CAP Theorem</h4>
+                    <p>(Brewer's Theorem)</p>
+                    <ul>
+                        <li><strong>Consistency</strong>: All nodes see same data at same time</li>
+                        <li><strong>Availability</strong>: Every request receives response (success/failure)</li>
+                        <li><strong>Partition Tolerance</strong>: System continues despite network partitions</li>
+                        <li><strong>Theorem</strong>: Can achieve at most 2 of 3 properties</li>
+                        <li><strong>Trade-offs</strong>:
+                            <ul>
+                                <li>CA: Traditional RDBMS (sacrifice partition tolerance)</li>
+                                <li>CP: MongoDB, HBase, Redis (sacrifice availability)</li>
+                                <li>AP: Cassandra, CouchDB, DynamoDB (sacrifice consistency)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="svg-container">
+                        <div class="svg-title">CAP Theorem</div>
+                        <svg width="400" height="350" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="200" cy="100" r="60" fill="#e8f4fc" stroke="#3498db" stroke-width="2" />
+                            <text x="200" y="105" text-anchor="middle" font-family="Arial" font-size="16"
+                                font-weight="bold">Consistency</text>
+
+                            <circle cx="120" cy="220" r="60" fill="#d6eaf8" stroke="#3498db" stroke-width="2" />
+                            <text x="120" y="225" text-anchor="middle" font-family="Arial" font-size="16"
+                                font-weight="bold">Availability</text>
+
+                            <circle cx="280" cy="220" r="60" fill="#aed6f1" stroke="#3498db" stroke-width="2" />
+                            <text x="280" y="225" text-anchor="middle" font-family="Arial" font-size="16"
+                                font-weight="bold">Partition</text>
+                            <text x="280" y="245" text-anchor="middle" font-family="Arial" font-size="16"
+                                font-weight="bold">Tolerance</text>
+
+                            <line x1="170" y1="140" x2="140" y2="180" stroke="#3498db" stroke-width="2" />
+                            <line x1="230" y1="140" x2="260" y2="180" stroke="#3498db" stroke-width="2" />
+                            <line x1="180" y1="220" x2="220" y2="220" stroke="#3498db" stroke-width="2" />
+
+                            <text x="200" y="310" text-anchor="middle" font-family="Arial" font-size="14"
+                                font-weight="bold">Choose any 2 of 3</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">BASE Properties</h4>
+                    <p>(vs ACID)</p>
+                    <ul>
+                        <li><strong>Basically Available</strong>: System guarantees availability</li>
+                        <li><strong>Soft State</strong>: State may change over time, even without input</li>
+                        <li><strong>Eventually Consistent</strong>: System becomes consistent over time</li>
+                        <li>Contrast with ACID: Strong consistency vs. eventual consistency</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">NoSQL Use Cases</h4>
+                    <p><strong>Appropriate</strong>: Big data, real-time web apps, content management, social
+                        networks, IoT</p>
+                    <p><strong>Limitations</strong>:
+                    <ul>
+                        <li>Lack of standardization</li>
+                        <li>Limited transaction support</li>
+                        <li>Eventual consistency issues</li>
+                        <li>Steeper learning curve</li>
+                        <li>Less mature tools</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">4.2 NoSQL Architectural Patterns</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Key-Value Stores</h4>
+                    <ul>
+                        <li><strong>Concept</strong>: Simplest NoSQL model</li>
+                        <li><strong>Structure</strong>: Hash table of key-value pairs</li>
+                        <li><strong>Operations</strong>: get(key), put(key, value), delete(key)</li>
+                        <li><strong>Examples</strong>: Redis, DynamoDB, Riak, BerkeleyDB</li>
+                        <li><strong>Characteristics</strong>:
+                            <ul>
+                                <li>Extremely fast for simple queries</li>
+                                <li>No query language (just key access)</li>
+                                <li>Values can be anything (blobs)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use Cases</strong>: Session storage, caching, user profiles, shopping carts</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Document Stores</h4>
+                    <ul>
+                        <li><strong>Concept</strong>: Key-document pairs (documents are semi-structured)</li>
+                        <li><strong>Structure</strong>: Collections of documents (JSON, XML, BSON)</li>
+                        <li><strong>Querying</strong>: Field-based queries, indexing, map-reduce</li>
+                        <li><strong>Examples</strong>: MongoDB, CouchDB, Couchbase, Firebase</li>
+                        <li><strong>Characteristics</strong>:
+                            <ul>
+                                <li>Document-oriented (self-describing)</li>
+                                <li>Schema flexibility</li>
+                                <li>Supports nesting and complex hierarchies</li>
+                                <li>Secondary indexes</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use Cases</strong>: Content management, blogging platforms, e-commerce catalogs
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Column Family Stores (Wide Column Stores)</h4>
+                    <ul>
+                        <li><strong>Concept</strong>: Two-dimensional key-value stores</li>
+                        <li><strong>Structure</strong>:
+                            <ul>
+                                <li>Keyspace (database) → Column Family (table) → Rows → Columns</li>
+                                <li>Sparse, distributed, multi-dimensional map</li>
+                            </ul>
+                        </li>
+                        <li><strong>Examples</strong>: Cassandra, HBase, Google Bigtable</li>
+                        <li><strong>Characteristics</strong>:
+                            <ul>
+                                <li>Column-oriented storage</li>
+                                <li>Excellent for write-heavy workloads</li>
+                                <li>Built for distribution and scalability</li>
+                                <li>Tunable consistency</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use Cases</strong>: Time-series data, event logging, content recommendation,
+                            fraud detection</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Graph Databases</h4>
+                    <ul>
+                        <li><strong>Concept</strong>: Nodes, edges, and properties</li>
+                        <li><strong>Structure</strong>:
+                            <ul>
+                                <li>Nodes: Entities/vertices</li>
+                                <li>Edges: Relationships with direction and type</li>
+                                <li>Properties: Key-value pairs on nodes and edges</li>
+                            </ul>
+                        </li>
+                        <li><strong>Query Language</strong>: Cypher (Neo4j), Gremlin, SPARQL</li>
+                        <li><strong>Examples</strong>: Neo4j, Amazon Neptune, OrientDB, ArangoDB</li>
+                        <li><strong>Characteristics</strong>:
+                            <ul>
+                                <li>Optimized for relationship traversal</li>
+                                <li>Flexible schema</li>
+                                <li>ACID compliant</li>
+                                <li>Native graph processing</li>
+                            </ul>
+                        </li>
+                        <li><strong>Use Cases</strong>: Social networks, recommendation engines, fraud detection,
+                            network analysis, knowledge graphs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">4.3 Comparison and Selection Guidelines</h3>
+
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th><strong>Aspect</strong></th>
+                            <th><strong>Key-Value</strong></th>
+                            <th><strong>Document</strong></th>
+                            <th><strong>Column Family</strong></th>
+                            <th><strong>Graph</strong></th>
+                            <th><strong>Relational</strong></th>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Model</strong></td>
+                            <td>Key-Value pairs</td>
+                            <td>JSON/BSON docs</td>
+                            <td>Tables, rows, cols</td>
+                            <td>Nodes & edges</td>
+                            <td>Tables, rows, cols</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Query Complexity</strong></td>
+                            <td>Simple (by key)</td>
+                            <td>Moderate</td>
+                            <td>Moderate</td>
+                            <td>Complex (traversal)</td>
+                            <td>Complex (joins)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scalability</strong></td>
+                            <td>Excellent</td>
+                            <td>Good</td>
+                            <td>Excellent</td>
+                            <td>Vertical</td>
+                            <td>Horizontal limited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Consistency</strong></td>
+                            <td>Eventual</td>
+                            <td>Strong/Eventual</td>
+                            <td>Tunable</td>
+                            <td>Strong</td>
+                            <td>Strong</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Transactions</strong></td>
+                            <td>Limited</td>
+                            <td>Multi-document</td>
+                            <td>Limited</td>
+                            <td>ACID</td>
+                            <td>ACID</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Use Case</strong></td>
+                            <td>Caching, sessions</td>
+                            <td>Content management</td>
+                            <td>Time-series, logs</td>
+                            <td>Social networks</td>
+                            <td>Complex queries</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">4.4 Polyglot Persistence</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Concept</h4>
+                    <p>Using multiple data storage technologies for different needs</p>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Rationale</h4>
+                    <p>No single database solves all problems</p>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Approach</h4>
+                    <ul>
+                        <li>RDBMS for transactional data</li>
+                        <li>Document store for content</li>
+                        <li>Key-value for caching</li>
+                        <li>Graph for relationships</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Challenges</h4>
+                    <ul>
+                        <li>Increased complexity</li>
+                        <li>Data synchronization</li>
+                        <li>Expertise requirements</li>
+                        <li>Operational overhead</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3 class="section-title">4.5 Emerging Trends</h3>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">NewSQL</h4>
+                    <p>Combines scalability of NoSQL with ACID guarantees of RDBMS</p>
+                    <p>Examples: Google Spanner, CockroachDB, VoltDB</p>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Multi-model Databases</h4>
+                    <p>Single database supporting multiple models</p>
+                    <p>Examples: ArangoDB, OrientDB, CosmosDB</p>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Blockchain Databases</h4>
+                    <p>Immutable, decentralized ledger</p>
+                </div>
+
+                <div class="subsection">
+                    <h4 class="subsection-title">Time-series Databases</h4>
+                    <p>Optimized for time-stamped data</p>
+                    <p>Examples: InfluxDB, TimescaleDB</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="key-takeaways" class="key-takeaways">
+            <h2 class="key-takeaways-title">Key Takeaways for Exam Preparation</h2>
+
+            <div class="subsection">
+                <h4 class="subsection-title">Important Concepts to Master:</h4>
+                <ol>
+                    <li><strong>ER Modeling</strong>: Practice drawing ER diagrams with all constraints</li>
+                    <li><strong>Normalization</strong>: Solve normalization problems up to 3NF/BCNF</li>
+                    <li><strong>SQL Queries</strong>: Write complex queries with joins, subqueries, aggregation</li>
+                    <li><strong>Transactions</strong>: Understand ACID, serializability, locking protocols</li>
+                    <li><strong>CAP Theorem</strong>: Be able to explain trade-offs with examples</li>
+                    <li><strong>NoSQL Types</strong>: Compare and contrast the four main types</li>
+                </ol>
+            </div>
+
+            <div class="subsection">
+                <h4 class="subsection-title">Common Exam Questions:</h4>
+                <ul>
+                    <li>Convert ER diagram to relational schema</li>
+                    <li>Normalize a given relation to 3NF</li>
+                    <li>Write SQL queries for given scenarios</li>
+                    <li>Check schedule for serializability</li>
+                    <li>Choose appropriate database type for given use case</li>
+                    <li>Explain CAP theorem with examples</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h4 class="subsection-title">Study Strategy:</h4>
+                <ol>
+                    <li><strong>Module 1 & 2</strong>: Focus on practical design and SQL writing</li>
+                    <li><strong>Module 3</strong>: Understand theory with proofs and algorithms</li>
+                    <li><strong>Module 4</strong>: Learn through comparison and use cases</li>
+                    <li><strong>Practice</strong>: Solve previous years' questions</li>
+                    <li><strong>Diagrams</strong>: Practice drawing ER diagrams and state diagrams</li>
+                </ol>
+            </div>
+
+            <p>This comprehensive coverage should prepare you for both theoretical understanding and practical
+                application as required by the course objectives and assessment methods.</p>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 </body>
 
 </html>
