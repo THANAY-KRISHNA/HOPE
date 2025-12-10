@@ -69,9 +69,9 @@
             overflow: hidden;
             /* App-like feel */
             grid-template-areas:
-                "main right"
-                "player player";
-            grid-template-columns: 1fr 300px;
+                "main"
+                "player";
+            grid-template-columns: 1fr;
             grid-template-rows: 1fr var(--player-height);
         }
 
@@ -353,10 +353,6 @@
 
         /* Large Desktop (1200px and above) */
         @media (min-width: 1200px) {
-            body {
-                grid-template-columns: 1fr 320px;
-            }
-
             .bottom-nav {
                 display: flex;
             }
@@ -364,10 +360,6 @@
 
         /* Desktop (1024px to 1199px) */
         @media (max-width: 1199px) {
-            body {
-                grid-template-columns: 1fr 280px;
-            }
-
             .bottom-nav {
                 display: flex;
             }
@@ -376,7 +368,7 @@
         /* Tablet Mode (Vertical, Icons Only) - Approx 768px to 1024px */
         @media (max-width: 1024px) {
             body {
-                grid-template-columns: 1fr 240px;
+                grid-template-columns: 1fr;
             }
 
             .bottom-nav {
@@ -2056,6 +2048,10 @@
             <i data-lucide="zap" class="b-nav-icon"></i>
             <span class="b-nav-label">Recall</span>
         </button>
+        <button class="b-nav-item" onclick="switchTab('context')" id="nav-context">
+            <i data-lucide="book-open" class="b-nav-icon"></i>
+            <span class="b-nav-label">Context</span>
+        </button>
     </nav>
 
     <!-- 2. MAIN STAGE -->
@@ -2092,67 +2088,8 @@
         </div>
     </main>
 
-    <!-- 3. RIGHT PANEL (Context) -->
-    <aside id="right-panel" class="panel-container">
-
-        <section class="panel-section">
-            <h3 class="panel-header font-mono">Current_Context</h3>
-
-            <div class="context-card">
-                <div class="card-header">
-                    <i data-lucide="file-text" class="text-accent"></i>
-                    <span class="card-title">Lecture_Notes.pdf</span>
-                </div>
-
-                <p class="card-body">
-                    Graph theory provides the backbone for many Data Science algorithms. Key concepts include Nodes,
-                    Edges, and Pathfinding traversal methods.
-                </p>
-
-                <button class="action-btn-outline">
-                    <i data-lucide="download" width="14"></i>
-                    <span>Download Resource</span>
-                </button>
-            </div>
-        </section>
-
-        <section class="panel-section">
-            <div class="section-title-row">
-                <h3 class="panel-header font-mono">Sequence_Queue</h3>
-                <span class="badge-count">2</span>
-            </div>
-
-            <div class="queue-list">
-
-                <button class="queue-item status-queued">
-                    <div class="thumb-wrapper">
-                        <i data-lucide="play" width="14"></i>
-                    </div>
-                    <div class="meta-wrapper">
-                        <span class="item-title">SQL Injection Analysis</span>
-                        <span class="item-duration font-mono">12:00 mins</span>
-                    </div>
-                </button>
-
-                <button class="queue-item status-locked">
-                    <div class="thumb-wrapper">
-                        <i data-lucide="lock" width="14"></i>
-                    </div>
-                    <div class="meta-wrapper">
-                        <span class="item-title">Database Normal Forms</span>
-                        <span class="item-duration font-mono">24:45 mins</span>
-                    </div>
-                </button>
-
-            </div>
-        </section>
-
-    </aside>
-
-    <!-- Panel Toggle Button (for small screens) -->
-    <button class="panel-toggle" id="panel-toggle" onclick="togglePanel()" style="display: none;">
-        <i data-lucide="sidebar-close"></i>
-    </button>
+    <!-- 3. RIGHT PANEL REMOVED -->
+    <!-- Panel Toggle Button (removed) -->
 
     <!-- 4. PERSISTENT PLAYER BAR -->
     <footer id="player-bar" class="player-container">
@@ -2579,16 +2516,10 @@
                 volRail: document.getElementById('vol-rail'),
                 volFill: document.getElementById('vol-fill'),
 
-                // Sidebar
-                navItems: document.querySelectorAll('.nav-item')
             };
 
             setupAudioEvents();
             updateVolumeUI(); // Initial volume state
-
-            // Check Resize
-            window.addEventListener('resize', checkScreenSize);
-            checkScreenSize();
 
             // Default View
             switchTab('podcasts');
@@ -2648,11 +2579,69 @@
             } else if (tabName === 'flashcards') {
                 els.title.innerText = "Flash Recall";
                 renderFlashcardDecks();
+            } else if (tabName === 'context') {
+                els.title.innerText = "Study Context";
+                renderContext();
             }
             lucide.createIcons();
         }
 
         // --- RENDER FUNCTIONS ---
+        function renderContext() {
+            els.container.innerHTML = `
+                <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; animation: fade-in 0.3s ease;">
+                    <section class="panel-section">
+                        <h3 class="panel-header font-mono">Current_Context</h3>
+
+                        <div class="context-card">
+                            <div class="card-header">
+                                <i data-lucide="file-text" class="text-accent"></i>
+                                <span class="card-title">Lecture_Notes.pdf</span>
+                            </div>
+
+                            <p class="card-body">
+                                Graph theory provides the backbone for many Data Science algorithms. Key concepts include Nodes,
+                                Edges, and Pathfinding traversal methods.
+                            </p>
+
+                            <button class="action-btn-outline">
+                                <i data-lucide="download" width="14"></i>
+                                <span>Download Resource</span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <section class="panel-section">
+                        <div class="section-title-row">
+                            <h3 class="panel-header font-mono">Sequence_Queue</h3>
+                            <span class="badge-count">2</span>
+                        </div>
+
+                        <div class="queue-list">
+                            <button class="queue-item status-queued">
+                                <div class="thumb-wrapper">
+                                    <i data-lucide="play" width="14"></i>
+                                </div>
+                                <div class="meta-wrapper">
+                                    <span class="item-title">SQL Injection Analysis</span>
+                                    <span class="item-duration font-mono">12:00 mins</span>
+                                </div>
+                            </button>
+
+                            <button class="queue-item status-locked">
+                                <div class="thumb-wrapper">
+                                    <i data-lucide="lock" width="14"></i>
+                                </div>
+                                <div class="meta-wrapper">
+                                    <span class="item-title">Database Normal Forms</span>
+                                    <span class="item-duration font-mono">24:45 mins</span>
+                                </div>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
         function renderPodcasts() {
             els.container.innerHTML = `
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
@@ -3571,26 +3560,7 @@
             lucide.createIcons();
         }
 
-        function checkScreenSize() {
-            const toggleBtn = document.getElementById('panel-toggle');
-            if (!toggleBtn) return;
-
-            if (window.innerWidth <= 767) {
-                toggleBtn.style.display = 'flex';
-            } else {
-                toggleBtn.style.display = 'none';
-                const panel = document.getElementById('right-panel');
-                if (panel) panel.classList.remove('open');
-            }
-        }
-
-        function togglePanel() {
-            const panel = document.getElementById('right-panel');
-            if (panel) {
-                panel.classList.toggle('open');
-                lucide.createIcons();
-            }
-        }
+        // Deprecated side-panel functions removed.
 
         // Start
         init();
