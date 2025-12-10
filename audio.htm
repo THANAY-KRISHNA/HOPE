@@ -331,21 +331,33 @@
         /* Large Desktop (1200px and above) */
         @media (min-width: 1200px) {
             body {
-                grid-template-columns: var(--sidebar-width) 1fr 320px;
+                grid-template-columns: 1fr 320px;
+            }
+
+            .bottom-nav {
+                display: flex;
             }
         }
 
         /* Desktop (1024px to 1199px) */
         @media (max-width: 1199px) {
             body {
-                grid-template-columns: var(--sidebar-width) 1fr 280px;
+                grid-template-columns: 1fr 280px;
+            }
+
+            .bottom-nav {
+                display: flex;
             }
         }
 
         /* Tablet Mode (Vertical, Icons Only) - Approx 768px to 1024px */
         @media (max-width: 1024px) {
             body {
-                grid-template-columns: 80px 1fr 240px;
+                grid-template-columns: 1fr 240px;
+            }
+
+            .bottom-nav {
+                display: flex;
             }
 
             .sidebar-container {
