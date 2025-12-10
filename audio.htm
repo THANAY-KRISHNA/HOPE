@@ -131,24 +131,29 @@
         /* --- BOTTOM NAV (Floating) --- */
         .bottom-nav {
             position: fixed;
-            bottom: calc(var(--player-height) + 20px);
+            bottom: 24px;
+            /* Default for mobile/desktop if player not present, but usually overridden */
+            bottom: calc(var(--player-height) + 16px);
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            background: rgba(18, 18, 20, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 50px;
-            z-index: 100;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            gap: 1.5rem;
+            /* More space between icons */
+            background: rgba(18, 18, 20, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 24px;
+            border-radius: 100px;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.4s;
         }
 
         .bottom-nav.nav-hidden {
-            transform: translate(-50%, 100px);
+            transform: translate(-50%, 200%);
+            /* Move further down */
             opacity: 0;
             pointer-events: none;
         }
@@ -158,34 +163,52 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
             background: transparent;
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 12px;
-            transition: all 0.2s;
-            min-width: 60px;
+            padding: 8px;
+            border-radius: 50%;
+            /* Circle touch target */
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            position: relative;
         }
 
         .b-nav-item:hover {
             color: var(--text-main);
             background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .b-nav-item:active {
+            transform: translateY(0);
         }
 
         .b-nav-item.active {
             color: var(--accent);
+            background: rgba(204, 255, 0, 0.1);
+        }
+
+        .b-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent);
         }
 
         .b-nav-icon {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
+            stroke-width: 2px;
         }
 
+        /* Simple Icon: Hide Labels */
         .b-nav-label {
-            font-size: 0.7rem;
-            font-weight: 500;
+            display: none;
         }
 
         /* --- LOGO SECTION --- */
