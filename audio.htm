@@ -3094,7 +3094,26 @@
 
         function toggleFullPlayer() {
             if (els.fullPlayer) {
-                els.fullPlayer.classList.toggle('open');
+                const isOpen = els.fullPlayer.classList.toggle('open');
+                const bottomNav = document.getElementById('bottom-nav');
+                const miniPlayer = document.getElementById('player-bar');
+
+                if (isOpen) {
+                    // Hide Nav and Mini Player
+                    if (bottomNav) bottomNav.classList.add('nav-hidden');
+                    if (miniPlayer) miniPlayer.classList.remove('visible');
+                } else {
+                    // Show Nav and Mini Player (if audio is playing)
+                    if (bottomNav) bottomNav.classList.remove('nav-hidden');
+                    if (miniPlayer && state.audio.playing) miniPlayer.classList.add('visible');
+                    // Even if paused, we might want to show it if we are just minimizing? 
+                    // Let's stick to "visible if playing or has track" logic. 
+                    // Actually, simpler: just return it to 'visible' state if it was visible before. 
+                    // Since we use 'player-active' on body, let's rely on that.
+                    if (miniPlayer && document.body.classList.contains('player-active')) {
+                        miniPlayer.classList.add('visible');
+                    }
+                }
             }
         }
 
