@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin-docs: Database Systems - Comprehensive Review & Exam Prep</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .document-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+
+        .document-meta {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .module-container {
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, #3498db 0%, #1f618d 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            padding: 25px 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .subsection-header {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin: 20px 0 10px 0;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .subsubsection-header {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin: 15px 0 8px 0;
+            padding-left: 15px;
+            border-left: 3px solid #9b59b6;
+        }
+
+        .content-list {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .definition-box {
+            background-color: #f1f8ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .definition-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .example-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-family: inherit;
+        }
+
+        .visual-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .svg-visual {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .note-box {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: #5d4037;
+            margin-bottom: 5px;
+        }
+
+        .key-term {
+            background-color: #e8f5e9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: #f2f6fc;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .hierarchy-list {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        .hierarchy-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .hierarchy-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 10px;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .checklist {
+            list-style-type: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 8px;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 10px;
+            color: #3498db;
+            font-size: 1.2rem;
+        }
+
+        .checklist li.checked:before {
+            content: "☑";
+            color: #2e7d32;
+        }
+
+        .problem-box {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .problem-title {
+            font-weight: 600;
+            color: #c62828;
+            margin-bottom: 5px;
+        }
+
+        .formula-box {
+            background-color: #f3e5f5;
+            border: 1px solid #9c27b0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Cambria', 'Times New Roman', serif;
+        }
+
+        .formula-title {
+            font-weight: 600;
+            color: #6a1b9a;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .formula {
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            border-left: 3px solid #9c27b0;
+        }
+
+        .step-by-step {
+            background-color: #e8f5e9;
+            border: 1px solid #81c784;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .step {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 5px;
+            background-color: #2e7d32;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 0.8rem;
+            line-height: 18px;
+            font-weight: bold;
+        }
+
+        .timeline-box {
+            background-color: #e3f2fd;
+            border: 1px solid #64b5f6;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            border-left: 3px solid #42a5f5;
+            padding-bottom: 10px;
+        }
+
+        .timeline-time {
+            font-weight: 600;
+            color: #0d47a1;
+            margin-bottom: 5px;
+        }
+
+        .warning-box {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .warning-title {
+            font-weight: 600;
+            color: #ef6c00;
+            margin-bottom: 5px;
+        }
+
+        .success-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .success-title {
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 5px;
+        }
+
+        .quick-reference {
+            background-color: #f5f5f5;
+            border: 2px solid #bdbdbd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            column-count: 2;
+            column-gap: 30px;
+        }
+
+        .quick-reference-header {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            column-span: all;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .reference-item {
+            margin-bottom: 12px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .reference-term {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .module-container,
+            .document-header {
+                box-shadow: none;
+                margin-bottom: 10px;
+                break-inside: avoid;
+            }
+
+            .visual-container {
+                break-inside: avoid;
+            }
+
+            .footer {
+                display: none;
+            }
+
+            .section {
+                break-inside: avoid;
+            }
+
+            .quick-reference {
+                column-count: 2;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="document-header">
+        <div class="document-title">Justin-docs</div>
+        <div class="document-subtitle">Database Systems - Comprehensive Review and Exam Preparation Guide</div>
+        <div class="document-meta">
+            <div><i class="fas fa-user"></i> Author: Justin</div>
+            <div><i class="fas fa-calendar"></i> 2024 Scheme</div>
+            <div><i class="fas fa-book"></i> Handbook 2025</div>
+            <div><i class="fas fa-graduation-cap"></i> Exam Preparation</div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">COURSE INTEGRATION: CONNECTING ALL MODULES</div>
+
+        <div class="section">
+            <h2 class="section-header">The Complete Database Management Journey</h2>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="400" viewBox="0 0 800 400">
+                    <text x="400" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c3e50">Complete
+                        Database Management Journey</text>
+
+                    <!-- Module 1 -->
+                    <rect x="50" y="60" width="200" height="80" rx="8" ry="8" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="3" />
+                    <text x="150" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#1565c0">Module
+                        1</text>
+                    <text x="150" y="115" text-anchor="middle" font-size="14" fill="#0d47a1">CONCEPTUAL DESIGN</text>
+                    <text x="150" y="135" text-anchor="middle" font-size="12" fill="#0d47a1">ER Modeling</text>
+
+                    <!-- Arrow down -->
+                    <line x1="150" y1="140" x2="150" y2="170" stroke="#7e57c2" stroke-width="3" />
+                    <polygon points="145,165 150,170 155,165" fill="#7e57c2" />
+
+                    <!-- Module 2 -->
+                    <rect x="50" y="170" width="200" height="80" rx="8" ry="8" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="3" />
+                    <text x="150" y="205" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">Module
+                        2</text>
+                    <text x="150" y="225" text-anchor="middle" font-size="14" fill="#1b5e20">LOGICAL DESIGN & SQL</text>
+                    <text x="150" y="245" text-anchor="middle" font-size="12" fill="#1b5e20">Relational Model →
+                        SQL</text>
+
+                    <!-- Arrow down -->
+                    <line x1="150" y1="250" x2="150" y2="280" stroke="#7e57c2" stroke-width="3" />
+                    <polygon points="145,275 150,280 155,275" fill="#7e57c2" />
+
+                    <!-- Module 3 -->
+                    <rect x="300" y="60" width="200" height="80" rx="8" ry="8" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="3" />
+                    <text x="400" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#e65100">Module
+                        3</text>
+                    <text x="400" y="115" text-anchor="middle" font-size="14" fill="#bf360c">OPTIMIZATION &
+                        MANAGEMENT</text>
+                    <text x="400" y="135" text-anchor="middle" font-size="12" fill="#bf360c">Normalization →
+                        Transactions</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="140" x2="400" y2="170" stroke="#7e57c2" stroke-width="3" />
+                    <polygon points="395,165 400,170 405,165" fill="#7e57c2" />
+
+                    <!-- Module 4 -->
+                    <rect x="300" y="170" width="200" height="80" rx="8" ry="8" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="3" />
+                    <text x="400" y="205" text-anchor="middle" font-size="16" font-weight="bold" fill="#ad1457">Module
+                        4</text>
+                    <text x="400" y="225" text-anchor="middle" font-size="14" fill="#880e4f">SCALING & MODERN
+                        ARCH</text>
+                    <text x="400" y="245" text-anchor="middle" font-size="12" fill="#880e4f">NoSQL → CAP Theorem</text>
+
+                    <!-- Arrow down -->
+                    <line x1="400" y1="250" x2="400" y2="280" stroke="#7e57c2" stroke-width="3" />
+                    <polygon points="395,275 400,280 405,275" fill="#7e57c2" />
+
+                    <!-- Final Integration -->
+                    <rect x="550" y="115" width="200" height="80" rx="8" ry="8" fill="#f3e5f5" stroke="#8e24aa"
+                        stroke-width="3" />
+                    <text x="650" y="145" text-anchor="middle" font-size="16" font-weight="bold" fill="#6a1b9a">FINAL
+                        INTEGRATION</text>
+                    <text x="650" y="165" text-anchor="middle" font-size="14" fill="#4a148c">Complete DB System</text>
+
+                    <!-- Connecting arrows from Module 2 and 4 to Final -->
+                    <path d="M250,205 Q300,180 350,155" stroke="#7e57c2" stroke-width="2" fill="none" />
+                    <polygon points="345,150 350,155 345,160" fill="#7e57c2" />
+
+                    <path d="M500,205 Q550,180 600,155" stroke="#7e57c2" stroke-width="2" fill="none" />
+                    <polygon points="595,150 600,155 595,160" fill="#7e57c2" />
+
+                    <!-- Legend -->
+                    <rect x="50" y="280" width="700" height="100" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd"
+                        stroke-width="1" />
+                    <text x="400" y="300" text-anchor="middle" font-size="16" font-weight="bold"
+                        fill="#5d4037">Cross-Module Connections</text>
+
+                    <!-- Connection 1 -->
+                    <rect x="80" y="315" width="30" height="20" rx="3" ry="3" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="1" />
+                    <text x="100" y="330" text-anchor="start" font-size="11" fill="#333">ER Model</text>
+                    <text x="170" y="330" text-anchor="middle" font-size="11" fill="#333">→</text>
+                    <rect x="190" y="315" width="30" height="20" rx="3" ry="3" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="1" />
+                    <text x="210" y="330" text-anchor="start" font-size="11" fill="#333">SQL Tables</text>
+
+                    <!-- Connection 2 -->
+                    <rect x="350" y="315" width="30" height="20" rx="3" ry="3" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="1" />
+                    <text x="370" y="330" text-anchor="start" font-size="11" fill="#333">SQL Design</text>
+                    <text x="440" y="330" text-anchor="middle" font-size="11" fill="#333">→</text>
+                    <rect x="460" y="315" width="30" height="20" rx="3" ry="3" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="1" />
+                    <text x="480" y="330" text-anchor="start" font-size="11" fill="#333">Normalization</text>
+
+                    <!-- Connection 3 -->
+                    <rect x="600" y="315" width="30" height="20" rx="3" ry="3" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="1" />
+                    <text x="620" y="330" text-anchor="start" font-size="11" fill="#333">Normalization</text>
+                    <text x="690" y="330" text-anchor="middle" font-size="11" fill="#333">→</text>
+                    <rect x="710" y="315" width="30" height="20" rx="3" ry="3" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="1" />
+                    <text x="730" y="330" text-anchor="start" font-size="11" fill="#333">NoSQL</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">Cross-Module Connections</div>
+
+            <div class="definition-box">
+                <div class="definition-title">From ER (Module 1) to SQL (Module 2):</div>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>ER Concept</th>
+                            <th>SQL Implementation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="key-term">Entity</span></td>
+                            <td>CREATE TABLE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="key-term">Attribute</span></td>
+                            <td>Column with data type</td>
+                        </tr>
+                        <tr>
+                            <td><span class="key-term">Relationship (1:1, 1:N, M:N)</span></td>
+                            <td>Foreign keys, junction tables</td>
+                        </tr>
+                        <tr>
+                            <td><span class="key-term">Weak Entity</span></td>
+                            <td>Composite primary key + foreign key</td>
+                        </tr>
+                        <tr>
+                            <td><span class="key-term">Generalization/Specialization</span></td>
+                            <td>Multiple tables with inheritance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="definition-box">
+                <div class="definition-title">From SQL (Module 2) to Normalization (Module 3):</div>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>SQL Table Design</th>
+                            <th>Normalization Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Flat table with anomalies</td>
+                            <td><span class="key-term">1NF</span> (atomic values)</td>
+                        </tr>
+                        <tr>
+                            <td>Partial dependencies</td>
+                            <td><span class="key-term">2NF</span> (remove partial dependencies)</td>
+                        </tr>
+                        <tr>
+                            <td>Transitive dependencies</td>
+                            <td><span class="key-term">3NF</span> (remove transitive dependencies)</td>
+                        </tr>
+                        <tr>
+                            <td>All determinants as keys</td>
+                            <td><span class="key-term">BCNF</span> (stronger 3NF)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">EXAM PREPARATION STRATEGY</div>
+
+        <div class="section">
+            <h2 class="section-header">Understanding the Exam Structure</h2>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="350" viewBox="0 0 800 350">
+                    <text x="400" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c3e50">Exam
+                        Structure & Marks Distribution</text>
+
+                    <!-- CIE (40 marks) -->
+                    <rect x="50" y="60" width="300" height="250" rx="8" ry="8" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="200" y="85" text-anchor="middle" font-size="18" font-weight="bold" fill="#1565c0">CIE (40
+                        marks)</text>
+                    <text x="200" y="105" text-anchor="middle" font-size="14" fill="#0d47a1">Continuous Internal
+                        Evaluation</text>
+
+                    <!-- Attendance -->
+                    <rect x="80" y="120" width="240" height="40" rx="5" ry="5" fill="#bbdefb" stroke="#64b5f6"
+                        stroke-width="1" />
+                    <text x="200" y="140" text-anchor="middle" font-size="14" fill="#1565c0">Attendance: 5 marks</text>
+
+                    <!-- Assignment -->
+                    <rect x="80" y="170" width="240" height="40" rx="5" ry="5" fill="#90caf9" stroke="#42a5f5"
+                        stroke-width="1" />
+                    <text x="200" y="190" text-anchor="middle" font-size="14" fill="#0d47a1">Assignment/Micro project:
+                        15 marks</text>
+
+                    <!-- Internal Exam 1 -->
+                    <rect x="80" y="220" width="115" height="40" rx="5" ry="5" fill="#64b5f6" stroke="#2196f3"
+                        stroke-width="1" />
+                    <text x="137.5" y="240" text-anchor="middle" font-size="14" fill="#0d47a1">Internal Exam 1: 10
+                        marks</text>
+
+                    <!-- Internal Exam 2 -->
+                    <rect x="205" y="220" width="115" height="40" rx="5" ry="5" fill="#42a5f5" stroke="#1e88e5"
+                        stroke-width="1" />
+                    <text x="262.5" y="240" text-anchor="middle" font-size="14" fill="#0d47a1">Internal Exam 2: 10
+                        marks</text>
+
+                    <!-- ESE (60 marks) -->
+                    <rect x="450" y="60" width="300" height="250" rx="8" ry="8" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="600" y="85" text-anchor="middle" font-size="18" font-weight="bold" fill="#2e7d32">ESE (60
+                        marks)</text>
+                    <text x="600" y="105" text-anchor="middle" font-size="14" fill="#1b5e20">End Semester Exam (2.5
+                        hours)</text>
+
+                    <!-- Section A -->
+                    <rect x="480" y="130" width="240" height="80" rx="5" ry="5" fill="#a5d6a7" stroke="#66bb6a"
+                        stroke-width="1" />
+                    <text x="600" y="155" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">Section
+                        A: 20 marks</text>
+                    <text x="600" y="180" text-anchor="middle" font-size="14" fill="#1b5e20">Short Answers</text>
+                    <text x="600" y="200" text-anchor="middle" font-size="12" fill="#388e3c">10 questions × 2 marks
+                        each</text>
+
+                    <!-- Section B -->
+                    <rect x="480" y="220" width="240" height="80" rx="5" ry="5" fill="#81c784" stroke="#4caf50"
+                        stroke-width="1" />
+                    <text x="600" y="245" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">Section
+                        B: 40 marks</text>
+                    <text x="600" y="270" text-anchor="middle" font-size="14" fill="#1b5e20">Long Answers</text>
+                    <text x="600" y="290" text-anchor="middle" font-size="12" fill="#388e3c">4 questions × 10 marks
+                        each</text>
+
+                    <!-- Arrow -->
+                    <line x1="350" y1="185" x2="450" y2="185" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="445,180 450,185 445,190" fill="#7e57c2" />
+
+                    <text x="400" y="200" text-anchor="middle" font-size="12" fill="#5e35b1">Total: 100 marks</text>
+                </svg>
+            </div>
+
+            <div class="subsection-header">Typical Question Distribution:</div>
+
+            <div class="note-box">
+                <div class="note-title">Section A - Short Answers (20 marks):</div>
+                <ul class="content-list">
+                    <li>10 questions × 2 marks each</li>
+                    <li>Cover all modules, definitions, concepts</li>
+                    <li>Direct questions testing fundamental understanding</li>
+                </ul>
+            </div>
+
+            <div class="note-box">
+                <div class="note-title">Section B - Long Answers (40 marks):</div>
+                <ul class="content-list">
+                    <li>4 questions × 10 marks each</li>
+                    <li>Problems: ER design, SQL queries, normalization, transactions</li>
+                    <li>Application-based questions requiring problem-solving</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Important Formulas and Theorems</h2>
+
+            <div class="formula-box">
+                <div class="formula-title">CAP Theorem</div>
+                <div class="formula">Distributed system can guarantee at most 2 of 3: <br /><span
+                        class="key-term">Consistency</span>, <span class="key-term">Availability</span>, <span
+                        class="key-term">Partition Tolerance</span></div>
+                <div class="content-list">
+                    <li><span class="key-term">CA</span>: Traditional RDBMS (no partition tolerance)</li>
+                    <li><span class="key-term">CP</span>: MongoDB, HBase (sacrifice availability)</li>
+                    <li><span class="key-term">AP</span>: Cassandra, CouchDB (sacrifice consistency)</li>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula-title">Quorum for Strong Consistency</div>
+                <div class="formula">R + W > N <br />where R = read replicas, W = write replicas, N = total replicas
+                </div>
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>N = 3, R = 2, W = 2 → Strong consistency guaranteed<br />
+                        2 + 2 > 3 → 4 > 3 ✓</p>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula-title">Normalization Rules</div>
+                <div class="formula"><span class="key-term">2NF</span>: No partial dependencies (non-key attributes
+                    depend on full PK)</div>
+                <div class="formula"><span class="key-term">3NF</span>: No transitive dependencies (non-key attributes
+                    depend only on PK)</div>
+                <div class="formula"><span class="key-term">BCNF</span>: Every determinant is a candidate key</div>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula-title">Transaction Serializability</div>
+                <div class="formula"><span class="key-term">Conflict Serializable</span>: If precedence graph is acyclic
+                </div>
+                <div class="formula"><span class="key-term">Recoverable</span>: Tj commits only after all Ti it read
+                    from commit</div>
+                <div class="formula"><span class="key-term">Cascadeless</span>: No transaction reads uncommitted data
+                </div>
+                <div class="formula"><span class="key-term">Strict</span>: No transaction reads OR writes uncommitted
+                    data</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">COMMON PROBLEM TYPES WITH SOLUTIONS</div>
+
+        <div class="section">
+            <h2 class="section-header">Type 1: ER Diagram Design (10 marks)</h2>
+
+            <div class="step-by-step">
+                <div class="step-title">Solution Approach:</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <span class="key-term">Identify entities</span>: BOOK, MEMBER, LOAN, PUBLISHER
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span class="key-term">Identify attributes with keys</span>: Book(ISBN, Title, Author),
+                    Member(MemberID, Name, Address)
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span class="key-term">Identify relationships with cardinalities</span>:
+                    <ul class="content-list">
+                        <li>PUBLISHER publishes BOOK (1:N)</li>
+                        <li>MEMBER borrows BOOK through LOAN (M:N via LOAN entity)</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <span class="key-term">Add constraints</span>: Weak entities, participation constraints
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <span class="key-term">Draw diagram</span> with proper notation
+                </div>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="300" viewBox="0 0 800 300">
+                    <text x="400" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#2c3e50">Library
+                        ER Diagram Example</text>
+
+                    <!-- PUBLISHER Entity -->
+                    <rect x="50" y="70" width="120" height="60" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="110" y="100" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#1565c0">PUBLISHER</text>
+
+                    <!-- BOOK Entity -->
+                    <rect x="250" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="310" y="100" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#2e7d32">BOOK</text>
+
+                    <!-- LOAN Entity (Weak) -->
+                    <rect x="450" y="70" width="120" height="60" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="2" />
+                    <rect x="452" y="72" width="116" height="56" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="1" />
+                    <text x="510" y="100" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#ad1457">LOAN</text>
+
+                    <!-- MEMBER Entity -->
+                    <rect x="650" y="70" width="120" height="60" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="2" />
+                    <text x="710" y="100" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#e65100">MEMBER</text>
+
+                    <!-- PUBLISHES Relationship -->
+                    <path d="M170,100 L200,80 L230,100 L200,120 Z" fill="#bbdefb" stroke="#1976d2" stroke-width="2" />
+                    <text x="200" y="105" text-anchor="middle" font-size="12" fill="#0d47a1">publishes</text>
+                    <text x="185" y="85" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
+                    <text x="215" y="85" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+
+                    <!-- BORROWS Relationship -->
+                    <path d="M370,100 L400,80 L430,100 L400,120 Z" fill="#c8e6c9" stroke="#388e3c" stroke-width="2" />
+                    <text x="400" y="105" text-anchor="middle" font-size="12" fill="#1b5e20">borrows</text>
+
+                    <!-- HAS Relationship (Identifying) -->
+                    <path d="M570,100 L600,80 L630,100 L600,120 Z" fill="#f8bbd9" stroke="#c2185b" stroke-width="2" />
+                    <path d="M572,102 L600,82 L628,102 L600,122 Z" fill="#f8bbd9" stroke="#c2185b" stroke-width="1" />
+                    <text x="600" y="105" text-anchor="middle" font-size="12" fill="#880e4f">has</text>
+
+                    <!-- Connecting lines -->
+                    <line x1="110" y1="100" x2="170" y2="100" stroke="#1976d2" stroke-width="2" />
+                    <line x1="230" y1="100" x2="250" y2="100" stroke="#1976d2" stroke-width="2" />
+
+                    <line x1="310" y1="100" x2="370" y2="100" stroke="#388e3c" stroke-width="2" />
+                    <line x1="430" y1="100" x2="450" y2="100" stroke="#388e3c" stroke-width="2" />
+
+                    <line x1="510" y1="100" x2="570" y2="100" stroke="#c2185b" stroke-width="2" />
+                    <line x1="630" y1="100" x2="650" y2="100" stroke="#c2185b" stroke-width="2" />
+
+                    <!-- Attributes -->
+                    <circle cx="110" cy="150" r="25" fill="#e3f2fd" stroke="#1976d2" stroke-width="1" />
+                    <text x="110" y="155" text-anchor="middle" font-size="10" fill="#0d47a1">PublisherID</text>
+
+                    <circle cx="310" cy="150" r="25" fill="#e8f5e9" stroke="#388e3c" stroke-width="1" />
+                    <text x="310" y="155" text-anchor="middle" font-size="10" fill="#1b5e20">ISBN</text>
+
+                    <circle cx="510" cy="150" r="25" fill="#fce4ec" stroke="#c2185b" stroke-width="1" />
+                    <text x="510" y="150" text-anchor="middle" font-size="9" fill="#880e4f">LoanDate</text>
+                    <text x="510" y="165" text-anchor="middle" font-size="9" fill="#880e4f">ReturnDate</text>
+
+                    <circle cx="710" cy="150" r="25" fill="#fff3e0" stroke="#f57c00" stroke-width="1" />
+                    <text x="710" y="155" text-anchor="middle" font-size="10" fill="#bf360c">MemberID</text>
+
+                    <!-- Relationship attributes -->
+                    <circle cx="200" cy="150" r="20" fill="#fff9c4" stroke="#fbc02d" stroke-width="1" />
+                    <text x="200" y="155" text-anchor="middle" font-size="9" fill="#f57f17">Year</text>
+
+                    <circle cx="400" cy="150" r="20" fill="#dcedc8" stroke="#9ccc65" stroke-width="1" />
+                    <text x="400" y="155" text-anchor="middle" font-size="9" fill="#689f38">DueDate</text>
+
+                    <!-- Connecting lines to attributes -->
+                    <line x1="110" y1="125" x2="110" y2="150" stroke="#1976d2" stroke-width="1" />
+                    <line x1="310" y1="125" x2="310" y2="150" stroke="#388e3c" stroke-width="1" />
+                    <line x1="510" y1="125" x2="510" y2="150" stroke="#c2185b" stroke-width="1" />
+                    <line x1="710" y1="125" x2="710" y2="150" stroke="#f57c00" stroke-width="1" />
+
+                    <line x1="200" y1="120" x2="200" y2="150" stroke="#fbc02d" stroke-width="1" />
+                    <line x1="400" y1="120" x2="400" y2="150" stroke="#9ccc65" stroke-width="1" />
+
+                    <!-- Legend -->
+                    <rect x="50" y="200" width="700" height="80" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd"
+                        stroke-width="1" />
+                    <text x="400" y="220" text-anchor="middle" font-size="14" font-weight="bold" fill="#5d4037">Key
+                        Elements in Library ER Diagram</text>
+
+                    <rect x="80" y="235" width="30" height="20" rx="3" ry="3" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="1" />
+                    <text x="100" y="250" text-anchor="start" font-size="11" fill="#333">Strong Entity</text>
+
+                    <rect x="250" y="235" width="30" height="20" rx="3" ry="3" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="1" />
+                    <rect x="252" y="237" width="26" height="16" rx="3" ry="3" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="1" />
+                    <text x="270" y="250" text-anchor="start" font-size="11" fill="#333">Weak Entity</text>
+
+                    <circle cx="430" cy="245" r="10" fill="#fff9c4" stroke="#fbc02d" stroke-width="1" />
+                    <text x="450" y="250" text-anchor="start" font-size="11" fill="#333">Relationship Attribute</text>
+
+                    <text x="580" y="245" text-anchor="start" font-size="11" fill="#5e35b1">(1,1) = (min,max)
+                        cardinality</text>
+                    <text x="580" y="260" text-anchor="start" font-size="11" fill="#5e35b1">Double diamond = Identifying
+                        relationship</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Type 2: SQL Query Writing (10 marks)</h2>
+
+            <div class="example-box">
+                <div class="example-title">Given tables:</div>
+                <p>Students(id, name, dept)<br />
+                    Courses(code, title, credits)<br />
+                    Enrollments(student_id, course_code, semester, grade)</p>
+            </div>
+
+            <div class="step-by-step">
+                <div class="step-title">Queries Required:</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <span class="key-term">Find students who scored 'A' in more than 3 courses</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span class="key-term">Find department with highest average GPA</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span class="key-term">Find prerequisite chain for a given course</span>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Solution Approach:</div>
+                <p>-- 1. Students with 'A' in more than 3 courses<br />
+                    SELECT s.id, s.name, COUNT(*) as a_count<br />
+                    FROM Students s<br />
+                    JOIN Enrollments e ON s.id = e.student_id<br />
+                    WHERE e.grade = 'A'<br />
+                    GROUP BY s.id, s.name<br />
+                    HAVING COUNT(*) > 3;<br /><br />
+
+                    -- 2. Department with highest average GPA<br />
+                    SELECT s.dept, AVG(<br />
+                    CASE e.grade<br />
+                    WHEN 'A' THEN 4.0 WHEN 'B' THEN 3.0<br />
+                    WHEN 'C' THEN 2.0 WHEN 'D' THEN 1.0<br />
+                    ELSE 0 END) as avg_gpa<br />
+                    FROM Students s<br />
+                    JOIN Enrollments e ON s.id = e.student_id<br />
+                    GROUP BY s.dept<br />
+                    ORDER BY avg_gpa DESC<br />
+                    LIMIT 1;<br /><br />
+
+                    -- 3. Prerequisite chain (assuming Prereqs table)<br />
+                    WITH RECURSIVE prereq_chain AS (<br />
+                    SELECT course_code, prereq_code, 1 as level<br />
+                    FROM Prerequisites WHERE course_code = 'C101'<br />
+                    UNION ALL<br />
+                    SELECT p.course_code, p.prereq_code, pc.level + 1<br />
+                    FROM Prerequisites p<br />
+                    JOIN prereq_chain pc ON p.course_code = pc.prereq_code<br />
+                    )<br />
+                    SELECT * FROM prereq_chain ORDER BY level;</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Type 3: Normalization Problem (10 marks)</h2>
+
+            <div class="example-box">
+                <div class="example-title">Given:</div>
+                <p>R(A, B, C, D, E) with FDs: AB → C, C → D, D → E, E → A</p>
+            </div>
+
+            <div class="step-by-step">
+                <div class="step-title">Solution Steps:</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <span class="key-term">Find all candidate keys</span>: Compute closures
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span class="key-term">Find minimal cover</span>: Remove extraneous attributes
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span class="key-term">Decompose to 3NF</span> preserving dependencies
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <span class="key-term">Decompose to BCNF</span> (may lose dependencies)
+                </div>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="350" viewBox="0 0 800 350">
+                    <text x="400" y="30" text-anchor="middle" font-size="22" font-weight="bold"
+                        fill="#2c3e50">Normalization Solution Process</text>
+
+                    <!-- Step 1: Find Candidate Keys -->
+                    <rect x="50" y="60" width="200" height="80" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="150" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565c0">Step 1:
+                        Candidate Keys</text>
+                    <text x="150" y="105" text-anchor="middle" font-size="12" fill="#0d47a1">Compute closures:</text>
+                    <text x="150" y="125" text-anchor="middle" font-size="11" fill="#0d47a1">{A,B}⁺ = {A,B,C,D,E}</text>
+                    <text x="150" y="140" text-anchor="middle" font-size="11" fill="#0d47a1">{B,C}⁺, {B,D}⁺, {B,E}⁺ =
+                        U</text>
+
+                    <!-- Arrow -->
+                    <line x1="250" y1="100" x2="300" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="295,95 300,100 295,105" fill="#7e57c2" />
+
+                    <!-- Step 2: Minimal Cover -->
+                    <rect x="300" y="60" width="200" height="80" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="400" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#2e7d32">Step 2:
+                        Minimal Cover</text>
+                    <text x="400" y="105" text-anchor="middle" font-size="12" fill="#1b5e20">Remove extraneous
+                        attributes:</text>
+                    <text x="400" y="125" text-anchor="middle" font-size="11" fill="#1b5e20">AB → C, C → D, D → E, E →
+                        A</text>
+
+                    <!-- Arrow -->
+                    <line x1="500" y1="100" x2="550" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <polygon points="545,95 550,100 545,105" fill="#7e57c2" />
+
+                    <!-- Step 3: 3NF Decomposition -->
+                    <rect x="550" y="60" width="200" height="80" rx="5" ry="5" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="2" />
+                    <text x="650" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#e65100">Step 3:
+                        3NF Decomposition</text>
+                    <text x="650" y="105" text-anchor="middle" font-size="12" fill="#bf360c">Preserve
+                        dependencies:</text>
+                    <text x="650" y="125" text-anchor="middle" font-size="11" fill="#bf360c">R1(A,B,C), R2(C,D),
+                        R3(D,E), R4(E,A)</text>
+
+                    <!-- Step 4: BCNF Decomposition -->
+                    <rect x="50" y="170" width="700" height="80" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
+                        stroke-width="2" />
+                    <text x="400" y="195" text-anchor="middle" font-size="14" font-weight="bold" fill="#ad1457">Step 4:
+                        BCNF Decomposition</text>
+                    <text x="400" y="215" text-anchor="middle" font-size="12" fill="#880e4f">Every determinant is
+                        superkey (may lose dependencies):</text>
+                    <text x="400" y="235" text-anchor="middle" font-size="11" fill="#880e4f">Decompose based on
+                        violating FDs</text>
+
+                    <!-- Result comparison -->
+                    <rect x="50" y="270" width="700" height="60" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd"
+                        stroke-width="1" />
+                    <text x="400" y="285" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#5d4037">Trade-off: 3NF vs BCNF</text>
+
+                    <rect x="100" y="295" width="250" height="30" rx="3" ry="3" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="1" />
+                    <text x="225" y="315" text-anchor="middle" font-size="12" fill="#2e7d32">3NF: Preserves
+                        dependencies</text>
+
+                    <rect x="450" y="295" width="250" height="30" rx="3" ry="3" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="1" />
+                    <text x="575" y="315" text-anchor="middle" font-size="12" fill="#1565c0">BCNF: Eliminates all
+                        redundancy</text>
+                </svg>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-header">Type 4: Transaction Schedule Analysis (10 marks)</h2>
+
+            <div class="example-box">
+                <div class="example-title">Given schedule S:</div>
+                <p>R1(A), W1(A), R2(A), W2(B), R1(B), W1(C), C1, R2(C), W2(A), C2</p>
+            </div>
+
+            <div class="step-by-step">
+                <div class="step-title">Analysis Tasks:</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <span class="key-term">Is it conflict serializable?</span> Draw precedence graph
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span class="key-term">Is it recoverable? Cascadeless? Strict?</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span class="key-term">Show equivalent serial schedule</span> if exists
+                </div>
+            </div>
+
+            <div class="visual-container">
+                <svg class="svg-visual" width="800" height="350" viewBox="0 0 800 350">
+                    <text x="400" y="30" text-anchor="middle" font-size="22" font-weight="bold"
+                        fill="#2c3e50">Transaction Schedule Analysis</text>
+
+                    <!-- Conflicting Operations -->
+                    <rect x="50" y="60" width="300" height="80" rx="5" ry="5" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="2" />
+                    <text x="200" y="85" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#1565c0">Conflicting Operations</text>
+                    <text x="200" y="105" text-anchor="middle" font-size="12" fill="#0d47a1">W1(A) → R2(A) (T1 →
+                        T2)</text>
+                    <text x="200" y="125" text-anchor="middle" font-size="12" fill="#0d47a1">W2(A) would conflict but
+                        after C1</text>
+
+                    <!-- Precedence Graph -->
+                    <rect x="450" y="60" width="300" height="80" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="2" />
+                    <text x="600" y="85" text-anchor="middle" font-size="14" font-weight="bold"
+                        fill="#2e7d32">Precedence Graph</text>
+
+                    <!-- Graph visualization -->
+                    <circle cx="200" cy="200" r="40" fill="#ffebee" stroke="#f44336" stroke-width="3" />
+                    <text x="200" y="195" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#c62828">T1</text>
+
+                    <circle cx="400" cy="200" r="40" fill="#e3f2fd" stroke="#1976d2" stroke-width="3" />
+                    <text x="400" y="195" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#1565c0">T2</text>
+
+                    <circle cx="600" cy="200" r="40" fill="#fff3e0" stroke="#f57c00" stroke-width="3" />
+                    <text x="600" y="195" text-anchor="middle" font-size="20" font-weight="bold"
+                        fill="#e65100">T3</text>
+
+                    <!-- Edges -->
+                    <path d="M240,200 Q270,180 300,170 Q330,180 360,200" stroke="#7e57c2" stroke-width="3" fill="none"
+                        marker-end="url(#arrowhead)" />
+
+                    <!-- No cycle - so serializable -->
+                    <text x="400" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#2e7d32">ACYCLIC
+                        → CONFLICT SERIALIZABLE</text>
+
+                    <!-- Recovery properties -->
+                    <rect x="50" y="280" width="700" height="60" rx="5" ry="5" fill="#f5f5f5" stroke="#bdbdbd"
+                        stroke-width="1" />
+                    <text x="400" y="295" text-anchor="middle" font-size="14" font-weight="bold" fill="#5d4037">Recovery
+                        Properties Check</text>
+
+                    <rect x="100" y="305" width="180" height="30" rx="3" ry="3" fill="#e8f5e9" stroke="#388e3c"
+                        stroke-width="1" />
+                    <text x="190" y="325" text-anchor="middle" font-size="12" fill="#2e7d32">Recoverable: ✓</text>
+
+                    <rect x="310" y="305" width="180" height="30" rx="3" ry="3" fill="#fff3e0" stroke="#f57c00"
+                        stroke-width="1" />
+                    <text x="400" y="325" text-anchor="middle" font-size="12" fill="#e65100">Cascadeless: ✓</text>
+
+                    <rect x="520" y="305" width="180" height="30" rx="3" ry="3" fill="#e3f2fd" stroke="#1976d2"
+                        stroke-width="1" />
+                    <text x="610" y="325" text-anchor="middle" font-size="12" fill="#1565c0">Strict: ✓</text>
+
+                    <!-- Arrowhead definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#7e57c2" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">QUICK REVISION CHECKLISTS</div>
+
+        <div class="section">
+            <h2 class="section-header">Module-by-Module Revision</h2>
+
+            <div class="quick-reference">
+                <div class="quick-reference-header">Module 1 Checklist:</div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Three-schema architecture</span> components
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">ER diagram symbols</span> and meanings
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Relationship types</span> (1:1, 1:N, M:N)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Weak entities</span> and identifying relationships
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Participation constraints</span> (total/partial)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Enhanced ER concepts</span> (specialization/generalization)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Design decisions</span> (entity vs attribute)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Fan traps and chasm traps</span>
+                </div>
+            </div>
+
+            <div class="quick-reference">
+                <div class="quick-reference-header">Module 2 Checklist:</div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Relational model terminology</span> (tuple, attribute, domain)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Keys</span>: super, candidate, primary, foreign
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">SQL DDL commands</span> (CREATE, ALTER, DROP)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">SQL DML</span> with all clauses
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Join types</span> and usage
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">ER-to-relational mapping</span> rules
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Relational algebra operations</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Views, indexes, constraints</span>
+                </div>
+            </div>
+
+            <div class="quick-reference">
+                <div class="quick-reference-header">Module 3 Checklist:</div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Functional dependencies</span> and inference rules
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Normal forms</span>: 1NF, 2NF, 3NF, BCNF
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">ACID properties</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Transaction states</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Concurrency problems</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Two-phase locking protocol</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Recovery techniques</span> (deferred/immediate update)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Deadlock handling</span>
+                </div>
+            </div>
+
+            <div class="quick-reference">
+                <div class="quick-reference-header">Module 4 Checklist:</div>
+
+                <div class="reference-item">
+                    <span class="reference-term">CAP theorem</span> and trade-offs
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">BASE properties</span> vs ACID
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">NoSQL categories</span> and examples
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Key-value store architecture</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Document store query patterns</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Column-family data modeling</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Graph database traversal queries</span>
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Polyglot persistence</span> concepts
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">FINAL PREPARATION TIMELINE</div>
+
+        <div class="section">
+            <h2 class="section-header">Last Week Before Exam</h2>
+
+            <div class="timeline-box">
+                <div class="timeline-title">10-Day Preparation Plan</div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 1-2:</div>
+                    Review Module 1 (ER, Architecture) - Focus on ER diagrams and design decisions
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 3-4:</div>
+                    Review Module 2 (SQL, Relational Algebra) - Practice complex SQL queries
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 5-6:</div>
+                    Review Module 3 (Normalization, Transactions) - Solve normalization problems
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 7:</div>
+                    Review Module 4 (NoSQL, CAP Theorem) - Understand trade-offs
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 8:</div>
+                    Solve past papers/sample questions - Focus on timing
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 9:</div>
+                    Identify weak areas and revise - Targeted review
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">Day 10:</div>
+                    Final quick review, formulas, relax - Don't learn new concepts
+                </div>
+            </div>
+
+            <div class="subsection-header">Exam Day Strategy</div>
+
+            <div class="step-by-step">
+                <div class="step-title">2.5 Hour Exam Time Management:</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <span class="key-term">0-10 minutes</span>: Read all questions carefully, underline requirements
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span class="key-term">10-40 minutes</span>: Section A (short answers) - 30 minutes
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span class="key-term">40-100 minutes</span>: Section B (long answers) - 4 × 15 minutes each
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <span class="key-term">100-120 minutes</span>: Review and corrections - 20 minutes
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <span class="key-term">120-150 minutes</span>: Buffer time for unexpected delays
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-title">Common Mistakes to Avoid:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">In ER Diagrams</span>: Incorrect cardinality notation, missing weak
+                        entities</li>
+                    <li><span class="key-term">In SQL Queries</span>: Cartesian products, incorrect GROUP BY usage</li>
+                    <li><span class="key-term">In Normalization</span>: Not identifying all functional dependencies</li>
+                    <li><span class="key-term">In Transaction Management</span>: Confusing serializability types</li>
+                    <li><span class="key-term">In NoSQL</span>: Choosing wrong database type for scenario</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-title">For Exam Success:</div>
+                <ul class="content-list">
+                    <li><span class="key-term">Understand Concepts, Don't Memorize</span>: Especially normalization and
+                        transactions</li>
+                    <li><span class="key-term">Practice Writing</span>: SQL queries, ER diagrams, normalization steps
+                    </li>
+                    <li><span class="key-term">Time Management</span>: Don't get stuck on one question</li>
+                    <li><span class="key-term">Read Questions Carefully</span>: Underline key requirements</li>
+                    <li><span class="key-term">Show Your Work</span>: Partial credit for correct approach</li>
+                    <li><span class="key-term">Review</span>: Check for common mistakes before submitting</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="module-container">
+        <div class="module-header">QUICK REFERENCE SHEET</div>
+
+        <div class="section">
+            <h2 class="section-header">One-Page Formula Sheet</h2>
+
+            <div class="quick-reference">
+                <div class="quick-reference-header">Essential Formulas & Definitions</div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Closure Algorithm</span>: X⁺ = X + {A | Y→A in F and Y ⊆ X⁺}
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Candidate Key</span>: X is CK if X⁺ = U and no proper subset has X⁺ = U
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">3NF</span>: For X→A, either X is superkey OR A is prime
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">BCNF</span>: For X→A, X must be superkey
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">CAP Theorem</span>: Choose 2 of 3: C, A, P
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Quorum</span>: R + W > N for strong consistency
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">2PL</span>: Growing phase (acquire locks), Shrinking phase (release
+                    locks)
+                </div>
+
+                <div class="reference-item">
+                    <span class="reference-term">Recoverable</span>: If Tj reads from Ti, then Ci < Cj </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">Cascadeless</span>: No transaction reads uncommitted data
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">Conflict Serializable</span>: Precedence graph is acyclic
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">ACID</span>: Atomicity, Consistency, Isolation, Durability
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">BASE</span>: Basically Available, Soft state, Eventual
+                            consistency
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">SQL JOIN Types</span>: INNER, LEFT, RIGHT, FULL, CROSS, SELF
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">ER Symbols</span>: Rectangle=Entity, Ellipse=Attribute,
+                            Diamond=Relationship
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">Double Rectangle</span>: Weak Entity, Double Diamond:
+                            Identifying Relationship
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">Double Line</span>: Total Participation, Single Line: Partial
+                            Participation
+                        </div>
+
+                        <div class="reference-item">
+                            <span class="reference-term">(min,max)</span>: Cardinality notation in ER diagrams
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Justin-docs Database Systems Comprehensive Review | Author: Justin | 2024 Scheme | Handbook 2025</p>
+            <p>This document is formatted for optimal printing. Use browser's print function (Ctrl+P) to generate a
+                physical copy.</p>
+            <p><i class="fas fa-lightbulb"></i> Remember: Understand concepts, practice problems, manage time, stay
+                calm. Best of luck!</p>
+        </div>
+
+        <script>
+            // Simple script to enhance the document experience
+            document.addEventListener('DOMContentLoaded', function () {
+                // Add interactive checklist functionality
+                const checklistItems = document.querySelectorAll('.checklist li');
+                checklistItems.forEach(item => {
+                    item.addEventListener('click', function () {
+                        this.classList.toggle('checked');
+                    });
+                });
+
+                // Add print-friendly behavior
+                const style = document.createElement('style');
+                style.textContent = `
+                @media print {
+                    .checklist li.checked:before {
+                        content: "✓";
+                        color: #2e7d32;
+                    }
+                }
+            `;
+                document.head.appendChild(style);
+
+                // Highlight important terms on hover
+                const keyTerms = document.querySelectorAll('.key-term, .reference-term');
+                keyTerms.forEach(term => {
+                    term.addEventListener('mouseenter', function () {
+                        this.style.transform = 'scale(1.02)';
+                        this.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+                        this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+                    });
+                    term.addEventListener('mouseleave', function () {
+                        this.style.transform = '';
+                        this.style.boxShadow = '';
+                    });
+                });
+
+                // Make steps stand out
+                const steps = document.querySelectorAll('.step');
+                steps.forEach(step => {
+                    step.addEventListener('mouseenter', function () {
+                        this.style.backgroundColor = 'rgba(41, 182, 246, 0.1)';
+                        this.style.transition = 'background-color 0.3s ease';
+                        this.style.borderRadius = '4px';
+                        this.style.paddingLeft = '25px';
+                    });
+                    step.addEventListener('mouseleave', function () {
+                        this.style.backgroundColor = '';
+                    });
+                });
+            });
+        </script>
+</body>
+
+</html>
