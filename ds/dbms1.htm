@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin-docs - Database Systems Handbook</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+            padding: 20px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eaeaea;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a56db;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 10px;
+        }
+
+        .author-info {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e40af;
+            margin: 30px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2563eb;
+            margin: 25px 0 12px;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3b82f6;
+            margin: 20px 0 10px;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #60a5fa;
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin-bottom: 15px;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background-color: #f3f4f6;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .note {
+            background-color: #eff6ff;
+            border-left: 4px solid #60a5fa;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .diagram {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .diagram-caption {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .key-point {
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        @media print {
+            body {
+                padding: 15px 25px;
+                max-width: none;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="title">Justin-docs</div>
+        <div class="subtitle">Database Systems Handbook</div>
+        <div class="author-info">Author: Justin | 2024 Scheme | Hand Book 2025</div>
+    </div>
+
+    <h1>MODULE 1: INTRODUCTION TO DATABASES & CONCEPTUAL DATA MODELING</h1>
+    <p><strong>Total Contact Hours: 11 Hours</strong></p>
+
+    <h2>1.1 DATABASE SYSTEM CONCEPTS AND ARCHITECTURE</h2>
+
+    <h3>What is a Database System?</h3>
+    <p>A <span class="key-point">Database System (DBS)</span> is an integrated collection of related data along with a
+        set of programs to access, manage, and control the data. It is designed to handle large amounts of information
+        by storing, retrieving, and managing data efficiently.</p>
+
+    <h4>Components of a Database System:</h4>
+    <ol>
+        <li><strong>Database (DB)</strong>: Organized collection of logically related data</li>
+        <li><strong>Database Management System (DBMS)</strong>: Software system that enables users to define, create,
+            maintain, and control access to the database</li>
+        <li><strong>Database Applications</strong>: Programs that interact with the database through the DBMS</li>
+        <li><strong>Users</strong>: End users, application programmers, database administrators (DBAs)</li>
+        <li><strong>Hardware</strong>: Physical devices (computers, storage, network)</li>
+        <li><strong>Procedures</strong>: Instructions and rules for using the database system</li>
+    </ol>
+
+    <h3>Data Models: The Blueprint of Databases</h3>
+    <p>A <span class="key-point">Data Model</span> is a collection of concepts for describing data, data relationships,
+        data semantics, and consistency constraints.</p>
+
+    <h4>Categories of Data Models:</h4>
+    <ol>
+        <li><strong>Conceptual (High-level) Data Models</strong>
+            <ul>
+                <li>Close to how users perceive data</li>
+                <li>Hide physical storage details</li>
+                <li><strong>Examples</strong>: Entity-Relationship (ER) model, Object-Oriented model</li>
+                <li><strong>Purpose</strong>: Communication between users and designers</li>
+                <li><strong>Features</strong>: Entities, attributes, relationships, constraints</li>
+            </ul>
+        </li>
+        <li><strong>Physical (Low-level) Data Models</strong>
+            <ul>
+                <li>Describe how data is stored on computer storage media</li>
+                <li>Concerned with storage structures, access paths, indexing</li>
+                <li><strong>Examples</strong>: File structures, B-trees, Hash indexes</li>
+                <li><strong>Purpose</strong>: Database implementation and optimization</li>
+            </ul>
+        </li>
+        <li><strong>Implementation (Representational) Data Models</strong>
+            <ul>
+                <li>Between conceptual and physical models</li>
+                <li>Used by many commercial DBMS implementations</li>
+                <li><strong>Examples</strong>: Relational model, Network model, Hierarchical model</li>
+                <li><strong>Purpose</strong>: Directly implementable in database systems</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Historical Evolution of Data Models:</h4>
+    <ul>
+        <li><strong>1960s</strong>: <strong>Hierarchical Model</strong> (IBM's IMS)
+            <ul>
+                <li>Tree-like structure</li>
+                <li>Parent-child relationships</li>
+                <li>Limited to one-to-many relationships</li>
+            </ul>
+        </li>
+        <li><strong>1970s</strong>: <strong>Network Model</strong> (CODASYL DBTG)
+            <ul>
+                <li>Graph structure</li>
+                <li>More flexible than hierarchical</li>
+                <li>Complex pointer structures</li>
+            </ul>
+        </li>
+        <li><strong>1980s-Present</strong>: <strong>Relational Model</strong> (Edgar Codd, 1970)
+            <ul>
+                <li>Tables (relations) with rows and columns</li>
+                <li>Mathematical foundation (set theory, predicate logic)</li>
+                <li>SQL as standard language</li>
+            </ul>
+        </li>
+        <li><strong>1990s</strong>: <strong>Object-Oriented Model</strong>
+            <ul>
+                <li>Integrates database capabilities with OOP</li>
+                <li>Complex data types, inheritance, methods</li>
+                <li><strong>Examples</strong>: ObjectStore, Versant</li>
+            </ul>
+        </li>
+        <li><strong>2000s</strong>: <strong>Object-Relational Model</strong>
+            <ul>
+                <li>Extends relational model with OO features</li>
+                <li><strong>Examples</strong>: PostgreSQL, Oracle</li>
+                <li>Supports user-defined types, inheritance, methods</li>
+            </ul>
+        </li>
+        <li><strong>2010s-Present</strong>: <strong>NoSQL Models</strong>
+            <ul>
+                <li>Key-value, Document, Column-family, Graph</li>
+                <li>Designed for scalability and flexibility</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Database Schemas vs. Database Instances</h3>
+
+    <h4>Database Schema</h4>
+    <p>The <span class="key-point">intension</span> or <span class="key-point">description</span> of the database</p>
+    <ul>
+        <li>Specified during database design</li>
+        <li>Relatively stable (changes infrequently)</li>
+        <li><strong>Three Levels</strong>:
+            <ol>
+                <li><strong>External Schema</strong>: User views (multiple)</li>
+                <li><strong>Conceptual Schema</strong>: Complete description of database (single)</li>
+                <li><strong>Internal Schema</strong>: Physical storage structure (single)</li>
+            </ol>
+        </li>
+    </ul>
+
+    <div class="code-block">
+        <strong>Example of Schema Definition:</strong><br>
+        CREATE TABLE Student (<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;StudentID INT PRIMARY KEY,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Name VARCHAR(50) NOT NULL,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Major VARCHAR(30),<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;GPA DECIMAL(3,2)<br>
+        );
+    </div>
+
+    <h4>Database Instance (State)</h4>
+    <p>The <span class="key-point">extension</span> or <span class="key-point">actual data</span> in the database at a
+        particular moment</p>
+    <ul>
+        <li>Changes frequently with insertions, deletions, updates</li>
+        <li>Also called the <strong>current state</strong> or <strong>snapshot</strong></li>
+    </ul>
+
+    <div class="code-block">
+        <strong>Example of Instance:</strong><br>
+        Student Table:<br>
+        StudentID | Name | Major | GPA<br>
+        ----------|------------|------------|-----<br>
+        101 | John Doe | Computer | 3.8<br>
+        102 | Jane Smith | Mathematics| 3.9<br>
+        103 | Bob Wilson | Physics | 3.5
+    </div>
+
+    <h4>Schema Evolution</h4>
+    <p>Process of changing the schema over time</p>
+    <ul>
+        <li><strong>Challenges</strong>:
+            <ul>
+                <li>Maintaining data consistency</li>
+                <li>Updating applications</li>
+                <li>Migrating existing data</li>
+            </ul>
+        </li>
+        <li><strong>Common Changes</strong>:
+            <ul>
+                <li>Adding new attributes/tables</li>
+                <li>Removing obsolete elements</li>
+                <li>Changing data types</li>
+                <li>Adding constraints</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Three-Schema Architecture (ANSI/SPARC Architecture)</h3>
+    <p>Proposed in 1975 to achieve <span class="key-point">data independence</span>, this architecture separates the
+        user applications from the physical database.</p>
+
+    <div class="diagram">
+        <svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+            <!-- External Level -->
+            <rect x="50" y="50" width="500" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="300" y="85" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">External
+                Level (View Level)</text>
+            <text x="300" y="110" font-family="Inter" font-size="14" text-anchor="middle">What users see - Multiple
+                external schemas (user views)</text>
+
+            <!-- Conceptual Level -->
+            <rect x="50" y="160" width="500" height="80" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="300" y="195" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Conceptual
+                Level (Logical Level)</text>
+            <text x="300" y="220" font-family="Inter" font-size="14" text-anchor="middle">What the database contains -
+                Single conceptual schema</text>
+
+            <!-- Internal Level -->
+            <rect x="50" y="270" width="500" height="80" fill="#93c5fd" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="300" y="305" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Internal
+                Level (Physical Level)</text>
+            <text x="300" y="330" font-family="Inter" font-size="14" text-anchor="middle">How data is stored - Single
+                internal schema</text>
+
+            <!-- Mappings -->
+            <line x1="300" y1="130" x2="300" y2="160" stroke="#1e40af" stroke-width="2" stroke-dasharray="5,5" />
+            <text x="310" y="150" font-family="Inter" font-size="12" fill="#1e40af">External/Conceptual Mapping</text>
+
+            <line x1="300" y1="240" x2="300" y2="270" stroke="#1e40af" stroke-width="2" stroke-dasharray="5,5" />
+            <text x="310" y="260" font-family="Inter" font-size="12" fill="#1e40af">Conceptual/Internal Mapping</text>
+        </svg>
+        <div class="diagram-caption">Three-Schema Architecture</div>
+    </div>
+
+    <h4>The Three Levels:</h4>
+    <ol>
+        <li><strong>External Level (View Level)</strong>
+            <ul>
+                <li><strong>What users see</strong></li>
+                <li>Multiple external schemas (user views)</li>
+                <li>Each view describes part of the database relevant to a particular user group</li>
+                <li>Hides irrelevant data and complex data relationships</li>
+            </ul>
+        </li>
+        <li><strong>Conceptual Level (Logical Level)</strong>
+            <ul>
+                <li><strong>What the database contains</strong></li>
+                <li>Single conceptual schema</li>
+                <li>Describes all entities, attributes, relationships, constraints</li>
+                <li>Independent of physical storage considerations</li>
+                <li>Serves as intermediary between internal and external levels</li>
+            </ul>
+        </li>
+        <li><strong>Internal Level (Physical Level)</strong>
+            <ul>
+                <li><strong>How data is stored</strong></li>
+                <li>Single internal schema</li>
+                <li>Describes physical storage structures, access paths, file organizations</li>
+                <li>Uses physical data model</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Mappings Between Levels:</h4>
+    <ul>
+        <li><strong>External/Conceptual Mapping</strong>: Translates between external views and conceptual schema</li>
+        <li><strong>Conceptual/Internal Mapping</strong>: Translates between conceptual schema and internal storage
+            structures</li>
+    </ul>
+
+    <h3>Data Independence: The Key Benefit</h3>
+    <p><span class="key-point">Data Independence</span> is the ability to change the schema at one level without
+        affecting the schema at the next higher level.</p>
+
+    <h4>1. Logical Data Independence</h4>
+    <ul>
+        <li>Ability to change the <strong>conceptual schema</strong> without having to change <strong>external
+                schemas</strong> or application programs</li>
+        <li>Changes transparent to users</li>
+        <li><strong>Examples of Changes Allowed</strong>:
+            <ul>
+                <li>Adding new entities, attributes, relationships</li>
+                <li>Changing constraints</li>
+                <li>Splitting/combining entities (if mappings adjusted)</li>
+            </ul>
+        </li>
+        <li><strong>Limitations</strong>: Cannot change information content that users depend on</li>
+    </ul>
+
+    <div class="code-block">
+        <strong>Example of Logical Data Independence:</strong><br>
+        -- Original conceptual schema<br>
+        Student(StudentID, Name, Address)<br><br>
+        -- Modified conceptual schema (adding new attribute)<br>
+        Student(StudentID, Name, Address, PhoneNumber)<br><br>
+        -- External views and applications using only StudentID and Name <br>
+        -- continue to work without modification
+    </div>
+
+    <h4>2. Physical Data Independence</h4>
+    <ul>
+        <li>Ability to change the <strong>internal schema</strong> without having to change the <strong>conceptual
+                schema</strong></li>
+        <li>Changes transparent to users and applications</li>
+        <li><strong>Examples of Changes Allowed</strong>:
+            <ul>
+                <li>Changing file organization (sequential to indexed)</li>
+                <li>Using different storage structures (B-tree to hash)</li>
+                <li>Modifying access methods</li>
+                <li>Changing storage devices</li>
+                <li>Adding indexes for performance</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="code-block">
+        <strong>Example of Physical Data Independence:</strong><br>
+        -- Changing from heap file to B+ tree organization<br>
+        -- Changing block size from 2KB to 4KB<br>
+        -- Adding a secondary index on Name field<br>
+        -- All these changes don't affect the conceptual schema
+    </div>
+
+    <h4>Why Data Independence Matters:</h4>
+    <ol>
+        <li><strong>Application Durability</strong>: Applications survive changes in storage and logical organization
+        </li>
+        <li><strong>Performance Tuning</strong>: DBAs can optimize physical storage without affecting users</li>
+        <li><strong>Evolution</strong>: Database can grow and change over time</li>
+        <li><strong>Multi-user Support</strong>: Different users can have customized views</li>
+    </ol>
+
+    <h3>Database Languages and Interfaces</h3>
+
+    <h4>Database Languages</h4>
+    <ol>
+        <li><strong>Data Definition Language (DDL)</strong>
+            <ul>
+                <li>Used to define the database schema</li>
+                <li>Commands: CREATE, ALTER, DROP, TRUNCATE, RENAME</li>
+                <li><strong>DDL Compiler</strong>: Processes DDL statements and stores metadata in data dictionary</li>
+            </ul>
+        </li>
+        <li><strong>Data Manipulation Language (DML)</strong>
+            <ul>
+                <li>Used to manipulate data in the database</li>
+                <li><strong>Two Types</strong>:
+                    <ul>
+                        <li><strong>Procedural DML</strong>: Specify what data is needed AND how to get it</li>
+                        <li><strong>Declarative DML (Non-procedural)</strong>: Specify only what data is needed</li>
+                    </ul>
+                </li>
+                <li>Commands: SELECT, INSERT, UPDATE, DELETE</li>
+            </ul>
+        </li>
+        <li><strong>Data Control Language (DCL)</strong>
+            <ul>
+                <li>Controls access to data</li>
+                <li>Commands: GRANT, REVOKE</li>
+            </ul>
+        </li>
+        <li><strong>Transaction Control Language (TCL)</strong>
+            <ul>
+                <li>Manages transactions</li>
+                <li>Commands: COMMIT, ROLLBACK, SAVEPOINT</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="code-block">
+        <strong>Example DDL:</strong><br>
+        CREATE TABLE Department (<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;DeptID INT PRIMARY KEY,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;DeptName VARCHAR(50) UNIQUE,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Location VARCHAR(100)<br>
+        );<br><br>
+        ALTER TABLE Student ADD COLUMN Email VARCHAR(100);<br>
+        DROP TABLE OldTable;
+    </div>
+
+    <div class="code-block">
+        <strong>Example DML:</strong><br>
+        INSERT INTO Student VALUES (104, 'Alice Brown', 'Biology', 3.7);<br>
+        SELECT Name, GPA FROM Student WHERE GPA > 3.5;<br>
+        UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;<br>
+        DELETE FROM Student WHERE StudentID = 103;
+    </div>
+
+    <div class="code-block">
+        <strong>Example DCL:</strong><br>
+        GRANT SELECT, INSERT ON Student TO User1;<br>
+        REVOKE DELETE ON Student FROM User2;
+    </div>
+
+    <div class="code-block">
+        <strong>Example TCL:</strong><br>
+        BEGIN TRANSACTION;<br>
+        UPDATE Account SET Balance = Balance - 100 WHERE AccountNo = 101;<br>
+        UPDATE Account SET Balance = Balance + 100 WHERE AccountNo = 102;<br>
+        COMMIT;
+    </div>
+
+    <h4>Storage Definition Language (SDL) and View Definition Language (VDL)</h4>
+    <ul>
+        <li><strong>SDL</strong>: Specifies internal schema (usually part of DDL in modern DBMS)</li>
+        <li><strong>VDL</strong>: Specifies user views (usually part of DDL using CREATE VIEW)</li>
+    </ul>
+
+    <h4>Database Interfaces</h4>
+    <ol>
+        <li><strong>Menu-Based Interfaces</strong>
+            <ul>
+                <li>Present users with lists of options (menus)</li>
+                <li>Suitable for naive users</li>
+                <li><strong>Example</strong>: ATM interfaces, library catalog systems</li>
+            </ul>
+        </li>
+        <li><strong>Form-Based Interfaces</strong>
+            <ul>
+                <li>Display a form for each user</li>
+                <li>Users fill in form fields</li>
+                <li><strong>Example</strong>: Web forms, customer registration forms</li>
+            </ul>
+        </li>
+        <li><strong>Graphical User Interfaces (GUI)</strong>
+            <ul>
+                <li>Display schema as diagrams</li>
+                <li>Point-and-click interaction</li>
+                <li><strong>Example</strong>: phpMyAdmin, SQL Server Management Studio</li>
+            </ul>
+        </li>
+        <li><strong>Natural Language Interfaces</strong>
+            <ul>
+                <li>Accept requests in natural language (English)</li>
+                <li>Parse and interpret language constructs</li>
+                <li><strong>Challenges</strong>: Ambiguity, limited vocabulary</li>
+            </ul>
+        </li>
+        <li><strong>Speech Input and Output</strong>
+            <ul>
+                <li>Voice-based interaction</li>
+                <li>Emerging technology with AI integration</li>
+            </ul>
+        </li>
+        <li><strong>Interfaces for Parametric Users</strong>
+            <ul>
+                <li>Function keys for frequent operations</li>
+                <li>Used by bank tellers, reservation clerks</li>
+            </ul>
+        </li>
+        <li><strong>Interfaces for Database Administrators (DBA)</strong>
+            <ul>
+                <li>Privileged commands for system control</li>
+                <li>Performance monitoring tools</li>
+                <li>Backup and recovery utilities</li>
+            </ul>
+        </li>
+        <li><strong>Application Programming Interfaces (APIs)</strong>
+            <ul>
+                <li>Allow programs to interact with DBMS</li>
+                <li><strong>Examples</strong>: ODBC, JDBC, ADO.NET, Hibernate</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3>Database System Architectures</h3>
+
+    <h4>1. Centralized Database Systems</h4>
+    <ul>
+        <li>All DBMS functionality, application programs, and user interface processing on single machine</li>
+        <li><strong>Advantages</strong>:
+            <ul>
+                <li>Simple to manage and maintain</li>
+                <li>Data consistency easy to ensure</li>
+                <li>Lower initial cost for small systems</li>
+            </ul>
+        </li>
+        <li><strong>Disadvantages</strong>:
+            <ul>
+                <li>Single point of failure</li>
+                <li>Limited scalability</li>
+                <li>Performance bottlenecks</li>
+            </ul>
+        </li>
+        <li><strong>Types</strong>:
+            <ul>
+                <li><strong>Teleprocessing</strong>: Dumb terminals connected to central computer</li>
+                <li><strong>Single-user</strong>: Desktop database systems (Microsoft Access)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>2. Client-Server Architecture</h4>
+    <ul>
+        <li>Separates functions between clients and servers</li>
+        <li><strong>Client</strong>: Presentation layer + application logic</li>
+        <li><strong>Server</strong>: Database storage + processing</li>
+    </ul>
+
+    <h5>Two-Tier Architecture:</h5>
+    <div class="diagram">
+        <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Client Tier -->
+            <rect x="50" y="50" width="180" height="100" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="140" y="95" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Client
+                Tier</text>
+            <text x="140" y="120" font-family="Inter" font-size="14" text-anchor="middle">(Tier 1)</text>
+            <text x="140" y="140" font-family="Inter" font-size="12" text-anchor="middle">Application Program</text>
+
+            <!-- Server Tier -->
+            <rect x="270" y="50" width="180" height="100" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="360" y="95" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Server
+                Tier</text>
+            <text x="360" y="120" font-family="Inter" font-size="14" text-anchor="middle">(Tier 2)</text>
+            <text x="360" y="140" font-family="Inter" font-size="12" text-anchor="middle">Database Server</text>
+
+            <!-- Connection -->
+            <line x1="230" y1="100" x2="270" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowhead)" />
+            <line x1="270" y1="100" x2="230" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowhead)" />
+
+            <!-- Arrow marker definition -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#1e40af" />
+                </marker>
+            </defs>
+        </svg>
+        <div class="diagram-caption">Two-Tier Architecture</div>
+    </div>
+
+    <ul>
+        <li><strong>Thin Client</strong>: Only presentation (most processing on server)</li>
+        <li><strong>Thick Client</strong>: Both presentation and business logic</li>
+        <li><strong>Advantages</strong>: Better scalability than centralized</li>
+        <li><strong>Disadvantages</strong>: Business logic distribution issues, maintenance challenges</li>
+    </ul>
+
+    <h5>Three-Tier Architecture:</h5>
+    <div class="diagram">
+        <svg width="600" height="200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Client Tier -->
+            <rect x="50" y="50" width="150" height="100" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="125" y="90" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Client
+                Tier</text>
+            <text x="125" y="110" font-family="Inter" font-size="14" text-anchor="middle">(Tier 1)</text>
+            <text x="125" y="130" font-family="Inter" font-size="12" text-anchor="middle">GUI</text>
+
+            <!-- Application Tier -->
+            <rect x="225" y="50" width="150" height="100" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="300" y="90" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Application
+                Tier</text>
+            <text x="300" y="110" font-family="Inter" font-size="14" text-anchor="middle">(Tier 2)</text>
+            <text x="300" y="130" font-family="Inter" font-size="12" text-anchor="middle">Application Server</text>
+
+            <!-- Database Tier -->
+            <rect x="400" y="50" width="150" height="100" fill="#93c5fd" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="475" y="90" font-family="Inter" font-size="16" text-anchor="middle" font-weight="600">Database
+                Tier</text>
+            <text x="475" y="110" font-family="Inter" font-size="14" text-anchor="middle">(Tier 3)</text>
+            <text x="475" y="130" font-family="Inter" font-size="12" text-anchor="middle">Database Server</text>
+
+            <!-- Connections -->
+            <line x1="200" y1="100" x2="225" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowhead)" />
+            <line x1="225" y1="100" x2="200" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowhead)" />
+
+            <line x1="375" y1="100" x2="400" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowhead)" />
+            <line x1="400" y1="100" x2="375" y2="100" stroke="#1e40af" stroke-width="2" marker-end="url(#arrowhead)" />
+
+            <!-- Arrow marker definition -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#1e40af" />
+                </marker>
+            </defs>
+        </svg>
+        <div class="diagram-caption">Three-Tier Architecture</div>
+    </div>
+
+    <ul>
+        <li><strong>Advantages</strong>:
+            <ul>
+                <li>Better security (client doesn't access database directly)</li>
+                <li>Thin clients (easier deployment)</li>
+                <li>Business logic centralized</li>
+                <li>Improved scalability</li>
+            </ul>
+        </li>
+        <li><strong>Common in</strong>: Web applications, enterprise systems</li>
+    </ul>
+
+    <h5>N-Tier Architecture:</h5>
+    <ul>
+        <li>Extension of three-tier with additional layers</li>
+        <li><strong>Example</strong>: Web browser → Web server → Application server → Database server</li>
+    </ul>
+
+    <h4>3. Parallel Database Systems</h4>
+    <ul>
+        <li>Multiple processors and disks for parallel processing</li>
+        <li><strong>Architectures</strong>:
+            <ul>
+                <li><strong>Shared Memory</strong>: Processors share main memory</li>
+                <li><strong>Shared Disk</strong>: Processors have private memory but share disks</li>
+                <li><strong>Shared Nothing</strong>: Each processor has private memory and disks</li>
+            </ul>
+        </li>
+        <li>Used in data warehousing, big data processing</li>
+    </ul>
+
+    <h4>4. Distributed Database Systems</h4>
+    <ul>
+        <li>Data distributed across multiple sites connected by network</li>
+        <li><strong>Types</strong>:
+            <ul>
+                <li><strong>Homogeneous</strong>: Same DBMS at all sites</li>
+                <li><strong>Heterogeneous</strong>: Different DBMS at different sites</li>
+            </ul>
+        </li>
+        <li><strong>Advantages</strong>: Local autonomy, improved availability, scalability</li>
+        <li><strong>Challenges</strong>: Distributed query processing, concurrency control, recovery</li>
+    </ul>
+
+    <h2>1.2 CONCEPTUAL DATA MODELING USING ENTITY-RELATIONSHIP (ER) MODEL</h2>
+
+    <h3>Introduction to ER Modeling</h3>
+    <p>The <span class="key-point">Entity-Relationship (ER) Model</span> is a high-level conceptual data model developed
+        by Peter Chen in 1976. It provides a graphical representation (ER diagrams) for database design.</p>
+
+    <p><strong>Purpose</strong>: To model the data aspects of a business domain in a way that is understandable to both
+        technical and non-technical stakeholders.</p>
+
+    <h3>Basic Concepts of ER Model</h3>
+
+    <h4>1. Entities</h4>
+    <ul>
+        <li>An <strong>entity</strong> is a "thing" in the real world with an independent existence</li>
+        <li>Can be <strong>physical</strong> (person, car, house) or <strong>conceptual</strong> (company, job, course)
+        </li>
+    </ul>
+
+    <h5>Entity Type:</h5>
+    <ul>
+        <li>A collection (set) of entities that have the same attributes</li>
+        <li><strong>Example</strong>: STUDENT, COURSE, EMPLOYEE</li>
+        <li>Represented by <strong>rectangle</strong> in ER diagrams</li>
+    </ul>
+
+    <h5>Entity Set:</h5>
+    <ul>
+        <li>Collection of all entities of a particular entity type at any point in time</li>
+        <li><strong>Example</strong>: All students currently enrolled in a university</li>
+    </ul>
+
+    <h5>Entity Instance:</h5>
+    <ul>
+        <li>A single occurrence of an entity type</li>
+        <li><strong>Example</strong>: Student with ID 101 named "John Doe"</li>
+    </ul>
+
+    <h4>2. Attributes</h4>
+    <ul>
+        <li>Properties or characteristics of entities</li>
+        <li>Represented by <strong>ovals</strong> connected to entity rectangles</li>
+    </ul>
+
+    <h5>Types of Attributes:</h5>
+    <ol>
+        <li><strong>Simple (Atomic) vs. Composite Attributes</strong>
+            <ul>
+                <li><strong>Simple</strong>: Cannot be divided further (e.g., Age, Salary)</li>
+                <li><strong>Composite</strong>: Can be divided into sub-parts (e.g., Name → FirstName, LastName)</li>
+            </ul>
+        </li>
+        <li><strong>Single-valued vs. Multi-valued Attributes</strong>
+            <ul>
+                <li><strong>Single-valued</strong>: Has single value for each entity (e.g., DateOfBirth)</li>
+                <li><strong>Multi-valued</strong>: May have multiple values (e.g., PhoneNumbers, EmailAddresses)</li>
+                <li>Represented by <strong>double oval</strong></li>
+            </ul>
+        </li>
+        <li><strong>Stored vs. Derived Attributes</strong>
+            <ul>
+                <li><strong>Stored</strong>: Physically stored in database (e.g., DateOfBirth)</li>
+                <li><strong>Derived</strong>: Calculated from other attributes (e.g., Age from DateOfBirth)</li>
+                <li>Represented by <strong>dashed oval</strong></li>
+            </ul>
+        </li>
+        <li><strong>Complex Attributes</strong>
+            <ul>
+                <li>Combination of composite and multi-valued</li>
+                <li><strong>Example</strong>: Address with multiple phone numbers</li>
+            </ul>
+        </li>
+        <li><strong>NULL-valued Attributes</strong>
+            <ul>
+                <li>Value not known or not applicable</li>
+                <li><strong>Types of NULL</strong>:
+                    <ul>
+                        <li><strong>Unknown</strong>: Value exists but not known</li>
+                        <li><strong>Not applicable</strong>: Attribute doesn't apply to this entity</li>
+                        <li><strong>Missing</strong>: Value exists but not recorded</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="diagram">
+        <svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Entity Rectangle -->
+            <rect x="200" y="50" width="100" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="250" y="80" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">EMPLOYEE</text>
+
+            <!-- Simple Attribute -->
+            <ellipse cx="100" cy="75" rx="60" ry="25" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="100" y="80" font-family="Inter" font-size="14" text-anchor="middle">EmployeeID</text>
+            <line x1="160" y1="75" x2="200" y2="75" stroke="#3b82f6" stroke-width="2" />
+
+            <!-- Composite Attribute -->
+            <ellipse cx="100" cy="150" rx="60" ry="25" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="100" y="155" font-family="Inter" font-size="14" text-anchor="middle">Name</text>
+            <line x1="160" y1="150" x2="200" y2="100" stroke="#3b82f6" stroke-width="2" />
+
+            <!-- Sub-attributes of Composite -->
+            <ellipse cx="50" cy="220" rx="45" ry="20" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="50" y="225" font-family="Inter" font-size="12" text-anchor="middle">FirstName</text>
+            <line x1="80" y1="170" x2="65" y2="200" stroke="#3b82f6" stroke-width="2" />
+
+            <ellipse cx="150" cy="220" rx="45" ry="20" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="150" y="225" font-family="Inter" font-size="12" text-anchor="middle">LastName</text>
+            <line x1="120" y1="170" x2="135" y2="200" stroke="#3b82f6" stroke-width="2" />
+
+            <!-- Multi-valued Attribute -->
+            <ellipse cx="400" cy="75" rx="60" ry="25" fill="none" stroke="#3b82f6" stroke-width="2" />
+            <text x="400" y="80" font-family="Inter" font-size="14" text-anchor="middle">Phone</text>
+            <line x1="300" y1="75" x2="340" y2="75" stroke="#3b82f6" stroke-width="2" />
+
+            <!-- Derived Attribute -->
+            <ellipse cx="400" cy="150" rx="60" ry="25" fill="none" stroke="#3b82f6" stroke-width="2"
+                stroke-dasharray="5,5" />
+            <text x="400" y="155" font-family="Inter" font-size="14" text-anchor="middle">Age</text>
+            <line x1="300" y1="100" x2="340" y2="150" stroke="#3b82f6" stroke-width="2" />
+        </svg>
+        <div class="diagram-caption">Types of Attributes in ER Model</div>
+    </div>
+
+    <h4>3. Keys</h4>
+    <p>Identifiers that uniquely determine entities in entity sets.</p>
+    <ol>
+        <li><strong>Superkey</strong>
+            <ul>
+                <li>Set of one or more attributes that uniquely identifies an entity</li>
+                <li><strong>Example for STUDENT</strong>: {StudentID}, {StudentID, Name}, {SSN}, etc.</li>
+            </ul>
+        </li>
+        <li><strong>Candidate Key</strong>
+            <ul>
+                <li>Minimal superkey (no proper subset is a superkey)</li>
+                <li>Entity may have multiple candidate keys</li>
+                <li><strong>Properties</strong>:
+                    <ul>
+                        <li>Uniqueness: Each entity has distinct value</li>
+                        <li>Minimality: No extraneous attributes</li>
+                    </ul>
+                </li>
+                <li><strong>Example for STUDENT</strong>: StudentID, SSN (if both are available)</li>
+            </ul>
+        </li>
+        <li><strong>Primary Key</strong>
+            <ul>
+                <li>Candidate key chosen by database designer as main identifier</li>
+                <li>Represented by <strong>underlining</strong> in ER diagrams</li>
+                <li><strong>Selection Criteria</strong>:
+                    <ul>
+                        <li>Minimal (fewest attributes)</li>
+                        <li>Stable (values don't change)</li>
+                        <li>Simple (easy to use and remember)</li>
+                    </ul>
+                </li>
+                <li><strong>Example</strong>: Choosing StudentID over SSN as primary key</li>
+            </ul>
+        </li>
+        <li><strong>Secondary Key</strong>
+            <ul>
+                <li>Attribute used for retrieval but not necessarily unique</li>
+                <li><strong>Example</strong>: LastName for searching students</li>
+            </ul>
+        </li>
+        <li><strong>Foreign Key</strong> (in relational model, implied in ER)
+            <ul>
+                <li>Attribute(s) in one relation that reference primary key of another relation</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>4. Value Sets (Domains)</h4>
+    <ul>
+        <li>Set of allowable values for an attribute</li>
+        <li><strong>Specification includes</strong>:
+            <ul>
+                <li>Data type (integer, string, date, etc.)</li>
+                <li>Format/length constraints</li>
+                <li>Range or list of allowable values</li>
+            </ul>
+        </li>
+        <li><strong>Example</strong>: GPA domain: decimal between 0.0 and 4.0</li>
+    </ul>
+
+    <h3>Relationship Types and Sets</h3>
+
+    <h4>1. Relationship Type</h4>
+    <ul>
+        <li>Association among two or more entity types</li>
+        <li>Represented by <strong>diamond</strong> in ER diagrams</li>
+        <li><strong>Example</strong>: ENROLLS_IN between STUDENT and COURSE</li>
+    </ul>
+
+    <h4>2. Relationship Set</h4>
+    <ul>
+        <li>Collection of relationships of the same type</li>
+        <li><strong>Mathematical Definition</strong>: Subset of Cartesian product of participating entity sets</li>
+        <li>For binary relationship between entity sets E1 and E2:
+            <ul>
+                <li>Relationship set R ⊆ {(e1, e2) | e1 ∈ E1, e2 ∈ E2}</li>
+            </ul>
+        </li>
+        <li><strong>Example</strong>: All (student, course) pairs where student is enrolled in course</li>
+    </ul>
+
+    <h4>3. Degree of Relationship</h4>
+    <p>Number of participating entity types in a relationship.</p>
+    <ol>
+        <li><strong>Unary (Recursive) Relationship</strong>
+            <ul>
+                <li>Relationship between entities of same entity type</li>
+                <li><strong>Example</strong>:
+                    <ul>
+                        <li>EMPLOYEE supervises EMPLOYEE</li>
+                        <li>COURSE is_prerequisite_for COURSE</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strong>Binary Relationship</strong> (Most Common)
+            <ul>
+                <li>Relationship between two entity types</li>
+                <li><strong>Example</strong>: STUDENT takes COURSE</li>
+            </ul>
+        </li>
+        <li><strong>Ternary Relationship</strong>
+            <ul>
+                <li>Relationship among three entity types</li>
+                <li><strong>Example</strong>: DOCTOR prescribes DRUG for PATIENT</li>
+            </ul>
+        </li>
+        <li><strong>N-ary Relationship</strong>
+            <ul>
+                <li>Relationship among n entity types (n > 2)</li>
+                <li><strong>Important Note</strong>: Not equivalent to multiple binary relationships</li>
+                <li><strong>Example</strong>: SUPPLIER supplies PART to PROJECT</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="diagram">
+        <svg width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+            <!-- Unary Relationship -->
+            <rect x="50" y="50" width="120" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="110" y="80" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">EMPLOYEE</text>
+
+            <polygon points="110,120 140,150 110,180 80,150" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" />
+            <text x="110" y="155" font-family="Inter" font-size="14" text-anchor="middle">supervises</text>
+
+            <line x1="110" y1="100" x2="110" y2="120" stroke="#3b82f6" stroke-width="2" />
+            <line x1="110" y1="180" x2="110" y2="200" stroke="#3b82f6" stroke-width="2" />
+            <line x1="110" y1="200" x2="110" y2="220" stroke="#3b82f6" stroke-width="2" />
+            <rect x="50" y="220" width="120" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="110" y="250" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">EMPLOYEE</text>
+
+            <!-- Binary Relationship -->
+            <rect x="250" y="50" width="120" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="310" y="80" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">STUDENT</text>
+
+            <polygon points="310,120 340,150 310,180 280,150" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" />
+            <text x="310" y="155" font-family="Inter" font-size="14" text-anchor="middle">takes</text>
+
+            <line x1="310" y1="100" x2="310" y2="120" stroke="#3b82f6" stroke-width="2" />
+            <line x1="340" y1="150" x2="370" y2="150" stroke="#3b82f6" stroke-width="2" />
+            <rect x="370" y="125" width="120" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="430" y="155" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">COURSE</text>
+
+            <!-- Ternary Relationship -->
+            <rect x="250" y="220" width="100" height="40" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="300" y="245" font-family="Inter" font-size="14" text-anchor="middle"
+                font-weight="600">DOCTOR</text>
+
+            <polygon points="300,270 320,290 300,310 280,290" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" />
+            <text x="300" y="295" font-family="Inter" font-size="12" text-anchor="middle">prescribes</text>
+
+            <line x1="300" y1="260" x2="300" y2="270" stroke="#3b82f6" stroke-width="2" />
+            <line x1="280" y1="290" x2="250" y2="290" stroke="#3b82f6" stroke-width="2" />
+            <rect x="150" y="270" width="100" height="40" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="200" y="295" font-family="Inter" font-size="14" text-anchor="middle" font-weight="600">DRUG</text>
+
+            <line x1="320" y1="290" x2="350" y2="290" stroke="#3b82f6" stroke-width="2" />
+            <rect x="350" y="270" width="100" height="40" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="400" y="295" font-family="Inter" font-size="14" text-anchor="middle"
+                font-weight="600">PATIENT</text>
+        </svg>
+        <div class="diagram-caption">Relationship Types: Unary, Binary, and Ternary</div>
+    </div>
+
+    <h4>4. Roles in Relationships</h4>
+    <ul>
+        <li>Function that an entity plays in a relationship</li>
+        <li>Important when same entity type participates multiple times</li>
+        <li><strong>Example</strong>: In EMPLOYEE supervises EMPLOYEE:
+            <ul>
+                <li>Roles: supervisor (one side), subordinate (other side)</li>
+            </ul>
+        </li>
+        <li>Represented by labeling lines in ER diagrams</li>
+    </ul>
+
+    <h4>5. Attributes of Relationships</h4>
+    <ul>
+        <li>Relationships can have attributes</li>
+        <li><strong>Example</strong>: ENROLLS_IN relationship between STUDENT and COURSE can have:
+            <ul>
+                <li>Semester</li>
+                <li>Grade</li>
+                <li>EnrollmentDate</li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="diagram">
+        <svg width="500" height="250" xmlns="http://www.w3.org/2000/svg">
+            <!-- Entity 1 -->
+            <rect x="50" y="100" width="120" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="110" y="130" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">STUDENT</text>
+
+            <!-- Relationship -->
+            <polygon points="250,100 280,125 250,150 220,125" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2" />
+            <text x="250" y="130" font-family="Inter" font-size="14" text-anchor="middle">ENROLLS_IN</text>
+
+            <!-- Entity 2 -->
+            <rect x="330" y="100" width="120" height="50" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="5" />
+            <text x="390" y="130" font-family="Inter" font-size="16" text-anchor="middle"
+                font-weight="600">COURSE</text>
+
+            <!-- Connection lines -->
+            <line x1="170" y1="125" x2="220" y2="125" stroke="#3b82f6" stroke-width="2" />
+            <line x1="280" y1="125" x2="330" y2="125" stroke="#3b82f6" stroke-width="2" />
+
+            <!-- Relationship attributes -->
+            <ellipse cx="250" cy="200" rx="60" ry="25" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="250" y="205" font-family="Inter" font-size="14" text-anchor="middle">Semester</text>
+            <line x1="250" y1="150" x2="250" y2="175" stroke="#3b82f6" stroke-width="2" />
+
+            <ellipse cx="150" cy="200" rx="50" ry="25" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="150" y="205" font-family="Inter" font-size="14" text-anchor="middle">Grade</text>
+            <line x1="220" y1="140" x2="190" y2="180" stroke="#3b82f6" stroke-width="2" />
+
+            <ellipse cx="350" cy="200" rx="60" ry="25" fill="#f0f9ff" stroke="#3b82f6" stroke-width="2" />
+            <text x="350" y="205" font-family="Inter" font-size="14" text-anchor="middle">EnrollDate</text>
+            <line x1="280" y1="140" x2="310" y2="180" stroke="#3b82f6" stroke-width="2" />
+        </svg>
+        <div class="diagram-caption">Relationship with Attributes</div>
+    </div>
+
+    <h3>Structural Constraints on Relationships</h3>
+
+    <h4>1. Cardinality Ratio Constraints</h4>
+    <p>Specify the number of relationship instances an entity can participate in.</p>
+
+    <h5>Four Types for Binary Relationships:</h5>
+    <ol>
+        <li><strong>One-to-One (1:1)</strong>
+            <ul>
+                <li>Each entity in E1 associated with at most one entity in E2</li>
+                <li>Each entity in E2 associated with at most one entity in E1</li>
+                <li><strong>Example</strong>: EMPLOYEE manages DEPARTMENT
+                    <ul>
+                        <li>Each employee manages at most one department</li>
+                        <li>Each department has at most one manager</li>
+                    </ul>
+                </li>
+                <li><strong>Notation</strong>: (1:1) or numbers on relationship lines</li>
+            </ul>
+        </li>
+        <li><strong>One-to-Many (1:N)</strong>
+            <ul>
+                <li>Each entity in E1 associated with many entities in E2</li>
+                <li>Each entity in E2 associated with at most one entity in E1</li>
+                <li><strong>Example</strong>: DEPARTMENT employs EMPLOYEE
+                    <ul>
+                        <li>Each department employs many employees</li>
+                        <li>Each employee works in at most one department</li>
+                    </ul>
+                </li>
+                <li><strong>Notation</strong>: (1:N)</li>
+            </ul>
+        </li>
+        <li><strong>Many-to-One (N:1)</strong>
+            <ul>
+                <li>Inverse of 1:N</li>
+                <li><strong>Example</strong>: EMPLOYEE works_in DEPARTMENT (N:1)</li>
+            </ul>
+        </li>
+        <li><strong>Many-to-Many (M:N)</strong>
+            <ul>
+                <li>Each entity in E1 associated with many entities in E2</li>
+                <li>Each entity in E2 associated with many

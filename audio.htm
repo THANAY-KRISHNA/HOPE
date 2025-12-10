@@ -71,10 +71,9 @@
             /* Fix: Enable Grid Layout */
             /* App-like feel */
             grid-template-areas:
-                "main"
-                "player";
+                "main";
             grid-template-columns: 1fr;
-            grid-template-rows: 1fr var(--player-height);
+            grid-template-rows: 1fr;
         }
 
         /* Scrollbar Styling */
@@ -411,14 +410,6 @@
 
         /* Small Tablet (600px to 767px) */
         @media (max-width: 767px) {
-            body {
-                grid-template-areas:
-                    "main"
-                    "player";
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr var(--player-height);
-            }
-
             .sidebar-container {
                 width: 100%;
                 height: auto;
@@ -718,10 +709,10 @@
             }
         }
 
-        /* Tablet MODE (Vertical Icons) */
+        /* Tablet MODE */
         @media (max-width: 1024px) {
             body {
-                grid-template-columns: 80px 1fr 240px;
+                grid-template-columns: 1fr;
             }
 
             .sidebar-container {
@@ -776,8 +767,13 @@
             .content-viewport {
                 padding: 1rem;
                 /* Less padding on mobile */
-                padding-bottom: 6rem;
-                /* Extra padding for bottom player bar */
+                /* Less padding on mobile */
+                padding-bottom: 3rem;
+            }
+
+            /* When player is active, add extra padding so content isn't covered */
+            body.player-active .content-viewport {
+                padding-bottom: calc(var(--player-height) + 2rem);
             }
         }
 
@@ -1256,7 +1252,11 @@
 
         /* --- PLAYER CONTAINER --- */
         .player-container {
-            grid-area: player;
+            /* Fix: Remove from grid, make fixed at bottom */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background: rgba(9, 9, 11, 0.95);
             backdrop-filter: blur(10px);
             border-top: 1px solid var(--border);
