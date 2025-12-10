@@ -724,12 +724,13 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="110" y="105" text-anchor="middle" font-size="16" font-weight="bold"
                         fill="#1565c0">EMPLOYEE</text>
 
-                    <path d="M170,100 L190,80 L210,100 L190,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="190" y="105" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M200,100 L220,80 L240,100 L220,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="220" y="105" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Supervises</text>
 
                     <!-- Connecting lines for recursive relationship -->
-                    <path d="M210,100 L230,100 L230,50 L110,50 L110,70" stroke="#7e57c2" stroke-width="2" fill="none" />
+                    <line x1="170" y1="100" x2="200" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <path d="M240,100 L260,100 L260,50 L110,50 L110,70" stroke="#7e57c2" stroke-width="2" fill="none" />
 
                     <text x="110" y="150" text-anchor="middle" font-size="14" fill="#5e35b1">Unary (Recursive)</text>
 
@@ -739,12 +740,13 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="410" y="105" text-anchor="middle" font-size="16" font-weight="bold"
                         fill="#2e7d32">STUDENT</text>
 
-                    <path d="M470,100 L490,80 L510,100 L490,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="490" y="105" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M500,100 L520,80 L540,100 L520,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="520" y="105" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Takes</text>
 
                     <!-- Connecting lines for binary relationship -->
-                    <line x1="510" y1="100" x2="570" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="470" y1="100" x2="500" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="540" y1="100" x2="570" y2="100" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="570" y="70" width="120" height="60" rx="5" ry="5" fill="#fce4ec" stroke="#c2185b"
                         stroke-width="2" />
@@ -768,15 +770,16 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="110" y="105" text-anchor="middle" font-size="14" font-weight="bold"
                         fill="#1565c0">EMPLOYEE</text>
 
-                    <path d="M170,100 L190,80 L210,100 L190,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="190" y="105" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M200,100 L220,80 L240,100 L220,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="220" y="105" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Manages</text>
 
-                    <text x="155" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
-                    <text x="225" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,1)</text>
+                    <text x="185" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
+                    <text x="255" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,1)</text>
 
                     <!-- Connecting lines for 1:1 relationship -->
-                    <line x1="210" y1="100" x2="270" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="170" y1="100" x2="200" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="240" y1="100" x2="270" y2="100" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="270" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
@@ -791,15 +794,16 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="510" y="105" text-anchor="middle" font-size="14" font-weight="bold"
                         fill="#1565c0">DEPT</text>
 
-                    <path d="M570,100 L590,80 L610,100 L590,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="590" y="105" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M600,100 L620,80 L640,100 L620,120 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="620" y="105" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Employs</text>
 
-                    <text x="555" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
-                    <text x="625" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+                    <text x="585" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(1,1)</text>
+                    <text x="655" y="90" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
 
                     <!-- Connecting lines for 1:N relationship -->
-                    <line x1="610" y1="100" x2="670" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="570" y1="100" x2="600" y2="100" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="640" y1="100" x2="670" y2="100" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="670" y="70" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
@@ -814,15 +818,16 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="110" y="225" text-anchor="middle" font-size="14" font-weight="bold"
                         fill="#1565c0">STUDENT</text>
 
-                    <path d="M170,220 L190,200 L210,220 L190,240 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="190" y="225" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M200,220 L220,200 L240,220 L220,240 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="220" y="225" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Takes</text>
 
-                    <text x="155" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
-                    <text x="225" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+                    <text x="185" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
+                    <text x="255" y="210" text-anchor="middle" font-size="10" fill="#5e35b1">(0,N)</text>
 
                     <!-- Connecting lines for M:N relationship -->
-                    <line x1="210" y1="220" x2="270" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="170" y1="220" x2="200" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <line x1="240" y1="220" x2="270" y2="220" stroke="#7e57c2" stroke-width="2" />
 
                     <rect x="270" y="190" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
@@ -837,14 +842,16 @@ UPDATE Student SET GPA = 3.9 WHERE StudentID = 101;</code></pre>
                     <text x="510" y="225" text-anchor="middle" font-size="14" font-weight="bold"
                         fill="#1565c0">EMPLOYEE</text>
 
-                    <path d="M570,220 L590,200 L610,220 L590,240 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
-                    <text x="590" y="225" text-anchor="middle" font-size="12" font-weight="bold"
+                    <path d="M600,220 L620,200 L640,220 L620,240 Z" fill="#fff3e0" stroke="#f57c00" stroke-width="2" />
+                    <text x="620" y="225" text-anchor="middle" font-size="12" font-weight="bold"
                         fill="#e65100">Works_In</text>
 
                     <!-- Connecting lines for participation constraints -->
-                    <text x="540" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Total</text>
-                    <line x1="610" y1="220" x2="670" y2="220" stroke="#7e57c2" stroke-width="2" />
-                    <text x="640" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Partial</text>
+                    <line x1="570" y1="220" x2="600" y2="220" stroke="#7e57c2" stroke-width="4" />
+                    <text x="585" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Total</text>
+
+                    <line x1="640" y1="220" x2="670" y2="220" stroke="#7e57c2" stroke-width="2" />
+                    <text x="655" y="215" text-anchor="middle" font-size="10" fill="#5e35b1">Partial</text>
 
                     <rect x="670" y="190" width="120" height="60" rx="5" ry="5" fill="#e8f5e9" stroke="#388e3c"
                         stroke-width="2" />
