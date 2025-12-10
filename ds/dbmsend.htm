@@ -132,9 +132,9 @@
         }
 
         .example-box {
-            background-color: #2d2d2d;
-            color: #ccc;
-            border: 1px solid #2c3e50;
+            background-color: #f9f9f9;
+            color: #000;
+            border: 1px solid #ddd;
             padding: 15px;
             margin: 15px 0;
             border-radius: 4px;
@@ -143,11 +143,11 @@
             white-space: pre-wrap;
         }
 
-        /* Override Prism defaults to remove scrollbars */
-        pre[class*="language-"] {
-            overflow: visible !important;
+        /* Ensure pre content wraps */
+        pre {
             white-space: pre-wrap !important;
             word-wrap: break-word !important;
+            margin: 0;
         }
 
         .example-title {
@@ -462,7 +462,6 @@
             }
         }
     </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -1605,9 +1604,7 @@ SELECT * FROM prereq_chain ORDER BY level;</code></pre>
         <footer>
             <p>Justin-docs • Database Systems Comprehensive Review</p>
         </footer>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 </body>
 
 </html>
+```

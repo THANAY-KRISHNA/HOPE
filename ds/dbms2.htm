@@ -111,9 +111,8 @@
 
         /* Code and examples */
         .code-block {
-            background-color: #2d2d2d;
-            /* Prism Tomorrow background */
-            color: #ccc;
+            background-color: #f9f9f9;
+            color: #000;
             border-left: 4px solid #2c3e50;
             padding: 15px;
             margin: 20px 0;
@@ -121,13 +120,14 @@
             font-size: 0.95rem;
             white-space: pre-wrap;
             border-radius: 5px;
+            border: 1px solid #ddd;
         }
 
-        /* Override Prism defaults to remove scrollbars */
-        pre[class*="language-"] {
-            overflow: visible !important;
+        /* Ensure pre content wraps */
+        pre {
             white-space: pre-wrap !important;
             word-wrap: break-word !important;
+            margin: 0;
         }
 
         .example {
@@ -236,7 +236,6 @@
             }
         }
     </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -1124,9 +1123,6 @@
         <p>Justin-docs • Relational Data Model and SQL • 2024 Scheme • Handbook 2025</p>
         <p>Author: Justin • Comprehensive Database Module Reference</p>
     </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 </body>
 
 </html>
