@@ -132,14 +132,11 @@
         .bottom-nav {
             position: fixed;
             bottom: 24px;
-            /* Default for mobile/desktop if player not present, but usually overridden */
-            bottom: calc(var(--player-height) + 16px);
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            /* More space between icons */
             background: rgba(18, 18, 20, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -148,7 +145,12 @@
             border-radius: 100px;
             z-index: 1000;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.4s;
+            transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1), opacity 0.4s, bottom 0.4s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        /* Nav moves up when player is active */
+        body.player-active .bottom-nav {
+            bottom: calc(var(--player-height) + 24px);
         }
 
         .bottom-nav.nav-hidden {
@@ -1262,6 +1264,18 @@
             padding: 0 2rem;
             height: var(--player-height);
             z-index: 40;
+            /* Hidden by default with transform */
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s;
+            pointer-events: none;
+            /* Prevent clicks when hidden */
+        }
+
+        .player-container.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         /* --- SECTIONS: LEFT & RIGHT --- */
@@ -2516,6 +2530,8 @@
                 volRail: document.getElementById('vol-rail'),
                 volFill: document.getElementById('vol-fill'),
 
+                // GLOBAL PLAYER REF
+                playerBar: document.getElementById('player-bar'),
             };
 
             setupAudioEvents();
@@ -3015,7 +3031,9 @@
                 audioObj.load();
             }
             audioObj.play().catch(e => console.error("Play error", e));
-            state.audio.playing = true;
+            // Update Player Visibility & Body Class
+            if (els.playerBar) els.playerBar.classList.add('visible');
+            document.body.classList.add('player-active');
 
             // Update UI Metadata
             if (els.audioTitle) els.audioTitle.innerText = pod.title;
