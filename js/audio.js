@@ -1036,7 +1036,17 @@ function startFlashcardSession(id) {
 }
 
 function renderFlashcardSession() {
-    const currentDeck = flashcardData[state.flashcards.currentDeckId] || flashcardData[301]; // Fallback
+    let currentDeck = flashcardData[state.flashcards.currentDeckId];
+    if (!currentDeck) {
+        // Fallback if ID invalid, try to find first valid deck or 301
+        const firstKey = Object.keys(flashcardData)[0];
+        currentDeck = flashcardData[firstKey] || flashcardData[301] || [];
+    }
+
+    if (!currentDeck || currentDeck.length === 0) {
+        els.container.innerHTML = `<div class="p-8 text-center text-muted">No cards available in this deck. <br><button class="action-btn-outline mt-4" onclick="renderFlashcardDecks()">Go Back</button></div>`;
+        return;
+    }
     const card = currentDeck[state.flashcards.currentCardIndex];
     const progress = ((state.flashcards.currentCardIndex + 1) / currentDeck.length) * 100;
 
@@ -1090,7 +1100,13 @@ function flipCard() {
 }
 
 function nextCard() {
-    const currentDeck = flashcardData[state.flashcards.currentDeckId] || flashcardData[301];
+    let currentDeck = flashcardData[state.flashcards.currentDeckId];
+    // Re-resolve fallback if needed (though session should have caught it)
+    if (!currentDeck) {
+        const firstKey = Object.keys(flashcardData)[0];
+        currentDeck = flashcardData[firstKey] || [];
+    }
+
     if (state.flashcards.currentCardIndex < currentDeck.length - 1) {
         state.flashcards.currentCardIndex++;
         state.flashcards.isFlipped = false; // Reset flip state for new card
