@@ -40,7 +40,8 @@ const videos = [
         thumb: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=300",
         src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
         duration: "10:34",
-        views: "1.2M"
+        views: "1.2M",
+        topic: "AI & ML"
     },
     {
         id: 102,
@@ -50,7 +51,8 @@ const videos = [
         thumb: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=300",
         src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
         duration: "15:20",
-        views: "890K"
+        views: "890K",
+        topic: "Physics"
     },
     {
         id: 103,
@@ -60,7 +62,8 @@ const videos = [
         thumb: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=300",
         src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
         duration: "12:45",
-        views: "500K"
+        views: "500K",
+        topic: "Web Dev"
     },
     {
         id: 104,
@@ -70,7 +73,8 @@ const videos = [
         thumb: "https://images.unsplash.com/photo-1614728853913-1e2203d8d1e1?auto=format&fit=crop&q=80&w=300",
         src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
         duration: "08:15",
-        views: "2.1M"
+        views: "2.1M",
+        topic: "Space"
     }
 ];
 // --- MOCK DATA: PODCASTS ---
@@ -82,7 +86,8 @@ const podcasts = [
         desc: "Exploring the boundaries of AGI, ethics, and the new dawn of computing.",
         thumb: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=200",
         src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-        duration: "06:12"
+        duration: "06:12",
+        topic: "AI & ML"
     },
     {
         id: 2,
@@ -91,7 +96,8 @@ const podcasts = [
         desc: "Focus music for coding and hacking in the dystopian future.",
         thumb: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&q=80&w=200",
         src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-        duration: "07:05"
+        duration: "07:05",
+        topic: "Music"
     },
     {
         id: 3,
@@ -100,7 +106,8 @@ const podcasts = [
         desc: "What's next in VR, AR, and Quantum Computing?",
         thumb: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=200",
         src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-        duration: "05:45"
+        duration: "05:45",
+        topic: "Tech"
     },
     {
         id: 4,
@@ -109,7 +116,8 @@ const podcasts = [
         desc: "The latest updates on the Mars mission and lunar bases.",
         thumb: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=200",
         src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-        duration: "08:20"
+        duration: "08:20",
+        topic: "Space"
     },
     {
         id: 5,
@@ -118,7 +126,8 @@ const podcasts = [
         desc: "Strategies for scaling your business in a competitive market.",
         thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=200",
         src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
-        duration: "04:30"
+        duration: "04:30",
+        topic: "Business"
     },
     {
         id: 6,
@@ -127,7 +136,8 @@ const podcasts = [
         desc: "Daily digest of the most important news in data science.",
         thumb: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=200",
         src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
-        duration: "04:30"
+        duration: "04:30",
+        topic: "Data Sci"
     }
 ];
 
@@ -138,21 +148,24 @@ const mindmaps = [
         title: "Machine Learning Map",
         nodes: 42,
         desc: "Complete hierarchy of ML algorithms.",
-        thumb: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=300"
+        thumb: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=300",
+        topic: "AI & ML"
     },
     {
         id: 202,
         title: "Data Structures",
         nodes: 28,
         desc: "Trees, Graphs, and Hashmaps visualized.",
-        thumb: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=300"
+        thumb: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=300",
+        topic: "DSA"
     },
     {
         id: 203,
         title: "Web Architecture",
         nodes: 35,
         desc: "Frontend, Backend, and DevOps flow.",
-        thumb: "https://images.unsplash.com/photo-1558494949-ef526b0042c7?auto=format&fit=crop&q=80&w=300"
+        thumb: "https://images.unsplash.com/photo-1558494949-ef526b0042c7?auto=format&fit=crop&q=80&w=300",
+        topic: "Web Dev"
     }
 ];
 
@@ -201,21 +214,24 @@ const flashcardSets = [
         title: "Computer Networks",
         count: 15,
         mastery: 45,
-        thumb: "https://images.unsplash.com/photo-1544197150-b99a580bbcbf?auto=format&fit=crop&q=80&w=300"
+        thumb: "https://images.unsplash.com/photo-1544197150-b99a580bbcbf?auto=format&fit=crop&q=80&w=300",
+        topic: "Networking"
     },
     {
         id: 302,
         title: "Python Advanced",
         count: 24,
         mastery: 80,
-        thumb: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=300"
+        thumb: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=300",
+        topic: "Programming"
     },
     {
         id: 303,
         title: "System Design",
         count: 12,
         mastery: 10,
-        thumb: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300"
+        thumb: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300",
+        topic: "System Design"
     }
 ];
 
@@ -297,7 +313,8 @@ async function fetchFlashcardData() {
                     title: topic,
                     count: groups[topic].length,
                     mastery: 0,
-                    thumb: thumbs[i % thumbs.length]
+                    thumb: thumbs[i % thumbs.length],
+                    topic: topic // Add topic here as well
                 });
 
                 flashcardData[deckId] = groups[topic].map(c => ({
@@ -436,11 +453,161 @@ function switchTab(tabName) {
     } else if (tabName === 'context') {
         els.title.innerText = "Study Context";
         renderContext();
+    } else if (tabName === 'subjects') {
+        els.title.innerText = "Work by Subject";
+        renderSubjects();
     }
     lucide.createIcons();
 }
 
 // --- RENDER FUNCTIONS ---
+function renderSubjects() {
+    // 1. Aggregate all content with 'topic'
+    const allContent = [
+        ...podcasts.map(p => ({ ...p, type: 'podcast' })),
+        ...videos.map(v => ({ ...v, type: 'video' })),
+        ...mindmaps.map(m => ({ ...m, type: 'mindmap' })),
+        ...flashcardSets.map(f => ({ ...f, type: 'flashcard' }))
+    ];
+
+    // 2. Group by Topic
+    const topics = {};
+    allContent.forEach(item => {
+        if (item.topic) {
+            if (!topics[item.topic]) topics[item.topic] = [];
+            topics[item.topic].push(item);
+        }
+    });
+
+    // 3. Render grid of Topics
+    els.container.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem;">
+                    ${Object.keys(topics).map(topic => `
+                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden; padding: 0;" onclick="renderSubjectDetail('${topic}')">
+                             <div style="background: linear-gradient(135deg, #1a1a1a, #0a0a0a); height: 120px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border);">
+                                <h2 class="font-display bold" style="font-size: 1.5rem; text-align: center; color: var(--text-main);">${topic}</h2>
+                            </div>
+                            <div style="padding: 1rem;">
+                                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom: 0.5rem;">
+                                    ${topics[topic].some(i => i.type === 'podcast') ? '<i data-lucide="headphones" width="16" class="text-accent"></i>' : ''}
+                                    ${topics[topic].some(i => i.type === 'video') ? '<i data-lucide="video" width="16" class="text-accent"></i>' : ''}
+                                    ${topics[topic].some(i => i.type === 'flashcard') ? '<i data-lucide="layers" width="16" class="text-accent"></i>' : ''}
+                                    ${topics[topic].some(i => i.type === 'mindmap') ? '<i data-lucide="brain-circuit" width="16" class="text-accent"></i>' : ''}
+                                </div>
+                                <p class="text-muted font-mono text-xs">${topics[topic].length} Resources</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+    lucide.createIcons();
+}
+
+function renderSubjectDetail(topic) {
+    // Aggregate again (could optimize, but fine for now)
+    const allContent = [
+        ...podcasts.map(p => ({ ...p, type: 'podcast' })),
+        ...videos.map(v => ({ ...v, type: 'video' })),
+        ...mindmaps.map(m => ({ ...m, type: 'mindmap' })),
+        ...flashcardSets.map(f => ({ ...f, type: 'flashcard' }))
+    ].filter(i => i.topic === topic);
+
+    els.container.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                     
+                     <div style="display:flex; justify-content:space-between; align-items:center;">
+                         <button class="action-btn-outline" style="border:none; padding-left:0; color: var(--text-muted);" onclick="renderSubjects()">
+                            <i data-lucide="arrow-left"></i> Back to Subjects
+                        </button>
+                        <h2 class="font-display text-accent" style="font-size:1.5rem;">${topic}</h2>
+                     </div>
+
+                     <!-- SECTIONS -->
+                     ${['podcast', 'video', 'flashcard', 'mindmap'].map(type => {
+        const items = allContent.filter(i => i.type === type);
+        if (items.length === 0) return '';
+
+        let icon = 'file';
+        let label = 'Items';
+        if (type === 'podcast') { icon = 'headphones'; label = 'Podcasts'; }
+        if (type === 'video') { icon = 'video'; label = 'Videos'; }
+        if (type === 'flashcard') { icon = 'layers'; label = 'Flashcards'; }
+        if (type === 'mindmap') { icon = 'brain-circuit'; label = 'Mind Maps'; }
+
+        return `
+                            <section>
+                                <h3 class="font-mono text-muted text-sm mb-4" style="border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; display:flex; align-items:center; gap:0.5rem;">
+                                    <i data-lucide="${icon}" width="16"></i> ${label}
+                                </h3>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+                                    ${items.map(item => {
+            // Render Card based on Type
+            if (type === 'flashcard') {
+                return `
+                                            <div class="panel-card" style="cursor: pointer; padding: 1rem;" onclick="startFlashcardSession(${item.id})">
+                                                <div style="display:flex; align-items:center; gap:1rem;">
+                                                    <div style="width:40px; height:40px; border-radius:4px; background: #222; overflow:hidden;">
+                                                        <img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover;">
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="bold text-sm">${item.title}</h4>
+                                                        <p class="text-xs text-muted font-mono">${item.count} Cards</p>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+            }
+            if (type === 'podcast') {
+                return `
+                                            <div class="panel-card" style="cursor: pointer; padding: 1rem;" onclick="playAudioTrack(${item.id})">
+                                                <div style="display:flex; align-items:center; gap:1rem;">
+                                                     <div style="width:40px; height:40px; border-radius:4px; background: #222; overflow:hidden;">
+                                                        <img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover;">
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="bold text-sm">${item.title}</h4>
+                                                        <p class="text-xs text-muted font-mono">${item.duration}</p>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+            }
+            if (type === 'video') {
+                return `
+                                            <div class="panel-card" style="cursor: pointer; padding: 1rem;" onclick="playVideo(${item.id})">
+                                                 <div style="display:flex; align-items:center; gap:1rem;">
+                                                     <div style="width:40px; height:40px; border-radius:4px; background: #222; overflow:hidden;">
+                                                        <img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover;">
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="bold text-sm">${item.title}</h4>
+                                                        <p class="text-xs text-muted font-mono">${item.duration}</p>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+            }
+            if (type === 'mindmap') {
+                return `
+                                            <div class="panel-card" style="cursor: pointer; padding: 1rem;" onclick="loadMindmap(${item.id})">
+                                                 <div style="display:flex; align-items:center; gap:1rem;">
+                                                     <div style="width:40px; height:40px; border-radius:4px; background: #222; overflow:hidden;">
+                                                        <img src="${item.thumb}" style="width:100%; height:100%; object-fit:cover;">
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="bold text-sm">${item.title}</h4>
+                                                        <p class="text-xs text-muted font-mono">${item.nodes} Nodes</p>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+            }
+        }).join('')}
+                                </div>
+                            </section>
+                         `;
+    }).join('')}
+                </div>
+            `;
+    lucide.createIcons();
+}
+
 function renderContext() {
     els.container.innerHTML = `
                 <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; animation: fade-in 0.3s ease;">
