@@ -325,6 +325,62 @@ async function fetchFlashcardData() {
                 }));
             });
 
+            // --- HELPER: SELECT SUBJECT ---
+            function selectSubject(topic) {
+                state.activeSubject = topic;
+                renderSubjectDashboard(topic);
+            }
+
+            // --- DASHBOARD RENDERER ---
+            function renderSubjectDashboard(topic) {
+                els.title.innerText = topic; // Set Title to Subject Name
+
+                els.container.innerHTML = `
+                <div style="display:flex; flex-direction:column; gap:2rem;">
+                     <button class="action-btn-outline" style="width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="switchTab('subjects')">
+                        <i data-lucide="arrow-left"></i> Back to Subjects
+                    </button>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem;">
+
+                        <!-- Podcasts Tile -->
+                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('podcasts')">
+                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="headphones" class="text-accent" width="24" height="24"></i>
+                            </div>
+                            <h3 class="bold">Podcasts</h3>
+                        </div>
+
+                         <!-- Videos Tile -->
+                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('videos')">
+                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="video" class="text-accent" width="24" height="24"></i>
+                            </div>
+                            <h3 class="bold">Videos</h3>
+                        </div>
+
+                        <!-- Mindmap Tile -->
+                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('mindmap')">
+                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="brain-circuit" class="text-accent" width="24" height="24"></i>
+                            </div>
+                            <h3 class="bold">Mind Maps</h3>
+                        </div>
+
+                        <!-- Flashcards Tile -->
+                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('flashcards')">
+                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="layers" class="text-accent" width="24" height="24"></i>
+                            </div>
+                            <h3 class="bold">Recall</h3>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+                lucide.createIcons();
+            }
+
             // Refresh if active
             if (state.currentTab === 'flashcards') {
                 renderFlashcardDecks();
@@ -483,7 +539,7 @@ function renderSubjects() {
     els.container.innerHTML = `
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem;">
                     ${Object.keys(topics).map(topic => `
-                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden; padding: 0;" onclick="renderSubjectDetail('${topic}')">
+                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden; padding: 0;" onclick="selectSubject('${topic}')">
                              <div style="background: linear-gradient(135deg, #1a1a1a, #0a0a0a); height: 120px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border);">
                                 <h2 class="font-display bold" style="font-size: 1.5rem; text-align: center; color: var(--text-main);">${topic}</h2>
                             </div>
@@ -664,42 +720,75 @@ function renderContext() {
             `;
 }
 function renderPodcasts() {
+    const items = state.activeSubject
+        ? podcasts.filter(p => p.topic === state.activeSubject)
+        : podcasts;
+
+    const backBtn = state.activeSubject
+        ? `<button class="action-btn-outline" style="margin-bottom:1.5rem; width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="renderSubjectDashboard('${state.activeSubject}')"><i data-lucide="arrow-left"></i> Back to ${state.activeSubject}</button>`
+        : '';
+
+    if (items.length === 0) {
+        els.container.innerHTML = backBtn + getEmptyState('Podcasts');
+        lucide.createIcons();
+        return;
+    }
+
     els.container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
-                    ${podcasts.map(pod => `
-                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playAudioTrack(${pod.id})">
-                             <div style="aspect-ratio: 1; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
-                                <img src="${pod.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${pod.duration}</div>
+                <div style="display:flex; flex-direction:column;">
+                    ${backBtn}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
+                        ${items.map(pod => `
+                            <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playAudioTrack(${pod.id})">
+                                <div style="aspect-ratio: 1; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
+                                    <img src="${pod.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${pod.duration}</div>
+                                </div>
+                                <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${pod.title}</h3>
+                                <p class="text-muted text-xs font-mono" style="margin-bottom: 0.5rem;">${pod.author}</p>
                             </div>
-                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${pod.title}</h3>
-                            <p class="text-muted text-xs font-mono" style="margin-bottom: 0.5rem;">${pod.author}</p>
-                            <p class="text-muted text-xs" style="opacity: 0.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${pod.desc}</p>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
             `;
 }
 
 function renderVideos() {
+    const items = state.activeSubject
+        ? videos.filter(v => v.topic === state.activeSubject)
+        : videos;
+
+    const backBtn = state.activeSubject
+        ? `<button class="action-btn-outline" style="margin-bottom:1.5rem; width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="renderSubjectDashboard('${state.activeSubject}')"><i data-lucide="arrow-left"></i> Back to ${state.activeSubject}</button>`
+        : '';
+
+    if (items.length === 0) {
+        els.container.innerHTML = backBtn + getEmptyState('Videos');
+        lucide.createIcons();
+        return;
+    }
+
     els.container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
-                    ${videos.map(vid => `
-                        <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playVideo(${vid.id})">
-                             <div style="aspect-ratio: 16/9; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
-                                <img src="${vid.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                                <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${vid.duration}</div>
-                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.5); padding: 12px; border-radius: 50%;">
-                                    <i data-lucide="play" color="white" fill="white"></i>
+                <div style="display:flex; flex-direction:column;">
+                    ${backBtn}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
+                        ${items.map(vid => `
+                            <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="playVideo(${vid.id})">
+                                <div style="aspect-ratio: 16/9; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative;">
+                                    <img src="${vid.thumb}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                    <div style="position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.7); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-family: var(--font-code);">${vid.duration}</div>
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.5); padding: 12px; border-radius: 50%;">
+                                        <i data-lucide="play" color="white" fill="white"></i>
+                                    </div>
+                                </div>
+                                <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${vid.title}</h3>
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <p class="text-muted text-xs font-mono">${vid.author}</p>
+                                    <p class="text-muted text-xs font-mono" style="opacity:0.6;">${vid.views} views</p>
                                 </div>
                             </div>
-                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${vid.title}</h3>
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <p class="text-muted text-xs font-mono">${vid.author}</p>
-                                <p class="text-muted text-xs font-mono" style="opacity:0.6;">${vid.views} views</p>
-                            </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
             `;
 } // End renderVideos
@@ -903,25 +992,42 @@ function resetMindmap() {
 
 // --- FLASHCARD LOGIC ---
 function renderFlashcardDecks() {
+    const items = state.activeSubject
+        ? flashcardSets.filter(f => f.title === state.activeSubject || f.topic === state.activeSubject)
+        : flashcardSets;
+
+    const backBtn = state.activeSubject
+        ? `<button class="action-btn-outline" style="margin-bottom:1.5rem; width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="renderSubjectDashboard('${state.activeSubject}')"><i data-lucide="arrow-left"></i> Back to ${state.activeSubject}</button>`
+        : '';
+
+    if (items.length === 0) {
+        els.container.innerHTML = backBtn + getEmptyState('Decks');
+        lucide.createIcons();
+        return;
+    }
+
     els.container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
-                    ${flashcardSets.map(set => `
-                         <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="startFlashcardSession(${set.id})">
-                             <div style="aspect-ratio: 3/2; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative; background: #111;">
-                                <img src="${set.thumb}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
-                                <div style="position: absolute; inset:0; display:flex; align-items:center; justify-content:center;">
-                                    <h2 class="bold text-accent" style="font-size: 2rem;">${set.mastery}%</h2>
+                <div style="display:flex; flex-direction:column;">
+                    ${backBtn}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;">
+                        ${items.map(set => `
+                            <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="startFlashcardSession(${set.id})">
+                                <div style="aspect-ratio: 3/2; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative; background: #111;">
+                                    <img src="${set.thumb}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
+                                    <div style="position: absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+                                        <h2 class="bold text-accent" style="font-size: 2rem;">${set.mastery}%</h2>
+                                    </div>
+                                </div>
+                                <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${set.title}</h3>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 5px;">
+                                    <p class="text-muted text-xs font-mono">${set.count} cards</p>
+                                    <div style="width: 60px; height: 4px; background: #333; border-radius: 2px;">
+                                        <div style="width: ${set.mastery}%; height: 100%; background: var(--accent); border-radius: 2px;"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${set.title}</h3>
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 5px;">
-                                <p class="text-muted text-xs font-mono">${set.count} cards</p>
-                                <div style="width: 60px; height: 4px; background: #333; border-radius: 2px;">
-                                    <div style="width: ${set.mastery}%; height: 100%; background: var(--accent); border-radius: 2px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
             `;
 }
