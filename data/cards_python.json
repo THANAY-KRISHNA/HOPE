@@ -1,0 +1,22 @@
+{
+    "flashcards": [
+        {
+            "question": "What is a 'list comprehension' in Python?",
+            "answer": "A concise way to create lists using brackets: [x for x in iterable].",
+            "topic": "Python",
+            "subtopic": "Syntax"
+        },
+        {
+            "question": "Difference between Tuples and Lists?",
+            "answer": "Lists are mutable; Tuples are immutable.",
+            "topic": "Python",
+            "subtopic": "Data Structures"
+        },
+        {
+            "question": "What is the purpose of 'self'?",
+            "answer": "It represents the instance of the class and binds attributes with the given arguments.",
+            "topic": "Python",
+            "subtopic": "OOP"
+        }
+    ]
+}

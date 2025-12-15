@@ -4,7 +4,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOPE OS | The Ecosystem</title>
+    <title>HOPE OS | Student Empowerment & Tech Ecosystem</title>
+    <meta name="description"
+        content="HOPE OS is a revolutionary student ecosystem blending education, IoT robotics, and social impact to transform learners into industry leaders.">
+    <meta name="keywords"
+        content="HOPE OS, Education, IoT, Robotics, Social Impact, Student Empowerment, Scholarships, Tech Ecosystem">
+    <meta name="author" content="HOPE Foundation">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#050505">
+    <meta name="geo.region" content="IN">
+    <meta name="geo.placename" content="India">
+
+    <!-- Performance & Preload -->
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="HOPE OS | Student Empowerment Ecosystem">
+    <meta property="og:description"
+        content="Transforming students into industry leaders through a unified ecosystem of education, opportunity, and social impact.">
+    <meta property="og:image" content="https://hope-os.com/icon-512.png">
+    <meta property="og:url" content="https://hope-os.com/">
+    <meta property="og:site_name" content="HOPE OS">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HOPE OS | From Consumer to Achiever">
+    <meta name="twitter:description"
+        content="Transforming students into industry leaders through a unified ecosystem of education, opportunity, and social impact.">
+    <meta name="twitter:image" content="https://hope-os.com/icon-512.png">
+    <meta name="twitter:creator" content="@hope_os">
+
+    <link rel="canonical" href="https://hope-os.com/">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "HOPE OS",
+        "url": "https://hope-os.com",
+        "logo": "https://hope-os.com/icon-512.png",
+        "description": "An ecosystem enabling students to transition from consumers to achievers.",
+        "sameAs": [
+          "https://twitter.com/hope_os",
+          "https://linkedin.com/company/hope-os"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "student support",
+            "email": "help@hope-os.com"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://hope-os.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://hope-os.com/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://hope-os.com/"
+        },{
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Education",
+          "item": "https://hope-os.com/#education"
+        },{
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Opportunities",
+          "item": "https://hope-os.com/#opportunities"
+        },{
+          "@type": "ListItem",
+          "position": 4,
+          "name": "IoT Labs",
+          "item": "https://hope-os.com/#iot"
+        }]
+      }
+    ]
+    </script>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,6 +132,9 @@
                         sans: ['Space Grotesk', 'sans-serif'],
                         display: ['Syne', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    screens: {
+                        'xs': '475px',
                     },
                     animation: {
                         'marquee': 'marquee 25s linear infinite',
@@ -183,7 +278,7 @@
     <!-- PRELOADER: THE VOW -->
     <div id="preloader" class="fixed inset-0 bg-void z-[100] flex flex-col items-center justify-center text-white px-6">
         <div class="text-center space-y-2">
-            <h1 class="font-mono text-xs text-gray-500 uppercase tracking-[0.3em] mb-4">System Boot Sequence</h1>
+            <div class="font-mono text-xs text-gray-500 uppercase tracking-[0.3em] mb-4">System Boot Sequence</div>
             <div class="overflow-hidden h-8 md:h-12">
                 <p class="font-display text-2xl md:text-4xl font-bold animate-[slideUp_0.5s_forwards]">"I hope I can."
                 </p>
@@ -203,27 +298,27 @@
     </div>
 
     <!-- DYNAMIC ISLAND NAVIGATION -->
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50" aria-label="Main Navigation">
         <div
             class="glass-nav rounded-full px-2 py-2 flex items-center gap-1 shadow-2xl scale-90 md:scale-100 transition-all hover:scale-105">
-            <button onclick="router('home')"
-                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest bg-black text-white"
-                data-target="home">OS</button>
-            <button onclick="router('education')"
-                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors"
-                data-target="education">Edu</button>
-            <button onclick="router('opportunities')"
-                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors"
-                data-target="opportunities">Ops</button>
-            <button onclick="router('iot')"
-                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors"
-                data-target="iot">Labs</button>
-            <button onclick="router('shop')"
-                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors"
-                data-target="shop">Supply</button>
-            <button onclick="router('impact')"
-                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-impact hover:text-white hover:bg-impact transition-colors"
-                data-target="impact">♥</button>
+            <a href="#home" onclick="router('home'); return false;"
+                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest bg-black text-white no-underline text-center"
+                data-target="home" aria-label="Operating System Home">OS</a>
+            <a href="#education" onclick="router('education'); return false;"
+                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors no-underline text-center"
+                data-target="education" aria-label="Education Protocol">Edu</a>
+            <a href="#opportunities" onclick="router('opportunities'); return false;"
+                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors no-underline text-center"
+                data-target="opportunities" aria-label="Opportunity Engine">Ops</a>
+            <a href="#iot" onclick="router('iot'); return false;"
+                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors no-underline text-center"
+                data-target="iot" aria-label="IoT and Robotics Labs">Labs</a>
+            <a href="#shop" onclick="router('shop'); return false;"
+                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black hover:bg-white transition-colors no-underline text-center"
+                data-target="shop" aria-label="Supply Shop">Supply</a>
+            <a href="#impact" onclick="router('impact'); return false;"
+                class="nav-btn px-4 md:px-6 py-2 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest text-impact hover:text-white hover:bg-impact transition-colors no-underline text-center"
+                data-target="impact" aria-label="Social Impact">♥</a>
         </div>
     </nav>
 
@@ -249,8 +344,9 @@
     <main class="relative w-full overflow-hidden">
 
         <!-- 1. HOME: THE MISSION -->
-        <div id="home"
-            class="page-section min-h-[100dvh] flex flex-col pt-20 pb-10 px-6 md:pt-32 md:px-12 relative overflow-hidden">
+        <section id="home"
+            class="page-section min-h-[100dvh] flex flex-col pt-20 pb-10 px-6 md:pt-32 md:px-12 relative overflow-hidden"
+            aria-label="Welcome to HOPE OS">
 
             <!-- 1. Background Code Decoration -->
             <!-- Added select-none to prevent accidental text selection on scroll -->
@@ -322,17 +418,17 @@
 
                         <!-- Primary Action -->
                         <!-- Added w-full sm:w-auto to make button full width on phone -->
-                        <button onclick="router('education')"
-                            class="magnetic-btn w-full sm:w-auto bg-black text-white px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-neon hover:text-black transition-colors glitch-hover text-center">
+                        <a href="#education" onclick="router('education'); return false;"
+                            class="magnetic-btn w-full sm:w-auto bg-black text-white px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-neon hover:text-black transition-colors glitch-hover text-center no-underline inline-block">
                             Launch Education Protocol
-                        </button>
+                        </a>
 
                         <!-- Secondary Action -->
                         <!-- Added w-full sm:w-auto -->
-                        <button onclick="router('impact')"
-                            class="magnetic-btn w-full sm:w-auto border border-black px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-impact hover:text-white transition-colors text-center flex items-center justify-center">
+                        <a href="#impact" onclick="router('impact'); return false;"
+                            class="magnetic-btn w-full sm:w-auto border border-black px-8 py-4 rounded-xl font-bold uppercase text-sm tracking-widest hover:bg-impact hover:text-white transition-colors text-center flex items-center justify-center no-underline">
                             The Social Vow <i data-lucide="heart" class="w-4 h-4 ml-2"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -343,11 +439,12 @@
                 class="absolute top-1/4 right-[-10%] w-[50%] h-[70%] z-0 pointer-events-none hidden md:block opacity-0 fade-in-delayed">
                 <div id="canvas-hero" class="w-full h-full"></div>
             </div>
-        </div>
+        </section>
 
         <!-- 2. EDUCATION: THE ECOSYSTEM (ACHIEVER PROTOCOL) -->
-        <div id="education"
-            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-concrete">
+        <section id="education"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-concrete"
+            aria-label="Education Ecosystem">
 
             <div class="max-w-7xl mx-auto">
 
@@ -393,7 +490,8 @@
                         <h3 class="font-display text-2xl md:text-4xl font-extrabold mt-6 md:mt-8 mb-2">The Distilled
                             Repository</h3>
                         <p class="text-gray-600 text-sm md:text-base max-w-lg">
-                            Not just notes, but industry-curated knowledge streams. High-yield content focused only on
+                            Not just notes, but industry-curated knowledge streams. High-yield content focused only
+                            on
                             concepts required for interviews and project execution.
                         </p>
 
@@ -407,7 +505,8 @@
                             </div>
                             <div class="flex flex-row sm:flex-col items-center sm:items-center gap-4 sm:gap-0">
                                 <p class="font-display text-3xl font-bold text-impact">3200+</p>
-                                <p class="text-xs font-mono text-gray-500 uppercase mt-0 sm:mt-1">Vetted Documents</p>
+                                <p class="text-xs font-mono text-gray-500 uppercase mt-0 sm:mt-1">Vetted Documents
+                                </p>
                             </div>
                             <div class="flex flex-row sm:flex-col items-center sm:items-center gap-4 sm:gap-0">
                                 <p class="font-display text-3xl font-bold text-black">Q4 2024</p>
@@ -429,7 +528,8 @@
 
                         <h3 class="font-display text-2xl md:text-3xl font-bold mb-2">Pipeline Tracker</h3>
                         <p class="text-gray-400 text-xs md:text-sm">
-                            Visual map of your journey from enrollment to industrial placement. See your required skills
+                            Visual map of your journey from enrollment to industrial placement. See your required
+                            skills
                             and achievements.
                         </p>
 
@@ -441,7 +541,8 @@
                                 </div>
                             </div>
                             <div class="w-1/4 px-1 text-neon">S5-S6 <div
-                                    class="w-2 h-2 md:w-3 md:h-3 bg-neon rounded-full mx-auto mt-2 animate-pulse"></div>
+                                    class="w-2 h-2 md:w-3 md:h-3 bg-neon rounded-full mx-auto mt-2 animate-pulse">
+                                </div>
                             </div>
                             <div class="w-1/4 px-1">S7-S8 <div
                                     class="w-2 h-2 md:w-3 md:h-3 bg-gray-700 rounded-full mx-auto mt-2"></div>
@@ -476,7 +577,8 @@
                         <!-- Metric -->
                         <div class="mt-4 flex items-center gap-4">
                             <div class="text-2xl md:text-3xl font-display font-bold text-black">3/5</div>
-                            <p class="text-[10px] md:text-xs font-mono text-gray-500 uppercase">Projects Completed This
+                            <p class="text-[10px] md:text-xs font-mono text-gray-500 uppercase">Projects Completed
+                                This
                                 Sem</p>
                         </div>
 
@@ -542,13 +644,14 @@
 
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- 3. OPPORTUNITIES: THE ENGINE (NEW) -->
         <!-- 3. OPPORTUNITIES: THE ENGINE -->
         <!-- 3. OPPORTUNITIES: THE ENGINE -->
-        <div id="opportunities"
-            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-ash text-white">
+        <section id="opportunities"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-ash text-white"
+            aria-label="Career Opportunities">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: OPPORTUNITY DYNAMICS - MISSION STATEMENT -->
@@ -563,7 +666,8 @@
                         OPPORTUNITY<br><span class="text-gray-400">DYNAMICS</span>
                     </h2>
                     <p class="text-sm md:text-lg text-gray-400 mt-4 max-w-xl border-l-4 border-impact pl-4">
-                        The active engine that hunts, filters, and delivers every possible career pathway directly to
+                        The active engine that hunts, filters, and delivers every possible career pathway
+                        directly to
                         the Achiever Force. **Nothing is left to chance.**
                     </p>
                 </div>
@@ -715,11 +819,13 @@
                                     <span class="text-neon font-bold text-lg md:text-xl">102</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Internships (Q1):</span>
+                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Internships
+                                        (Q1):</span>
                                     <span class="text-white font-bold text-lg md:text-xl">42</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Success Rate:</span>
+                                    <span class="text-gray-400 font-mono text-xs md:text-sm">Success
+                                        Rate:</span>
                                     <span class="text-impact font-bold text-2xl md:text-3xl">88%</span>
                                 </div>
                             </div>
@@ -738,7 +844,8 @@
                                 class="text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-neon">
                                 Apply for Seed Capital
                             </button>
-                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Next Pitch: T-4 Weeks</div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Next Pitch: T-4
+                                Weeks</div>
                         </div>
 
                         <!-- Scholarship Radar -->
@@ -771,18 +878,20 @@
                                 class="text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-alert text-alert pb-1 hover:text-neon">
                                 View Events
                             </button>
-                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Pending Regs: 3</div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">Pending Regs: 3
+                            </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- 4. IOT: THE TECH WING (FABRICATION PROTOCOL) -->
         <!-- 4. IOT: THE TECH WING (FABRICATION PROTOCOL) -->
-        <div id="iot"
-            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-void text-white">
+        <section id="iot"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-void text-white"
+            aria-label="IoT and Robotics Fabrication">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: FABRICATION PROTOCOL - SYSTEM CORE ALIGNMENT -->
@@ -798,7 +907,8 @@
                     </div>
                     <div class="mt-2 md:mt-0 text-left md:text-right max-w-sm border-l-4 border-neon pl-4">
                         <p class="font-sans text-base md:text-lg font-medium text-gray-400">
-                            We transcend theoretical education. This is where competence is proven through AI, robotics,
+                            We transcend theoretical education. This is where competence is proven through
+                            AI, robotics,
                             and embedded systems.
                         </p>
                     </div>
@@ -824,7 +934,8 @@
                                 <span class="bg-impact/20 text-impact px-2 py-0.5 rounded-full text-[10px] font-bold">L4
                                     - AI</span>
                             </div>
-                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">AI Edge Computing
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">AI Edge
+                                Computing
                             </h4>
                             <p class="text-xs text-gray-400 mt-1">
                                 Deploying TensorFlow Lite on Raspberry Pi.
@@ -836,10 +947,12 @@
                             class="p-4 rounded-xl bg-ash border border-gray-800 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <div class="flex justify-between items-start">
                                 <i data-lucide="armchair" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
-                                <span class="bg-neon/20 text-neon px-2 py-0.5 rounded-full text-[10px] font-bold">L2 -
+                                <span class="bg-neon/20 text-neon px-2 py-0.5 rounded-full text-[10px] font-bold">L2
+                                    -
                                     ROS</span>
                             </div>
-                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">Industrial Arm Sim
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">
+                                Industrial Arm Sim
                             </h4>
                             <p class="text-xs text-gray-400 mt-1">
                                 Inverse kinematics and control loop stability.
@@ -855,7 +968,8 @@
                                     class="bg-gray-600/20 text-gray-400 px-2 py-0.5 rounded-full text-[10px] font-bold">L1
                                     - UAV</span>
                             </div>
-                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">UAV Telemetry Basics
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">UAV
+                                Telemetry Basics
                             </h4>
                             <p class="text-xs text-gray-400 mt-1">
                                 Flight controllers and GPS mapping.
@@ -867,10 +981,12 @@
                             class="p-4 rounded-xl bg-ash border border-gray-800 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <div class="flex justify-between items-start">
                                 <i data-lucide="network" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
-                                <span class="bg-alert/20 text-alert px-2 py-0.5 rounded-full text-[10px] font-bold">L3 -
+                                <span class="bg-alert/20 text-alert px-2 py-0.5 rounded-full text-[10px] font-bold">L3
+                                    -
                                     Security</span>
                             </div>
-                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">Secure IoT Mesh</h4>
+                            <h4 class="font-bold text-base md:text-lg mt-2 group-hover:text-impact">Secure
+                                IoT Mesh</h4>
                             <p class="text-xs text-gray-400 mt-1">
                                 Securing ESP32 clusters and attack vectors.
                             </p>
@@ -900,7 +1016,8 @@
                                         class="px-2 py-1 bg-impact text-white rounded hover:bg-impact/80 transition-colors">RUN</button>
                                     <button
                                         class="px-2 py-1 bg-alert text-white rounded hover:bg-alert/80 transition-colors">STOP</button>
-                                    <span class="text-gray-400 self-center ml-1 hidden sm:inline">Cycles: 12/20</span>
+                                    <span class="text-gray-400 self-center ml-1 hidden sm:inline">Cycles:
+                                        12/20</span>
                                 </div>
                             </div>
                         </div>
@@ -910,8 +1027,10 @@
                             <div
                                 class="bg-ash p-6 rounded-3xl border border-gray-800 hover:border-neon transition-colors cursor-pointer group">
                                 <i data-lucide="archive" class="w-6 h-6 text-impact mb-2"></i>
-                                <h4 class="font-bold text-lg md:text-xl group-hover:text-neon">Portfolio Sync</h4>
-                                <p class="text-xs text-gray-400 mt-1">Submit your project for certification.</p>
+                                <h4 class="font-bold text-lg md:text-xl group-hover:text-neon">Portfolio
+                                    Sync</h4>
+                                <p class="text-xs text-gray-400 mt-1">Submit your project for certification.
+                                </p>
                                 <button
                                     class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
                                     Submit Artifact (3)
@@ -920,7 +1039,8 @@
                             <div
                                 class="bg-ash p-6 rounded-3xl border border-gray-800 hover:border-neon transition-colors cursor-pointer group">
                                 <i data-lucide="monitor-dot" class="w-6 h-6 text-impact mb-2"></i>
-                                <h4 class="font-bold text-lg md:text-xl group-hover:text-neon">Remote Lab</h4>
+                                <h4 class="font-bold text-lg md:text-xl group-hover:text-neon">Remote Lab
+                                </h4>
                                 <p class="text-xs text-gray-400 mt-1">Book terminal access to equipment.</p>
                                 <button
                                     class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-neon transition-colors">
@@ -944,7 +1064,8 @@
                         <div class="p-4 rounded-xl bg-black border border-gray-700 shadow-xl">
                             <i data-lucide="wrench" class="w-5 h-5 md:w-6 md:h-6 text-neon mb-2"></i>
                             <h4 class="font-bold text-base md:text-lg">Tool Checkout</h4>
-                            <p class="text-xs text-gray-400 mt-1">Access high-value tools (Scopes, 3D Printers).</p>
+                            <p class="text-xs text-gray-400 mt-1">Access high-value tools (Scopes, 3D
+                                Printers).</p>
                             <div class="mt-3 font-mono text-[10px] md:text-xs text-gray-500">
                                 Available: <span class="text-neon font-bold">14/20</span>
                             </div>
@@ -954,7 +1075,8 @@
                         <div onclick="router('shop')"
                             class="p-4 rounded-xl bg-black border border-gray-700 hover:border-impact transition-colors cursor-pointer group shadow-xl">
                             <i data-lucide="truck" class="w-5 h-5 md:w-6 md:h-6 text-impact mb-2"></i>
-                            <h4 class="font-bold text-base md:text-lg group-hover:text-impact">Component Supply</h4>
+                            <h4 class="font-bold text-base md:text-lg group-hover:text-impact">Component
+                                Supply</h4>
                             <p class="text-xs text-gray-400 mt-1">
                                 Instant delivery of RPi, ESP, and sensor kits.
                             </p>
@@ -979,7 +1101,8 @@
                         <div onclick="router('impact')"
                             class="p-4 rounded-xl bg-impact border border-impact/50 hover:bg-impact/90 transition-colors cursor-pointer group shadow-xl">
                             <i data-lucide="heart" class="w-5 h-5 md:w-6 md:h-6 text-neon mb-2"></i>
-                            <h4 class="font-bold text-base md:text-lg group-hover:text-white">Social Impact</h4>
+                            <h4 class="font-bold text-base md:text-lg group-hover:text-white">Social Impact
+                            </h4>
                             <p class="text-xs text-white/80 mt-1">
                                 Solve real-world problems.
                             </p>
@@ -991,12 +1114,13 @@
 
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- 5. SHOP: STUDENT SURVIVAL SYSTEM -->
         <!-- 5. SHOP: STUDENT SURVIVAL SYSTEM -->
-        <div id="shop"
-            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-concrete">
+        <section id="shop"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-concrete"
+            aria-label="Student Supply Shop">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: SURVIVAL SYSTEM - HYPER-LOCAL LOGISTICS -->
@@ -1012,7 +1136,8 @@
                     </div>
                     <div class="mt-2 md:mt-0 text-left md:text-right max-w-lg border-l-4 border-impact pl-4">
                         <p class="font-sans text-base md:text-lg font-medium text-void">
-                            Curated essentials and tech components—delivered quicker than a promise. Directly supporting
+                            Curated essentials and tech components—delivered quicker than a promise.
+                            Directly supporting
                             academic, project, and emergency student needs.
                         </p>
                     </div>
@@ -1040,7 +1165,8 @@
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg">Exam Survival Kit</h4>
-                                <p class="text-xs text-gray-500">Coffee, Energy Drink, Study Lamp, Pens (Curated for
+                                <p class="text-xs text-gray-500">Coffee, Energy Drink, Study Lamp, Pens
+                                    (Curated for
                                     All-Nighters)</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl">₹299</span>
@@ -1060,7 +1186,8 @@
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg text-impact">Used Textbook Exchange</h4>
-                                <p class="text-xs text-gray-700">Buy and sell previous semester books instantly. Drives
+                                <p class="text-xs text-gray-700">Buy and sell previous semester books
+                                    instantly. Drives
                                     down financial barriers.</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl text-impact">~50% OFF</span>
@@ -1090,7 +1217,8 @@
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg">ESP32 Project Kit</h4>
-                                <p class="text-xs text-gray-500">Wi-Fi/Bluetooth Microcontroller + Sensors</p>
+                                <p class="text-xs text-gray-500">Wi-Fi/Bluetooth Microcontroller +
+                                    Sensors</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl">₹950</span>
                                     <!-- Shortened button text for better mobile fit -->
@@ -1111,7 +1239,8 @@
                             </div>
                             <div class="p-2">
                                 <h4 class="font-bold text-lg">Custom 3D Print Service</h4>
-                                <p class="text-xs text-gray-500">Upload STL file. Filament color: Black/Grey. 4hr
+                                <p class="text-xs text-gray-500">Upload STL file. Filament color:
+                                    Black/Grey. 4hr
                                     Turnaround.</p>
                                 <div class="flex justify-between items-center mt-2">
                                     <span class="font-bold text-xl">₹10/gram</span>
@@ -1137,9 +1266,11 @@
                                 <div class="flex items-start gap-4">
                                     <i data-lucide="zap" class="w-6 h-6 md:w-8 md:h-8 text-alert shrink-0"></i>
                                     <div>
-                                        <h4 class="font-bold text-lg md:text-xl text-alert">PANIC BUTTON (10 Min Drop)
+                                        <h4 class="font-bold text-lg md:text-xl text-alert">PANIC BUTTON
+                                            (10 Min Drop)
                                         </h4>
-                                        <p class="text-xs text-gray-700 mt-0.5">Immediate delivery to Dorm, Library, or
+                                        <p class="text-xs text-gray-700 mt-0.5">Immediate delivery to
+                                            Dorm, Library, or
                                             Lab. Max 3 critical items.</p>
                                     </div>
                                 </div>
@@ -1158,7 +1289,8 @@
                                     <i data-lucide="printer" class="w-6 h-6 md:w-8 md:h-8 text-black shrink-0"></i>
                                     <div>
                                         <h4 class="font-bold text-lg md:text-xl">Midnight Print Run</h4>
-                                        <p class="text-xs text-gray-500 mt-0.5">2 AM Deadline. Perfect for last-minute
+                                        <p class="text-xs text-gray-500 mt-0.5">2 AM Deadline. Perfect
+                                            for last-minute
                                             report submissions.</p>
                                     </div>
                                 </div>
@@ -1175,12 +1307,13 @@
                             <h4 class="font-bold text-lg md:text-xl mb-3">Live Drop Status</h4>
                             <div class="space-y-2">
                                 <div class="flex items-center text-xs font-mono text-black">
-                                    <i data-lucide="map-pin" class="w-4 h-4 text-impact mr-2"></i> Location: Gate 2
+                                    <i data-lucide="map-pin" class="w-4 h-4 text-impact mr-2"></i>
+                                    Location: Gate 2
                                     Checkpoint
                                 </div>
                                 <div class="flex items-center text-xs font-mono text-black">
-                                    <i data-lucide="clock" class="w-4 h-4 text-neon mr-2"></i> ETA: <span
-                                        class="text-alert font-bold">06:45 min</span>
+                                    <i data-lucide="clock" class="w-4 h-4 text-neon mr-2"></i> ETA:
+                                    <span class="text-alert font-bold">06:45 min</span>
                                 </div>
                             </div>
                             <div class="mt-4 bg-gray-200 rounded-full h-2.5">
@@ -1191,12 +1324,13 @@
 
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- 6. IMPACT: THE HEART (NEW) -->
         <!-- 6. IMPACT: THE HEART (THE VOW PROTOCOL) -->
-        <div id="impact"
-            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-impact text-white">
+        <section id="impact"
+            class="page-section hidden min-h-[100dvh] pt-24 pb-12 px-4 md:pt-32 md:pb-20 md:px-12 bg-impact text-white"
+            aria-label="Social Impact Vow">
             <div class="max-w-7xl mx-auto">
 
                 <!-- HEADER: THE VOW PROTOCOL - MISSION-DRIVEN CORE -->
@@ -1212,8 +1346,10 @@
                     </div>
                     <div class="mt-2 md:mt-0 text-left md:text-right max-w-lg border-l-4 border-neon pl-4">
                         <p class="font-sans text-base md:text-lg font-medium opacity-90">
-                            The emotional backbone. We enforce the vow that drives HOPE: creating a future where
-                            financial poverty no longer dictates the destiny of a student or their family.
+                            The emotional backbone. We enforce the vow that drives HOPE: creating a
+                            future where
+                            financial poverty no longer dictates the destiny of a student or their
+                            family.
                         </p>
                     </div>
                 </div>
@@ -1228,35 +1364,44 @@
                                 class="w-5 h-5 md:w-6 md:h-6 inline-block text-neon"></i>
                         </h3>
                         <p class="text-xs md:text-sm font-mono opacity-70 border-b border-white/30 pb-2">
-                            The movement is driven by the founding vow, executed via three core programs:
+                            The movement is driven by the founding vow, executed via three core
+                            programs:
                         </p>
 
                         <!-- Metric 1: Meals Served (The Hunger Fix) -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program 01: Food Security
+                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program
+                                01: Food Security
                             </p>
                             <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">
                                 1,240<span class="text-xl md:text-2xl opacity-50">+</span>
                             </div>
-                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Meals Dispersed (Elderly/Poor)
+                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Meals
+                                Dispersed (Elderly/Poor)
                             </p>
                         </div>
 
                         <!-- Metric 2: Scholarships Given (Financial Uplift) -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program 02: Educational
+                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program
+                                02: Educational
                                 Grants</p>
-                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">₹2.4L</div>
-                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Direct Grants Secured by Students
+                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">
+                                ₹2.4L</div>
+                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Direct Grants
+                                Secured by Students
                             </p>
                         </div>
 
                         <!-- Metric 3: Students Activated (Achiever Force) -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
-                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program 03: Uplift Projects
+                            <p class="font-mono text-[10px] md:text-xs uppercase opacity-70">Program
+                                03: Uplift Projects
                             </p>
-                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">21</div>
-                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Active Tech Deployments (IoT)</p>
+                            <div class="text-3xl md:text-4xl font-display font-bold text-white mt-1">
+                                21</div>
+                            <p class="font-mono text-[10px] md:text-xs text-neon mt-1">Active Tech
+                                Deployments (IoT)</p>
                         </div>
                     </div>
 
@@ -1271,12 +1416,15 @@
 
                         <!-- Transparency Bar -->
                         <div class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl">
-                            <p class="font-mono text-[10px] md:text-xs uppercase text-neon">Revenue-to-Impact Ratio</p>
-                            <div class="text-4xl md:text-5xl font-display font-bold text-white mt-2">78%</div>
+                            <p class="font-mono text-[10px] md:text-xs uppercase text-neon">
+                                Revenue-to-Impact Ratio</p>
+                            <div class="text-4xl md:text-5xl font-display font-bold text-white mt-2">
+                                78%</div>
                             <div class="bg-impact/50 rounded-full h-2 mt-2">
                                 <div class="bg-neon h-2 rounded-full" style="width: 78%;"></div>
                             </div>
-                            <p class="font-mono text-[10px] md:text-xs opacity-70 mt-2">78% of all platform revenue
+                            <p class="font-mono text-[10px] md:text-xs opacity-70 mt-2">78% of all
+                                platform revenue
                                 directly funds social programs.</p>
                         </div>
 
@@ -1285,7 +1433,8 @@
                             class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl cursor-pointer hover:border-neon transition-colors">
                             <i data-lucide="file-text" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">Financial Audit Log</h4>
-                            <p class="text-xs opacity-70 mt-1">View quarterly expenditure details (Blockchain secured).
+                            <p class="text-xs opacity-70 mt-1">View quarterly expenditure details
+                                (Blockchain secured).
                             </p>
                             <button
                                 class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-white transition-colors">
@@ -1298,7 +1447,8 @@
                             class="p-4 rounded-xl bg-white text-impact shadow-xl cursor-pointer group hover:bg-white/90 transition-colors">
                             <i data-lucide="hand-heart" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-impact"></i>
                             <h4 class="font-bold text-lg">Direct Mission Funding</h4>
-                            <p class="text-xs text-gray-700 mt-1">Invest directly into Food Security and Scholarship
+                            <p class="text-xs text-gray-700 mt-1">Invest directly into Food Security
+                                and Scholarship
                                 programs.</p>
                             <button
                                 class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-impact pb-1 group-hover:text-black transition-colors">
@@ -1321,10 +1471,12 @@
                             class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl cursor-pointer group hover:bg-black/30 transition-colors">
                             <i data-lucide="route" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-neon"></i>
                             <h4 class="font-bold text-lg">Field Deployment Teams</h4>
-                            <p class="text-xs opacity-80 mt-1">Achievers deploy tech solutions (monitoring) built in the
+                            <p class="text-xs opacity-80 mt-1">Achievers deploy tech solutions
+                                (monitoring) built in the
                                 Fabrication Lab to aid local communities.</p>
-                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">Next Project: <span
-                                    class="text-neon font-bold">Project Hercules</span></div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">Next
+                                Project: <span class="text-neon font-bold">Project Hercules</span>
+                            </div>
                         </div>
 
                         <!-- Channel 2: E-Commerce/Logistics (Link to Shop) -->
@@ -1332,10 +1484,12 @@
                             class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl cursor-pointer group hover:bg-black/30 transition-colors">
                             <i data-lucide="truck" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-neon"></i>
                             <h4 class="font-bold text-lg">Survival System Aid</h4>
-                            <p class="text-xs opacity-80 mt-1">E-Commerce logistics chain delivers meal kits and
+                            <p class="text-xs opacity-80 mt-1">E-Commerce logistics chain delivers
+                                meal kits and
                                 essential supplies to vetted beneficiaries.</p>
-                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">Capacity: <span
-                                    class="text-neon font-bold">200 Drops/Day</span></div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-white">Capacity:
+                                <span class="text-neon font-bold">200 Drops/Day</span>
+                            </div>
                         </div>
 
                         <!-- Channel 3: Volunteer Time -->
@@ -1343,7 +1497,8 @@
                             class="p-4 rounded-xl bg-white/10 border border-white/20 shadow-xl cursor-pointer group hover:bg-black/30 transition-colors">
                             <i data-lucide="users-round" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">Vow Force Enrollment</h4>
-                            <p class="text-xs opacity-80 mt-1">Commit your time for fieldwork, mentorship drives, and
+                            <p class="text-xs opacity-80 mt-1">Commit your time for fieldwork,
+                                mentorship drives, and
                                 logistics support.</p>
                             <button
                                 class="mt-3 text-[10px] md:text-xs font-bold uppercase tracking-widest border-b border-neon pb-1 hover:text-white transition-colors">
@@ -1365,20 +1520,25 @@
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
                             <i data-lucide="map" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">20-Year Roadmap</h4>
-                            <p class="text-xs opacity-80 mt-1">Strategic plan for scalable, state-wide poverty
+                            <p class="text-xs opacity-80 mt-1">Strategic plan for scalable,
+                                state-wide poverty
                                 eradication system deployment.</p>
-                            <div class="mt-3 font-mono text-[10px] md:text-xs text-neon">Status: <span
-                                    class="text-white font-bold">Phase II: Multi-College Rollout</span></div>
+                            <div class="mt-3 font-mono text-[10px] md:text-xs text-neon">Status:
+                                <span class="text-white font-bold">Phase II: Multi-College
+                                    Rollout</span>
+                            </div>
                         </div>
 
                         <!-- Social Support Structures -->
                         <div class="p-4 rounded-xl bg-black/30 border border-white/20 shadow-xl">
                             <i data-lucide="building-2" class="w-5 h-5 md:w-6 md:h-6 mb-2 text-white"></i>
                             <h4 class="font-bold text-lg">Social Support Structures</h4>
-                            <p class="text-xs opacity-80 mt-1">Developing independent, self-sustaining financial aid
+                            <p class="text-xs opacity-80 mt-1">Developing independent,
+                                self-sustaining financial aid
                                 systems and community hubs.</p>
                             <div class="mt-3 font-mono text-[10px] md:text-xs text-neon">Goal: <span
-                                    class="text-white font-bold">Zero Hunger Zone Pilot (Q2 2025)</span></div>
+                                    class="text-white font-bold">Zero Hunger Zone Pilot (Q2
+                                    2025)</span></div>
                         </div>
 
                         <!-- Call to action: Join the Vision -->
@@ -1388,13 +1548,14 @@
                                 <h4 class="font-bold text-lg md:text-xl">Enroll in the Vision</h4>
                                 <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6"></i>
                             </div>
-                            <p class="text-xs font-mono mt-1">Read the strategic whitepaper on long-term dominance and
+                            <p class="text-xs font-mono mt-1">Read the strategic whitepaper on
+                                long-term dominance and
                                 social change.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <script>
@@ -1415,7 +1576,14 @@
                     yPercent: -100, duration: 1, ease: "power4.inOut",
                     onComplete: () => {
                         preloader.style.display = 'none';
-                        revealHome();
+
+                        // Check for Deep Link
+                        const hash = window.location.hash.substring(1);
+                        if (hash && sections.includes(hash) && hash !== 'home') {
+                            router(hash);
+                        } else {
+                            revealHome();
+                        }
                     }
                 });
             }, 2500); // 2.5s boot time
@@ -1435,6 +1603,13 @@
 
         // --- 2. ROUTER ENGINE ---
         function router(targetId) {
+            // Update URL for SEO and Shareability
+            if (history.pushState) {
+                history.pushState(null, null, '#' + targetId);
+            }
+            else {
+                location.hash = '#' + targetId;
+            }
             // Update Nav UI
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 const isTarget = btn.dataset.target === targetId;

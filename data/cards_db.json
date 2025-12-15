@@ -1,0 +1,34 @@
+{
+  "flashcards": [
+    {
+      "question": "In database systems, what is a 'data model'?",
+      "answer": "An abstract representation of data, data relationships, and constraints.",
+      "topic": "Data Modeling",
+      "subtopic": "Foundations"
+    },
+    {
+      "question": "What is the primary key?",
+      "answer": "A specific choice of a minimal set of attributes (columns) that uniquely specify a tuple (row) in a relation (table).",
+      "topic": "Data Modeling",
+      "subtopic": "Keys"
+    },
+    {
+      "question": "What does SQL stand for?",
+      "answer": "Structured Query Language.",
+      "topic": "Database Basics",
+      "subtopic": "General"
+    },
+    {
+      "question": "What is normalization?",
+      "answer": "The process of organizing data in a database to reduce redundancy and improve data integrity.",
+      "topic": "Data Modeling",
+      "subtopic": "Normalization"
+    },
+    {
+        "question": "What is an index in a database?",
+        "answer": "A data structure that improves the speed of data retrieval operations on a database table.",
+        "topic": "Performance",
+        "subtopic": "Indexing"
+    }
+  ]
+}

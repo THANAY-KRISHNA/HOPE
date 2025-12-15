@@ -1,0 +1,6 @@
+{
+    "collections": [
+        "data/cards_db.json",
+        "data/cards_python.json"
+    ]
+}
