@@ -790,25 +790,43 @@ function renderVideos() {
 } // End renderVideos
 
 function renderMindmaps() {
+    const items = state.activeSubject
+        ? mindmaps.filter(m => m.topic === state.activeSubject)
+        : mindmaps;
+
+    const backBtn = state.activeSubject
+        ? `<button class="action-btn-outline" style="margin-bottom:1.5rem; width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="renderSubjectDashboard('${state.activeSubject}')"><i data-lucide="arrow-left"></i> Back to ${state.activeSubject}</button>`
+        : '';
+
+    if (items.length === 0) {
+        els.container.innerHTML = backBtn + getEmptyState('Mind Maps');
+        lucide.createIcons();
+        return;
+    }
+
     els.container.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
-                    ${mindmaps.map(map => `
-                         <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="loadMindmap(${map.id})">
-                             <div style="aspect-ratio: 4/3; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative; background: #000;">
-                                <img src="${map.thumb}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
-                                <div style="position: absolute; inset:0; display:flex; align-items:center; justify-content:center;">
-                                    <i data-lucide="network" style="color:white; width: 40px; height: 40px;"></i>
-                                </div>
+        <div style="display:flex; flex-direction:column;">
+            ${backBtn}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem;">
+                ${items.map(map => `
+                    <div class="panel-card" style="cursor: pointer; position: relative; overflow: hidden;" onclick="loadMindmap(${map.id})">
+                        <div style="aspect-ratio: 4/3; overflow: hidden; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border); position: relative; background: #000;">
+                            <img src="${map.thumb}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+                            <div style="position: absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+                                <i data-lucide="network" style="color:white; width: 40px; height: 40px;"></i>
                             </div>
-                            <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${map.title}</h3>
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <p class="text-muted text-xs font-mono">${map.nodes} nodes</p>
-                            </div>
-                            <p class="text-muted text-xs" style="margin-top:0.5rem; opacity: 0.7;">${map.desc}</p>
                         </div>
-                    `).join('')}
-                </div>
-            `;
+                        <h3 class="bold" style="font-size: 0.95rem; margin-bottom: 0.25rem;">${map.title}</h3>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <p class="text-muted text-xs font-mono">${map.nodes} nodes</p>
+                        </div>
+                        <p class="text-muted text-xs" style="margin-top:0.5rem; opacity: 0.7;">${map.desc}</p>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    lucide.createIcons();
 }
 
 // --- MINDMAP D3 LOGIC ---
