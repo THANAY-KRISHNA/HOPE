@@ -325,70 +325,66 @@ async function fetchFlashcardData() {
                 }));
             });
 
-            // --- HELPER: SELECT SUBJECT ---
-            function selectSubject(topic) {
-                state.activeSubject = topic;
-                renderSubjectDashboard(topic);
-            }
-
-            // --- DASHBOARD RENDERER ---
-            function renderSubjectDashboard(topic) {
-                els.title.innerText = topic; // Set Title to Subject Name
-
-                els.container.innerHTML = `
-                <div style="display:flex; flex-direction:column; gap:2rem;">
-                     <button class="action-btn-outline" style="width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="switchTab('subjects')">
-                        <i data-lucide="arrow-left"></i> Back to Subjects
-                    </button>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem;">
-
-                        <!-- Podcasts Tile -->
-                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('podcasts')">
-                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                                <i data-lucide="headphones" class="text-accent" width="24" height="24"></i>
-                            </div>
-                            <h3 class="bold">Podcasts</h3>
-                        </div>
-
-                         <!-- Videos Tile -->
-                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('videos')">
-                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                                <i data-lucide="video" class="text-accent" width="24" height="24"></i>
-                            </div>
-                            <h3 class="bold">Videos</h3>
-                        </div>
-
-                        <!-- Mindmap Tile -->
-                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('mindmap')">
-                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                                <i data-lucide="brain-circuit" class="text-accent" width="24" height="24"></i>
-                            </div>
-                            <h3 class="bold">Mind Maps</h3>
-                        </div>
-
-                        <!-- Flashcards Tile -->
-                        <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('flashcards')">
-                            <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
-                                <i data-lucide="layers" class="text-accent" width="24" height="24"></i>
-                            </div>
-                            <h3 class="bold">Recall</h3>
-                        </div>
-
-                    </div>
-                </div>
-            `;
-                lucide.createIcons();
-            }
-
-            // Refresh if active
-            if (state.currentTab === 'flashcards') {
-                renderFlashcardDecks();
-            }
         }
     } catch (err) {
         console.error("Flashcard Logic Error:", err);
     }
+}
+
+// --- HELPER: SELECT SUBJECT ---
+function selectSubject(topic) {
+    state.activeSubject = topic;
+    renderSubjectDashboard(topic);
+}
+
+// --- DASHBOARD RENDERER ---
+function renderSubjectDashboard(topic) {
+    els.title.innerText = topic; // Set Title to Subject Name
+
+    els.container.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:2rem;">
+            <button class="action-btn-outline" style="width:fit-content; border:none; padding-left:0; color:var(--text-muted);" onclick="switchTab('subjects')">
+            <i data-lucide="arrow-left"></i> Back to Subjects
+        </button>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.5rem;">
+
+            <!-- Podcasts Tile -->
+            <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('podcasts')">
+                <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                    <i data-lucide="headphones" class="text-accent" width="24" height="24"></i>
+                </div>
+                <h3 class="bold">Podcasts</h3>
+            </div>
+
+                <!-- Videos Tile -->
+            <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('videos')">
+                <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                    <i data-lucide="video" class="text-accent" width="24" height="24"></i>
+                </div>
+                <h3 class="bold">Videos</h3>
+            </div>
+
+            <!-- Mindmap Tile -->
+            <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('mindmap')">
+                <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                    <i data-lucide="brain-circuit" class="text-accent" width="24" height="24"></i>
+                </div>
+                <h3 class="bold">Mind Maps</h3>
+            </div>
+
+            <!-- Flashcards Tile -->
+            <div class="panel-card" style="cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; gap:1rem; text-align:center;" onclick="switchTab('flashcards')">
+                <div style="width:50px; height:50px; background:rgba(255,255,255,0.05); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                    <i data-lucide="layers" class="text-accent" width="24" height="24"></i>
+                </div>
+                <h3 class="bold">Recall</h3>
+            </div>
+
+        </div>
+    </div>
+`;
+    lucide.createIcons();
 }
 
 // --- ELEMENT REFS ---
@@ -446,7 +442,7 @@ function init() {
     updateVolumeUI(); // Initial volume state
 
     // Default View
-    switchTab('podcasts');
+    switchTab('subjects');
 
     // REGISTER PWA SERVICE WORKER
     if ('serviceWorker' in navigator) {
